@@ -1,21 +1,36 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { Picker } from '../../models/top-section.models';
 
 @Component({
   selector: 'app-dropdown',
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule, SelectModule, FormsModule],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css'
 })
+
+
+
 export class DropdownComponent {
   @Input() name: string = '';
+  @Input() dropdownName: string = '';
+  @Input() items: Picker[] | undefined;
 
-  items = ['Option 1', 'Option 2', 'Option 3'];
-  selectedItem: string = '';
+  selectedItem: Picker | undefined;
 
-  selectItem(item: string) {
-    this.selectedItem = item;
+  // ngOnInit() {
+  //     this.items = [
+  //         { name: 'New York', code: 'NY' },
+  //         { name: 'Rome', code: 'RM' },
+  //         { name: 'London', code: 'LDN' },
+  //         { name: 'Istanbul', code: 'IST' },
+  //         { name: 'Paris', code: 'PRS' }
+  //     ];
+  // }
+  onClick() {
     console.log(this.selectedItem);
   }
 }
