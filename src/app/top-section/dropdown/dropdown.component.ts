@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';
 import { SelectModule } from 'primeng/select';
@@ -19,6 +19,8 @@ export class DropdownComponent {
   @Input() dropdownName: string = '';
   @Input() items: Picker[] | undefined;
 
+  @Output() itemSelected = new EventEmitter<string>();
+
   selectedItem: Picker | undefined;
 
   // ngOnInit() {
@@ -32,5 +34,6 @@ export class DropdownComponent {
   // }
   onClick() {
     console.log(this.selectedItem);
+    this.itemSelected.emit(this.selectedItem?.code);
   }
 }
