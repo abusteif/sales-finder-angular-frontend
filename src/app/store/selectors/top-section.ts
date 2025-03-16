@@ -3,6 +3,19 @@ import { AppState } from '../app.state';
 
 export const topSection = (state: AppState) => state.topSection;
 
+export const stores = createSelector(
+  topSection,
+  (state) => state.stores
+);
+
+export const categories = createSelector(
+  topSection,
+  (state) => state.categories
+);
+export const items = createSelector(
+  topSection,
+  (state) => state.items
+);
 export const selectedStore = createSelector(
   topSection,
   (state) => state.selectedStore
