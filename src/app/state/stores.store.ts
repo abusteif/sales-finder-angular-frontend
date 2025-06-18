@@ -46,12 +46,7 @@ export class storesStore extends signalStore(
               })
             ).subscribe();
           },
-          // setSelectedStores: (selectedStores: string[]) => {
-          //   const selectedStoresData = stores.stores().filter(store => selectedStores.includes(store.name));
-          //   patchState(stores, {
-          //     selectedStores: selectedStoresData,
-          //   });
-          // }
+
           
     };
   })

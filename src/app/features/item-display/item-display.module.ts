@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ItemCardComponent } from './item-card/item-card.component';
 import { ItemsTableComponent } from './items-table/items-table.component';
 import { SharedModule } from '../../shared/shared.module';
-
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -13,7 +12,8 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    MatTooltipModule
   ],
   exports: [
     ItemCardComponent,

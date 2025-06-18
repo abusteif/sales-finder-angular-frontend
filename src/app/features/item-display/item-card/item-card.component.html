@@ -28,7 +28,7 @@
         </p>
       </a>
       <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; width:100%">
-        <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"/>
+        <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo" [matTooltip]="onStoreLogoHover()" matTooltipPosition="below" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'"/>
         @if(item.store === 'amazon') {
           <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
             <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo"/>

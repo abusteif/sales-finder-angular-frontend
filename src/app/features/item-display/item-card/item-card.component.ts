@@ -10,9 +10,13 @@ import { environment } from '../../../../environments/environment';
 })
 export class ItemCardComponent {
   _item: Item = {} as Item
+  lastCheckedAt: Date = new Date()
   @Input() set item(item: Item) {
     this._item = item
     this.camelCamelCamelUrl = this.generateCamelCamelCamelUrl()
+  }
+  @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
+    this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
   }
   get item() {
     return this._item
@@ -24,5 +28,11 @@ export class ItemCardComponent {
     const splits = itemUrl?.split('/')
     const itemId = splits?.[splits?.length - 2]
     return `${environment.camelCamelCamelBaseUrl}/product/${itemId}`;
+  }
+
+  onStoreLogoHover() {
+    if (!this.lastCheckedAt) return '';
+    const date = new Date(this.lastCheckedAt);
+    return `Last checked at ${date.toLocaleDateString()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
   }
 }

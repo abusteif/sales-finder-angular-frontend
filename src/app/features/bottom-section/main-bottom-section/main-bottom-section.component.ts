@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../core/services/user.service';
-import { ItemsService } from '../../../core/services/items.service';
 import { Item } from '../../../core/models/item.model';
 import { ItemsStore } from '../../../state/items.store';
-import { Signal, effect } from '@angular/core';
+import { effect } from '@angular/core';
 import { FilterStore } from '../../../state/filter.store';
 import { environment } from '../../../../environments/environment';
+import { storesStore } from '../../../state/stores.store';
+import { Store } from '../../../core/models/store.model';
 
 @Component({
   selector: 'app-main-bottom-section',
@@ -18,9 +18,12 @@ export class MainBottomSectionComponent {
   itemsError: string | null = null;
   currentPage: number = 1;
   isLastPage: boolean = false;
+  stores: Store[] = [];
+  storesCheckedAt: {name: string, checkedAt: Date}[] = [];
   constructor(
     private itemsStore: ItemsStore,
-    private filterStore: FilterStore
+    private filterStore: FilterStore,
+    private storesStore: storesStore
   ) {
     effect(() => {
       this.items = this.itemsStore.items();
@@ -28,6 +31,13 @@ export class MainBottomSectionComponent {
       this.isItemsLoading = this.itemsStore.loading();
       this.itemsError = this.itemsStore.error();
       this.isLastPage = this.items.length < environment.itemsPerPage;
+      this.stores = this.storesStore.stores();
+      this.storesCheckedAt = this.stores.map(store => {
+        return {
+          name: store.name,
+          checkedAt: store.checkedAt
+        }
+      });
     });
   }
 

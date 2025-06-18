@@ -1,4 +1,4 @@
-<app-items-table [items]="items" [loading]="isItemsLoading" [error]="itemsError"></app-items-table>
+<app-items-table [items]="items" [loading]="isItemsLoading" [error]="itemsError" [storesCheckedAt]="storesCheckedAt"></app-items-table>
 @if (items.length > 0) {
   <app-pagination [currentPage]="currentPage" (onPageChange)="onPageChange($event) " [isLastPage]="isLastPage"></app-pagination>
 }
