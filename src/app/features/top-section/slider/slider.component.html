@@ -1,0 +1,29 @@
+<div class="field">
+    <label class="label">{{label}}</label>
+    <div class="control">
+      <div class="range-container">
+        <div class="inputs-row">
+          <div class="input-group">
+            <label class="range-label">Min</label>
+            <input type="text" class="range-input" [value]="minDisplayValue" 
+                   (blur)="onMinBlur($event)"
+                   (dblclick)="selectAllText($event)"
+                   placeholder="Min " inputmode="numeric">
+          </div>
+          <div class="input-group">
+            <label class="range-label">Max</label>
+            <input type="text" class="range-input" [value]="maxDisplayValue" 
+                   (blur)="onMaxBlur($event)"
+                   (dblclick)="selectAllText($event)"     
+                   placeholder="Max" inputmode="numeric">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <mat-slider [min]="min" [max]="max" [step]="step" class="range-slider">
+            <input matSliderStartThumb [value]="range[0]" (input)="onMinBlur($event)">
+            <input matSliderEndThumb [value]="range[1]" (input)="onMaxBlur($event)">
+          </mat-slider>
+        </div>
+      </div>
+    </div>

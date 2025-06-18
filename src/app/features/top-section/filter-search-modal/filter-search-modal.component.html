@@ -1,0 +1,50 @@
+<app-base-modal [showModal]="showFilterModal" (onCloseModal)="closeFilterModal()" title="Filter Options"
+  [applyButtonText]="'Apply Filters'" [applyButtonDisabled]="resetFiltersButton.isDisabled" [cancelButtonText]="'Cancel'" (onApply)="onSubmit()" [additionalButton]="resetFiltersButton" (onAdditionalButtonClick)="resetFilters()">  
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="filterForm" (keydown.enter)="onSubmit()">
+    <div class="field">
+      <div class="columns is-gapless">
+        <div class="column is-half pr-2">
+          <label class="label">Stores</label>
+          <div class="control">
+            <app-dropdown-with-checkboxes [width]="180" [options]="stores" (selectedOptionChange)="storeChange($event)"
+              [selectedOptions]="selectedStores"
+              [dropdownItemType]="'Store'">
+            </app-dropdown-with-checkboxes>
+          </div>
+        </div>
+
+        <div class="column is-half pl-2">
+          <label class="label">Categories</label>
+          <div class="control">
+            <app-dropdown-with-checkboxes [width]="180" [options]="categories"
+              [selectedOptions]="selectedCategory"
+              (selectedOptionChange)="categoryChange($event)" [dropdownItemType]="'Category'">
+            </app-dropdown-with-checkboxes>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-slider [range]="priceRange" (onRangeChange)="priceRangeChange($event)" label="Price Range" [min]="minPrice"
+      [max]="maxPrice" [step]="10" [minValue]="priceRange[0]" [maxValue]="priceRange[1]"></app-slider>
+    <app-slider [range]="discountRange" (onRangeChange)="discountRangeChange($event)" label="Discount Range"
+      [min]="minDiscount" [max]="maxDiscount" [step]="1" [minValue]="discountRange[0]" [maxValue]="discountRange[1]"></app-slider>
+    
+
+    <label class="label">Date Range</label>
+
+    <div class="custom-radio-options-row">
+      @for (option of dateRangeOptions; track option) {
+        <div class="custom-radio-field">
+          <label class="custom-radio">
+            <input type="radio" name="dateRange" [value]="option" (change)="dateRangeChange(option)" [checked]="dateRange === option">
+            <span class="custom-radio-indicator"></span>
+            <span class="custom-radio-label">{{option}}</span>
+          </label>
+        </div>
+      }
+    </div>
+    
+  </form>
+</app-base-modal>

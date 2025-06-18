@@ -1,0 +1,22 @@
+<div class="dropdown" [ngClass]="{'is-active': isActive}">
+    <div class="dropdown-trigger">
+      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown($event)" [style.width]="width + 'px'">
+        <span>{{ dropdownText() | titlecase }}</span>
+        <span class="icon is-small">
+          <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+      <div class="dropdown-content" [style.width]="width + 'px'">
+        @for (option of options; track option) {
+        <a class="dropdown-item" href="#" (click)="onOptionChange(option, $event)">
+          <label class="checkbox">
+            <input type="checkbox" [checked]="selectedOptions.includes(option)">
+            <span class="ml-2">{{ option | titlecase }}</span>
+          </label>
+        </a>
+        }
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,53 @@
+@if(item) {
+
+  <div class="card custom-card">
+    <div class="card-image">
+      <a [href]="item.url" target="_blank" rel="noopener noreferrer">
+
+      <figure
+        class="image is-5by4"
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+        "
+      >
+        <img
+          [src]="item.imageUrl"
+          alt="Card image"
+          style="max-width: 100%; max-height: 100%; object-fit: contain"
+        />
+      </figure>
+      </a>
+    </div>
+    <div class="card-content">
+      <a [href]="item.url" target="_blank" rel="noopener noreferrer">
+        <p class="title is-6 mb-1" style="padding-bottom: 20px; height: 70px; color: black">
+          {{ item.name | truncate }}
+        </p>
+      </a>
+      <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; width:100%">
+        <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"/>
+        @if(item.store === 'amazon') {
+          <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
+            <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo"/>
+          </a>
+        }
+        <p style="color: black">{{item.updatedAt | relativeDate}}</p>
+      </div>
+      <p  class="old-price item-detail">
+        <span style="font-weight: bold">RRP: </span>
+        <span>${{ item.oldPrice }}</span>
+      </p>
+      <p class="new-price item-detail">
+        <span style="font-weight: bold">New Price: </span>
+        <span>${{ item.newPrice }}</span>
+      </p>
+      <p class="item-detail">
+        <span style="font-weight: bold; color: black">Discount: </span>
+        <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
+      </p>
+    </div>
+  </div>
+}

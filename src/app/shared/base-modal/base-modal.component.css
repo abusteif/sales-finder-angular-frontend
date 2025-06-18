@@ -1,0 +1,17 @@
+
+.modal-card-head {
+    background-color: white !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+}
+
+.modal-card-body {
+    background-color: white !important;
+}
+.modal-card-title {
+    color: black !important;
+}
+
+.modal-card-head {
+    color: black !important;
+}
+

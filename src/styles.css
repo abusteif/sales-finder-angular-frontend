@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+    body, html {
+      background-color: white !important;
+      color: black !important;
+    }
+  
+    input, textarea, select {
+      background-color: white !important;
+      color: black !important;
+    }
+
+  }
+  

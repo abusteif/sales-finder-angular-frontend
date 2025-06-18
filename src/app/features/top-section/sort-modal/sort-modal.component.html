@@ -1,0 +1,12 @@
+<app-base-modal [showModal]="showSortModal" (onCloseModal)="closeSortModal()" title="Sort Options" [applyButtonText]="'Apply Sort'" [cancelButtonText]="'Cancel'" (onApply)="applySort()">
+    <div class="sort-options-container">
+        <div class="sort-section">
+            <h3 class="section-title">Sort by</h3>
+            <div class="radio-group">
+                @for (option of sortOptions; track option.value) {
+                    <app-radio-button-item [label]="option.label" [value]="option.value" [selected]="selectedSort" (selectedChange)="sortChange($event)"></app-radio-button-item>
+                }
+            </div>
+        </div>
+    </div>
+</app-base-modal>

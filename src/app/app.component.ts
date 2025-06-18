@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ItemsTableComponent } from './features/item-display/items-table/items-table.component';
 
 @Component({
   selector: 'app-root',

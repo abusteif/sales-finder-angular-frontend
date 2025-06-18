@@ -1,0 +1,34 @@
+
+  @if (loading) {
+    <div class="loading-container">
+      <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+      <p class="loading-text">Loading items...</p>
+    </div>
+  }
+  @else if (error) {
+    <div class="error-container" >
+      <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
+      <p class="error-text">Failed to load items. Please try again.</p>
+    </div>
+  }
+  @else if (items.length === 0) {
+    <div class="error-container">
+      <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
+      <p class="error-text">No items found for the selected search criteria.</p>
+    </div>
+  }
+  @else {
+    <div class="columns is-multiline is-mobile">
+
+    @for (item of items; track item.url) {
+      <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop">
+
+      <app-item-card [item]="item"></app-item-card>
+    </div>
+
+    }
+  </div>
+
+  }
+
+

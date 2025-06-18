@@ -1,0 +1,15 @@
+<app-control-ribbon (onFilterClick)="openFilterModal()" (onSortClick)="openSortModal()" (onRefreshClick)="items.getItems()" (onSearchChange)="onSearchChange($event)"></app-control-ribbon>
+<app-filter-search-modal 
+  [stores]="stores" 
+  [categories]="categories" 
+  [showFilterModal]="showFilterModal"
+  (onSubmitFilter)="onSubmitFilter()" 
+  (onCloseFilterModal)="closeFilterModal()"
+  (onStoreChange)="onStoreChange($event)" 
+  (onCategoryChange)="onCategoryChange($event)"
+  (onPriceRangeChange)="onPriceRangeChange($event)"
+  (onDiscountRangeChange)="onDiscountRangeChange($event)"
+  (onDateRangeChange)="onDateRangeChange($event)"
+></app-filter-search-modal>
+
+<app-sort-modal [showSortModal]="showSortModal" (onCloseSortModal)="closeSortModal()" [isAiSearch]="aiSearch" (onSortChange)="onSortChange($event)" (onApplySort)="onApplySort()" [sortOptions]="getSortOptions()" [selectedSort]="selectedSort"></app-sort-modal>

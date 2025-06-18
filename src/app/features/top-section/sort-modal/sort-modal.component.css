@@ -1,0 +1,43 @@
+/* Sort Options Styling */
+.sort-options-container {
+  padding: 16px;
+}
+
+.sort-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 8px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sort-options-container {
+    padding: 12px;
+  }
+  
+  .radio-option {
+    padding: 10px 14px;
+  }
+  
+  .radio-text {
+    font-size: 13px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+}

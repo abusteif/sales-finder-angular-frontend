@@ -1,0 +1,98 @@
+/* Price Range Styling */
+.range-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fafafa;
+  }
+  
+  .inputs-row {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2px;
+  }
+  
+  .range-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555 !important;
+    margin-bottom: 1px;
+  }
+  
+  .range-input {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .range-input:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 1px rgba(25, 118, 210, 0.1);
+  }
+  
+  .range-input:hover {
+    border-color: #bbb;
+  }
+  
+  .slider-container {
+    margin-top: 2px;
+    padding: 0 20px;
+    overflow: hidden;
+  }
+  
+  .range-slider {
+    width: calc(100% - 4px);
+    margin: 0 2px;
+  }
+  
+  /* Material slider customization */
+  .range-slider .mdc-slider__track {
+    height: 3px;
+  }
+  
+  .range-slider .mdc-slider__thumb {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .range-slider .mdc-slider__thumb-knob {
+    border: 2px solid #1976d2;
+    background-color: white;
+  }
+
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .inputs-row {
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .range-container {
+      gap: 6px;
+      padding: 6px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    label {
+      color: black !important;
+    }
+  }
