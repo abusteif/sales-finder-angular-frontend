@@ -1,4 +1,4 @@
-<app-control-ribbon (onFilterClick)="openFilterModal()" (onSortClick)="openSortModal()" (onRefreshClick)="items.getItems()" (onSearchChange)="onSearchChange($event)"></app-control-ribbon>
+<app-control-ribbon (onFilterClick)="openFilterModal()" (onSortClick)="openSortModal()" (onRefreshClick)="onRefreshClick()" (onSearchChange)="onSearchChange($event)"></app-control-ribbon>
 <app-filter-search-modal 
   [stores]="stores" 
   [categories]="categories" 

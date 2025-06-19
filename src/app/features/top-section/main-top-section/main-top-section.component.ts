@@ -73,12 +73,18 @@ export class MainTopSectionComponent {
     console.log(search);
     this.search = search;
     this.filter.setSearch(search);
+    this.store.loadStores(); 
     this.items.getItems();
   }
 
   onAiSearchChange(aiSearch: boolean) {
     this.aiSearch = aiSearch;
     this.filter.setAiSearch(aiSearch);
+  }
+
+  onRefreshClick() {
+    this.store.loadStores(); 
+    this.items.getItems();
   }
 
   onSubmitFilter() {
