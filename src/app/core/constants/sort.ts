@@ -9,5 +9,5 @@ export const SORT_OPTIONS = [
     { label: 'Name (Z to A)', value: 'name_desc' },
     ];
     
-    export const DEFAULT_SORT_VALUE = SORT_OPTIONS.find(option => option.value === 'name_asc');
+    export const DEFAULT_SORT_VALUE = SORT_OPTIONS.find(option => option.value === 'date_desc');
     
