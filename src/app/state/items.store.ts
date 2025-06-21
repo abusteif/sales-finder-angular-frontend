@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { Item } from "../core/models/item.model";
+import { Item, ItemsAPIResponse, UpdateType } from "../core/models/item.model";
 import { ItemsService } from "../core/services/items.service";
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { catchError, of, tap } from "rxjs";
@@ -18,12 +18,14 @@ interface ItemConditions {
   sortBy?: string;
   sortOrder?: string;
   dateRange?: number;
+  updateType?: UpdateType;
 }
 
 interface ItemsState {
   items: Item[];
   loading: boolean;
   error: string | null;
+  itemsCount: number;
 }
 
 @Injectable({
@@ -34,7 +36,8 @@ export class ItemsStore extends signalStore(
   withState<ItemsState>({
     items: [],
     loading: false,
-    error: null
+    error: null,
+    itemsCount: 0
   }),
   withMethods((items) => {
     const itemsService = inject(ItemsService);        
@@ -99,11 +102,17 @@ export class ItemsStore extends signalStore(
             dateRange: filter.dateRange()
           }
         }
+        if(filter.updateType() !== UpdateType.ALL) {
+          conditions = {
+            ...conditions,
+            updateType: filter.updateType()
+          }
+        }
         patchState(items, { loading: true, error: null, items: [] });
         itemsService.getItems(conditions).pipe(
-          tap((result: Item[]) => {
+          tap((result: ItemsAPIResponse) => {
             console.log(result);
-            patchState(items, { items: result, loading: false });
+            patchState(items, { items: result.items, itemsCount: result.count, loading: false });
           }),
           catchError((error) => {
             console.log('Failed to load items', error);

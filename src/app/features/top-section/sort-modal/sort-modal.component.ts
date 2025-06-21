@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SortOption } from '../../../core/models/sort.model';
+import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 
 @Component({
   selector: 'app-sort-modal',
@@ -11,10 +12,11 @@ export class SortModalComponent {
   @Input() showSortModal: boolean = false;
   @Input() isAiSearch: boolean = false;
   @Input() sortOptions: SortOption[] = [];
-  @Input() selectedSort: string = 'date_desc';
   @Output() onCloseSortModal = new EventEmitter<void>();
   @Output() onSortChange = new EventEmitter<string>();
   @Output() onApplySort = new EventEmitter<void>();
+
+  selectedSort: string = DEFAULT_SORT_VALUE?.value || '';
 
   openSortModal() {
     this.showSortModal = true;

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { AdditionalButton } from '../../../core/models/modal.model';
+import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES } from '../../../core/constants/filter';
 
 @Component({
   selector: 'app-filter-search-modal',
@@ -13,6 +14,9 @@ export class FilterSearchModalComponent {
   @Input() stores: string[] = [];
   @Input() categories: string[] = [];
   @Input() showFilterModal: boolean = false;
+  @Input() set isResetFiltersButtonDisabled(value: boolean) {
+    this.resetFiltersButton.isDisabled = value;
+  }
 
   @Output() onSubmitFilter = new EventEmitter<any>();
   @Output() onCloseFilterModal = new EventEmitter<void>();
@@ -21,6 +25,7 @@ export class FilterSearchModalComponent {
   @Output() onPriceRangeChange = new EventEmitter<number[]>();
   @Output() onDiscountRangeChange = new EventEmitter<number[]>();
   @Output() onDateRangeChange = new EventEmitter<string>();
+  @Output() onResetFilters = new EventEmitter<void>();
 
   selectedStores: string[] = [];
   selectedCategory: string[] = [];
@@ -30,8 +35,9 @@ export class FilterSearchModalComponent {
   minDiscount: number = environment.maxDiscountRange[0];
   priceRange: number[] = [...environment.maxPriceRange];
   discountRange: number[] = [...environment.maxDiscountRange];
-  dateRangeOptions: string[] = ['Last hour', 'Today', 'This week', 'All time'];
-  dateRange: string = '';
+  dateRangeOptions: string[] = DATE_RANGE_OPTIONS;
+  dateRange: string = DATE_RANGE_OPTIONS.find(option => option === 'All time') || DATE_RANGE_OPTIONS[0];
+  defaultDateRange = this.dateRange
   resetFiltersButton: AdditionalButton = { text: 'Reset Filters', isDisabled: true };
 
   filterForm: FormGroup = new FormGroup({
@@ -50,35 +56,28 @@ export class FilterSearchModalComponent {
 
   storeChange(selectedStores: string[]) {
     this.selectedStores = selectedStores;
-    this.resetFiltersButton.isDisabled = this.isResetFiltersButtonDisabled();
     this.onStoreChange.emit(this.selectedStores);
   }
 
   categoryChange(selectedCategories: string[]) {
     this.selectedCategory = selectedCategories;
-    this.resetFiltersButton.isDisabled = this.isResetFiltersButtonDisabled();
     this.onCategoryChange.emit(this.selectedCategory);
   }
 
   priceRangeChange(priceRange: number[]) {
     this.priceRange = priceRange;
-    this.resetFiltersButton.isDisabled = this.isResetFiltersButtonDisabled();
     this.onPriceRangeChange.emit(this.priceRange);
   }
 
   discountRangeChange(discountRange: number[]) {
     this.discountRange = discountRange;
-    this.resetFiltersButton.isDisabled = this.isResetFiltersButtonDisabled();
     this.onDiscountRangeChange.emit(this.discountRange);
   }
 
   dateRangeChange(dateRange: string) {
     this.dateRange = dateRange;
-    this.resetFiltersButton.isDisabled = this.isResetFiltersButtonDisabled();
     this.onDateRangeChange.emit(this.dateRange);
   }
-
-
 
   openFilterModal() {
     this.showFilterModal = true;
@@ -90,16 +89,11 @@ export class FilterSearchModalComponent {
   }
 
   resetFilters() {
-    this.selectedStores = [];
-    this.selectedCategory = [];
-    this.priceRange = [...environment.maxPriceRange];
-    this.discountRange = [...environment.maxDiscountRange];
-    this.dateRange = '';
+    this.selectedStores = [...DEFAULT_FILTER_VALUES.selectedStores];
+    this.selectedCategory = DEFAULT_FILTER_VALUES.selectedCategories;
+    this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
+    this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
+    this.dateRange = this.defaultDateRange;
+    this.onResetFilters.emit();
   }
-
-  isResetFiltersButtonDisabled() {
-    return this.selectedStores.length === 0 && this.selectedCategory.length === 0 && this.priceRange[0] === environment.maxPriceRange[0] && this.priceRange[1] === environment.maxPriceRange[1] && this.discountRange[0] === environment.maxDiscountRange[0] && this.discountRange[1] === environment.maxDiscountRange[1] && this.dateRange === '';
-  }
-
-
 }

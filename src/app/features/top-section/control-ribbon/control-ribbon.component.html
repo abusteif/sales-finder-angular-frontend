@@ -1,11 +1,11 @@
 <div class="controls-ribbon ">
   <div class="buttons container">
     <div class="control-buttons">
-      <button class="control-button" (click)="filterClickHandler()">
+      <button class="control-button" [class.filter-active]="isFilterActive" (click)="filterClickHandler()">
         <i class="fas fa-filter filter-icon"></i>
         <span class="button-text">Filter</span>
       </button>
-      <button class="control-button" (click)="sortClickHandler()">
+      <button class="control-button" [class.sort-active]="isSortActive" (click)="sortClickHandler()">
         <i class="fas fa-sort sort-icon"></i>
         <span class="button-text">Sort</span>
       </button>
@@ -19,6 +19,13 @@
         <input #searchInput type="search" class="input" placeholder="Search" (input)="searchChangeHandler($event)" (search)="onSearchClear($event)" enterkeyhint="search">
         <i class="fas fa-search search-icon" (click)="searchClickHandler()"></i>
       </form>
+    </div>
+    <div class="new-items-checkbox">
+      <label class="checkbox-label">
+        <input type="checkbox" (change)="handleNewItemsOnlyChange($event)" [checked]="newItemsOnly">
+        <i class="fas fa-star new-items-icon"></i>
+        <span class="checkbox-text">New Items Only</span>
+      </label>
     </div>
   </div>
 </div>

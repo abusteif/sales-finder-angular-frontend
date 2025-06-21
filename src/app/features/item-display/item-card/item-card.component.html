@@ -1,9 +1,27 @@
 @if(item) {
 
   <div class="card custom-card">
+
     <div class="card-image">
       <a [href]="item.url" target="_blank" rel="noopener noreferrer">
-
+        @switch(updateType) {
+          @case(UpdateType.NEW) {
+            <div class="new-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+              <i class="fas fa-star"></i>
+              NEW
+            </div>
+          }
+          @case(UpdateType.DISCOUNT_UP) {
+            <div class="discount-up-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+              <i class="fas fa-arrow-up"></i>
+            </div>
+          }
+          @case(UpdateType.DISCOUNT_DOWN) {
+            <div class="discount-down-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+              <i class="fas fa-arrow-down"></i>
+            </div>
+          }
+        }
       <figure
         class="image is-5by4"
         style="

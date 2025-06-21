@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { of } from 'rxjs';
 import { delay, distinctUntilChanged, debounceTime, filter, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
+import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 
 @Component({
   selector: 'app-control-ribbon',
@@ -16,8 +17,12 @@ export class ControlRibbonComponent {
   @Output() onRefreshClick = new EventEmitter<void>();
   @Output() onSearchChange = new EventEmitter<string>();
   @Output() onAiSearchClick = new EventEmitter<void>();
+  @Output() onNewItemsOnlyChange = new EventEmitter<boolean>();
 
+  @Input() isFilterActive: boolean = false;
+  @Input() isSortActive: boolean = false;
   searchValue: string = '';
+  newItemsOnly: boolean = false;
 
   @ViewChild('searchInput') searchInput!: ElementRef;
 
@@ -48,6 +53,12 @@ export class ControlRibbonComponent {
       this.searchValue = '';
       this.onSearchChange.emit('');
     }
+  }
+
+  handleNewItemsOnlyChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.newItemsOnly = checkbox.checked;
+    this.onNewItemsOnlyChange.emit(this.newItemsOnly);
   }
 
 }

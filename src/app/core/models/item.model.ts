@@ -11,5 +11,16 @@ export interface Item {
     updatedAt: Date;
     checkedAt: string;
     checksSinceRemoved: number;
-    updateType: string;
+    updateType: UpdateType;
+}
+
+export interface ItemsAPIResponse {
+    items: Item[];
+    count: number;
+}
+export enum UpdateType {
+    NEW = 'NEW',
+    DISCOUNT_UP = 'DISCOUNT_UP',
+    DISCOUNT_DOWN = 'DISCOUNT_DOWN',
+    ALL = 'ALL',
 }

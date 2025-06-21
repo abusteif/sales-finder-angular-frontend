@@ -6,6 +6,9 @@ import { FilterStore } from '../../../state/filter.store';
 import { SortService } from '../../../core/services/sort.service';
 import { SortOption } from '../../../core/models/sort.model';
 import { FilterService } from '../../../core/services/filter.service';
+import { DEFAULT_FILTER_VALUES } from '../../../core/constants/filter';
+import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
+import { UpdateType } from '../../../core/models/item.model';
 
 @Component({
   selector: 'app-main-top-section',
@@ -23,11 +26,12 @@ export class MainTopSectionComponent {
   public aiSearch: boolean = false;
   public showSortModal = false;
   public sortOptions: SortOption[] = [];
-  public selectedSort: string = 'date_desc';
   public dateRange: string = '';
-  
+  public isFilterActive: boolean = false;
+  public isSortActive: boolean = false;
+
   constructor(
-    public store: storesStore, 
+    public store: storesStore,
     public category: CategoriesStore,
     public items: ItemsStore,
     public filter: FilterStore,
@@ -41,6 +45,14 @@ export class MainTopSectionComponent {
       this.categories = this.category.categoriesList();
       this.stores = storeData.map(store => store.name);
       this.search = this.filter.search();
+      this.isFilterActive = JSON.stringify(this.filter.selectedStores()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedStores) ||
+        JSON.stringify(this.filter.selectedCategories()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
+        JSON.stringify(this.filter.selectedPriceRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
+        JSON.stringify(this.filter.selectedDiscountRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
+        this.filter.dateRange() !== DEFAULT_FILTER_VALUES.selectedDateRange;
+      const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
+      this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
+        this.filter.sortOrder() !== defaultSortOption.sortOrder;
     });
   }
 
@@ -73,7 +85,7 @@ export class MainTopSectionComponent {
     console.log(search);
     this.search = search;
     this.filter.setSearch(search);
-    this.store.loadStores(); 
+    this.store.loadStores();
     this.items.getItems();
   }
 
@@ -83,7 +95,7 @@ export class MainTopSectionComponent {
   }
 
   onRefreshClick() {
-    this.store.loadStores(); 
+    this.store.loadStores();
     this.items.getItems();
   }
 
@@ -95,7 +107,6 @@ export class MainTopSectionComponent {
 
   onSortChange(sortOption: string) {
     const sortCriteria = this.sortService.processSortOption(sortOption);
-    this.selectedSort = sortOption;
     this.filter.setSortBy(sortCriteria.sortBy);
     this.filter.setSortOrder(sortCriteria.sortOrder);
   }
@@ -104,6 +115,11 @@ export class MainTopSectionComponent {
     this.filter.setCurrentPage(1);
     this.items.getItems();
     this.closeSortModal();
+  }
+
+  onNewItemsOnlyChange(newItemsOnly: boolean) {
+    this.filter.setUpdateType(newItemsOnly ? UpdateType.NEW : UpdateType.ALL);
+    this.items.getItems();
   }
 
   openFilterModal() {
@@ -123,6 +139,16 @@ export class MainTopSectionComponent {
   }
 
   getSortOptions() {
-    return this.sortOptions = this.sortService.getSortOptions(this.aiSearch);
+    return this.sortOptions = [...SORT_OPTIONS];
+  }
+
+  onResetFilters() {
+    this.filter.setSelectedStores(DEFAULT_FILTER_VALUES.selectedStores);
+    this.filter.setSelectedCategories(DEFAULT_FILTER_VALUES.selectedCategories);
+    this.filter.setSelectedPriceRange(DEFAULT_FILTER_VALUES.selectedPriceRange);
+    this.filter.setSelectedDiscountRange(DEFAULT_FILTER_VALUES.selectedDiscountRange);
+    this.filter.setDateRange(DEFAULT_FILTER_VALUES.selectedDateRange);
+    this.items.getItems();
+    this.showFilterModal = false;
   }
 }

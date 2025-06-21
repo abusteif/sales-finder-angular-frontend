@@ -1,5 +1,21 @@
 <div class="pagination-container">
     <button class="pagination-button" (click)="onPreviousPage()" [disabled]="currentPage === 1">Previous</button>
-    <span class="pagination-page">{{ currentPage }}</span>
+    
+    <div class="page-numbers">
+        @for (page of visiblePages; track page) {
+            @if (isEllipsis(page)) {
+                <span class="ellipsis">...</span>
+            } @else {
+                <button 
+                    class="page-button" 
+                    [class.active]="isCurrentPage(page)"
+                    (click)="onPageClick(page)"
+                    [disabled]="isCurrentPage(page)">
+                    {{ page }}
+                </button>
+            }
+        }
+    </div>
+    
     <button class="pagination-button" (click)="onNextPage()" [disabled]="isLastPage">Next</button>
 </div>

@@ -16,19 +16,26 @@ export class SliderComponent {
   @Input() maxValue: number = 100;
   @Output() onRangeChange = new EventEmitter<number[]>();
 
-  // Helper method to format display value
   formatDisplayValue(value: number): string {
     return value >= 991 ? '999+' : value.toString();
   }
 
-  // Helper method to get display value for min
   get minDisplayValue(): string {
     return this.formatDisplayValue(this.range[0]);
   }
 
-  // Helper method to get display value for max
   get maxDisplayValue(): string {
     return this.formatDisplayValue(this.range[1]);
+  }
+
+  onMinChange(value: number) {
+    this.range[0] = value;
+    this.onRangeChange.emit(this.range);
+  }
+
+  onMaxChange(value: number) {
+    this.range[1] = value;
+    this.onRangeChange.emit(this.range);
   }
 
   onMinBlur(event: Event) {

@@ -2,6 +2,10 @@ import { Injectable } from "@angular/core";
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { SortOption } from "../core/models/sort.model";
 import { environment } from "../../environments/environment";
+import { UpdateType } from "../core/models/item.model";
+import { DEFAULT_FILTER_VALUES } from "../core/constants/filter";
+import { DEFAULT_SORT_VALUE } from "../core/constants/sort";
+import { SortService } from "../core/services/sort.service";
 
 interface FilterState {
     selectedStores: string[];
@@ -14,6 +18,7 @@ interface FilterState {
     sortBy: string;
     sortOrder: string;
     dateRange: number;
+    updateType: UpdateType;
 }
 
 @Injectable({
@@ -21,16 +26,17 @@ interface FilterState {
 })
 export class FilterStore extends signalStore(
     withState<FilterState>({
-        selectedStores: [],
-        selectedCategories: [],
-        selectedPriceRange: [...environment.maxPriceRange],
-        selectedDiscountRange: [...environment.maxDiscountRange],
+        selectedStores: [...DEFAULT_FILTER_VALUES.selectedStores],
+        selectedCategories: [...DEFAULT_FILTER_VALUES.selectedCategories],
+        selectedPriceRange: [...DEFAULT_FILTER_VALUES.selectedPriceRange],
+        selectedDiscountRange: [...DEFAULT_FILTER_VALUES.selectedDiscountRange],
         currentPage: 1,
         search: '',
         aiSearch: false,
         sortBy: '',
         sortOrder: '',
-        dateRange: 0
+        dateRange: DEFAULT_FILTER_VALUES.selectedDateRange,
+        updateType: UpdateType.ALL
     }),
     withMethods((filter) => {
         return {
@@ -63,7 +69,21 @@ export class FilterStore extends signalStore(
             },
             setDateRange: (dateRange: number) => {
                 patchState(filter, { dateRange });
+            },
+            setUpdateType: (updateType: UpdateType) => {
+                patchState(filter, { updateType });
             }
         }
     })
-) { }
+) {
+    constructor(private sortService: SortService) {
+        super();
+        this.initializeSort();
+    }
+
+    private initializeSort() {
+        const sortInfo = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
+        this.setSortBy(sortInfo.sortBy || '');
+        this.setSortOrder(sortInfo.sortOrder || '');
+    }
+}

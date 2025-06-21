@@ -14,6 +14,7 @@ import { Store } from '../../../core/models/store.model';
 })
 export class MainBottomSectionComponent {
   items: Item[] = [];
+  itemsCount: number = 0;
   isItemsLoading = false;
   itemsError: string | null = null;
   currentPage: number = 1;
@@ -28,6 +29,7 @@ export class MainBottomSectionComponent {
     effect(() => {
       this.items = this.itemsStore.items();
       this.currentPage = this.filterStore.currentPage();
+      this.itemsCount = this.itemsStore.itemsCount();
       this.isItemsLoading = this.itemsStore.loading();
       this.itemsError = this.itemsStore.error();
       this.isLastPage = this.items.length < environment.itemsPerPage;

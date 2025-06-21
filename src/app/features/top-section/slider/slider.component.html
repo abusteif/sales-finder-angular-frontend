@@ -21,8 +21,8 @@
         
         <div class="slider-container">
           <mat-slider [min]="min" [max]="max" [step]="step" class="range-slider">
-            <input matSliderStartThumb [value]="range[0]" (input)="onMinBlur($event)">
-            <input matSliderEndThumb [value]="range[1]" (input)="onMaxBlur($event)">
+            <input matSliderStartThumb [value]="range[0]" (valueChange)="onMinChange($event)">
+            <input matSliderEndThumb [value]="range[1]" (valueChange)="onMaxChange($event)">
           </mat-slider>
         </div>
       </div>

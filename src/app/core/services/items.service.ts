@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Item } from '../models/item.model';
+import { ItemsAPIResponse } from '../models/item.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,9 +16,9 @@ export class ItemsService {
     constructor(private http: HttpClient) {}
 
     // Get all items
-    getItems(conditions: any): Observable<any> {
+    getItems(conditions: any): Observable<ItemsAPIResponse> {
         const body = JSON.stringify(conditions);
-        return this.http.post<Item[]>(this.itemsBaseUrl, body, {
+        return this.http.post<ItemsAPIResponse>(this.itemsBaseUrl, body, {
             headers: this.headers
         });
     }
