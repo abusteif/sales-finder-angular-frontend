@@ -32,7 +32,7 @@ export class MainBottomSectionComponent {
       this.itemsCount = this.itemsStore.itemsCount();
       this.isItemsLoading = this.itemsStore.loading();
       this.itemsError = this.itemsStore.error();
-      this.isLastPage = this.items.length < environment.itemsPerPage;
+      this.isLastPage = this.itemsCount - this.currentPage * environment.itemsPerPage <= environment.itemsPerPage;
       this.stores = this.storesStore.stores();
       this.storesCheckedAt = this.stores.map(store => {
         return {

@@ -1,8 +1,8 @@
 export const DEFAULT_FILTER_VALUES = {
   selectedStores: [],
   selectedCategories: [],
-  selectedPriceRange: [0, 1000000],
-  selectedDiscountRange: [0, 100],
+  selectedPriceRange: [1, 1000000],
+  selectedDiscountRange: [1, 100],
   selectedDateRange: 0,
   selectedUpdateType: null
 }   

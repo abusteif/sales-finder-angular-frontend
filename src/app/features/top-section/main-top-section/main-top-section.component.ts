@@ -54,6 +54,13 @@ export class MainTopSectionComponent {
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
     });
+
+    // effect(() => {
+    //   const currentPage = this.filter.currentPage();
+    //   if (currentPage !== 1) {
+    //     this.items.getItems();
+    //   }
+    // });
   }
 
   onStoreChange(selectedStores: string[]) {
@@ -82,11 +89,10 @@ export class MainTopSectionComponent {
   }
 
   onSearchChange(search: string) {
-    console.log(search);
     this.search = search;
     this.filter.setSearch(search);
     this.store.loadStores();
-    this.items.getItems();
+    this.getItemsAndResetPage();
   }
 
   onAiSearchChange(aiSearch: boolean) {
@@ -96,12 +102,11 @@ export class MainTopSectionComponent {
 
   onRefreshClick() {
     this.store.loadStores();
-    this.items.getItems();
+    this.getItemsAndResetPage();
   }
 
   onSubmitFilter() {
-    this.filter.setCurrentPage(1);
-    this.items.getItems();
+    this.getItemsAndResetPage();
     this.closeFilterModal();
   }
 
@@ -113,13 +118,13 @@ export class MainTopSectionComponent {
 
   onApplySort() {
     this.filter.setCurrentPage(1);
-    this.items.getItems();
+    this.getItemsAndResetPage();
     this.closeSortModal();
   }
 
   onNewItemsOnlyChange(newItemsOnly: boolean) {
     this.filter.setUpdateType(newItemsOnly ? UpdateType.NEW : UpdateType.ALL);
-    this.items.getItems();
+    this.getItemsAndResetPage();
   }
 
   openFilterModal() {
@@ -142,13 +147,18 @@ export class MainTopSectionComponent {
     return this.sortOptions = [...SORT_OPTIONS];
   }
 
+  getItemsAndResetPage() {
+    this.filter.setCurrentPage(1);
+    this.items.getItems();
+  }
+
   onResetFilters() {
     this.filter.setSelectedStores(DEFAULT_FILTER_VALUES.selectedStores);
     this.filter.setSelectedCategories(DEFAULT_FILTER_VALUES.selectedCategories);
     this.filter.setSelectedPriceRange(DEFAULT_FILTER_VALUES.selectedPriceRange);
     this.filter.setSelectedDiscountRange(DEFAULT_FILTER_VALUES.selectedDiscountRange);
     this.filter.setDateRange(DEFAULT_FILTER_VALUES.selectedDateRange);
-    this.items.getItems();
+    this.getItemsAndResetPage();
     this.showFilterModal = false;
   }
 }

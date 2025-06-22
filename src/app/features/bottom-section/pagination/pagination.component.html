@@ -2,7 +2,7 @@
     <button class="pagination-button" (click)="onPreviousPage()" [disabled]="currentPage === 1">Previous</button>
     
     <div class="page-numbers">
-        @for (page of visiblePages; track page) {
+        @for (page of visiblePages; track $index) {
             @if (isEllipsis(page)) {
                 <span class="ellipsis">...</span>
             } @else {
