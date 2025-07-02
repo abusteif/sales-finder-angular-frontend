@@ -1,5 +1,5 @@
 <app-base-modal [showModal]="showFilterModal" (onCloseModal)="closeFilterModal()" title="Filter Options"
-  [applyButtonText]="'Apply Filters'" [applyButtonDisabled]="resetFiltersButton.isDisabled" [cancelButtonText]="'Cancel'" (onApply)="onSubmit()" [additionalButton]="resetFiltersButton" (onAdditionalButtonClick)="resetFilters()">  
+  [applyButtonText]="'Apply Filters'" [cancelButtonText]="'Cancel'" (onApply)="onSubmit()" [additionalButton]="resetFiltersButton" (onAdditionalButtonClick)="resetFilters()">  
 
   <form (ngSubmit)="onSubmit()" [formGroup]="filterForm" (keydown.enter)="onSubmit()">
     <div class="field">
@@ -18,7 +18,7 @@
           <label class="label">Categories</label>
           <div class="control">
             <app-dropdown-with-checkboxes [width]="180" [options]="categories"
-              [selectedOptions]="selectedCategory"
+              [selectedOptions]="selectedCategories"
               (selectedOptionChange)="categoryChange($event)" [dropdownItemType]="'Category'">
             </app-dropdown-with-checkboxes>
           </div>

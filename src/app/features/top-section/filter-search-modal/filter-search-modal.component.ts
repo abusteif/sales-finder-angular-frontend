@@ -27,16 +27,17 @@ export class FilterSearchModalComponent {
   @Output() onDateRangeChange = new EventEmitter<string>();
   @Output() onResetFilters = new EventEmitter<void>();
 
-  selectedStores: string[] = [];
-  selectedCategory: string[] = [];
+  @Input() selectedStores: string[] = [];
+  @Input() selectedCategories: string[] = [];
+  @Input() priceRange: number[] = [];
+  @Input() discountRange: number[] = [];
+  @Input() dateRange: string = DATE_RANGE_OPTIONS.find(option => option === 'All time') || DATE_RANGE_OPTIONS[0];
+
   maxPrice: number = environment.maxPriceRange[1];
   maxDiscount: number = environment.maxDiscountRange[1];
   minPrice: number = environment.maxPriceRange[0];
   minDiscount: number = environment.maxDiscountRange[0];
-  priceRange: number[] = [...environment.maxPriceRange];
-  discountRange: number[] = [...environment.maxDiscountRange];
   dateRangeOptions: string[] = DATE_RANGE_OPTIONS;
-  dateRange: string = DATE_RANGE_OPTIONS.find(option => option === 'All time') || DATE_RANGE_OPTIONS[0];
   defaultDateRange = this.dateRange
   resetFiltersButton: AdditionalButton = { text: 'Reset Filters', isDisabled: true };
 
@@ -60,8 +61,8 @@ export class FilterSearchModalComponent {
   }
 
   categoryChange(selectedCategories: string[]) {
-    this.selectedCategory = selectedCategories;
-    this.onCategoryChange.emit(this.selectedCategory);
+    this.selectedCategories = selectedCategories;
+    this.onCategoryChange.emit(this.selectedCategories);
   }
 
   priceRangeChange(priceRange: number[]) {
@@ -90,7 +91,7 @@ export class FilterSearchModalComponent {
 
   resetFilters() {
     this.selectedStores = [...DEFAULT_FILTER_VALUES.selectedStores];
-    this.selectedCategory = DEFAULT_FILTER_VALUES.selectedCategories;
+    this.selectedCategories = [...DEFAULT_FILTER_VALUES.selectedCategories];
     this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
     this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
     this.dateRange = this.defaultDateRange;
