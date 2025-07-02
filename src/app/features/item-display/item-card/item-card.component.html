@@ -3,56 +3,50 @@
   <div class="card custom-card">
 
     <div class="card-image">
-      <a [href]="item.url" target="_blank" rel="noopener noreferrer">
+      <a [href]="item.url" target="_blank" rel="noopener noreferrer" style="align-items: center; display: flex; justify-content: center;">
         @switch(updateType) {
           @case(UpdateType.NEW) {
-            <div class="new-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+            <div class="new-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
               <i class="fas fa-star"></i>
               NEW
             </div>
           }
           @case(UpdateType.DISCOUNT_UP) {
-            <div class="discount-up-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+            <div class="discount-up-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
               <i class="fas fa-arrow-up"></i>
             </div>
           }
           @case(UpdateType.DISCOUNT_DOWN) {
-            <div class="discount-down-indicator" [matTooltip]="'Updated at ' + (updatedAt | date:'dd/MM/yyyy HH:mm')" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
+            <div class="discount-down-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
               <i class="fas fa-arrow-down"></i>
             </div>
           }
         }
       <figure
-        class="image is-5by4"
-        style="
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-        "
+        class="image {{getCardHeightClass()}} card-image-figure"
       >
         <img
           [src]="item.imageUrl"
           alt="Card image"
-          style="max-width: 100%; max-height: 100%; object-fit: contain"
+          class="card-image-img"
         />
       </figure>
       </a>
     </div>
     <div class="card-content">
       <a [href]="item.url" target="_blank" rel="noopener noreferrer">
-        <p class="title is-6 mb-1" style="padding-bottom: 20px; height: 70px; color: black">
+        <p [class]="getTitleClass()">
           {{ item.name | truncate }}
         </p>
       </a>
-      <div style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; width:100%">
+      <div class="store-logos-container">
         <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo" [matTooltip]="onStoreLogoHover()" matTooltipPosition="below" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'"/>
         @if(item.store === 'amazon') {
           <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
             <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo"/>
           </a>
         }
-        <p style="color: black">{{item.updatedAt | relativeDate}}</p>
+        <!-- <p class="updated-at">{{item.updatedAt | relativeDate}}</p> -->
       </div>
       <p  class="old-price item-detail">
         <span style="font-weight: bold">RRP: </span>

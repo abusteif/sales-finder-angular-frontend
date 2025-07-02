@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener, OnInit } from '@angular/core';
 import { Item, UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
 
@@ -8,12 +8,51 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './item-card.component.html',
   styleUrls: ['./item-card.component.css'],
 })
-export class ItemCardComponent {
+export class ItemCardComponent implements OnInit {
   _item: Item = {} as Item
   lastCheckedAt: Date = new Date()
   updatedAt: Date = new Date()
   updateType: UpdateType = UpdateType.ALL
   UpdateType = UpdateType
+  isMobile: boolean = false;
+  is2K: boolean = false;
+  is4K: boolean = false;
+  isDesktop: boolean = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  ngOnInit() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    if (window.innerHeight > 1320) {
+      this.is4K = true;
+    } else if (window.innerHeight > 1080) {
+      this.is2K = true;
+    } else if (window.innerHeight > 768) {
+      this.isDesktop = true;
+    } else {
+      this.isMobile = true;
+    }
+    console.log(this.is4K, this.is2K, this.isDesktop, this.isMobile);
+  }
+
+  getTitleClass(): string {
+    return this.isMobile ? 'title is-7 card-title' : 'title is-6  card-title';
+  }
+  getCardHeightClass(): string {
+    if (this.isMobile) {
+      return 'is-1by1';
+    } else {
+      return 'is-5by4';
+    }
+
+  }
+
   @Input() set item(item: Item) {
     this._item = item
     this.camelCamelCamelUrl = this.generateCamelCamelCamelUrl()

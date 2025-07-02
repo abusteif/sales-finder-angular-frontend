@@ -60,12 +60,16 @@
 }
 
 .item-detail {
-  font-size: 20px
+  font-size: 16px
+}
+
+.updated-at {
+  font-size: 12px;
 }
 
 .store-logo {
-  width: 70px;
-  height: 40px;
+  width: 50px;
+  height: 25px;
   object-fit: contain;
   object-position: center;
 }
@@ -74,7 +78,7 @@
   background-color: #333 !important;
   color: white !important;
   font-size: 14px !important;
-  padding: 8px 12px !important;
+  padding: 6px 8px !important;
   border-radius: 4px !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
   max-width: none !important;
@@ -153,4 +157,40 @@
 
 .discount-down-indicator i {
   font-size: 12px;
+}
+
+/* Extracted inline styles */
+.card-image-figure {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+@media (max-width: 800px) {
+  .card-image-figure {
+    height: 80%;
+    width: 80%;
+  }
+}
+
+.card-image-img {
+    max-width: 100%;
+    max-height: 100%;
+  object-fit: contain;
+}
+
+.card-title {
+  height: 60px;
+  color: black;
+}
+
+.store-logos-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
