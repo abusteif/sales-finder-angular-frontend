@@ -23,5 +23,69 @@ html, body {
       color: black !important;
     }
 
-  }
+    /* Ensure buttons stay white in dark mode, except success and filter-active buttons */
+    button:not(.is-success):not(.filter-active), .button:not(.is-success):not(.filter-active) {
+      background-color: white !important;
+      color: black !important;
+      border-color: #dee2e6 !important;
+    }
+
+    button:not(.is-success):not(.filter-active):hover, .button:not(.is-success):not(.filter-active):hover {
+      background-color: #f8f9fa !important;
+      color: black !important;
+      border-color: #ced4da !important;
+    }
+
+    button.active:not(.is-success):not(.filter-active), .button.active:not(.is-success):not(.filter-active),
+    button.is-active:not(.is-success):not(.filter-active), .button.is-active:not(.is-success):not(.filter-active) {
+      background-color: #007bff !important;
+      color: white !important;
+      border-color: #007bff !important;
+    }
+
+
+    .dropdown-content {
+      background-color: white !important;
+      border-color: #dee2e6 !important;
+    }
+
+    .dropdown-item {
+      color: black !important;
+      background-color: white !important;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f8f9fa !important;
+      color: black !important;
+    }
+
+    /* Target dropdown menu specifically */
+    .dropdown-menu {
+      background-color: white !important;
+      width: fit-content !important;
+      min-width: fit-content !important;
+      box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02) !important;
+      border-radius: 4px !important;
+    }
+
+    /* Target all elements within dropdown */
+    .dropdown * {
+      color: black !important;
+    }
+
+    .dropdown .dropdown-content * {
+      background-color: white !important;
+      color: black !important;
+    }
+
+    .dropdown .dropdown-content a {
+      background-color: white !important;
+      color: black !important;
+    }
+
+    .dropdown .dropdown-content a:hover {
+      background-color: #f8f9fa !important;
+      color: black !important;
+    }
+}
   

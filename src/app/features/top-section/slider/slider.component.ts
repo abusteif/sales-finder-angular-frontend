@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './slider.component.css'
 })
 export class SliderComponent {
-  @Input() range: number[] = [0, 100];
+  @Input() range: number[] = [];
   @Input() min: number = 0;
   @Input() max: number = 100;
   @Input() label: string = '';

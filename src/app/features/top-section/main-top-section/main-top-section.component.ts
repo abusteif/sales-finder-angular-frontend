@@ -6,9 +6,10 @@ import { FilterStore } from '../../../state/filter.store';
 import { SortService } from '../../../core/services/sort.service';
 import { SortOption } from '../../../core/models/sort.model';
 import { FilterService } from '../../../core/services/filter.service';
-import { DEFAULT_FILTER_VALUES } from '../../../core/constants/filter';
+import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES } from '../../../core/constants/filter';
 import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
 import { UpdateType } from '../../../core/models/item.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-main-top-section',
@@ -18,18 +19,20 @@ import { UpdateType } from '../../../core/models/item.model';
 })
 export class MainTopSectionComponent {
   public stores: string[] = [];
+  public selectedStores: string[] = [];
   public categories: string[] = [];
-  public priceRange: number[] = [];
-  public discountRange: number[] = [];
+  public selectedCategories: string[] = [];
+  public priceRange: number[] = [...environment.maxPriceRange]; 
+  public discountRange: number[] = [...environment.maxDiscountRange];
   public showFilterModal = false;
   public search: string = '';
   public aiSearch: boolean = false;
   public showSortModal = false;
   public sortOptions: SortOption[] = [];
-  public dateRange: string = '';
+  public dateRange: number = 0;
   public isFilterActive: boolean = false;
   public isSortActive: boolean = false;
-
+  public dateRangeString: string = '';
   constructor(
     public store: storesStore,
     public category: CategoriesStore,
@@ -50,6 +53,7 @@ export class MainTopSectionComponent {
         JSON.stringify(this.filter.selectedPriceRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
         JSON.stringify(this.filter.selectedDiscountRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
         this.filter.dateRange() !== DEFAULT_FILTER_VALUES.selectedDateRange;
+
       const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
@@ -65,27 +69,25 @@ export class MainTopSectionComponent {
 
   onStoreChange(selectedStores: string[]) {
     console.log('Selected store:', selectedStores);
-    this.filter.setSelectedStores(selectedStores);
+    this.selectedStores = selectedStores;
   }
 
   onCategoryChange(selectedCategories: string[]) {
     console.log('Selected category:', selectedCategories);
-    this.filter.setSelectedCategories(selectedCategories);
+    this.selectedCategories = selectedCategories;
   }
 
   onPriceRangeChange(priceRange: number[]) {
     this.priceRange = priceRange;
-    this.filter.setSelectedPriceRange(priceRange);
   }
 
   onDiscountRangeChange(discountRange: number[]) {
     this.discountRange = discountRange;
-    this.filter.setSelectedDiscountRange(discountRange);
   }
 
   onDateRangeChange(dateRange: string) {
-    this.dateRange = dateRange;
-    this.filter.setDateRange(this.filterService.getDateRange(dateRange));
+    this.dateRange = this.filterService.getDateRange(dateRange);
+    this.dateRangeString = dateRange;
   }
 
   onSearchChange(search: string) {
@@ -106,6 +108,11 @@ export class MainTopSectionComponent {
   }
 
   onSubmitFilter() {
+    this.filter.setSelectedStores(this.selectedStores);
+    this.filter.setSelectedCategories(this.selectedCategories);
+    this.filter.setSelectedPriceRange(this.priceRange);
+    this.filter.setSelectedDiscountRange(this.discountRange);
+    this.filter.setDateRange(this.dateRange);
     this.getItemsAndResetPage();
     this.closeFilterModal();
   }
@@ -132,6 +139,11 @@ export class MainTopSectionComponent {
   }
 
   closeFilterModal() {
+    this.selectedStores = [...this.filter.selectedStores()];
+    this.selectedCategories = [...this.filter.selectedCategories()];
+    this.priceRange =[...this.filter.selectedPriceRange()];
+    this.discountRange = [...this.filter.selectedDiscountRange()];
+    this.dateRange = this.filter.dateRange();
     this.showFilterModal = false;
   }
 
@@ -153,12 +165,10 @@ export class MainTopSectionComponent {
   }
 
   onResetFilters() {
-    this.filter.setSelectedStores(DEFAULT_FILTER_VALUES.selectedStores);
-    this.filter.setSelectedCategories(DEFAULT_FILTER_VALUES.selectedCategories);
-    this.filter.setSelectedPriceRange(DEFAULT_FILTER_VALUES.selectedPriceRange);
-    this.filter.setSelectedDiscountRange(DEFAULT_FILTER_VALUES.selectedDiscountRange);
-    this.filter.setDateRange(DEFAULT_FILTER_VALUES.selectedDateRange);
-    this.getItemsAndResetPage();
-    this.showFilterModal = false;
+    this.selectedStores = [...DEFAULT_FILTER_VALUES.selectedStores];
+    this.selectedCategories = [...DEFAULT_FILTER_VALUES.selectedCategories];
+    this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
+    this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
+    this.dateRange = DEFAULT_FILTER_VALUES.selectedDateRange;
   }
 }
