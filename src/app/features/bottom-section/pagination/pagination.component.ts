@@ -31,7 +31,6 @@ export class PaginationComponent {
         pages.push(i);
       }
       pages.push('...');
-      pages.push(this.totalPages);
     } else if (this.currentPage >= this.totalPages - 3) {
       // Show first page + ... + last 5 pages
       pages.push(1);
@@ -47,7 +46,6 @@ export class PaginationComponent {
         pages.push(i);
       }
       pages.push('...');
-      pages.push(this.totalPages);
     }
 
     return pages;
