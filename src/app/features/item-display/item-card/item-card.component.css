@@ -158,6 +158,34 @@
   background-color: #ff4757;
 }
 
+/* Mobile responsive indicators */
+@media (max-width: 768px) {
+  .indicator-base {
+    top: 6px;
+    right: 6px;
+  }
+  
+  .indicator-circular {
+    padding: 4px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .indicator-circular i {
+    font-size: 10px;
+  }
+  
+  .indicator-pill {
+    padding: 3px 6px;
+    font-size: 0.6rem;
+    gap: 3px;
+  }
+  
+  .indicator-pill i {
+    font-size: 8px;
+  }
+}
+
 /* Extracted inline styles */
 .card-image-figure {
   height: 100%;
