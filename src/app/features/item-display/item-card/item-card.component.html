@@ -1,65 +1,56 @@
 @if(item) {
 
-  <div class="card custom-card">
+<div class="card custom-card">
 
-    <div class="card-image">
-      <a [href]="item.url" target="_blank" rel="noopener noreferrer" style="align-items: center; display: flex; justify-content: center;">
-        @switch(updateType) {
-          @case(UpdateType.NEW) {
-            <div class="new-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
-              <i class="fas fa-star"></i>
-              NEW
-            </div>
-          }
-          @case(UpdateType.DISCOUNT_UP) {
-            <div class="discount-up-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
-              <i class="fas fa-arrow-up"></i>
-            </div>
-          }
-          @case(UpdateType.DISCOUNT_DOWN) {
-            <div class="discount-down-indicator" matTooltip="{{item.updatedAt | relativeDate}}" matTooltipPosition="above" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'">
-              <i class="fas fa-arrow-down"></i>
-            </div>
-          }
-        }
-      <figure
-        class="image {{getCardHeightClass()}} card-image-figure"
-      >
-        <img
-          [src]="item.imageUrl"
-          alt="Card image"
-          class="card-image-img"
-        />
-      </figure>
-      </a>
-    </div>
-    <div class="card-content">
-      <a [href]="item.url" target="_blank" rel="noopener noreferrer">
-        <p [class]="getTitleClass()">
-          {{ item.name | truncate }}
-        </p>
-      </a>
-      <div class="store-logos-container">
-        <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo" [matTooltip]="onStoreLogoHover()" matTooltipPosition="below" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'"/>
-        @if(item.store === 'amazon') {
-          <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
-            <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo"/>
-          </a>
-        }
-        <!-- <p class="updated-at">{{item.updatedAt | relativeDate}}</p> -->
+  <div class="card-image">
+    <a [href]="item.url" target="_blank" rel="noopener noreferrer"
+      style="align-items: center; display: flex; justify-content: center;">
+      @if(updateType !== UpdateType.ALL) {
+      <div 
+        [class]="getIndicatorClass()" 
+        #tooltip="matTooltip"
+        matTooltip="{{item.updatedAt | relativeDate}}" 
+        matTooltipPosition="above"
+        [matTooltipShowDelay]="0" 
+        [matTooltipClass]="'custom-tooltip'" 
+        (click)="onIndicatorClick($event)">
+        <i [class]="getIndicatorIcon()"></i>
+        {{ getIndicatorText() }}
       </div>
-      <p  class="old-price item-detail">
-        <span style="font-weight: bold">RRP: </span>
-        <span>${{ item.oldPrice }}</span>
-      </p>
-      <p class="new-price item-detail">
-        <span style="font-weight: bold">New Price: </span>
-        <span>${{ item.newPrice }}</span>
-      </p>
-      <p class="item-detail">
-        <span style="font-weight: bold; color: black">Discount: </span>
-        <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
-      </p>
-    </div>
+      }
+      <figure class="image is-1by1 card-image-figure">
+        <img [src]="item.imageUrl" alt="Card image" class="card-image-img" />
+      </figure>
+    </a>
   </div>
+  <div class="card-content">
+    <a [href]="item.url" target="_blank" rel="noopener noreferrer">
+      <p [class]="getTitleClass()">
+        {{ item.name | truncate }}
+      </p>
+    </a>
+    <div class="store-logos-container">
+      <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"
+        [matTooltip]="onStoreLogoHover()" matTooltipPosition="below" [matTooltipShowDelay]="700"
+        [matTooltipClass]="'custom-tooltip'" />
+      @if(item.store === 'amazon') {
+      <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
+        <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo" />
+      </a>
+      }
+    </div>
+    <p class="old-price item-detail">
+      <span style="font-weight: bold">RRP: </span>
+      <span>${{ item.oldPrice }}</span>
+    </p>
+    <p class="new-price item-detail">
+      <span style="font-weight: bold">New Price: </span>
+      <span>${{ item.newPrice }}</span>
+    </p>
+    <p class="item-detail">
+      <span style="font-weight: bold; color: black">Discount: </span>
+      <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
+    </p>
+  </div>
+</div>
 }

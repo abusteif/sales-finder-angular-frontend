@@ -16,7 +16,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    width: 130px; /* Default for mobile */
+    width: 100px; /* Default for mobile */
   }
 
   @media (min-width: 768px) {
@@ -65,7 +65,7 @@
 
   .control-buttons {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     align-items: center;
   }
 
@@ -193,3 +193,17 @@
       margin-left: 8px;
     }
   }
+
+/* Extracted inline styles */
+.controls-layout {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

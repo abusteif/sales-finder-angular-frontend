@@ -9,8 +9,9 @@ import { environment } from '../../../../environments/environment';
 })
 export class PaginationComponent {
   @Input() currentPage: number = 1;
+  @Input() itemsPerPage: number = 0;
   @Input() set itemsCount(value: number) {
-    this.totalPages = Math.ceil(value / environment.itemsPerPage);
+    this.totalPages = Math.ceil(value / this.itemsPerPage);
   }
   @Input() isLastPage: boolean = false;
   @Output() onPageChange = new EventEmitter<number>();

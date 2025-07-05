@@ -10,6 +10,7 @@ import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES } from '../../../core/constan
 import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
 import { UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
+import { AppStore } from '../../../state/app.store';
 
 @Component({
   selector: 'app-main-top-section',
@@ -33,13 +34,15 @@ export class MainTopSectionComponent {
   public isFilterActive: boolean = false;
   public isSortActive: boolean = false;
   public dateRangeString: string = '';
+  public itemsPerPage: number = 0;
   constructor(
     public store: storesStore,
     public category: CategoriesStore,
     public items: ItemsStore,
     public filter: FilterStore,
     public sortService: SortService,
-    public filterService: FilterService
+    public filterService: FilterService,
+    public appStore: AppStore
   ) {
 
     // Create an effect to react to store changes
@@ -48,6 +51,7 @@ export class MainTopSectionComponent {
       this.categories = this.category.categoriesList();
       this.stores = storeData.map(store => store.name);
       this.search = this.filter.search();
+      this.itemsPerPage = this.appStore.itemsPerPage();
       this.isFilterActive = JSON.stringify(this.filter.selectedStores()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedStores) ||
         JSON.stringify(this.filter.selectedCategories()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
         JSON.stringify(this.filter.selectedPriceRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
@@ -136,6 +140,11 @@ export class MainTopSectionComponent {
 
   openFilterModal() {
     this.showFilterModal = true;
+  }
+
+  onItemsPerPageChange(itemsPerPage: number) {
+    this.appStore.setItemsPerPage(itemsPerPage);
+    this.getItemsAndResetPage();
   }
 
   closeFilterModal() {

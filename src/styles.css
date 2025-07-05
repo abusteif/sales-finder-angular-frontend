@@ -8,6 +8,12 @@ html, body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Custom font size class smaller than Bulma's is-7 */
+.is-8 {
+  font-size: 0.65rem !important;
+  line-height: 1.2 !important;
+}
+
 * {
   box-sizing: border-box;
 }

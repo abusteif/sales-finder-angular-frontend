@@ -5,6 +5,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { catchError, of, tap } from "rxjs";
 import { FilterStore } from "./filter.store";
 import { environment } from "../../environments/environment";
+import { AppStore } from "./app.store";
 
 interface ItemConditions {
   stores?: string[];
@@ -42,6 +43,7 @@ export class ItemsStore extends signalStore(
   withMethods((items) => {
     const itemsService = inject(ItemsService);        
     const filter = inject(FilterStore);
+    const appStore = inject(AppStore);
     return {
       getItems: () => {
 
@@ -49,7 +51,7 @@ export class ItemsStore extends signalStore(
         const selectedCategories = filter.selectedCategories(); 
         let conditions: ItemConditions = {
           pageNumber: filter.currentPage(),
-          itemsPerPage: environment.itemsPerPage,
+          itemsPerPage: appStore.itemsPerPage(),
         }
         if (selectedStores.length !== 0) {
           conditions = {

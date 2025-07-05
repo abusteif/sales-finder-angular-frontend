@@ -1,18 +1,41 @@
-<app-control-ribbon (onFilterClick)="openFilterModal()" (onSortClick)="openSortModal()"
-  (onRefreshClick)="onRefreshClick()" (onSearchChange)="onSearchChange($event)"
-  (onNewItemsOnlyChange)="onNewItemsOnlyChange($event)" [isFilterActive]="isFilterActive" [isSortActive]="isSortActive"></app-control-ribbon>
-<app-filter-search-modal [stores]="stores" [categories]="categories" [showFilterModal]="showFilterModal"
+<app-control-ribbon
+  [isFilterActive]="isFilterActive"
+  [isSortActive]="isSortActive"
+  [itemsPerPage]="itemsPerPage"
+  (onItemsPerPageChange)="onItemsPerPageChange($event)"
+  (onFilterClick)="openFilterModal()"
+  (onSortClick)="openSortModal()"
+  (onRefreshClick)="onRefreshClick()"
+  (onSearchChange)="onSearchChange($event)"
+  (onNewItemsOnlyChange)="onNewItemsOnlyChange($event)"
+  >
+</app-control-ribbon>
+
+<app-filter-search-modal
+  [stores]="stores"
+  [categories]="categories"
+  [showFilterModal]="showFilterModal"
   [selectedStores]="selectedStores"
   [selectedCategories]="selectedCategories"
   [priceRange]="priceRange"
   [discountRange]="discountRange"
   [dateRange]="dateRangeString"
   [isResetFiltersButtonDisabled]="false"
-   (onSubmitFilter)="onSubmitFilter()"
-  (onCloseFilterModal)="closeFilterModal()" (onStoreChange)="onStoreChange($event)"
-  (onCategoryChange)="onCategoryChange($event)" (onPriceRangeChange)="onPriceRangeChange($event)"
-  (onDiscountRangeChange)="onDiscountRangeChange($event)" (onDateRangeChange)="onDateRangeChange($event)"
-  (onResetFilters)="onResetFilters()"></app-filter-search-modal>
+  (onSubmitFilter)="onSubmitFilter()"
+  (onCloseFilterModal)="closeFilterModal()"
+  (onStoreChange)="onStoreChange($event)"
+  (onCategoryChange)="onCategoryChange($event)"
+  (onPriceRangeChange)="onPriceRangeChange($event)"
+  (onDiscountRangeChange)="onDiscountRangeChange($event)"
+  (onDateRangeChange)="onDateRangeChange($event)"
+  (onResetFilters)="onResetFilters()">
+</app-filter-search-modal>
 
-<app-sort-modal [showSortModal]="showSortModal" (onCloseSortModal)="closeSortModal()" [isAiSearch]="aiSearch"
-  (onSortChange)="onSortChange($event)" (onApplySort)="onApplySort()" [sortOptions]="getSortOptions()"></app-sort-modal>
+<app-sort-modal
+  [showSortModal]="showSortModal"
+  (onCloseSortModal)="closeSortModal()"
+  [isAiSearch]="aiSearch"
+  (onSortChange)="onSortChange($event)"
+  (onApplySort)="onApplySort()"
+  [sortOptions]="getSortOptions()">
+</app-sort-modal>

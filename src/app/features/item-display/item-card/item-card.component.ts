@@ -1,6 +1,8 @@
-import { Component, Input, HostListener, OnInit } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Item, UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
+import { AppStore } from '../../../state/app.store';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-item-card',
@@ -8,49 +10,22 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './item-card.component.html',
   styleUrls: ['./item-card.component.css'],
 })
-export class ItemCardComponent implements OnInit {
+export class ItemCardComponent {
+  @ViewChild(MatTooltip) tooltip!: MatTooltip;
+  
   _item: Item = {} as Item
   lastCheckedAt: Date = new Date()
   updatedAt: Date = new Date()
   updateType: UpdateType = UpdateType.ALL
   UpdateType = UpdateType
   isMobile: boolean = false;
-  is2K: boolean = false;
-  is4K: boolean = false;
-  isDesktop: boolean = false;
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkScreenSize();
-  }
-
-  ngOnInit() {
-    this.checkScreenSize();
-  }
-
-  checkScreenSize() {
-    if (window.innerHeight > 1320) {
-      this.is4K = true;
-    } else if (window.innerHeight > 1080) {
-      this.is2K = true;
-    } else if (window.innerHeight > 768) {
-      this.isDesktop = true;
-    } else {
-      this.isMobile = true;
-    }
-    console.log(this.is4K, this.is2K, this.isDesktop, this.isMobile);
+  constructor(private appStore: AppStore) {
+    this.isMobile = this.appStore.isMobile()
   }
 
   getTitleClass(): string {
-    return this.isMobile ? 'title is-7 card-title' : 'title is-6  card-title';
-  }
-  getCardHeightClass(): string {
-    if (this.isMobile) {
-      return 'is-1by1';
-    } else {
-      return 'is-5by4';
-    }
-
+    return this.isMobile ? 'title is-8 card-title' : 'title is-6  card-title';
   }
 
   @Input() set item(item: Item) {
@@ -80,4 +55,55 @@ export class ItemCardComponent implements OnInit {
     return `Last checked at ${date.toLocaleDateString()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
   }
 
-}
+  getIndicatorClass(): string {
+    const baseClass = 'indicator-base';
+    const shapeClass = this.updateType === UpdateType.NEW ? 'indicator-pill' : 'indicator-circular';
+    const colorClass = this.getIndicatorColorClass();
+    
+    return `${baseClass} ${shapeClass} ${colorClass}`;
+  }
+
+  private getIndicatorColorClass(): string {
+    switch (this.updateType) {
+      case UpdateType.NEW:
+        return 'new-indicator';
+      case UpdateType.DISCOUNT_UP:
+        return 'discount-up-indicator';
+      case UpdateType.DISCOUNT_DOWN:
+        return 'discount-down-indicator';
+      default:
+        return '';
+    }
+  }
+
+  getIndicatorIcon(): string {
+    switch (this.updateType) {
+      case UpdateType.NEW:
+        return 'fas fa-star';
+      case UpdateType.DISCOUNT_UP:
+        return 'fas fa-arrow-up';
+      case UpdateType.DISCOUNT_DOWN:
+        return 'fas fa-arrow-down';
+      default:
+        return '';
+    }
+  }
+
+  getIndicatorText(): string {
+    return this.updateType === UpdateType.NEW ? 'NEW' : '';
+  }
+
+  onIndicatorClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (this.tooltip) {
+      this.tooltip.show();
+      
+      setTimeout(() => {
+        this.tooltip.hide();
+      }, 1000);
+    }
+  }
+
+  }

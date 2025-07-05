@@ -1,5 +1,7 @@
 <div class="controls-ribbon ">
   <div class="buttons container">
+    <div class="controls-layout">
+      <div class="controls-left">
     <div class="control-buttons">
       <button class="control-button" [class.filter-active]="isFilterActive" (click)="filterClickHandler()">
         <i class="fas fa-filter filter-icon"></i>
@@ -26,6 +28,10 @@
         <i class="fas fa-star new-items-icon"></i>
         <span class="checkbox-text">New Items Only</span>
       </label>
+    </div>
+    </div>
+
+    <app-item-per-page [itemsPerPage]="itemsPerPage" (itemsPerPageChange)="itemsPerPageChange($event)"></app-item-per-page>
     </div>
   </div>
 </div>

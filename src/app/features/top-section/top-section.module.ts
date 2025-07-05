@@ -8,6 +8,7 @@ import { FilterSearchModalComponent } from './filter-search-modal/filter-search-
 import { SliderComponent } from './slider/slider.component';
 import { SortModalComponent } from './sort-modal/sort-modal.component';
 import { ControlRibbonComponent } from './control-ribbon/control-ribbon.component';
+import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ControlRibbonComponent } from './control-ribbon/control-ribbon.componen
     FilterSearchModalComponent,
     SliderComponent,
     SortModalComponent,
-    ControlRibbonComponent
+    ControlRibbonComponent,
+    ItemPerPageComponent
   ],
   imports: [
     CommonModule,

@@ -18,9 +18,11 @@ export class ControlRibbonComponent {
   @Output() onSearchChange = new EventEmitter<string>();
   @Output() onAiSearchClick = new EventEmitter<void>();
   @Output() onNewItemsOnlyChange = new EventEmitter<boolean>();
+  @Output() onItemsPerPageChange = new EventEmitter<number>();
 
   @Input() isFilterActive: boolean = false;
   @Input() isSortActive: boolean = false;
+  @Input() itemsPerPage: number = 0;
   searchValue: string = '';
   newItemsOnly: boolean = false;
 
@@ -53,6 +55,10 @@ export class ControlRibbonComponent {
       this.searchValue = '';
       this.onSearchChange.emit('');
     }
+  }
+
+  itemsPerPageChange(itemsPerPage: number) {
+    this.onItemsPerPageChange.emit(itemsPerPage);
   }
 
   handleNewItemsOnlyChange(event: Event) {
