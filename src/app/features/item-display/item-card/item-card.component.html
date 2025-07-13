@@ -31,7 +31,7 @@
     </a>
     <div class="store-logos-container">
       <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"
-        [matTooltip]="onStoreLogoHover()" matTooltipPosition="below" [matTooltipShowDelay]="700"
+        [matTooltip]="'Last checked: ' + (lastCheckedAt | relativeDate)" matTooltipPosition="below" [matTooltipShowDelay]="700"
         [matTooltipClass]="'custom-tooltip'" />
       @if(item.store === 'amazon') {
       <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">

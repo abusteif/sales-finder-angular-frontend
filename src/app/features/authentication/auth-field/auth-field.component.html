@@ -1,0 +1,47 @@
+<div class="auth-field-container">
+  @if (label) {
+    <label class="auth-label">
+      {{ label }}
+      @if (required) {
+        <span class="required-indicator">*</span>
+      }
+    </label>
+  }
+  
+  <div class="input-wrapper" [class]="getFieldClass()">
+    @if (icon) {
+      <i class="input-icon" [class]="icon"></i>
+    }
+    
+    <input
+      [type]="getInputType()"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+      class="auth-input"
+      [class.has-icon]="icon"
+      [class.has-password-toggle]="showPasswordToggle && type === 'password'"
+    />
+    
+    @if (showPasswordToggle && type === 'password') {
+      <button
+        type="button"
+        class="password-toggle"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+      >
+        <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+      </button>
+    }
+  </div>
+  
+  @if (errorMessage) {
+    <div class="error-message">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+  }
+</div>

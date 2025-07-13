@@ -6,6 +6,8 @@ import { catchError, of, tap } from "rxjs";
 import { FilterStore } from "./filter.store";
 import { environment } from "../../environments/environment";
 import { AppStore } from "./app.store";
+import { DEFAULT_DATE_RANGE } from "../core/constants/filter";
+import { FilterService } from "../core/services/filter.service";
 
 interface ItemConditions {
   stores?: string[];
@@ -44,6 +46,7 @@ export class ItemsStore extends signalStore(
     const itemsService = inject(ItemsService);        
     const filter = inject(FilterStore);
     const appStore = inject(AppStore);
+    const filterService = inject(FilterService);
     return {
       getItems: () => {
 
@@ -98,10 +101,10 @@ export class ItemsStore extends signalStore(
             sortOrder: filter.sortOrder()
           }
         }
-        if(filter.dateRange() !== 0) {
+        if(filter.dateRange() !== DEFAULT_DATE_RANGE) {
           conditions = {
             ...conditions,
-            dateRange: filter.dateRange()
+            dateRange: filterService.getDateRange(filter.dateRange())
           }
         }
         if(filter.updateType() !== UpdateType.ALL) {

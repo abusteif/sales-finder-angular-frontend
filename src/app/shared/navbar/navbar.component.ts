@@ -1,4 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, effect, HostListener } from '@angular/core';
+import { User } from '../../core/models/user.models';
+import { Router } from '@angular/router';
+// import { UserStore } from '../../state/user.store';
+import { AuthenticationStore } from '../../state/authentication.store';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,8 +13,19 @@ import { Component, HostListener } from '@angular/core';
 })
 export class NavbarComponent {
   isUserSettingsOpen = false;
-  user = {
-    name: 'John Doe'
+  user: User | null = null;
+  isAuthenticated = false;
+  constructor(
+    private router: Router, 
+    // private userStore: UserStore,
+    private authenticationStore: AuthenticationStore,
+    private navigationService: NavigationService
+  ) {
+    effect(() => {
+      // Use authentication store's user state
+      this.user = this.authenticationStore.user();
+      this.isAuthenticated = this.authenticationStore.isAuthenticated();
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -25,11 +41,28 @@ export class NavbarComponent {
     this.isUserSettingsOpen = !this.isUserSettingsOpen;
   }
 
+  welcomeMessage() {
+    return this.authenticationStore.user()?.firstName ? `Welcome, ${this.authenticationStore.user()?.firstName}` : '';
+  }
+
+  viewProfile() {
+    this.navigationService.navigateToProtectedRoute('/profile', {}, this.isAuthenticated);
+  }
+
+  viewAlerts() {
+    this.navigationService.navigateToProtectedRoute('/alerts', {}, this.isAuthenticated);
+  }
+
+  login() {
+    this.navigationService.navigateToPublicRoute('/login');
+  }
+
+  signup() {
+    this.navigationService.navigateToPublicRoute('/signup');
+  }
+
   logout() {
+    this.authenticationStore.logout();
     this.isUserSettingsOpen = false;
-    // Add your logout logic here
-    // For example:
-    // this.authService.logout();
-    // this.router.navigate(['/login']);
   }
 }

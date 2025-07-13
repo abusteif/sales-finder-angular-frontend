@@ -1,23 +1,29 @@
 <section class="navbar-container">
   <nav class="container">
 
-    
-    <div class="navbar-end">
-      
+
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <app-logo size="medium" variant="navbar" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
+
       <div class="user-settings-container">
         <div class="user-settings-text">
-          <span> Welcome, {{user.name}}</span>
+            <span> {{welcomeMessage() | titlecase}}</span>
         </div>
         <button class="user-settings-btn" (click)="openUserSettings($event)">
           <i class="fas fa-user"></i>
         </button>
         @if(isUserSettingsOpen) { 
         <div class="dropdown-menu" >
-          <a class="dropdown-item" routerLink="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
-          <a class="dropdown-item" routerLink="/signup"><i class="fas fa-user-plus"></i>Sign Up</a>
-          <a class="dropdown-item" routerLink="/profile"><i class="fas fa-user-circle"></i>View Profile</a>
-          <a class="dropdown-item" routerLink="/alerts"><i class="fas fa-bell"></i>View Alerts</a>
+          @if(!user) {
+          <a class="dropdown-item" (click)="login()"><i class="fas fa-sign-in-alt"></i>Login</a>
+          <a class="dropdown-item" (click)="signup()"><i class="fas fa-user-plus"></i>Sign Up</a>
+
+          }
+          <a class="dropdown-item" (click)="viewProfile()"><i class="fas fa-user-circle"></i>View Profile</a>
+          <a class="dropdown-item" (click)="viewAlerts()"><i class="fas fa-bell"></i>View Alerts</a>
+          @if(user) {
           <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          }
         </div>
         }
       </div>

@@ -1,9 +1,11 @@
+export const DEFAULT_DATE_RANGE = 'All time';
+
 export const DEFAULT_FILTER_VALUES = {
   selectedStores: [],
   selectedCategories: [],
   selectedPriceRange: [1, 1000000],
   selectedDiscountRange: [1, 100],
-  selectedDateRange: 0,
+  selectedDateRange: DEFAULT_DATE_RANGE,
   selectedUpdateType: null
 }   
 

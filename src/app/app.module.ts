@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BottomSectionModule } from './features/bottom-section/bottom-section.module';
 import { PagesModule } from './pages/pages.module';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { TopSectionModule } from './features/top-section/top-section.module';
 import { SharedModule } from './shared/shared.module';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,12 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
   ],
   providers: [
-    provideHttpClient() 
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

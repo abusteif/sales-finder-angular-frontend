@@ -30,10 +30,9 @@ export class MainTopSectionComponent {
   public aiSearch: boolean = false;
   public showSortModal = false;
   public sortOptions: SortOption[] = [];
-  public dateRange: number = 0;
+  public dateRange: string = '';
   public isFilterActive: boolean = false;
   public isSortActive: boolean = false;
-  public dateRangeString: string = '';
   public itemsPerPage: number = 0;
   constructor(
     public store: storesStore,
@@ -45,39 +44,31 @@ export class MainTopSectionComponent {
     public appStore: AppStore
   ) {
 
-    // Create an effect to react to store changes
     effect(() => {
       const storeData = this.store.stores();
       this.categories = this.category.categoriesList();
       this.stores = storeData.map(store => store.name);
       this.search = this.filter.search();
       this.itemsPerPage = this.appStore.itemsPerPage();
-      this.isFilterActive = JSON.stringify(this.filter.selectedStores()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedStores) ||
-        JSON.stringify(this.filter.selectedCategories()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
-        JSON.stringify(this.filter.selectedPriceRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
-        JSON.stringify(this.filter.selectedDiscountRange()) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
-        this.filter.dateRange() !== DEFAULT_FILTER_VALUES.selectedDateRange;
+      this.selectedStores = [...this.filter.selectedStores()];
+      this.selectedCategories = [...this.filter.selectedCategories()];
+      this.priceRange = [...this.filter.selectedPriceRange()];
+      this.dateRange = this.filter.dateRange();
+      this.discountRange = [...this.filter.selectedDiscountRange()];
+
+      this.isFilterActive = this.checkIfFilterActive()
 
       const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
     });
-
-    // effect(() => {
-    //   const currentPage = this.filter.currentPage();
-    //   if (currentPage !== 1) {
-    //     this.items.getItems();
-    //   }
-    // });
   }
 
   onStoreChange(selectedStores: string[]) {
-    console.log('Selected store:', selectedStores);
     this.selectedStores = selectedStores;
   }
 
   onCategoryChange(selectedCategories: string[]) {
-    console.log('Selected category:', selectedCategories);
     this.selectedCategories = selectedCategories;
   }
 
@@ -90,8 +81,7 @@ export class MainTopSectionComponent {
   }
 
   onDateRangeChange(dateRange: string) {
-    this.dateRange = this.filterService.getDateRange(dateRange);
-    this.dateRangeString = dateRange;
+    this.dateRange = dateRange;
   }
 
   onSearchChange(search: string) {
@@ -147,12 +137,15 @@ export class MainTopSectionComponent {
     this.getItemsAndResetPage();
   }
 
+  checkIfFilterActive() {
+    return JSON.stringify(this.selectedStores) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedStores) ||
+        JSON.stringify(this.selectedCategories) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
+        JSON.stringify(this.priceRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
+        JSON.stringify(this.discountRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
+        this.dateRange !== DEFAULT_FILTER_VALUES.selectedDateRange;
+  }
+
   closeFilterModal() {
-    this.selectedStores = [...this.filter.selectedStores()];
-    this.selectedCategories = [...this.filter.selectedCategories()];
-    this.priceRange =[...this.filter.selectedPriceRange()];
-    this.discountRange = [...this.filter.selectedDiscountRange()];
-    this.dateRange = this.filter.dateRange();
     this.showFilterModal = false;
   }
 

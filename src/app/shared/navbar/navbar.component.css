@@ -2,8 +2,7 @@
   width: 100%;
   background-color: #ffffff !important;
   color-scheme: light;
-  padding-top: 3px;
-  padding-bottom: 3px;
+
 }
 
 .navbar-brand {
@@ -18,7 +17,7 @@
 }
 
 .logo {
-  height: 40px;
+  height: 30px;
   width: auto;
   object-fit: contain;
 }

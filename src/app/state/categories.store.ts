@@ -46,24 +46,7 @@ export class CategoriesStore extends signalStore(
                     })
                 ).subscribe();
             },
-            // setSelectedCategories: (selectedCategories: string[]) => {
-            //     patchState(categories, {
-            //         selectedCategories
-            //     });
-            // }
-
         };
     }),
-    // withComputed((categories) => ({
-    //     transformedCategories: computed(() => {
-    //         const categoryList = categories.categories();
-    //         const result: string[] = []
-    //         categoryList.forEach(category => {
-    //             result.push(...category.categories);
-    //         });
-
-    //         return [...new Set(result)];
-    //     })
-    // }))
     
 ) { }

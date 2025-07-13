@@ -1,24 +1,16 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
-import { SortOption } from "../core/models/sort.model";
+import { SortCriteria } from "../core/models/sort.model";
 import { environment } from "../../environments/environment";
 import { UpdateType } from "../core/models/item.model";
 import { DEFAULT_FILTER_VALUES } from "../core/constants/filter";
 import { DEFAULT_SORT_VALUE } from "../core/constants/sort";
 import { SortService } from "../core/services/sort.service";
+import { Filter } from "../core/models/filter.model";
+import { StorageService } from "../core/services/storage.service";
 
-interface FilterState {
-    selectedStores: string[];
-    selectedCategories: string[];
-    selectedPriceRange: number[];
-    selectedDiscountRange: number[];
+interface FilterState extends Filter, SortCriteria {
     currentPage: number;
-    search: string;
-    aiSearch: boolean;
-    sortBy: string;
-    sortOrder: string;
-    dateRange: number;
-    updateType: UpdateType;
 }
 
 @Injectable({
@@ -39,18 +31,23 @@ export class FilterStore extends signalStore(
         updateType: UpdateType.ALL
     }),
     withMethods((filter) => {
+        const storageService = inject(StorageService);
         return {
             setSelectedStores: (selectedStores: string[]) => {
                 patchState(filter, { selectedStores });
+                storageService.setFilterPreferences({ selectedStores } as Filter);
             },
             setSelectedCategories: (selectedCategories: string[]) => {
                 patchState(filter, { selectedCategories });
+                storageService.setFilterPreferences({ selectedCategories } as Filter);
             },
             setSelectedPriceRange: (selectedPriceRange: number[]) => {
                 patchState(filter, { selectedPriceRange });
+                storageService.setFilterPreferences({ selectedPriceRange } as Filter);
             },
             setSelectedDiscountRange: (selectedDiscountRange: number[]) => {
                 patchState(filter, { selectedDiscountRange });
+                storageService.setFilterPreferences({ selectedDiscountRange } as Filter);
             },
             setCurrentPage: (currentPage: number) => {
                 patchState(filter, { currentPage });
@@ -63,16 +60,25 @@ export class FilterStore extends signalStore(
             },
             setSortBy: (sortBy: string) => {
                 patchState(filter, { sortBy });
+                storageService.setSortPreferences({ sortBy } as SortCriteria);
             },
             setSortOrder: (sortOrder: string) => {
                 patchState(filter, { sortOrder });
+                storageService.setSortPreferences({ sortOrder } as SortCriteria);
             },
-            setDateRange: (dateRange: number) => {
+            setDateRange: (dateRange: string) => {
                 patchState(filter, { dateRange });
+                storageService.setFilterPreferences({ dateRange } as Filter);
             },
             setUpdateType: (updateType: UpdateType) => {
                 patchState(filter, { updateType });
-            }
+            },
+            loadFilterPreferences: () => {
+                const filterPreferences = storageService.getUserPreferences()?.filter;
+                if (filterPreferences) {
+                    patchState(filter, filterPreferences);
+                }
+            }   
         }
     })
 ) {

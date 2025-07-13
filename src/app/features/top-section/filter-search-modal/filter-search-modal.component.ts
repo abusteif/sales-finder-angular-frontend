@@ -90,11 +90,11 @@ export class FilterSearchModalComponent {
   }
 
   resetFilters() {
-    this.selectedStores = [...DEFAULT_FILTER_VALUES.selectedStores];
-    this.selectedCategories = [...DEFAULT_FILTER_VALUES.selectedCategories];
-    this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
-    this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
-    this.dateRange = this.defaultDateRange;
+    // this.selectedStores = [...DEFAULT_FILTER_VALUES.selectedStores];
+    // this.selectedCategories = [...DEFAULT_FILTER_VALUES.selectedCategories];
+    // this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
+    // this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
+    // this.dateRange = this.defaultDateRange;
     this.onResetFilters.emit();
   }
 }

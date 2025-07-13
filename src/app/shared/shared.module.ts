@@ -8,9 +8,10 @@ import { DropdownWithCheckboxesComponent } from './dropdown-with-checkboxes/drop
 import { BaseModalComponent } from './base-modal/base-modal.component';
 import { RadioButtonItemComponent } from './radio-button-item/radio-button-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { LogoComponent } from './logo/logo.component';
 @NgModule({
-  declarations: [TruncatePipe, RelativeDatePipe, DropdownComponent, DropdownWithCheckboxesComponent, BaseModalComponent, RadioButtonItemComponent, NavbarComponent], // Declare the pipe
+  declarations: [TruncatePipe, RelativeDatePipe, DropdownComponent, DropdownWithCheckboxesComponent, BaseModalComponent, RadioButtonItemComponent, NavbarComponent, LogoComponent], // Declare the pipe
   imports: [CommonModule, FormsModule],
-  exports: [TruncatePipe, RelativeDatePipe, DropdownComponent, DropdownWithCheckboxesComponent, BaseModalComponent, RadioButtonItemComponent, NavbarComponent]    // Export the pipe
+  exports: [TruncatePipe, RelativeDatePipe, DropdownComponent, DropdownWithCheckboxesComponent, BaseModalComponent, RadioButtonItemComponent, NavbarComponent, LogoComponent]    // Export the pipe
 })
 export class SharedModule { }

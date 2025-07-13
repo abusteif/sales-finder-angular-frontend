@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 10px;
+}
+
+.logo-container.clickable {
+  cursor: pointer;
+}
+
+
+
+/* Size variants */
+.logo-container.small .logo {
+  width: 120px;
+  height: 40px;
+}
+
+.logo-container.medium .logo {
+  width: 200px;
+  height: 67px;
+}
+
+.logo-container.large .logo {
+  width: 320px;
+  height: 107px;
+}
+
+/* Variant styles */
+.logo-container.navbar {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.logo-container.footer {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+}
+
+.logo-container.standalone {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container.default {
+  padding: 1rem;
+  background: none;
+  box-shadow: none;
+}
+
+/* SVG styling */
+.logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Text styling */
+.logo-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px;
+  fill: #374151;
+}
+
+.logo-text-bold {
+  font-weight: 700;
+}
+
+.logo-text-normal {
+  font-weight: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo-container.small .logo {
+    width: 100px;
+    height: 33px;
+  }
+  
+  .logo-container.medium .logo {
+    width: 160px;
+    height: 54px;
+  }
+  
+  .logo-container.large .logo {
+    width: 240px;
+    height: 80px;
+  }
+  
+  .logo-container.standalone {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-container.small .logo {
+    width: 80px;
+    height: 27px;
+  }
+  
+  .logo-container.medium .logo {
+    width: 120px;
+    height: 40px;
+  }
+  
+  .logo-container.large .logo {
+    width: 180px;
+    height: 60px;
+  }
+}
