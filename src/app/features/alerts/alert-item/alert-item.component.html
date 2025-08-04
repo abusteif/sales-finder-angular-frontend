@@ -5,6 +5,13 @@
       <span class="status-text">{{ isActive ? 'Active' : 'Inactive' }}</span>
     </div>
     <div class="alert-item__actions">
+      <button class="action-btn toggle-btn" 
+              [class.active]="isActive"
+              [title]="isActive ? 'Disable Alert' : 'Enable Alert'"
+              (click)="onToggleAlert()"
+              [disabled]="isLoading">
+        <i class="fas" [class.fa-toggle-on]="isActive" [class.fa-toggle-off]="!isActive"></i>
+      </button>
       <button class="action-btn edit-btn" title="Edit Alert" (click)="onEditAlert()">
         <i class="fas fa-edit"></i>
       </button>
@@ -38,13 +45,4 @@
     </app-alert-item-results>
   </div>
 
-  <div class="alert-item__footer">
-    <button class="toggle-btn" 
-            [class.active]="isActive"
-            (click)="onToggleAlert()"
-            [disabled]="isLoading">
-      <i class="fas" [class.fa-toggle-on]="isActive" [class.fa-toggle-off]="!isActive"></i>
-      {{ isActive ? 'Disable' : 'Enable' }}
-    </button>
-  </div>
 </div>

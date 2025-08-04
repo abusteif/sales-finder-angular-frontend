@@ -150,7 +150,7 @@ export class AlertModalComponent {
   canProceed(): boolean {
     switch (this.currentStep) {
       case 1:
-        return this.itemName.trim().length > 0 && this.itemName.length <= this.maxCharacterLimit && this.itemName.length >= this.minCharacterLimit;
+        return this.itemName.trim().length > 0 && this.itemName.length < this.maxCharacterLimit && this.itemName.length >= this.minCharacterLimit;
       case 2:
         return this.selectedStores.length > 0 && this.selectedStores.length <= this.maxStoresPerAlert;
       case 3:

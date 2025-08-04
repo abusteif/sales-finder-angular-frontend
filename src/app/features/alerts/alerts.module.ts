@@ -13,6 +13,7 @@ import { SpecialNameTitlecasePipe } from '../../shared/special-name-titlecase.pi
 import { SummaryStepComponent } from './alert-creation-steps/summary-step/summary-step.component';
 import { AlertItemDetailsComponent } from './alert-item-details/alert-item-details.component';
 import { AlertItemResultsComponent } from './alert-item-results/alert-item-results.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AlertItemResultsComponent } from './alert-item-results/alert-item-resul
     CommonModule,
     FormsModule,
     SharedModule,
+    MatTooltipModule
   ],
   providers: [
     SpecialNameTitlecasePipe
