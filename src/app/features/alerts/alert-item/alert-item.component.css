@@ -6,6 +6,9 @@
   transition: all 0.3s ease;
   border: 2px solid transparent;
   margin-bottom: 16px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
 }
 
 .alert-item:hover {
@@ -130,6 +133,8 @@
 @media (max-width: 768px) {
   .alert-item {
     margin-bottom: 12px;
+    height: 520px;
+
   }
   
   .alert-item__content {
@@ -140,6 +145,7 @@
 }
 
 @media (max-width: 480px) {
+  
   .alert-item__content {
     flex-direction: column;
     gap: 12px;

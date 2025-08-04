@@ -18,6 +18,15 @@
   animation: slideInUp 0.6s ease-out;
 }
 
+.activation-logo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.activation-logo app-logo {
+  display: inline-block;
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;
