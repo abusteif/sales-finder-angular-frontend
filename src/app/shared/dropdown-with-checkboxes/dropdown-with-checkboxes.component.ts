@@ -13,12 +13,18 @@ export class DropdownWithCheckboxesComponent {
     return this._options;
   }
   set options(value: any[]) {
-    this._options = ['All', ...value];
+    if (this.maxSelectedOptions >= value.length) {
+      this._options = ['All', ...value];
+    }
+    else {
+      this._options = value;
+    }
   }
   @Output() selectedOptionChange = new EventEmitter<string[]>();
   @Input() dropdownItemType: string = '';
-  @Input() width: number = 100;
+  @Input() width: number = 250;
   @Input() selectedOptions: string[] = [];
+  @Input() maxSelectedOptions: number = 0;
   private _options: any[] = [];
 
   isActive = false;
@@ -26,7 +32,7 @@ export class DropdownWithCheckboxesComponent {
   constructor(private elementRef: ElementRef) { }
 
   @HostListener('document:click', ['$event'])
-  handleClick(event: MouseEvent) {
+  handleClick(event: MouseEvent) { 
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
     if (!clickedInside && this.isActive) {
       this.isActive = false;
@@ -62,6 +68,13 @@ export class DropdownWithCheckboxesComponent {
     else {
       this.selectedOptionChange.emit(this.selectedOptions);
     }
+  }
+
+  isDisabled(option: string) {
+    if (this.maxSelectedOptions > 0) {
+      return this.selectedOptions.length >= this.maxSelectedOptions && !this.selectedOptions.includes(option);
+    }
+    return false;
   }
 
   toggleDropdown(event: Event) {

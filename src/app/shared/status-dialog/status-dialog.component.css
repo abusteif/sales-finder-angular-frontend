@@ -1,0 +1,128 @@
+.status-dialog-container {
+  padding: 0;
+  min-width: 320px;
+  max-width: 480px;
+}
+
+/* Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+}
+
+.status-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #212121;
+  flex: 1;
+}
+
+/* Content */
+.dialog-content {
+  padding: 20px 24px;
+}
+
+.dialog-message {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #424242;
+}
+
+/* Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancel-button {
+  color: #666;
+}
+
+.confirm-button {
+  min-width: 80px;
+}
+
+/* Material Icon Colors */
+.status-icon.success {
+  color: #4caf50;
+}
+
+.status-icon.warn {
+  color: #f44336;
+}
+
+.status-icon.accent {
+  color: #ff9800;
+}
+
+.status-icon.primary {
+  color: #2196f3;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .status-dialog-container {
+    min-width: 280px;
+  }
+  
+  .dialog-header {
+    padding: 20px 20px 12px 20px;
+    gap: 12px;
+  }
+  
+  .icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .status-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .dialog-title {
+    font-size: 1.1rem;
+  }
+  
+  .dialog-content {
+    padding: 16px 20px;
+  }
+  
+  .dialog-message {
+    font-size: 0.95rem;
+  }
+  
+  .dialog-actions {
+    padding: 12px 20px 20px 20px;
+    gap: 8px;
+  }
+  
+  .confirm-button {
+    min-width: 70px;
+  }
+} 

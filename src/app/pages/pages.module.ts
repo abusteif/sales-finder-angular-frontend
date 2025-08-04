@@ -10,8 +10,9 @@ import { SharedModule } from '../shared/shared.module';
 import { AlertsPageComponent } from './alerts-page/alerts-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
+import { ActivationConfirmationPageComponent } from './activation-confirmation-page/activation-confirmation-page.component';
+import { AccountActivationPageComponent } from './account-activation-page/account-activation-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
-
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     LoginPageComponent,
     AlertsPageComponent,
     ProfilePageComponent,
-    SignupPageComponent
+    SignupPageComponent,
+    ActivationConfirmationPageComponent,
+    AccountActivationPageComponent
   ],
   imports: [
     CommonModule,

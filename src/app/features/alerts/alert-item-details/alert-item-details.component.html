@@ -1,0 +1,59 @@
+<!-- Filter Details Section -->
+<div class="alert-section filter-details">
+  <div class="section-header">
+    <h3 class="section-title">
+      <i class="fas fa-filter"></i>
+      Alert Details
+    </h3>
+  </div>
+  
+  <div class="section-content">
+    <div class="alert-item__main">  
+      <div class="search-header">
+        <h3 class="alert-item__title">{{ searchText | truncate }}</h3>
+        <div class="search-tags">
+          @if (aiSearch) {
+            <span class="tag ai-search-tag">
+              <i class="fas fa-robot"></i>
+              AI Search
+            </span>
+          }
+          @if (exactMatch) {
+            <span class="tag exact-match-tag">
+              <i class="fas fa-equals"></i>
+              Exact Match
+            </span>
+          }
+        </div>
+      </div>
+      <div class="alert-item__badges">
+        @for (store of stores; track store) {
+          <span class="badge store-badge">
+            <i class="fas fa-store"></i>
+            {{ store | specialNameTitlecase }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <div class="filter-criteria">
+      <div class="criteria-item">
+        <span class="criteria-label">Price Range:</span> 
+        <span class="criteria-value">
+          {{ priceRangeDisplay() }}
+        </span>
+      </div>
+      
+      <div class="criteria-item">
+        <span class="criteria-label">Min Discount:</span>
+        <span class="criteria-value">{{ minDiscount * 100 }}%</span>
+      </div>
+      
+      <!-- <div class="criteria-item">
+        <span class="criteria-label">Alert Type:</span>
+        <span class="criteria-value">{{ alertType }}</span>
+      </div> -->
+    </div>
+  </div>
+</div>
+ 

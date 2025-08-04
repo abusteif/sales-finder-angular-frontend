@@ -5,4 +5,7 @@ export interface User {
     email: string;
     phone: string | null;
     lastLogin: string | null;
+    maxAlerts: number;
+    maxStoresPerAlert: number;
+    role: string;
 }

@@ -5,6 +5,9 @@ import { User } from "../core/models/user.models";
 import { UserService } from "../core/services/user.service";
 import { StorageService } from "../core/services/storage.service";
 import { NavigationService } from "../core/services/navigation.service";
+import { USER_DETAILS_KEY } from "../core/constants/authentication";
+
+const AUTH_TOKEN_KEY = 'auth_token';
 
 interface AuthenticationState {
     token: string | null;
@@ -36,6 +39,7 @@ export class AuthenticationStore extends signalStore(
                         if (stayLoggedIn) {
                             storageService.setAuthToken(response.accessToken);
                         }
+                        sessionStorage.setItem(AUTH_TOKEN_KEY, response.accessToken);
                         patchState(authentication, { 
                             token: response.accessToken, 
                             isLoading: false, 
@@ -47,6 +51,7 @@ export class AuthenticationStore extends signalStore(
                                 if (stayLoggedIn) {
                                     storageService.setUserDetails(userResponse);
                                 }
+                                sessionStorage.setItem(USER_DETAILS_KEY, JSON.stringify(userResponse));
                             },
                             error: (error) => {
                                 console.error('Failed to get user details:', error);
@@ -62,7 +67,7 @@ export class AuthenticationStore extends signalStore(
             logout: () => {
                 const currentToken = authentication.token();
                 patchState(authentication, {isLoading: true, error: null });
-                
+
                 if (currentToken) {
                     authenticationService.logout(currentToken).subscribe({
                         next: () => {
@@ -73,7 +78,9 @@ export class AuthenticationStore extends signalStore(
                                 error: null 
                             });
                             storageService.clearAuth();
-                            navigationService.handleNavigationAfterLogout();
+                            navigationService.handleNavigationAfterLogout();                           
+                            sessionStorage.removeItem(AUTH_TOKEN_KEY);
+                            sessionStorage.removeItem(USER_DETAILS_KEY);
                         },
                         error: (error) => {
                             patchState(authentication, { 
@@ -98,16 +105,17 @@ export class AuthenticationStore extends signalStore(
                 }
             },
             isAuthenticated: () => {
-                return !!(authentication.token() && authentication.user());
+                return !!(authentication.token());
             },
             initialiseAuth: () => {
-                const token = storageService.getAuthToken()
+                const token = storageService.getAuthToken() || sessionStorage.getItem(AUTH_TOKEN_KEY);
                 patchState(authentication, { token });
                 if (token) {
                     userService.getUserDetails().subscribe({
                         next: (response) => {
                             patchState(authentication, { token, user: response });
                             storageService.setUserDetails(response);
+                            sessionStorage.setItem(USER_DETAILS_KEY, JSON.stringify(response));
                         },
                         error: (error) => {
                             console.error('Failed to get user details:', error);
@@ -119,6 +127,8 @@ export class AuthenticationStore extends signalStore(
                                 error: null 
                             });
                             storageService.clearAuth();
+                            sessionStorage.removeItem(AUTH_TOKEN_KEY);
+                            sessionStorage.removeItem(USER_DETAILS_KEY);
                             navigationService.handleNavigationAfterLogout();
                         }
                     });

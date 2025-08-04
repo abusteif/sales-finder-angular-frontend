@@ -1,68 +1,50 @@
-<div class="alert-item" [class.active]="alert.isActive" [class.inactive]="!alert.isActive">
+<div class="alert-item" [class.active]="isActive" [class.inactive]="!isActive">
   <div class="alert-item__header">
     <div class="alert-item__status">
-      <span class="status-indicator" [class.active]="alert.isActive"></span>
-      <span class="status-text">{{ alert.isActive ? 'Active' : 'Inactive' }}</span>
+      <span class="status-indicator" [class.active]="isActive"></span>
+      <span class="status-text">{{ isActive ? 'Active' : 'Inactive' }}</span>
     </div>
     <div class="alert-item__actions">
-      <button class="action-btn edit-btn" title="Edit Alert">
+      <button class="action-btn edit-btn" title="Edit Alert" (click)="onEditAlert()">
         <i class="fas fa-edit"></i>
       </button>
-      <button class="action-btn delete-btn" title="Delete Alert">
+      <button class="action-btn delete-btn" title="Delete Alert" (click)="onDeleteAlert()">
         <i class="fas fa-trash"></i>
       </button>
     </div>
   </div>
 
   <div class="alert-item__content">
-    <div class="alert-item__main">
-      <h3 class="alert-item__title">{{ alert.item }}</h3>
-      <div class="alert-item__badges">
-        <span class="badge store-badge">{{ alert.store }}</span>
-        <span class="badge category-badge">{{ alert.category }}</span>
-      </div>
-    </div>
+    <!-- Alert Details Component -->
+    <app-alert-item-details 
+      [searchText]="searchText"
+      [stores]="selectedStores"
+      [minPrice]="minPrice"
+      [maxPrice]="maxPrice"
+      [minDiscount]="minDiscount"
+      [alertType]="alertType"
+      [exactMatch]="exactMatch"
+      [aiSearch]="aiSearch"
+      (editAlert)="onEditAlert()"
+      (deleteAlert)="onDeleteAlert()">
+    </app-alert-item-details>
 
-    <div class="alert-item__details">
-      <div class="detail-section">
-        <h4 class="detail-title">
-          <i class="fas fa-dollar-sign"></i>
-          Price Range
-        </h4>
-        <div class="price-range">
-          <span class="price min-price">${{ alert.minPrice }}</span>
-          <span class="price-separator">to</span>
-          <span class="price max-price">${{ alert.maxPrice }}</span>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <h4 class="detail-title">
-          <i class="fas fa-percentage"></i>
-          Discount Alert
-        </h4>
-        <div class="discount-info">
-          <span class="discount-threshold">{{ alert.minDiscount }}% off</span>
-          <span class="discount-description">or more</span>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <h4 class="detail-title">
-          <i class="fas fa-info-circle"></i>
-          Alert Type
-        </h4>
-        <span class="alert-type">{{ alert.alertType }}</span>
-      </div>
-    </div>
+    <!-- Alert Results Component -->
+    <app-alert-item-results 
+      [lastItemFound]="lastItemFound"
+      [lastItemFoundAt]="lastItemFoundAt"
+      [lastItemFoundUrl]="lastItemFoundUrl"
+      [lastItemFoundImageUrl]="lastItemFoundImageUrl">
+    </app-alert-item-results>
   </div>
 
   <div class="alert-item__footer">
     <button class="toggle-btn" 
-            [class.active]="alert.isActive"
-            (click)="toggleAlert()">
-      <i class="fas" [class.fa-toggle-on]="alert.isActive" [class.fa-toggle-off]="!alert.isActive"></i>
-      {{ alert.isActive ? 'Disable' : 'Enable' }}
+            [class.active]="isActive"
+            (click)="onToggleAlert()"
+            [disabled]="isLoading">
+      <i class="fas" [class.fa-toggle-on]="isActive" [class.fa-toggle-off]="!isActive"></i>
+      {{ isActive ? 'Disable' : 'Enable' }}
     </button>
   </div>
 </div>

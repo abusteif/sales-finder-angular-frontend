@@ -1,0 +1,83 @@
+<div class="account-activation-container">
+  <div class="activation-card">
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="loading-spinner">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#e0e0e0" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="10" stroke="#3498db" stroke-width="2" fill="none" 
+                  stroke-dasharray="31.416" stroke-dashoffset="31.416" 
+                  style="animation: spin 1s linear infinite; transform-origin: center;">
+            <animate attributeName="stroke-dasharray" dur="1s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+      <h2 class="title">Activating Your Account</h2>
+      <p class="message">Please wait while we activate your account...</p>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="!isLoading && isSuccess" class="success-state">
+      <div class="success-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#27ae60" stroke-width="2" fill="none"/>
+          <path d="M9 12l2 2 4-4" stroke="#27ae60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <h1 class="title">Account Activated Successfully!</h1>
+      
+      <div class="message">
+        <p>Congratulations! Your account has been successfully activated.</p>
+        <p>You can now log in and start using {{ brandName }}.</p>
+      </div>
+      
+      <div class="actions">
+        <button class="btn btn-primary" (click)="goToLogin()">
+          Go to Login
+        </button>
+        <button class="btn btn-secondary" (click)="goToHome()">
+          Back to Home
+        </button>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!isLoading && isError" class="error-state">
+      <div class="error-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#e74c3c" stroke-width="2" fill="none"/>
+          <path d="M15 9l-6 6M9 9l6 6" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      
+      <h1 class="title">Activation Failed</h1>
+      
+      <div class="message">
+        <p>{{ errorMessage }}</p>
+      </div>
+      
+      <div class="actions">
+        <button class="btn btn-primary" (click)="requestNewActivation()">
+          Request New Activation
+        </button>
+        <button class="btn btn-secondary" (click)="goToHome()">
+          Back to Home
+        </button>
+      </div>
+      
+      <div class="help-text">
+        <p>Need help? Contact our support team for assistance.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style> 

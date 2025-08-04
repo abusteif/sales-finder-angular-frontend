@@ -5,12 +5,12 @@ import { fromEvent } from 'rxjs';
 import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 
 @Component({
-  selector: 'app-control-ribbon',
+  selector: 'app-home-controls-ribbon',
   standalone: false,
-  templateUrl: './control-ribbon.component.html',
-  styleUrl: './control-ribbon.component.css'
+  templateUrl: './home-controls-ribbon.component.html',
+  styleUrl: './home-controls-ribbon.component.css'
 })
-export class ControlRibbonComponent {
+export class HomeControlsRibbonComponent {
 
   @Output() onFilterClick = new EventEmitter<void>();
   @Output() onSortClick = new EventEmitter<void>();

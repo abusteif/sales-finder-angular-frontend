@@ -11,4 +11,31 @@ export class AlertService {
     const url = `${environment.apiBaseUrl}/alerts`;
     return this.http.get<Alert[]>(url);
   }
+
+  createAlert(alert: Alert) {
+    const url = `${environment.apiBaseUrl}/alert`;
+    return this.http.post<Alert>(url, alert);
+  }
+
+  deleteAlert(alertId: string) {
+    const url = `${environment.apiBaseUrl}/alert`;
+    const payload = {
+      id: alertId
+    };
+    return this.http.delete(url, { body: payload });
+  }
+
+  updateAlert(alert: Alert) {
+    const url = `${environment.apiBaseUrl}/alert`;
+    return this.http.put<Alert>(url, alert);
+  }
+
+  updateAlertStatus(alertId: string, isActive: boolean) {
+    const url = `${environment.apiBaseUrl}/alert/status`;
+    const payload = {
+      id: alertId,
+      isActive: isActive
+    };
+    return this.http.put(url, payload);
+  }
 }

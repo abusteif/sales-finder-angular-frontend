@@ -11,6 +11,7 @@ export class DropdownComponent {
   @Input() selectedOption: string = '';
   @Output() selectedOptionChange = new EventEmitter<string>();
   @Input() dropdownItemType: string = '';
+  @Input() width: number = 250;
 
   isActive = false;
 
@@ -24,8 +25,9 @@ export class DropdownComponent {
     }
   }
 
-  onOptionChange(option: string) {
-    this.selectedOption = option;
+  onOptionChange(option: string, event: Event) {
+    event.preventDefault();
+    this.selectedOption = option; 
     this.selectedOptionChange.emit(option);
     this.isActive = false;
   }

@@ -1,0 +1,33 @@
+<div class="step-description">
+  <p>Review your alert settings before {{ isNewAlert ? 'creating' : 'updating' }}</p>
+</div>
+
+<div class="summary-container">
+  <div class="summary-header">
+    <h3 class="summary-title">
+      <i class="fas fa-check-circle"></i>
+      Alert Summary
+    </h3>
+    <p class="summary-subtitle">Here's what your alert will monitor:</p>
+  </div>
+
+  <div class="summary-content">
+    <app-alert-item-details
+      [searchText]="searchText"
+      [stores]="stores"
+      [minPrice]="minPrice"
+      [maxPrice]="maxPrice"
+      [minDiscount]="minDiscount"
+      [alertType]="alertType"
+      [exactMatch]="exactMatch"
+      [aiSearch]="aiSearch">
+    </app-alert-item-details>
+  </div>
+
+  <div class="summary-footer">
+    <div class="summary-note">
+      <i class="fas fa-info-circle"></i>
+      <span>You can edit these settings anytime from your alerts page</span>
+    </div>
+  </div>
+</div>

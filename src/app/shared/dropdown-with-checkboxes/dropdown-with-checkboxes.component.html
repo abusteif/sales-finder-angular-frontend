@@ -1,22 +1,25 @@
 <div class="dropdown" [ngClass]="{'is-active': isActive}">
     <div class="dropdown-trigger">
       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown($event)" [style.width]="width + 'px'">
-        <span>{{ dropdownText() | titlecase }}</span>
+        <span>{{ dropdownText() | specialNameTitlecase }}</span>
         <span class="icon is-small">
           <i class="fas fa-angle-down" aria-hidden="true"></i>
         </span>
       </button>
     </div>
-    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-menu" id="dropdown-menu" role="menu" >
       <div class="dropdown-content" [style.width]="width + 'px'">
         @for (option of options; track option) {
-        <a class="dropdown-item" href="#" (click)="onOptionChange(option, $event)">
+        <a class="dropdown-item" 
+           [class.disabled]="isDisabled(option)"
+           href="#" 
+           (click)="!isDisabled(option) && onOptionChange(option, $event)" >
           <label class="checkbox">
-            <input type="checkbox" [checked]="selectedOptions.includes(option)">
-            <span class="ml-2">{{ option | titlecase }}</span>
+            <input type="checkbox" [checked]="selectedOptions.includes(option)" [disabled]="isDisabled(option)">
+            <span class="ml-2">{{ option | specialNameTitlecase }}</span>
           </label>
         </a>
         }
       </div>
     </div>
-  </div>
+  </div> 

@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Alert } from '../../../core/models/alert.model';
+import { Store } from '../../../core/models/store.model';
 
 @Component({
   selector: 'app-alert-list',
@@ -9,4 +10,25 @@ import { Alert } from '../../../core/models/alert.model';
 })
 export class AlertListComponent {
   @Input() alerts: Alert[] = [];
+  @Input() stores: Store[] = [];
+  @Output() newAlertClicked = new EventEmitter<void>();
+  @Output() deleteAlert = new EventEmitter<string>();
+  @Output() editAlert = new EventEmitter<Alert>();
+  @Output() toggleAlert = new EventEmitter<Alert>();
+  
+  onNewAlertClicked() {
+    this.newAlertClicked.emit();
+  }
+
+  onDeleteAlert(alertId: string) {
+    this.deleteAlert.emit(alertId);
+  }
+
+  onEditAlert(alert: Alert) {
+    this.editAlert.emit(alert);
+  }
+
+  onToggleAlert(alert: Alert) {
+    this.toggleAlert.emit(alert);
+  }
 }

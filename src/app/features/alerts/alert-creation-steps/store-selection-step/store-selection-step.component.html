@@ -1,0 +1,48 @@
+<div class="step-description">
+    <p>Select store(s) to monitor</p>
+</div>
+
+<div class="selection-container">
+    <!-- Store Selection -->
+    <div class="selection-group">
+        <label class="selection-label">
+            <i class="fas fa-store"></i>
+            <span>Select Store(s)</span>
+        </label>
+        <div class="dropdown-wrapper">
+
+            <app-dropdown-with-checkboxes [options]="storeNames" [selectedOptions]="selectedStores"
+                dropdownItemType="store" [maxSelectedOptions]="maxSelectedOptions"
+                (selectedOptionChange)="onStoreChange($event)">
+            </app-dropdown-with-checkboxes>
+
+        </div>
+        <div class="selection-help">
+            <p>{{ storeSelectionHint() }}</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Summary -->
+<div class="selection-summary">
+    <div class="summary-item">
+        <i class="fas fa-store"></i>
+        <span>Stores: {{ storesSummary() }}</span>
+    </div>
+</div>
+
+<!-- Upgrade Tip -->
+<div class="upgrade-tip">
+    <div class="tip-content">
+        <i class="fas fa-lightbulb"></i>
+        <div class="tip-text">
+            <span class="tip-title">Want to monitor more stores?</span>
+            <span class="tip-description">Upgrade to a higher tier to unlock more store monitoring options!</span>
+        </div>
+        <button class="upgrade-btn" (click)="onUpgradeClick()">
+            <i class="fas fa-arrow-up"></i>
+            Upgrade
+        </button>
+    </div>
+</div>

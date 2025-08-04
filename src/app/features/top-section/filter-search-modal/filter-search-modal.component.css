@@ -322,7 +322,7 @@
 .custom-radio-options-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
@@ -336,13 +336,15 @@
   background: #fff;
   border: 1px solid #dee2e6;
   border-radius: 12px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
   box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-  min-width: 120px;
+  min-width: 100px;
   min-height: 40px;
-  gap: 12px;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
 }
 
 .custom-radio:hover, .custom-radio input[type="radio"]:focus + .custom-radio-indicator {

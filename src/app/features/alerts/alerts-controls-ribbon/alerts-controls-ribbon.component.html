@@ -1,0 +1,20 @@
+<app-controls-ribbon>
+  <!-- <button class="control-btn" (click)="toggleActiveOnly()" [class.active]="showActiveOnly">
+    <i class="fas fa-filter"></i>
+    {{ showActiveOnly ? 'Show All' : 'Active Only' }}
+  </button> -->
+  
+  <div class="add-alert-container">
+    <button class="control-btn add-alert-btn" (click)="addNewAlert()" [disabled]="maxAlerts === alerts.length">
+      <i class="fas fa-plus"></i>
+      Add Alert
+    </button>
+    
+    @if (maxAlerts === alerts.length) {
+      <div class="upgrade-message">
+        <i class="fas fa-info-circle"></i>
+        <span>Your tier allows {{ maxAlerts }} alerts. <a href="#" (click)="onUpgradeClick($event)">Upgrade for more!</a></span>
+      </div>
+    }
+  </div>
+</app-controls-ribbon>

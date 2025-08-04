@@ -1,17 +1,179 @@
+/* Modal positioning and responsive behavior */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.modal.is-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.modal-card {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  max-height: 90vh;
+  width: 90%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
 .modal-card-head {
-    background-color: white !important;
-    border-bottom: 1px solid #e0e0e0 !important;
+  background-color: white !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .modal-card-body {
-    background-color: white !important;
+  background-color: white !important;
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
 }
+
 .modal-card-title {
-    color: black !important;
+  color: black !important;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .modal-card-head {
-    color: black !important;
+  color: black !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .modal-card {
+    max-width: 95vw;
+    width: 95%;
+    max-height: 95vh;
+    margin: 2.5vh auto;
+  }
+  
+  .modal-card-head {
+    padding: 0.75rem 1rem;
+  }
+  
+  .modal-card-body {
+    padding: 1rem;
+  }
+  
+  .modal-card-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-card {
+    max-width: 98vw;
+    width: 98%;
+    max-height: 98vh;
+    margin: 1vh auto;
+  }
+  
+  .modal-card-head {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .modal-card-body {
+    padding: 0.75rem;
+  }
+  
+  .modal-card-title {
+    font-size: 1rem;
+  }
+}
+
+/* Ensure modal is always on top */
+.modal {
+  z-index: 9999 !important;
+}
+
+/* Close button styling */
+.modal-card-head .delete {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-card-head .delete::before,
+.modal-card-head .delete::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 2px;
+  background-color: #666;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: background-color 0.2s ease;
+}
+
+.modal-card-head .delete::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal-card-head .delete:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.modal-card-head .delete:hover::before,
+.modal-card-head .delete:hover::after {
+  background-color: #495057;
+}
+
+/* Dark theme support for close button */
+@media (prefers-color-scheme: dark) {
+  .modal-card-head .delete {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+  }
+  
+  .modal-card-head .delete::before,
+  .modal-card-head .delete::after {
+    background-color: #495057 !important;
+  }
+  
+  .modal-card-head .delete:hover {
+    background-color: #e9ecef !important;
+    border-color: #adb5bd !important;
+  }
+  
+  .modal-card-head .delete:hover::before,
+  .modal-card-head .delete:hover::after {
+    background-color: #212529 !important;
+  }
 }
 

@@ -1,4 +1,14 @@
 <app-navbar></app-navbar>
 <section>
-  <app-alert-list [alerts]="alerts"></app-alert-list>
+  <app-alerts-controls-ribbon 
+    (activeOnlyToggled)="onActiveOnlyToggled($event)"
+    (addAlertClicked)="onAddAlertClicked()"
+    [alerts]="alerts"
+    [user]="user"
+>
+  </app-alerts-controls-ribbon>
+    <hr>
+  <app-alert-list [alerts]="alerts" [stores]="stores" (newAlertClicked)="onAddAlertClicked()" (deleteAlert)="onDeleteAlert($event)" (editAlert)="onEditAlert($event)" (toggleAlert)="onToggleAlert($event)"></app-alert-list>
 </section>
+<app-alert-modal [showAlertModal]="showAlertModal" (onCloseModal)="closeAlertModal()" [alert]="alert" [stores]="stores" [user]="user"></app-alert-modal>
+

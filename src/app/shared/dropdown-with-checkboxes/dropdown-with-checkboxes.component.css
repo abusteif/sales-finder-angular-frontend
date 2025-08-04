@@ -1,6 +1,47 @@
 .dropdown-content {
   max-height: 200px;
   overflow-y: auto;
+  min-width: 250px;
+  width: auto;
+}
+
+.dropdown-item {
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 8px 12px;
+  line-height: 1.4;
+}
+
+.dropdown-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-item input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.dropdown-item span {
+  flex: 1;
+  word-break: break-word;
+}
+
+.dropdown-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dropdown-item.disabled label {
+  cursor: not-allowed;
+}
+
+.dropdown-item.disabled input[type="checkbox"] {
+  cursor: not-allowed;
 }
 
 /* Style the scrollbar for webkit browsers */
@@ -26,4 +67,11 @@
 .dropdown-content {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
+}
+
+.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  min-width: 250px;
+  width: auto;
 }

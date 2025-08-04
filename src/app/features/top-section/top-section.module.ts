@@ -5,18 +5,16 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MainTopSectionComponent } from './main-top-section/main-top-section.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FilterSearchModalComponent } from './filter-search-modal/filter-search-modal.component';
-import { SliderComponent } from './slider/slider.component';
 import { SortModalComponent } from './sort-modal/sort-modal.component';
-import { ControlRibbonComponent } from './control-ribbon/control-ribbon.component';
+import { HomeControlsRibbonComponent } from './home-controls-ribbon/home-controls-ribbon.component';
 import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
 
 @NgModule({
   declarations: [
     MainTopSectionComponent,
     FilterSearchModalComponent,
-    SliderComponent,
     SortModalComponent,
-    ControlRibbonComponent,
+    HomeControlsRibbonComponent,
     ItemPerPageComponent
   ],
   imports: [
@@ -27,7 +25,8 @@ import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
     MatSliderModule,
   ],
   exports: [
-    MainTopSectionComponent
+    MainTopSectionComponent,
+    HomeControlsRibbonComponent
   ]
 })
 export class TopSectionModule { }

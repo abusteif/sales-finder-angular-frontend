@@ -1,0 +1,134 @@
+.control-btn {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 8px;
+}
+
+.control-btn:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+}
+
+.control-btn.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.control-btn.active:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.add-alert-btn {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.add-alert-btn:hover {
+  background: #218838;
+  border-color: #1e7e34;
+}
+
+.add-alert-btn:disabled {
+  background: #6c757d;
+  border-color: #6c757d;
+  color: #adb5bd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.add-alert-btn:disabled:hover {
+  background: #6c757d;
+  border-color: #6c757d;
+  transform: none;
+}
+
+.control-btn i {
+  font-size: 0.8rem;
+}
+
+/* Add Alert Container and Upgrade Message */
+.add-alert-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upgrade-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.upgrade-message i {
+  color: #007bff;
+  font-size: 0.9rem;
+}
+
+.upgrade-message a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.upgrade-message a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .control-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    margin-right: 6px;
+  }
+  
+  .control-btn i {
+    font-size: 0.75rem;
+  }
+
+  .add-alert-container {
+    gap: 10px;
+  }
+
+  .upgrade-message {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .control-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    margin-right: 4px;
+  }
+
+  .add-alert-container {
+    gap: 8px;
+  }
+
+  .upgrade-message {
+    font-size: 0.7rem;
+    padding: 4px 6px;
+  }
+}

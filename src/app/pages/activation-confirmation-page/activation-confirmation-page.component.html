@@ -1,0 +1,40 @@
+<div class="activation-confirmation-container">
+  <div class="activation-card">
+    <div class="success-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="#27ae60" stroke-width="2" fill="none"/>
+        <path d="M9 12l2 2 4-4" stroke="#27ae60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    
+    <h1 class="title">Account Created Successfully!</h1>
+    
+    <div class="message">
+      <p>Thank you for creating your account with {{ brandName }}.</p>
+      <p>We've sent an activation email to your inbox. Please check your email and click the activation link to complete your registration.</p>
+    </div>
+    
+    <div class="email-info">
+      <div class="info-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#3498db" stroke-width="2" fill="none"/>
+          <polyline points="22,6 12,13 2,6" stroke="#3498db" stroke-width="2" fill="none"/>
+        </svg>
+        <span>Check your email for the activation link</span>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" (click)="goToLogin()">
+        Go to Login
+      </button>
+      <button class="btn btn-secondary" (click)="goToHome()">
+        Back to Home
+      </button>
+    </div>
+    
+    <div class="help-text">
+      <p>Didn't receive the email? Check your spam folder or contact support.</p>
+    </div>
+  </div>
+</div> 

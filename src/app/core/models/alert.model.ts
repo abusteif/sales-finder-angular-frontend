@@ -1,11 +1,17 @@
 export interface Alert {
-  id: string;
+  id?: string;
   item: string;
   minPrice: number;
-  maxPrice: number;
+  maxPrice?: number;
   minDiscount: number;
   isActive: boolean;
   alertType: string;
-  store: string
-  category: string
+  stores: string[];
+  category?: string;
+  exactMatch: boolean;
+  aiSearch: boolean;
+  lastItemFoundAt?: Date;
+  lastItemFound?: string;
+  lastItemFoundUrl?: string;
+  lastItemFoundImageUrl?: string;
 }

@@ -1,15 +1,4 @@
-.controls-ribbon {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7;
-    width: 100%;
-    box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    z-index: 500;
-    padding: 0 10px;
-  }
+
   
   .search-container {
     display: flex;
@@ -62,6 +51,8 @@
     padding-right: 40px;
     padding-left: 10px;
   }
+
+
 
   .control-buttons {
     display: flex;

@@ -6,9 +6,10 @@
       <app-logo size="medium" variant="navbar" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
 
       <div class="user-settings-container">
-        <div class="user-settings-text">
-            <span> {{welcomeMessage() | titlecase}}</span>
-        </div>
+        <button class="price-alerts-btn" (click)="viewAlerts()"  title="View Price Alerts">
+          <i class="fas fa-bell"></i>
+        </button>
+
         <button class="user-settings-btn" (click)="openUserSettings($event)">
           <i class="fas fa-user"></i>
         </button>

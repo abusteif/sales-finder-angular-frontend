@@ -11,14 +11,14 @@
                 <div class="control">
                   <button type="submit" class="button is-success" [disabled]="applyButtonDisabled" (click)="apply()">{{applyButtonText}}</button>
                 </div>
-                  <div class="control">
-                    <button type="button" class="button" (click)="closeModal()">{{cancelButtonText}}</button>
-                  </div>
                 @if (additionalButton) {
                   <div class="control">
                     <button type="button" class="button" [disabled]="additionalButton.isDisabled" (click)="additionalButtonClick()">{{additionalButton.text}}</button>
                   </div>
                 }
+                  <div class="control">
+                    <button type="button" class="button" (click)="closeModal()">{{cancelButtonText}}</button>
+                  </div>
               </div>
         </section>
 

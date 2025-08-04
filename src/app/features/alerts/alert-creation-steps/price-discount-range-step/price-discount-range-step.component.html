@@ -1,0 +1,68 @@
+<div class="step-description">
+    <p>Set your price and discount preferences</p>
+</div>
+
+<div class="preferences-container">
+    <!-- Price Range Section -->
+    <div class="preference-section">
+        <div class="section-header">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>Price Range</h3>
+        </div>
+        <div class="section-description">
+            <p>Only receive alerts for items within this price range</p>
+        </div>
+        
+        <app-slider 
+            [range]="priceRange" 
+            (onRangeChange)="onPriceRangeChange($event)" 
+            [min]="minPrice"
+            [max]="maxPrice" 
+            [step]="10" 
+            [minValue]="priceRange[0]" 
+            [maxValue]="priceRange[1]">
+        </app-slider>
+    </div>
+
+    <!-- Minimum Discount Section -->
+    <div class="preference-section">
+        <div class="section-header">
+            <i class="fas fa-percentage"></i>
+            <h3>Minimum Discount</h3>
+        </div>
+        <div class="section-description">
+            <p>Only receive alerts for items with at least this discount percentage</p>
+        </div>
+        
+        <div class="discount-chips-container">
+            <div class="chips-row">
+                @for (option of discountOptions; track option.value) {
+                <button 
+                    class="discount-chip" 
+                    [class.active]="minDiscount === option.value"
+                    (click)="onMinDiscountChange(option.value)">
+                    {{ option.label }}
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="preferences-summary">
+        <div class="summary-header">
+            <i class="fas fa-check-circle"></i>
+            <h4>Alert Preferences</h4>
+        </div>
+        <div class="summary-items">
+            <div class="summary-item">
+                <i class="fas fa-dollar-sign"></i>
+                <span>Price: {{ priceRangeDisplay() }}</span>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-percentage"></i>
+                <span>Min Discount: {{ minDiscountDisplay }}</span>
+            </div>
+        </div>
+    </div>
+</div>

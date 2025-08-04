@@ -1,6 +1,6 @@
 <div class="dropdown" [ngClass]="{'is-active': isActive}">
   <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown()">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown()" [style.width]="width + 'px'">
       <span>{{ dropdownText() }}</span>
       <span class="icon is-small">
         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -8,13 +8,13 @@
     </button>
   </div>
   <div class="dropdown-menu" id="dropdown-menu" role="menu">
-    <div class="dropdown-content">
+    <div class="dropdown-content" [style.width]="width + 'px'">
       @for (option of options; track option) {
-      <a class="dropdown-item" href="#" class="dropdown-item has-text-weight-semibold has-text-grey-dark"
-        [class.is-active]="option === selectedOption" (click)="onOptionChange(option)">
-        {{ option | titlecase }}
+      <a class="dropdown-item" href="#" 
+        [class.is-active]="option === selectedOption" (click)="onOptionChange(option, $event)">
+        {{ option | specialNameTitlecase }}
       </a>
       }
     </div>
   </div>
-</div>
+</div> 

@@ -7,7 +7,7 @@
         <div class="column is-half pr-2">
           <label class="label">Stores</label>
           <div class="control">
-            <app-dropdown-with-checkboxes [width]="180" [options]="stores" (selectedOptionChange)="storeChange($event)"
+            <app-dropdown-with-checkboxes [width]="250" [options]="stores" (selectedOptionChange)="storeChange($event)"
               [selectedOptions]="selectedStores"
               [dropdownItemType]="'Store'">
             </app-dropdown-with-checkboxes>
@@ -17,7 +17,7 @@
         <div class="column is-half pl-2">
           <label class="label">Categories</label>
           <div class="control">
-            <app-dropdown-with-checkboxes [width]="180" [options]="categories"
+            <app-dropdown-with-checkboxes [width]="250" [options]="categories"
               [selectedOptions]="selectedCategories"
               (selectedOptionChange)="categoryChange($event)" [dropdownItemType]="'Category'">
             </app-dropdown-with-checkboxes>

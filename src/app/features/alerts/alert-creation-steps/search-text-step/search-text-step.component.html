@@ -1,0 +1,66 @@
+<div class="step-description">
+    <p>Enter the name of the item you want to track</p>
+</div>
+
+<div class="input-group">
+    <div class="input-wrapper">
+        <i class="fas fa-search input-icon"></i>
+        <input type="text" class="item-name-input" placeholder="e.g., iPhone 15 Pro, Samsung Galaxy S24, MacBook Air..."
+            [value]="itemName" (input)="onItemNameChange($event)" (keydown.enter)="onEnterKey()" autofocus
+            enterkeyhint="done" [attr.maxlength]="maxCharacterLimit">
+        <div class="input-focus-border"></div>
+    </div>
+
+    <div class="input-feedback">
+        @if (showSearchFeedback()) {
+            <div class="feedback-success">
+                <i class="fas fa-check-circle"></i>
+                <span>Great! We'll track "{{ itemName }}"</span>
+            </div>
+            }
+            @if (itemName.length === maxCharacterLimit) {
+            <div class="feedback-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Search term is too long. Please keep it under {{ maxCharacterLimit }} characters.</span>
+            </div>
+            }
+            @if (itemName.trim().length > 0 && itemName.length < minCharacterLimit) { <div class="feedback-warning">
+                <i class="fas fa-info-circle"></i>
+                <span>💡 Tip: Use at least {{ minCharacterLimit }} characters for better search results</span>
+    </div>
+    }
+
+</div>
+</div>
+
+<div class="search-options">
+    <div class="option-row">
+        <label class="option-label">
+            <div class="switch-container">
+                <input type="checkbox" class="switch-input" [checked]="exactMatch"
+                    (change)="onExactMatchChange($event)">
+                <span class="switch-slider"></span>
+            </div>
+            <span class="option-text">Exact Match</span>
+        </label>
+
+    </div>
+
+    <div class="option-row">
+        <label class="option-label">
+            <div class="switch-container">
+                <input type="checkbox" class="switch-input" [checked]="aiSearch" (change)="onAiSearchChange($event)">
+                <span class="switch-slider"></span>
+            </div>
+            <span class="option-text">AI Powered Search*</span>
+        </label>
+
+    </div>
+
+    <div class="ai-explanation">
+        <p><strong>*AI Powered Search:</strong> Our AI analyses your search term and finds items that are
+            semantically similar, including synonyms, related products, and alternative descriptions. This
+            helps you discover more relevant deals you might otherwise miss.</p>
+        <p>Please note that this setting can be changed later.</p>
+    </div>
+</div>

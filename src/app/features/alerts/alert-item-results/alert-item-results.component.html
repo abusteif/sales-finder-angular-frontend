@@ -1,0 +1,64 @@
+<!-- Item Details Section -->
+@if (lastItemFound && lastItemFoundAt) {
+  <div class="alert-section item-details">
+    <div class="section-header">
+      <h3 class="section-title">
+        <i class="fas fa-check-circle"></i>
+        Last Found Item
+      </h3>
+    </div>
+    
+    <div class="section-content">
+      <div class="found-item-card">
+        <div class="found-item-content">
+          @if (lastItemFoundImageUrl) {
+            <div class="found-item-image">
+              <a [href]="lastItemFoundUrl" target="_blank" rel="noopener noreferrer">
+                <img [src]="lastItemFoundImageUrl" [alt]="lastItemFound" class="item-image">
+              </a>
+            </div>
+          }
+          
+          <div class="found-item-details">
+            <div class="found-item-name">
+              @if (lastItemFoundUrl) {
+                <a [href]="lastItemFoundUrl" target="_blank" rel="noopener noreferrer" class="item-name-link">
+                  {{ lastItemFound | truncate }}
+                </a>
+              } @else {
+                {{ lastItemFound | truncate }}
+              }
+            </div>
+          </div>
+        </div>
+        
+        <div class="found-item-meta">
+          <div class="meta-item">
+            <i class="fas fa-clock"></i>
+            <span>Found {{ lastItemFoundAt | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="alert-section item-details">
+    <div class="section-header">
+      <h3 class="section-title">
+        <i class="fas fa-search"></i>
+        Item Search Status
+      </h3>
+    </div>
+    
+    <div class="section-content">
+      <div class="no-item-found">
+        <div class="no-item-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="no-item-text">
+          <h4>No matching items found yet</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+}

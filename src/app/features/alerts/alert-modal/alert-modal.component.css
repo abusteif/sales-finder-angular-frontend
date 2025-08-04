@@ -1,0 +1,199 @@
+.alert-modal {
+  padding: 0;
+  max-width: 600px;
+  width: 100%;
+  min-height: 400px;
+  height: auto;
+  transition: none;
+}
+
+
+
+/* Progress Bar */
+.progress-container {
+  margin-bottom: 32px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.step-indicators {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.step-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.step-indicator.clickable {
+  cursor: pointer;
+}
+
+.step-indicator.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.step-indicator:not(.clickable) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.step-indicator.active {
+  background: #007bff;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.step-indicator.active.clickable:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.step-indicator.current {
+  background: #0056b3;
+  transform: scale(1.2);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.step-indicator.current.clickable:hover {
+  transform: scale(1.25);
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+}
+
+.step-number {
+  font-size: 0.85rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* Step Content */
+.step-content {
+  min-height: 300px;
+  height: auto;
+  position: relative;
+  overflow: visible;
+}
+
+
+
+.step-panel {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+/* Placeholder Content */
+.placeholder-content {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  color: #bdc3c7;
+  margin-bottom: 16px;
+}
+
+.placeholder-content h3 {
+  margin: 0 0 8px 0;
+  color: #495057;
+  font-size: 1.2rem;
+}
+
+.placeholder-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .alert-modal {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .step-indicators {
+    padding: 0 4px;
+  }
+  
+  .step-indicator {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .step-number {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .alert-modal {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .progress-container {
+    margin-bottom: 24px;
+  }
+  
+  .step-content {
+    min-height: 250px;
+    height: auto;
+  }
+
+
+}

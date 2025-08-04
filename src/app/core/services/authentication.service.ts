@@ -15,12 +15,21 @@ export class AuthenticationService {
     return this.http.post<{ accessToken: string }>(`${this.authBaseUrl}/token`, { email, password });
   }
 
-  register(email: string, password: string) {
-    return this.http.post<{ accessToken: string }>(`${this.authBaseUrl}/register`, { email, password });
+  register(email: string, password: string, firstName: string, lastName: string) {
+    return this.http.post<{ accessToken: string }>(`${this.authBaseUrl}/register`, { 
+      email, 
+      password, 
+      firstName, 
+      lastName 
+    });
   }
 
   logout(token: string) {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<{ token: string }>(`${this.authBaseUrl}/logout`, {}, { headers });
+  }
+
+  activateAccount(token: string) {
+    return this.http.post<{ message: string }>(`${this.authBaseUrl}/verify-email`, { token });
   }
 }

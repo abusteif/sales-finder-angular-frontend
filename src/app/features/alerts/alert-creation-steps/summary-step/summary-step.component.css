@@ -1,0 +1,145 @@
+/* Step Description */
+.step-description {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.step-description p {
+  margin: 0;
+  font-size: 1rem;
+  color: #6c757d;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Summary Container */
+.summary-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+}
+
+/* Summary Header */
+.summary-header {
+  background: #e3f2fd;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #bbdefb;
+}
+
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.summary-title i {
+  font-size: 1.1rem;
+}
+
+.summary-subtitle {
+  font-size: 0.9rem;
+  color: #424242;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Summary Content */
+.summary-content {
+  padding: 20px;
+}
+
+/* Summary Footer */
+.summary-footer {
+  background: #fff3cd;
+  padding: 16px 20px;
+  border-top: 1px solid #ffeaa7;
+}
+
+.summary-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #856404;
+}
+
+.summary-note i {
+  font-size: 0.9rem;
+  color: #f39c12;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .step-description {
+    margin-bottom: 20px;
+  }
+  
+  .step-description p {
+    font-size: 0.95rem;
+  }
+  
+  .summary-header {
+    padding: 16px;
+  }
+  
+  .summary-title {
+    font-size: 1.1rem;
+  }
+  
+  .summary-subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .summary-content {
+    padding: 16px;
+  }
+  
+  .summary-footer {
+    padding: 12px 16px;
+  }
+  
+  .summary-note {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-description {
+    margin-bottom: 16px;
+  }
+  
+  .step-description p {
+    font-size: 0.9rem;
+  }
+  
+  .summary-header {
+    padding: 12px;
+  }
+  
+  .summary-title {
+    font-size: 1rem;
+  }
+  
+  .summary-subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .summary-content {
+    padding: 12px;
+  }
+  
+  .summary-footer {
+    padding: 10px 12px;
+  }
+  
+  .summary-note {
+    font-size: 0.75rem;
+  }
+}
