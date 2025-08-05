@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ItemsTableComponent } from './features/item-display/items-table/items-table.component';
 import { AppStore } from './state/app.store';
 import { AuthenticationStore } from './state/authentication.store';
 import { effect } from '@angular/core';
@@ -29,6 +28,7 @@ export class AppComponent {
     
     this.authenticationStore.initialiseAuth();
     this.filterStore.loadFilterPreferences();
+    this.appStore.loadItemsPerPage();
   }
   
   ngOnInit() {

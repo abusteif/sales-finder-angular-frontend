@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-pagination',
@@ -9,9 +8,27 @@ import { environment } from '../../../../environments/environment';
 })
 export class PaginationComponent {
   @Input() currentPage: number = 1;
-  @Input() itemsPerPage: number = 0;
   @Input() set itemsCount(value: number) {
-    this.totalPages = Math.ceil(value / this.itemsPerPage);
+    this._itemsCount = value;
+    this.calculateTotalPages();
+  }
+  
+  private _itemsCount: number = 0;
+  
+  @Input() set itemsPerPage(value: number) {
+    this._itemsPerPage = value;
+    this.calculateTotalPages();
+  }
+  
+  private _itemsPerPage: number = 0;
+  
+  private calculateTotalPages() {
+    if (this._itemsPerPage > 0 && this._itemsCount > 0) {
+      this.totalPages = Math.ceil(this._itemsCount / this._itemsPerPage);
+      console.log('itemsPerPage', this._itemsPerPage);
+      console.log('itemsCount', this._itemsCount);
+      console.log('totalPages', this.totalPages);
+    }
   }
   @Input() isLastPage: boolean = false;
   @Output() onPageChange = new EventEmitter<number>();

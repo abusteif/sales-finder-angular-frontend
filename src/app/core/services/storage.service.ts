@@ -49,7 +49,9 @@ export class StorageService {
   }
 
   setItemsPerPage(itemsPerPage: number): void {
-    localStorage.setItem(this.USER_PREFERENCES_KEY, JSON.stringify(itemsPerPage));
+    const existingPreferences = this.getUserPreferences();
+    const updated = { ...existingPreferences, itemsPerPage };
+    localStorage.setItem(this.USER_PREFERENCES_KEY, JSON.stringify(updated));
   }
 
   getUserPreferences(): UserPreferences | null {

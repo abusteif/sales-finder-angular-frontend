@@ -29,6 +29,12 @@ export class AppStore extends signalStore(
             },
             setScreenDetails: (isMobile: boolean, screenWidth: number, screenHeight: number) => {
                 patchState(app, { isMobile, screenWidth, screenHeight });
+            },
+            loadItemsPerPage: () => {
+                const itemsPerPage = storageService.getUserPreferences()?.itemsPerPage;
+                if (itemsPerPage) {
+                    patchState(app, { itemsPerPage });
+                }
             }
         }
     })
