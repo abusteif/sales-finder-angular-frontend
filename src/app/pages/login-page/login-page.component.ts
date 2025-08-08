@@ -28,6 +28,7 @@ export class LoginPageComponent {
 
     effect(() => {
       this.isLoading = this.authenticationStore.isLoading();
+      console.log('isLoading', this.isLoading);
       this.loginError = this.authenticationStore.error();
     });
     

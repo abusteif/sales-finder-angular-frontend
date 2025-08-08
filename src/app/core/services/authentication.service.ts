@@ -32,4 +32,15 @@ export class AuthenticationService {
   activateAccount(token: string) {
     return this.http.post<{ message: string }>(`${this.authBaseUrl}/verify-email`, { token });
   }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post<{ message: string }>(`${this.authBaseUrl}/forgot-password/confirm`, { 
+      token, 
+      newPassword 
+    });
+  }
+
+  requestPasswordReset(email: string) {
+    return this.http.post<{ message: string }>(`${this.authBaseUrl}/forgot-password`, { email });
+  }
 }

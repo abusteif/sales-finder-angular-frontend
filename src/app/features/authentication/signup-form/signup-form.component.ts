@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { PasswordValidationService } from '../../../core/services/password-validation.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -27,7 +28,10 @@ export class SignupFormComponent implements OnInit {
   private _isLoading = false;
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private passwordValidationService: PasswordValidationService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -38,11 +42,7 @@ export class SignupFormComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [
-        Validators.required, 
-        Validators.minLength(8),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
-      ]],
+      password: ['', this.passwordValidationService.getPasswordValidators()],
       confirmPassword: ['', [Validators.required]],
     });
 
@@ -84,22 +84,31 @@ export class SignupFormComponent implements OnInit {
   getFieldError(fieldName: string): string {
     const field = this.signupForm.get(fieldName);
     if (field && field.invalid && field.touched) {
-      if (field.hasError('required')) {
-        return `${this.getFieldLabel(fieldName)} is required`;
-      }
-      if (field.hasError('email')) {
-        return 'Please enter a valid email address';
-      }
-      if (field.hasError('minlength')) {
-        const minLength = field.getError('minlength').requiredLength;
-        return `${this.getFieldLabel(fieldName)} must be at least ${minLength} characters`;
-      }
-      if (field.hasError('maxlength')) {
-        const maxLength = field.getError('maxlength').requiredLength;
-        return `${this.getFieldLabel(fieldName)} must be no more than ${maxLength} characters`;
-      }
-      if (field.hasError('pattern')) {
-        return 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+      if (fieldName === 'password') {
+        if (field.hasError('required')) {
+          return this.passwordValidationService.getPasswordErrorMessage('required');
+        }
+        if (field.hasError('minlength')) {
+          return this.passwordValidationService.getPasswordErrorMessage('minlength');
+        }
+        if (field.hasError('pattern')) {
+          return this.passwordValidationService.getPasswordErrorMessage('pattern');
+        }
+      } else {
+        if (field.hasError('required')) {
+          return `${this.getFieldLabel(fieldName)} is required`;
+        }
+        if (field.hasError('email')) {
+          return 'Please enter a valid email address';
+        }
+        if (field.hasError('minlength')) {
+          const minLength = field.getError('minlength').requiredLength;
+          return `${this.getFieldLabel(fieldName)} must be at least ${minLength} characters`;
+        }
+        if (field.hasError('maxlength')) {
+          const maxLength = field.getError('maxlength').requiredLength;
+          return `${this.getFieldLabel(fieldName)} must be no more than ${maxLength} characters`;
+        }
       }
     }
     return '';

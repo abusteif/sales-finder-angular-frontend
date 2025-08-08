@@ -133,7 +133,11 @@ export class AuthenticationStore extends signalStore(
                         }
                     });
                 }
-            }
+            },
+            // resetPassword: (token: string, newPassword: string) => {
+            //     patchState(authentication, { isLoading: true, error: null });
+            //     return authenticationService.resetPassword(token, newPassword);
+            // }
         }
     })
 ) {
