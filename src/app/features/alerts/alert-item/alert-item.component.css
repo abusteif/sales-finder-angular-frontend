@@ -17,7 +17,7 @@
 }
 
 .alert-item.active {
-  border-color: #27ae60;
+  border-color: #ff6b6b;
 }
 
 .alert-item.inactive {
@@ -50,7 +50,7 @@
 }
 
 .status-indicator.active {
-  background: #27ae60;
+  background: #ff6b6b;
 }
 
 .status-text {
@@ -115,18 +115,18 @@
 }
 
 .toggle-btn.active {
-  color: #27ae60;
+  color: #ff6b6b;
 }
 
 .toggle-btn.active:hover {
-  color: #27ae60;
+  color: #ff6b6b;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .alert-item {
     margin-bottom: 12px;
-    height: 520px;
+    height: 560px;
 
   }
   

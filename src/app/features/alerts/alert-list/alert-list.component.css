@@ -37,7 +37,7 @@
 }
 
 .create-first-alert-btn {
-  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -53,7 +53,7 @@
 
 .create-first-alert-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
 }
 
 /* Alerts List */

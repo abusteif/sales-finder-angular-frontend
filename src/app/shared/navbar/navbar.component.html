@@ -20,8 +20,8 @@
           <a class="dropdown-item" (click)="signup()"><i class="fas fa-user-plus"></i>Sign Up</a>
 
           }
-          <a class="dropdown-item" (click)="viewProfile()"><i class="fas fa-user-circle"></i>View Profile</a>
           <a class="dropdown-item" (click)="viewAlerts()"><i class="fas fa-bell"></i>View Alerts</a>
+          <a class="dropdown-item" (click)="viewProfile()"><i class="fas fa-user-circle"></i>View Profile</a>
           @if(user) {
           <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
           }

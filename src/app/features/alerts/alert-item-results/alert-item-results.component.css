@@ -183,6 +183,8 @@
   .no-item-icon i {
     font-size: 1.5rem;
   }
+  
+
 }
 
 @media (max-width: 480px) {
@@ -222,4 +224,6 @@
   .no-item-text p {
     font-size: 0.75rem;
   }
+  
+
 }

@@ -1,17 +1,21 @@
 .profile-coming-soon-container {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 20px;
+  padding: 16px;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .profile-card {
   background: white;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 48px;
+  padding: 32px;
   max-width: 600px;
   width: 100%;
   text-align: center;
@@ -31,7 +35,7 @@
 
 .profile-logo {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .profile-logo app-logo {
@@ -39,11 +43,11 @@
 }
 
 .coming-soon-content {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .coming-soon-icon {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   animation: pulse 2s infinite;
 }
 
@@ -76,11 +80,11 @@
   font-size: 20px;
   font-weight: 600;
   color: #007bff;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
 }
 
 .coming-soon-description {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   color: #5a6c7d;
   line-height: 1.6;
 }
@@ -96,15 +100,15 @@
 .features-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
 .feature-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 8px 12px;
   background: #f8f9fa;
   border-radius: 8px;
   border-left: 4px solid #007bff;
@@ -130,7 +134,7 @@
 }
 
 .progress-section {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .progress-bar {
@@ -170,13 +174,13 @@
 
 .action-buttons {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .btn {
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 16px;
@@ -185,9 +189,9 @@
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   text-decoration: none;
-  min-width: 140px;
+  min-width: 120px;
   justify-content: center;
 }
 
@@ -215,9 +219,17 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .profile-coming-soon-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 12px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  
   .profile-card {
-    padding: 32px 24px;
-    margin: 16px;
+    padding: 24px 16px;
+    margin: 12px;
   }
   
   .coming-soon-title {
@@ -244,8 +256,16 @@
 }
 
 @media (max-width: 480px) {
+  .profile-coming-soon-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 8px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  
   .profile-card {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
   
   .coming-soon-title {
@@ -261,7 +281,7 @@
   }
   
   .feature-item {
-    padding: 10px 12px;
+    padding: 8px 10px;
   }
   
   .feature-item i {
