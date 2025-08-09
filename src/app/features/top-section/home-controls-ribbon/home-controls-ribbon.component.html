@@ -16,9 +16,9 @@
       </button>
     </div>
     <div class="search-container">
-      <form (submit)="searchClickHandler(); $event.preventDefault()">
-        <input #searchInput type="search" class="input" placeholder="Search" (input)="searchChangeHandler($event)" (search)="onSearchClear($event)" enterkeyhint="search">
-        <i class="fas fa-search search-icon" (click)="searchClickHandler()"></i>
+      <form>
+        <input #searchInput type="search" class="input" placeholder="Search" enterkeyhint="search">
+        <i class="fas fa-search search-icon"></i>
       </form>
     </div>
     <div class="new-items-checkbox">

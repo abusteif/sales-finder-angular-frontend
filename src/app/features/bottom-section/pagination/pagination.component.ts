@@ -25,9 +25,6 @@ export class PaginationComponent {
   private calculateTotalPages() {
     if (this._itemsPerPage > 0 && this._itemsCount > 0) {
       this.totalPages = Math.ceil(this._itemsCount / this._itemsPerPage);
-      console.log('itemsPerPage', this._itemsPerPage);
-      console.log('itemsCount', this._itemsCount);
-      console.log('totalPages', this.totalPages);
     }
   }
   @Input() isLastPage: boolean = false;

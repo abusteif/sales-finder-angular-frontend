@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { of } from 'rxjs';
-import { delay, distinctUntilChanged, debounceTime, filter, map } from 'rxjs/operators';
-import { fromEvent } from 'rxjs';
+import { delay, distinctUntilChanged, debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
 import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 
 @Component({
@@ -10,7 +10,7 @@ import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
   templateUrl: './home-controls-ribbon.component.html',
   styleUrl: './home-controls-ribbon.component.css'
 })
-export class HomeControlsRibbonComponent {
+export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
 
   @Output() onFilterClick = new EventEmitter<void>();
   @Output() onSortClick = new EventEmitter<void>();
@@ -28,6 +28,25 @@ export class HomeControlsRibbonComponent {
 
   @ViewChild('searchInput') searchInput!: ElementRef;
 
+  private destroy$ = new Subject<void>();
+
+  ngAfterViewInit() {
+    // Set up the debounced search using RxJS
+    if (this.searchInput) {
+      fromEvent(this.searchInput.nativeElement, 'input')
+        .pipe(
+          map((event: any) => event.target.value),
+          debounceTime(500),
+          distinctUntilChanged(),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((value: string) => {
+          this.searchValue = value;
+          this.onSearchChange.emit(value);
+        });
+    }
+  }
+
   filterClickHandler() {
     this.onFilterClick.emit();
   }
@@ -40,23 +59,6 @@ export class HomeControlsRibbonComponent {
     this.onRefreshClick.emit();
   }
 
-  searchChangeHandler(event: Event) {
-    this.searchValue = (event.target as HTMLInputElement).value;
-  }
-
-  searchClickHandler() {
-    this.onSearchChange.emit(this.searchValue);
-    this.searchInput.nativeElement.blur();
-  }
-
-  onSearchClear(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.value === '') {
-      this.searchValue = '';
-      this.onSearchChange.emit('');
-    }
-  }
-
   itemsPerPageChange(itemsPerPage: number) {
     this.onItemsPerPageChange.emit(itemsPerPage);
   }
@@ -67,5 +69,9 @@ export class HomeControlsRibbonComponent {
     this.onNewItemsOnlyChange.emit(this.newItemsOnly);
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 

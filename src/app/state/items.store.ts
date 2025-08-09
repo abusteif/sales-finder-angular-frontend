@@ -116,7 +116,6 @@ export class ItemsStore extends signalStore(
         patchState(items, { loading: true, error: null, items: [] });
         itemsService.getItems(conditions).pipe(
           tap((result: ItemsAPIResponse) => {
-            console.log(result);
             patchState(items, { items: result.items, itemsCount: result.count, loading: false });
           }),
           catchError((error) => {
