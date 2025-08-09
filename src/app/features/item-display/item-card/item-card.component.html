@@ -6,13 +6,8 @@
     <a [href]="item.url" target="_blank" rel="noopener noreferrer"
       style="align-items: center; display: flex; justify-content: center;">
       @if(updateType !== UpdateType.ALL) {
-      <div 
-        [class]="getIndicatorClass()" 
-        #tooltip="matTooltip"
-        matTooltip="{{item.updatedAt | relativeDate}}" 
-        matTooltipPosition="above"
-        [matTooltipShowDelay]="0" 
-        [matTooltipClass]="'custom-tooltip'" 
+      <div [class]="getIndicatorClass()" #tooltip="matTooltip" matTooltip="{{item.updatedAt | relativeDate}}"
+        matTooltipPosition="above" [matTooltipShowDelay]="0" [matTooltipClass]="'custom-tooltip'"
         (click)="onIndicatorClick($event)">
         <i [class]="getIndicatorIcon()"></i>
         {{ getIndicatorText() }}
@@ -24,15 +19,16 @@
     </a>
   </div>
   <div class="card-content">
-    <a [href]="item.url" target="_blank" rel="noopener noreferrer">
+    <a [href]="item.url" target="_blank" rel="noopener noreferrer" [matTooltip]="item.name" matTooltipPosition="below"
+      [matTooltipShowDelay]="700">
       <p [class]="getTitleClass()">
         {{ item.name | truncate }}
       </p>
     </a>
     <div class="store-logos-container">
       <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"
-        [matTooltip]="'Last checked: ' + (lastCheckedAt | relativeDate)" matTooltipPosition="below" [matTooltipShowDelay]="700"
-        [matTooltipClass]="'custom-tooltip'" />
+        [matTooltip]="'Last checked: ' + (lastCheckedAt | relativeDate)" matTooltipPosition="below"
+        [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" />
       @if(item.store === 'amazon') {
       <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
         <img [src]="'assets/logos/camelcamelcamel-logo.png'" class="store-logo" alt="Store Logo" />
