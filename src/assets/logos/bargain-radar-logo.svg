@@ -1,0 +1,63 @@
+<!-- Bargain Radar Logo (radar only, with $ signs, black text) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 350" role="img" aria-label="Bargain Radar logo">
+  <style>
+    .icon { transform: translate(60px,60px); }
+    .radar { fill: none; stroke-width: 12; }
+    .ring  { opacity: .3; }
+    .ring2 { opacity: .18; }
+    .ring3 { opacity: .1; }
+    .tick { stroke-linecap: round; }
+    .word { font: 900 120px/1.1 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; letter-spacing: .02em; fill:#000000; }
+    .tag  { font: 700 70px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; letter-spacing: .12em; opacity:.7; fill:#444; }
+    .sweep { transform-origin: 140px 140px; animation: sweep 4s linear infinite; }
+    .dollar { font: 700 60px/1 Arial, sans-serif; fill:#22c55e; }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+  </style>
+
+  <!-- Icon (radar only) -->
+  <g class="icon">
+    <!-- Radar rings -->
+    <circle class="radar" cx="140" cy="140" r="130" stroke="#16a34a"/>
+    <circle class="radar ring"  cx="140" cy="140" r="95" stroke="#16a34a"/>
+    <circle class="radar ring2" cx="140" cy="140" r="60" stroke="#16a34a"/>
+    <circle class="radar ring3" cx="140" cy="140" r="35" stroke="#16a34a"/>
+    <!-- Ticks (N/E/S/W) -->
+    <g class="radar tick" stroke="#16a34a" opacity=".6">
+      <line x1="140" y1="5"  x2="140" y2="15"/>
+      <line x1="275" y1="140" x2="265" y2="140"/>
+      <line x1="140" y1="275" x2="140" y2="265"/>
+      <line x1="5"  y1="140" x2="15"  y2="140"/>
+    </g>
+
+    <!-- Dollar signs inside radar -->
+    <text class="dollar" x="105" y="110">$</text>
+    <text class="dollar" x="165" y="170">$</text>
+    <text class="dollar" x="95" y="180">$</text>
+
+    <!-- Radar sweep -->
+    <g class="sweep" opacity=".55">
+      <defs>
+        <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#22c55e" stop-opacity=".65"/>
+          <stop offset=".85" stop-color="#22c55e" stop-opacity="0"/>
+        </linearGradient>
+        <clipPath id="clipCircle">
+          <circle cx="140" cy="140" r="130"/>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#clipCircle)">
+        <path d="M140,140 L270,140 A130,130 0 0 1 140,10 Z" fill="url(#beam)"/>
+        <line x1="140" y1="140" x2="270" y2="140" stroke="#22c55e" stroke-width="6" opacity=".4"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(420,175)">
+    <text class="word" x="0" y="0">
+      <tspan>BARGAIN</tspan>
+      <tspan dx="30">RADAR</tspan>
+    </text>
+    <text class="tag"  x="1" y="140">FIND IT · TRACK IT · SNAG IT</text>
+  </g>
+</svg>
