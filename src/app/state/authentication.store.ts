@@ -31,6 +31,11 @@ export class AuthenticationStore extends signalStore(
         const userService = inject(UserService);
         const storageService = inject(StorageService);
         const navigationService = inject(NavigationService);
+        const deleteAuthData = () => {
+            storageService.clearAuth();
+            sessionStorage.removeItem(AUTH_TOKEN_KEY);
+            sessionStorage.removeItem(USER_DETAILS_KEY);
+        }
         return {
             login: (email: string, password: string, stayLoggedIn: boolean) => {
                 patchState(authentication, { isLoading: true, error: null });
@@ -55,6 +60,15 @@ export class AuthenticationStore extends signalStore(
                             },
                             error: (error) => {
                                 console.error('Failed to get user details:', error);
+                                patchState(authentication, { 
+                                    token: null, 
+                                    user: null,
+                                    isLoading: false, 
+                                    error: error.error.message 
+                                });
+                                if (error.status === 403) {
+                                    deleteAuthData();
+                                }
                             }
                         });
                     },
@@ -126,9 +140,9 @@ export class AuthenticationStore extends signalStore(
                                 isLoading: false, 
                                 error: null 
                             });
-                            storageService.clearAuth();
-                            sessionStorage.removeItem(AUTH_TOKEN_KEY);
-                            sessionStorage.removeItem(USER_DETAILS_KEY);
+                            if (error.status === 403) {
+                                deleteAuthData();
+                            } 
                             navigationService.handleNavigationAfterLogout();
                         }
                     });
