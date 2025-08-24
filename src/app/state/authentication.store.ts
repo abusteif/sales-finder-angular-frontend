@@ -66,7 +66,7 @@ export class AuthenticationStore extends signalStore(
                                     isLoading: false, 
                                     error: error.error.message 
                                 });
-                                if (error.status === 403) {
+                                if (error.status === 403 || error.status === 401) {
                                     deleteAuthData();
                                 }
                             }
@@ -140,7 +140,7 @@ export class AuthenticationStore extends signalStore(
                                 isLoading: false, 
                                 error: null 
                             });
-                            if (error.status === 403) {
+                            if (error.status === 403 || error.status === 401) {
                                 deleteAuthData();
                             } 
                             navigationService.handleNavigationAfterLogout();
