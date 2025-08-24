@@ -1,17 +1,32 @@
 @if(item) {
 
-<div class="card custom-card">
+<div class="card custom-card" 
+     [style.box-shadow]="getCardShadowStyle()"
+     [style.--hover-shadow]="getCardHoverShadowStyle()">
 
   <div class="card-image">
     <a [href]="item.url" target="_blank" rel="noopener noreferrer"
       style="align-items: center; display: flex; justify-content: center;">
       @if(updateType !== UpdateType.ALL) {
-      <div [class]="getIndicatorClass()" #tooltip="matTooltip" matTooltip="{{item.updatedAt | relativeDate}}"
-        matTooltipPosition="above" [matTooltipShowDelay]="0" [matTooltipClass]="'custom-tooltip'"
-        (click)="onIndicatorClick($event)">
-        <i [class]="getIndicatorIcon()"></i>
-        {{ getIndicatorText() }}
-      </div>
+        <div [class]="getIndicatorClass()" #tooltip="matTooltip" matTooltip="{{itemTooltip()}}"
+          matTooltipPosition="above" [matTooltipShowDelay]="0" [matTooltipClass]="'custom-tooltip'"
+          (click)="onIndicatorClick($event)">
+          <i [class]="getIndicatorIcon()"></i>
+          {{ getIndicatorText() }}
+        </div>
+      }
+      @if(shouldShowDiscountIcon()) {
+        <div class="discount-container">
+          <div [class]="getDiscountIconClass()"
+               #discountTooltip="matTooltip"
+               [matTooltip]="getDiscountIconTooltip()"
+               matTooltipPosition="below"
+               [matTooltipShowDelay]="isMobile ? 0 : 300"
+               [matTooltipClass]="'custom-tooltip'"
+               (click)="onDiscountIconClick($event, discountTooltip)">
+            {{ getDiscountIconText() }}
+          </div>
+        </div>
       }
       <figure class="image is-1by1 card-image-figure">
         <img [src]="item.imageUrl" alt="Card image" class="card-image-img" />

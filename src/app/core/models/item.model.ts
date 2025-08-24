@@ -12,6 +12,18 @@ export interface Item {
     checkedAt: string;
     checksSinceRemoved: number;
     updateType: UpdateType;
+    discountChange: string;
+    colour: ItemColour;
+    highestDiscountSince: number;
+    isHighestDiscountEver: boolean;
+    trackedSince: number
+}
+
+export interface ItemColour {
+    red: number;
+    green: number;
+    blue: number;
+    alpha: number;
 }
 
 export interface ItemsAPIResponse {
@@ -22,5 +34,6 @@ export enum UpdateType {
     NEW = 'NEW',
     DISCOUNT_UP = 'DISCOUNT_UP',
     DISCOUNT_DOWN = 'DISCOUNT_DOWN',
+    RETURNED = 'RETURNED',
     ALL = 'ALL',
 }

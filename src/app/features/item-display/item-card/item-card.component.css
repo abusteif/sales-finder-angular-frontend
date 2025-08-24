@@ -12,17 +12,20 @@
   
   .custom-card:hover {
     transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--hover-shadow, 0 6px 20px rgba(0, 0, 0, 0.25));
   }
 
-  /* Enhanced shadows for better visibility in forced light mode */
+  /* Enhanced shadows for better visibility in dark mode while keeping white background */
   @media (prefers-color-scheme: dark) {
     .custom-card {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+      /* Ensure background stays white in dark mode */
+      background-color: white !important;
     }
     
     .custom-card:hover {
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+      /* Use the CSS variable for hover shadow in dark mode too */
+      box-shadow: var(--hover-shadow, 0 8px 25px rgba(0, 0, 0, 0.35));
+      background-color: white !important;
     }
   }
   
@@ -88,13 +91,19 @@
 ::ng-deep .custom-tooltip {
   background-color: #333 !important;
   color: white !important;
-  font-size: 14px !important;
-  padding: 6px 8px !important;
+  font-size: 12px !important;
+  padding: 8px 12px !important;
   border-radius: 4px !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-  max-width: none !important;
-  white-space: nowrap !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  max-width: 200px !important;
+  white-space: pre-line !important;
+  word-wrap: break-word !important;
+  text-align: center !important;
+  line-height: 1.4 !important;
+  z-index: 9999 !important;
 }
+
+
 
 ::ng-deep .custom-tooltip .mat-mdc-tooltip-trigger {
   background-color: #333 !important;
@@ -103,6 +112,102 @@
 ::ng-deep .mat-mdc-tooltip-panel {
   --mdc-plain-tooltip-container-color: #333 !important;
   --mdc-plain-tooltip-supporting-text-color: white !important;
+  position: fixed !important;
+  z-index: 9999 !important;
+  transform: none !important;
+  overflow: visible !important;
+}
+
+::ng-deep .mat-mdc-tooltip-panel.custom-tooltip {
+  max-width: 200px !important;
+  white-space: pre-line !important;
+  word-wrap: break-word !important;
+  text-align: center !important;
+  z-index: 9999 !important;
+}
+
+::ng-deep .mat-mdc-tooltip {
+  max-width: 200px !important;
+  white-space: pre-line !important;
+  overflow: visible !important;
+  word-wrap: break-word !important;
+  text-align: center !important;
+  z-index: 9999 !important;
+}
+
+/* Ensure parent containers don't clip the tooltip */
+.card-image {
+  overflow: visible !important;
+}
+
+/* Discount icon container */
+.discount-container {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+}
+
+/* Base discount icon styles */
+.discount-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.discount-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Highest discount ever styling */
+.discount-icon-highest {
+  background-color: #ffd700;
+  color: #333;
+  font-size: 14px;
+  border: 2px solid #ffcc00;
+}
+
+.discount-icon-highest:hover {
+  background-color: #ffcc00;
+  border-color: #ff9900;
+}
+
+/* Days since highest discount styling */
+.discount-icon-days {
+  background-color: #28a745;
+  border: 2px solid #1e7e34;
+}
+
+.discount-icon-days:hover {
+  background-color: #1e7e34;
+}
+
+/* Mobile responsive discount icon */
+@media (max-width: 768px) {
+  .discount-container {
+    top: 6px;
+    left: 6px;
+  }
+  
+  .discount-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  
+  .discount-icon-highest {
+    font-size: 12px;
+  }
 }
 
 /* Base indicator styles */
@@ -156,6 +261,10 @@
 
 .discount-down-indicator {
   background-color: #ff4757;
+}
+
+.returned-indicator {
+  background-color: #6c5ce7;
 }
 
 /* Mobile responsive indicators */
