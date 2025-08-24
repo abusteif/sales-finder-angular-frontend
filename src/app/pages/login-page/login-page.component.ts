@@ -28,13 +28,12 @@ export class LoginPageComponent {
 
     effect(() => {
       this.isLoading = this.authenticationStore.isLoading();
-      console.log('isLoading', this.isLoading);
       this.loginError = this.authenticationStore.error();
     });
     
     effect(() => {
       // Navigate to return URL when user is authenticated
-      if (this.authenticationStore.isAuthenticated()) {
+      if (this.authenticationStore.isAuthenticated() && this.authenticationStore.user()) {
         // Parse the return URL to handle query parameters properly
         const [path, queryString] = this.returnUrl.split('?');
         const queryParams = queryString ? 

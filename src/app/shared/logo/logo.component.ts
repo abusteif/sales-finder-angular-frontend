@@ -16,7 +16,7 @@ export class LogoComponent {
   @Input() clickable: boolean = false;
   @Input() routerLink: string = '/';
 
-  logoSrc: string = 'assets/bargain-radar-logo-with-text.svg';
+  logoSrc: string = 'assets/logos/bargain-radar-logo.svg';
 
   get logoClasses(): string {
     return `logo-container ${this.variant} ${this.size} ${this.clickable ? 'clickable' : ''}`;
