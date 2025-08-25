@@ -1,21 +1,30 @@
 <div class="container">
+  @if (loading) {
+  <div class="loading-container">
+    <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+    <p class="loading-text">Loading alerts...</p>
+  </div>
+  }
+  @else {
   @if (alerts.length === 0) {
-    <div class="empty-state">
-      <div class="empty-icon">
-        <i class="fas fa-bell-slash"></i>
-      </div>
-      <h3>No Alerts Yet</h3>
-      <p>You haven't created any alerts yet. Start by creating your first price alert!</p>
-      <button class="create-first-alert-btn" (click)="onNewAlertClicked()">
-        <i class="fas fa-plus"></i>
-        Create Your First Alert
-      </button>
+  <div class="empty-state">
+    <div class="empty-icon">
+      <i class="fas fa-bell-slash"></i>
     </div>
+    <h3>No Alerts Yet</h3>
+    <p>You haven't created any alerts yet. Start by creating your first price alert!</p>
+    <button class="create-first-alert-btn" (click)="onNewAlertClicked()">
+      <i class="fas fa-plus"></i>
+      Create Your First Alert
+    </button>
+  </div>
   } @else {
-    <div class="alerts-list">
-      @for (alert of alerts; track alert.id) {
-        <app-alert-item [alert]="alert" [stores]="stores" (deleteAlert)="onDeleteAlert($event)" (editAlert)="onEditAlert($event)" (toggleAlert)="onToggleAlert($event)"></app-alert-item>
-      }
-    </div>
+  <div class="alerts-list">
+    @for (alert of alerts; track alert.id) {
+    <app-alert-item [alert]="alert" [stores]="stores" (deleteAlert)="onDeleteAlert($event)"
+      (editAlert)="onEditAlert($event)" (toggleAlert)="onToggleAlert($event)"></app-alert-item>
+    }
+  </div>
+  }
   }
 </div>

@@ -11,6 +11,7 @@ import { Store } from '../../../core/models/store.model';
 export class AlertListComponent {
   @Input() alerts: Alert[] = [];
   @Input() stores: Store[] = [];
+  @Input() loading = false;
   @Output() newAlertClicked = new EventEmitter<void>();
   @Output() deleteAlert = new EventEmitter<string>();
   @Output() editAlert = new EventEmitter<Alert>();

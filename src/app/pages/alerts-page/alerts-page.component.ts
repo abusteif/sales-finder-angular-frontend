@@ -21,6 +21,7 @@ export class AlertsPageComponent implements OnInit {
   stores: Store[] = [];
   alert: Alert | null = null;
   user: User | null = null;
+  loading = false;
   constructor(
     private alertsStore: AlertsStore,
     private storesStore: storesStore,
@@ -31,6 +32,7 @@ export class AlertsPageComponent implements OnInit {
       this.filterAlerts();
       this.stores = this.storesStore.stores();
       this.user = this.authenticationStore.user();
+      this.loading = this.alertsStore.loading();
     });
   }
   
