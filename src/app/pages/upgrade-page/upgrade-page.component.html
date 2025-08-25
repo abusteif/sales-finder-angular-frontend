@@ -1,0 +1,63 @@
+<div class="upgrade-coming-soon-container">
+  <div class="upgrade-card">
+    <!-- App Logo -->
+    <div class="upgrade-logo">
+      <app-logo size="large" variant="default" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
+    </div>
+    
+    <!-- Coming Soon Content -->
+    <div class="coming-soon-content">
+      <div class="coming-soon-icon">
+        <i class="fas fa-rocket"></i>
+      </div>
+      
+      <h1 class="coming-soon-title">Account Upgrade</h1>
+      <p class="coming-soon-subtitle">Coming Soon!</p>
+      
+      <div class="coming-soon-description">
+        <p>We're working hard to bring you premium features!</p>
+      </div>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <i class="fas fa-bell"></i>
+          <span>More alerts</span>
+        </div>
+
+        <div class="feature-item">
+          <i class="fas fa-bolt"></i>
+          <span>Access to a wider range of stores</span>
+        </div>
+
+        <div class="feature-item">
+          <i class="fas fa-chart-line"></i>
+          <span>Price history tracking</span>
+        </div>
+
+        <div class="feature-item">
+          <i class="fas fa-headset"></i>
+          <span>Priority customer support</span>
+        </div>
+      </div>
+      
+      <div class="progress-section">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <p class="progress-text">Development in progress...</p>
+      </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="onBackToHome()">
+        <i class="fas fa-home"></i>
+        Back to Home
+      </button>
+      <button class="btn btn-secondary" (click)="onViewAlerts()">
+        <i class="fas fa-bell"></i>
+        View Alerts
+      </button>
+    </div>
+  </div>
+</div>

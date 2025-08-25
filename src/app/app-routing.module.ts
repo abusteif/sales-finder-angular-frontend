@@ -6,6 +6,7 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { ActivationConfirmationPageComponent } from './pages/activation-confirmation-page/activation-confirmation-page.component';
 import { AccountActivationPageComponent } from './pages/account-activation-page/account-activation-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { UpgradePageComponent } from './pages/upgrade-page/upgrade-page.component';
 import { AlertsPageComponent } from './pages/alerts-page/alerts-page.component';
 import { PasswordResetConfirmPageComponent } from './pages/password-reset-confirm-page/password-reset-confirm-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
@@ -44,6 +45,12 @@ const routes: Routes = [
   {
     path: 'profile', 
     component: ProfilePageComponent, 
+    pathMatch: 'full',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'upgrade', 
+    component: UpgradePageComponent, 
     pathMatch: 'full',
     canActivate: [authGuard]
   },

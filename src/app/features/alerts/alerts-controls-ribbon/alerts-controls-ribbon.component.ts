@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../core/models/user.models';
 import { Alert } from '../../../core/models/alert.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alerts-controls-ribbon',
@@ -17,6 +18,7 @@ export class AlertsControlsRibbonComponent {
   }
   showActiveOnly = false;
   maxAlerts = 0;
+  constructor(private router: Router) {}
   toggleActiveOnly(): void {
     this.showActiveOnly = !this.showActiveOnly;
     this.activeOnlyToggled.emit(this.showActiveOnly);
@@ -30,6 +32,7 @@ export class AlertsControlsRibbonComponent {
     event.preventDefault();
     // TODO: Implement upgrade functionality
     console.log('Upgrade clicked from alerts controls ribbon');
+    this.router.navigate(['/upgrade']);
     // You can emit an event to the parent component to handle the upgrade navigation
   }
 }

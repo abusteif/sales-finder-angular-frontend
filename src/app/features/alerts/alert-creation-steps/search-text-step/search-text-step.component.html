@@ -46,15 +46,15 @@
 
     </div>
 
-    <div class="option-row">
-        <label class="option-label">
+    <div class="option-row disabled" >
+        <label class="option-label disabled">
             <div class="switch-container">
-                <input type="checkbox" class="switch-input" [checked]="aiSearch" (change)="onAiSearchChange($event)">
+                <input type="checkbox" class="switch-input" [checked]="aiSearch" (change)="onAiSearchChange($event)" [disabled]="true">
                 <span class="switch-slider"></span>
             </div>
             <span class="option-text">AI Powered Search*</span>
         </label>
-
+        <span class="coming-soon-badge">Coming Soon</span>
     </div>
 
     <div class="ai-explanation">

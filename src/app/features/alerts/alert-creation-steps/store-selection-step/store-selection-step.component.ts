@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SpecialNameTitlecasePipe } from '../../../../shared/special-name-titlecase.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-store-selection-step',
@@ -19,7 +20,7 @@ export class StoreSelectionStepComponent {
   }
   @Output() storeChange = new EventEmitter<string[]>();
 
-  constructor(private specialNameTitlecasePipe: SpecialNameTitlecasePipe) {}
+  constructor(private specialNameTitlecasePipe: SpecialNameTitlecasePipe, private router: Router) {}
 
   onStoreChange(selectedStores: string[]) {
     this.storeChange.emit(selectedStores);
@@ -41,6 +42,7 @@ export class StoreSelectionStepComponent {
   onUpgradeClick() {
     // TODO: Implement upgrade functionality
     console.log('Upgrade clicked - navigate to upgrade page');
+    this.router.navigate(['/upgrade']); 
     // You can emit an event to the parent component to handle the upgrade navigation
   }
   

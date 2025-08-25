@@ -6,8 +6,11 @@
       <app-logo size="medium" variant="navbar" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
 
       <div class="user-settings-container">
-        <button class="price-alerts-btn" (click)="viewAlerts()"  title="View Price Alerts">
-          <i class="fas fa-bell"></i>
+        <button class="price-alerts-btn" (click)="viewAlerts()" >
+          <div class="alerts-icon-container">
+            <i class="fas fa-bell"></i>
+          </div>
+          <span class="price-alerts-text">My Alerts</span>
         </button>
 
         <button class="user-settings-btn" (click)="openUserSettings($event)">

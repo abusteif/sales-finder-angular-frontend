@@ -118,27 +118,81 @@
 }
 
 .price-alerts-btn {
-  background: none;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 25px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
 .price-alerts-btn:hover {
-  color: #0056b3;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+}
+
+.price-alerts-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.price-alerts-btn:hover::before {
+  left: 100%;
+}
+
+.alerts-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .price-alerts-btn i {
-  font-size: 24px;
+  font-size: 18px;
+  color: white;
+}
+
+.alerts-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.4);
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .price-alerts-text {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
 }
 
 /* Mobile responsive */
@@ -147,8 +201,32 @@
     display: none;
   }
   
+  .price-alerts-btn {
+    padding: 8px 12px;
+    border-radius: 20px;
+    min-width: auto;
+  }
+  
   .price-alerts-btn i {
-    font-size: 24px;
+    font-size: 16px;
+  }
+  
+  .alerts-badge {
+    top: -4px;
+    right: -6px;
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .price-alerts-btn {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+  
+  .user-settings-container {
+    gap: 8px;
   }
 }
 

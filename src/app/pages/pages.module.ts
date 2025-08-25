@@ -14,6 +14,7 @@ import { ActivationConfirmationPageComponent } from './activation-confirmation-p
 import { AccountActivationPageComponent } from './account-activation-page/account-activation-page.component';
 import { PasswordResetConfirmPageComponent } from './password-reset-confirm-page/password-reset-confirm-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
+import { UpgradePageComponent } from './upgrade-page/upgrade-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     ActivationConfirmationPageComponent,
     AccountActivationPageComponent,
     PasswordResetConfirmPageComponent,
-    ForgotPasswordPageComponent
+    ForgotPasswordPageComponent,
+    UpgradePageComponent
   ],
   imports: [
     CommonModule,
