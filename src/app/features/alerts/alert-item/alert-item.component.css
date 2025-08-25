@@ -65,7 +65,7 @@
 }
 
 .action-btn {
-  background: none;
+  background: transparent !important;
   border: none;
   padding: 4px;
   border-radius: 4px;
@@ -88,6 +88,19 @@
   color: #e74c3c;
 }
 
+/* Ensure edit and delete buttons have transparent backgrounds */
+.alert-item .edit-btn,
+.alert-item .delete-btn {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.edit-btn,
+.delete-btn {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Content */
 .alert-item__content {
   padding: 16px;
@@ -99,7 +112,7 @@
 
 
 .toggle-btn {
-  background: none;
+  background: transparent !important;
   border: none;
   padding: 4px;
   border-radius: 4px;
@@ -115,11 +128,73 @@
 }
 
 .toggle-btn.active {
-  color: #ff6b6b;
+  color: #ff6b6b !important;
+  background: transparent !important;
 }
 
 .toggle-btn.active:hover {
-  color: #ff6b6b;
+  color: #ff6b6b !important;
+  background: #fff5f5 !important;
+}
+
+.toggle-btn.active .fa-toggle-on {
+  color: #ff6b6b !important;
+}
+
+.toggle-btn .fa-toggle-off {
+  color: #6c757d !important;
+}
+
+.toggle-btn .fa-toggle-on,
+.toggle-btn .fa-toggle-off {
+  background: transparent !important;
+}
+
+/* Additional specificity for FontAwesome toggle icons */
+.toggle-btn i.fa-toggle-on {
+  color: #ff6b6b !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.toggle-btn i.fa-toggle-off {
+  color: #6c757d !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Override any potential global button or icon styling */
+.alert-item .toggle-btn {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.alert-item .toggle-btn.active {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  .toggle-btn.active {
+    color: #ff6b6b !important;
+    background: transparent !important;
+  }
+
+  .toggle-btn.active:hover {
+    color: #ff6b6b !important;
+    background: #fff5f5 !important;
+  }
+
+  .toggle-btn.active .fa-toggle-on {
+    color: #ff6b6b !important;
+    background: transparent !important;
+  }
+
+  .toggle-btn .fa-toggle-off {
+    color: #6c757d !important;
+    background: transparent !important;
+  }
 }
 
 /* Responsive Design */

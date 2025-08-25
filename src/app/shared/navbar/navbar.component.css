@@ -242,3 +242,16 @@
   font-weight: 600;
 }
 
+/* Dark theme fixes */
+@media (prefers-color-scheme: dark) {
+  .navbar-container .user-settings-btn:hover {
+    background-color: white !important;
+    color: #007bff !important;
+  }
+  
+  .user-settings-container .user-settings-btn:hover {
+    background-color: white !important;
+    color: #007bff !important;
+  }
+}
+

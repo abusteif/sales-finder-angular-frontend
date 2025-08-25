@@ -2,6 +2,16 @@
 .modal-card {
   border-radius: 8px;
   overflow: hidden;
+  font-size: 13px; /* Base font size for entire modal */
+}
+
+.modal-card .label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.modal-card .field {
+  font-size: 11px;
 }
 
 .modal-card-body {
@@ -32,7 +42,7 @@
   padding: 10px 14px;
   border: 2px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 12px;
   transition: all 0.3s ease;
   background-color: white;
 }
@@ -58,7 +68,7 @@
   transition: all 0.3s ease;
   cursor: pointer;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
 }
 
@@ -130,7 +140,7 @@
 }
 
 .range-label {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: #555;
   margin-bottom: 2px;
@@ -140,7 +150,7 @@
   padding: 8px 12px;
   border: 2px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   transition: all 0.3s ease;
   background-color: white;
@@ -205,6 +215,11 @@
     background-color: white !important;
     color: black !important;
     border-color: #ddd !important;
+  }
+
+  .search-input::placeholder {
+    color: #333 !important;
+    opacity: 1 !important;
   }
 
   .ai-search-checkbox {
@@ -385,10 +400,52 @@
 }
 
 .custom-radio-label {
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   font-weight: 500;
   letter-spacing: 0.01em;
+}
+
+/* Mobile responsive styles for date range options */
+@media (max-width: 768px) {
+  .custom-radio-label {
+    font-size: 10px;
+  }
+  
+  .custom-radio {
+    padding: 6px 8px;
+    min-width: 80px;
+    min-height: 36px;
+  }
+  
+  .custom-radio-indicator {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .custom-radio input[type="radio"]:checked + .custom-radio-indicator::after {
+    width: 8px;
+    height: 8px;
+    top: 2px;
+    left: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-radio-label {
+    font-size: 9px;
+  }
+  
+  .custom-radio {
+    padding: 4px 6px;
+    min-width: 70px;
+    min-height: 32px;
+    gap: 6px;
+  }
+  
+  .custom-radio-options-row {
+    gap: 4px;
+  }
 }
 
 .filter-buttons {

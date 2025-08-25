@@ -29,21 +29,27 @@ html, body {
       color: black !important;
     }
 
-    /* Ensure buttons stay white in dark mode, except success and filter-active buttons */
-    button:not(.is-success):not(.filter-active), .button:not(.is-success):not(.filter-active) {
+    /* Ensure buttons stay white in dark mode, except success, filter-active and sort-active buttons */
+    button:not(.is-success):not(.filter-active):not(.sort-active), .button:not(.is-success):not(.filter-active):not(.sort-active) {
       background-color: white !important;
       color: black !important;
       border-color: #dee2e6 !important;
     }
 
-    button:not(.is-success):not(.filter-active):hover, .button:not(.is-success):not(.filter-active):hover {
+    button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):hover, .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):hover {
       background-color: #f8f9fa !important;
       color: black !important;
       border-color: #ced4da !important;
     }
 
-    button.active:not(.is-success):not(.filter-active), .button.active:not(.is-success):not(.filter-active),
-    button.is-active:not(.is-success):not(.filter-active), .button.is-active:not(.is-success):not(.filter-active) {
+    /* Specific override for user settings button */
+    .user-settings-btn:hover {
+      background-color: white !important;
+      color: #007bff !important;
+    }
+
+    button.active:not(.is-success):not(.filter-active):not(.sort-active), .button.active:not(.is-success):not(.filter-active):not(.sort-active),
+    button.is-active:not(.is-success):not(.filter-active):not(.sort-active), .button.is-active:not(.is-success):not(.filter-active):not(.sort-active) {
       background-color: #007bff !important;
       color: white !important;
       border-color: #007bff !important;
@@ -92,6 +98,32 @@ html, body {
     .dropdown .dropdown-content a:hover {
       background-color: #f8f9fa !important;
       color: black !important;
+    }
+
+    /* Fix for dropdown items - ensure grey background covers entire option */
+    .dropdown-item:hover,
+    .dropdown-item:hover *,
+    .dropdown-content .dropdown-item:hover,
+    .dropdown-content .dropdown-item:hover *,
+    .dropdown-item:hover label,
+    .dropdown-item:hover label *,
+    .dropdown-item:hover .checkbox,
+    .dropdown-item:hover .checkbox * {
+      background-color: #f8f9fa !important;
+      color: black !important;
+    }
+
+    /* Ensure the entire dropdown item area gets the grey background */
+    .dropdown .dropdown-content .dropdown-item:hover {
+      background-color: #f8f9fa !important;
+      color: black !important;
+    }
+
+    /* Maintain hr color in dark theme */
+    hr {
+      border-color: #dee2e6 !important;
+      background-color: #dee2e6 !important;
+      color: #dee2e6 !important;
     }
 }
 

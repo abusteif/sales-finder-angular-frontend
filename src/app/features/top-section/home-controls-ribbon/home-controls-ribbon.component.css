@@ -52,6 +52,19 @@
     padding-left: 10px;
   }
 
+  .input::placeholder {
+    color: #818080;
+    opacity: 1;
+  }
+
+  /* Dark theme placeholder fix */
+  @media (prefers-color-scheme: dark) {
+    .input::placeholder {
+      color: #818080 !important;
+      opacity: 1 !important;
+    }
+  }
+
 
 
   .control-buttons {
