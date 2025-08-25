@@ -103,6 +103,23 @@
   z-index: 999;
 }
 
+/* Dark theme fixes */
+@media (prefers-color-scheme: dark) {
+  .dropdown-button {
+    min-width: 50px !important;
+    width: auto !important;
+  }
+  
+  .dropdown-menu {
+    min-width: 25px !important;
+    width: auto !important;
+  }
+  
+  .dropdown-item {
+    width: 100% !important;
+  }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .dropdown-button {
@@ -118,5 +135,12 @@
   
   .items-icon {
     font-size: 14px;
+  }
+  
+  /* Dark theme mobile fixes */
+  @media (prefers-color-scheme: dark) {
+    .dropdown-button {
+      min-width: 45px !important;
+    }
   }
 }
