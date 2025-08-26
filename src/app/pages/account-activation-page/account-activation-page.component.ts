@@ -90,4 +90,26 @@ export class AccountActivationPageComponent implements OnInit {
     // For now, redirect to signup page
     this.navigationService.navigateToPublicRoute('/signup');
   }
+
+  getPageTitle(): string {
+    if (this.isLoading) {
+      return 'Activating Your Account';
+    } else if (this.isSuccess) {
+      return 'Account Activated Successfully!';
+    } else if (this.isError) {
+      return 'Activation Failed';
+    }
+    return '';
+  }
+
+  getPageSubtitle(): string {
+    if (this.isLoading) {
+      return 'Please wait while we activate your account...';
+    } else if (this.isSuccess) {
+      return 'Your account is now active and ready to use';
+    } else if (this.isError) {
+      return 'There was a problem activating your account';
+    }
+    return '';
+  }
 } 

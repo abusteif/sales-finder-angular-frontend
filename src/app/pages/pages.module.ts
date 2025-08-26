@@ -15,6 +15,7 @@ import { AccountActivationPageComponent } from './account-activation-page/accoun
 import { PasswordResetConfirmPageComponent } from './password-reset-confirm-page/password-reset-confirm-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { UpgradePageComponent } from './upgrade-page/upgrade-page.component';
+import { AdminBasePageComponent } from './admin-base-page/admin-base-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     AccountActivationPageComponent,
     PasswordResetConfirmPageComponent,
     ForgotPasswordPageComponent,
-    UpgradePageComponent
+    UpgradePageComponent,
+    AdminBasePageComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
   ],
   exports: [
     HomePageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    AdminBasePageComponent
   ],
 })
 export class PagesModule { }

@@ -1,5 +1,5 @@
 <!-- Bargain Radar Logo (radar only, with $ signs, black text) -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 350" role="img" aria-label="Bargain Radar logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 350" role="img" aria-label="Bargain Radar logo">
   <style>
     .icon { transform: translate(60px,60px); }
     .radar { fill: none; stroke-width: 12; }

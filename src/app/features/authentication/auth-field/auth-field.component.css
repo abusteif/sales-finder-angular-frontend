@@ -110,16 +110,17 @@
   background-color: #e3f2fd;
 }
 
-.error-message {
+.field-error-message {
   display: flex;
   align-items: center;
   gap: 6px;
   color: #e74c3c;
   font-size: 14px;
   font-weight: 500;
+  margin-top: 2px;
 }
 
-.error-message i {
+.field-error-message i {
   font-size: 12px;
 }
 
@@ -154,7 +155,18 @@
     padding: 6px;
   }
   
-  .error-message {
+  .field-error-message {
     font-size: 13px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .field-error-message {
+    color: #ff6b6b !important; /* Lighter red for better visibility in dark mode */
+  }
+  
+  .field-error-message i {
+    color: #ff6b6b !important;
   }
 }

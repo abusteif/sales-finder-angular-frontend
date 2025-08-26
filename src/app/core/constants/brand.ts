@@ -1,1 +1,1 @@
-export const BRAND_NAME = 'Bargain Hunter';
+export const BRAND_NAME = 'Bargain Radar';

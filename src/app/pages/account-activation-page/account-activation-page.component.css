@@ -1,187 +1,35 @@
-.account-activation-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 20px;
-}
+/* Component-specific styles - base styles are now inherited from admin-base-page */
 
-.activation-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 48px;
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  animation: slideInUp 0.6s ease-out;
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Loading State */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.loading-spinner {
-  margin-bottom: 8px;
-}
-
-/* Success State */
-.success-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.success-icon {
-  animation: bounceIn 0.8s ease-out 0.2s both;
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Error State */
+.success-state,
 .error-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+  text-align: center;
 }
 
+.success-icon,
 .error-icon {
-  animation: shake 0.8s ease-out 0.2s both;
+  font-size: 64px;
+  margin-bottom: 24px;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+.success-icon i {
+  color: #27ae60;
 }
 
-.title {
-  color: #2c3e50;
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.message {
-  color: #5a6c7d;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.message p {
-  margin-bottom: 12px;
-}
-
-.message p:last-child {
-  margin-bottom: 0;
+.error-icon i {
+  color: #e74c3c;
 }
 
 .actions {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 120px;
-}
-
-.btn-primary {
-  background: #3498db;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-}
-
-.btn-secondary {
-  background: #ecf0f1;
-  color: #2c3e50;
-  border: 1px solid #bdc3c7;
-}
-
-.btn-secondary:hover {
-  background: #d5dbdb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(189, 195, 199, 0.3);
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
 }
 
 .help-text {
-  color: #7f8c8d;
+  margin-top: 24px;
   font-size: 14px;
-  line-height: 1.5;
-  margin-top: 16px;
+  color: #666;
 }
 
-.help-text p {
-  margin: 0;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-  .activation-card {
-    padding: 32px 24px;
-    margin: 16px;
-  }
-  
-  .title {
-    font-size: 24px;
-  }
-  
-  .actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .btn {
-    width: 100%;
-    max-width: 200px;
-  }
-} 
+/* All other styles (container, card, titles, buttons, messages, animations, mobile responsive) are now handled by admin-base-page and global styles */

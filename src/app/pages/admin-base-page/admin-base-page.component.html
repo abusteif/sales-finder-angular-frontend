@@ -1,0 +1,53 @@
+<!-- Navigation - shown only if not hideNavbar -->
+@if (!hideNavbar) {
+  <app-navbar></app-navbar>
+}
+
+<div class="page-container">
+  <div class="page-card" [ngClass]="cardSize">
+    
+    <!-- Logo Top Container Section - shown only if showLogo is true -->
+    @if (showLogo) {
+      <div class="logo-top-container">
+        <div class="page-logo">
+          <app-logo 
+            [size]="responsiveLogoSize"
+            [variant]="logoVariant"
+            [showText]="logoShowText"
+            [clickable]="logoClickable"
+            [routerLink]="logoRouterLink">
+          </app-logo>
+        </div>
+      </div>
+    }
+
+    <!-- Main Content Container -->
+    <div class="main-content-container">
+      <!-- Header Section - shown only if title is provided -->
+      @if (title) {
+        <div class="page-header">
+          <h1 class="page-title">{{ title }}</h1>
+          @if (subtitle) {
+            <p class="page-subtitle">{{ subtitle }}</p>
+          }
+        </div>
+      }
+
+      <!-- Main Content Area - projected from child components -->
+      <div class="page-content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+
+    <!-- Loading Overlay - shown when isLoading is true -->
+    @if (isLoading) {
+      <div class="loading-overlay">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>{{ loadingMessage || 'Loading...' }}</p>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

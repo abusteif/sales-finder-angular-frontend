@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 .logo-container {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   font-family: 'Roboto', sans-serif;
-  margin-left: 10px;
+  text-align: center;
+  overflow: visible; /* Prevent text clipping */
 }
 
 .logo-container.clickable {
@@ -59,8 +58,9 @@
 /* SVG styling */
 .logo {
   display: block;
-  max-width: 100%;
+  width: 100%; /* Use full specified width */
   height: auto;
+  overflow: visible; /* Prevent SVG text clipping */
 }
 
 /* Text styling */
@@ -78,8 +78,29 @@
   font-weight: 400;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - BIGGER logos on mobile */
 @media (max-width: 768px) {
+  .logo-container.small .logo {
+    width: 120px;
+    height: 40px;
+  }
+  
+  .logo-container.medium .logo {
+    width: 200px;
+    height: 67px;
+  }
+  
+  .logo-container.large .logo {
+    width: 320px; /* Extra wide to prevent text cutoff */
+    height: 94px;
+  }
+  
+  .logo-container.standalone {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
   .logo-container.small .logo {
     width: 100px;
     height: 33px;
@@ -91,28 +112,7 @@
   }
   
   .logo-container.large .logo {
-    width: 240px;
+    width: 300px; /* Extra wide to prevent text cutoff on small mobile */
     height: 80px;
-  }
-  
-  .logo-container.standalone {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo-container.small .logo {
-    width: 80px;
-    height: 27px;
-  }
-  
-  .logo-container.medium .logo {
-    width: 120px;
-    height: 40px;
-  }
-  
-  .logo-container.large .logo {
-    width: 180px;
-    height: 60px;
   }
 }

@@ -29,14 +29,14 @@ html, body {
       color: black !important;
     }
 
-    /* Ensure buttons stay white in dark mode, except success, filter-active and sort-active buttons */
-    button:not(.is-success):not(.filter-active):not(.sort-active), .button:not(.is-success):not(.filter-active):not(.sort-active) {
+    /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, and admin-page-footer-link buttons */
+    button:not(.is-success):not(.filter-active):not(.sort-active):not(.admin-page-footer-link), .button:not(.is-success):not(.filter-active):not(.sort-active):not(.admin-page-footer-link) {
       background-color: white !important;
       color: black !important;
       border-color: #dee2e6 !important;
     }
 
-    button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):hover, .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):hover {
+    button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.admin-page-footer-link):hover, .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.admin-page-footer-link):hover {
       background-color: #f8f9fa !important;
       color: black !important;
       border-color: #ced4da !important;
@@ -125,6 +125,382 @@ html, body {
       background-color: #dee2e6 !important;
       color: #dee2e6 !important;
     }
+}
+
+/* Global Admin Button Styles */
+.btn {
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  color: white;
+  padding: 14px 20px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  padding: 10px 20px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 14px 20px;
+}
+
+.btn-success:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 14px 20px;
+}
+
+.btn-danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+  color: #212529;
+  padding: 14px 20px;
+}
+
+.btn-warning:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+}
+
+.btn-warning:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+  padding: 14px 20px;
+}
+
+.btn-info:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(23, 162, 184, 0.3);
+}
+
+.btn-info:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button Size Variations */
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.btn-large {
+  padding: 16px 24px;
+  font-size: 18px;
+}
+
+/* Button Width Variations */
+.btn-full-width {
+  width: 100%;
+}
+
+.btn-auto-width {
+  width: auto;
+  min-width: 120px;
+}
+
+/* Button Outline Variations */
+.btn-outline-primary {
+  background: transparent;
+  color: #1976d2;
+  border: 2px solid #1976d2;
+  padding: 12px 18px; /* Adjust for border */
+}
+
+.btn-outline-primary:hover:not(:disabled) {
+  background: #1976d2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  color: #495057;
+  border: 2px solid #dee2e6;
+  padding: 8px 18px; /* Adjust for border */
+}
+
+.btn-outline-secondary:hover:not(:disabled) {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading state for buttons */
+.btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn.loading i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Global Admin Page Footer Styles */
+.admin-page-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.admin-page-footer-text {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.admin-page-footer-link {
+  color: #1976d2 !important;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: inherit;
+}
+
+.admin-page-footer-link:hover {
+  color: #1565c0 !important;
+  text-decoration: underline;
+}
+
+/* Alternative admin footer without border (for pages that don't need separation) */
+.admin-page-footer-no-border {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Global Form Spacing for Authentication Pages */
+.page-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Consistent spacing across auth forms */
+  margin-bottom: 20px;
+}
+
+.page-form.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.page-form app-auth-field {
+  margin-bottom: 0; /* Reset any individual spacing since gap handles it */
+}
+
+.page-form .btn {
+  margin-top: 8px; /* Small additional space before buttons */
+}
+
+/* Mobile responsive form spacing */
+@media (max-width: 768px) {
+  .page-form {
+    gap: 16px; /* Tighter spacing on mobile */
+  }
+}
+
+/* Global Admin Message Styles */
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.success-message {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.info-message {
+  color: #0c5460;
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.warning-message {
+  color: #856404;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Mobile Responsive Button Styles */
+@media (max-width: 768px) {
+  .btn-primary, .btn-success, .btn-danger, .btn-warning, .btn-info {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+  
+  .btn-secondary {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+  
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .btn-large {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  /* Message responsive styles */
+  .error-message, .success-message, .info-message, .warning-message {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-primary, .btn-success, .btn-danger, .btn-warning, .btn-info {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  .btn-secondary {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  
+  .btn-small {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .btn-large {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  /* Message responsive styles for small screens */
+  .error-message, .success-message, .info-message, .warning-message {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
 }
 
 .controls-ribbon {

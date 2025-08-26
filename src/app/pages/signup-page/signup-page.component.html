@@ -1,26 +1,22 @@
-<div class="signup-container">
-  <div class="signup-card">
-    <div class="signup-logo">
-      <app-logo size="large" variant="default" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
-    </div>
-    
-    <div class="signup-header">
-      <h1 class="signup-title">Create Account</h1>
-      <p class="signup-subtitle">Join us to start finding the best deals</p>
-    </div>
+<app-admin-base-page 
+  title="Create Account"
+  subtitle="Join us to start finding the best deals"
+  cardSize="medium"
+  [hideNavbar]="true"
+  [isLoading]="isLoading"
+  loadingMessage="Creating your account...">
 
-    <app-signup-form 
-      [isLoading]="isLoading" 
-      [signupError]="signupError"
-      (onFormSubmit)="onFormSubmit($event)">
-    </app-signup-form>
+  <app-signup-form 
+    [isLoading]="isLoading" 
+    [signupError]="signupError"
+    (onFormSubmit)="onFormSubmit($event)">
+  </app-signup-form>
 
-    <!-- Footer -->
-    <div class="signup-footer">
-      <p class="login-text">
-        Already have an account? 
-        <a (click)="login()" class="login-link">Sign in</a>
-      </p>
-    </div>
+  <div class="admin-page-footer">
+    <p class="admin-page-footer-text">
+      Already have an account? 
+      <button type="button" (click)="login()" class="admin-page-footer-link">Sign in</button>
+    </p>
   </div>
-</div>
+
+</app-admin-base-page>

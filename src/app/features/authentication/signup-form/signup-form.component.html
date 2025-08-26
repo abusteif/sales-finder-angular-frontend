@@ -1,4 +1,4 @@
-<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form" [class.loading]="isLoading">
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="page-form signup-form" [class.loading]="isLoading">
   <!-- First Name Field -->
   <app-auth-field
     type="text"
@@ -62,8 +62,8 @@
   <!-- Submit Button -->
   <button 
     type="submit" 
-    class="signup-button"
-    [disabled]="signupForm.invalid">
+    class="btn btn-primary btn-full-width"
+    [disabled]="signupForm.invalid || isLoading">
     @if (isLoading) {
       <i class="fas fa-spinner fa-spin"></i>
       Creating account...

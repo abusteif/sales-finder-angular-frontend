@@ -1,1 +1,22 @@
-<app-login-form [isLoading]="isLoading" (onFormSubmit)="onFormSubmit($event)" [loginError]="loginError"></app-login-form>
+<app-admin-base-page 
+  title="Welcome Back"
+  subtitle="Sign in to your account"
+  cardSize="medium"
+  [hideNavbar]="true"
+  [isLoading]="isLoading"
+  loadingMessage="Signing you in...">
+
+  <app-login-form 
+    [isLoading]="isLoading" 
+    [loginError]="loginError"
+    (onFormSubmit)="onFormSubmit($event)">
+  </app-login-form>
+
+  <div class="admin-page-footer">
+    <p class="admin-page-footer-text">
+      Don't have an account? 
+      <button type="button" (click)="navigateToSignup()" class="admin-page-footer-link">Sign up</button>
+    </p>
+  </div>
+
+</app-admin-base-page>

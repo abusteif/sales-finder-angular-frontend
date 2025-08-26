@@ -1,58 +1,6 @@
-.login-container {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 16px;
-  box-sizing: border-box;
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-}
+/* Component-specific styles - base styles are now inherited from admin-base-page */
 
-.login-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 32px;
-  width: 100%;
-  max-width: 500px;
-}
-
-.login-logo {
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.login-logo app-logo {
-  display: inline-block;
-}
-  
-.login-header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-  
-.login-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 8px 0;
-}
-  
-.login-subtitle {
-  font-size: 16px;
-  color: #666;
-  margin: 0;
-}
-  
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-  
+/* Login-specific form actions layout */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -61,7 +9,7 @@
   gap: 16px;
   width: 100%;
 }
-  
+
 .stay-logged-in {
   display: flex;
   align-items: center;
@@ -73,14 +21,14 @@
   flex-shrink: 0;
   white-space: nowrap;
 }
-  
+
 .checkbox {
   width: 16px;
   height: 16px;
   cursor: pointer;
   margin: 0;
 }
-  
+
 .forgot-password {
   font-size: 14px;
   color: #1976d2;
@@ -90,218 +38,10 @@
   margin-left: auto;
   white-space: nowrap;
 }
-  
+
 .forgot-password:hover {
   color: #1565c0;
   text-decoration: underline;
-}
-  
-.login-button {
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 14px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-  
-.login-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
-}
-  
-.login-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-  
-.login-footer {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #e0e0e0;
-}
-  
-.signup-text {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-  
-.signup-link {
-  color: #1976d2;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-  
-.signup-link:hover {
-  color: #1565c0;
-  text-decoration: underline;
-}
-  
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .login-container {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 12px;
-    padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-  }
-  
-  .login-card {
-    padding: 24px 16px;
-    border-radius: 12px;
-  }
-
-  .login-logo {
-    margin-bottom: 16px;
-  }
-  
-  .login-header {
-    margin-bottom: 20px;
-  }
-  
-  .login-title {
-    font-size: 24px;
-  }
-  
-  .login-subtitle {
-    font-size: 14px;
-  }
-  
-  .forgot-password {
-    margin-left: 0;
-    align-self: flex-end;
-  }
-  
-  .login-button {
-    padding: 12px 20px;
-    font-size: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-container {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 8px;
-    padding-top: max(8px, env(safe-area-inset-top));
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-  }
-  
-  .login-card {
-    padding: 20px 16px;
-  }
-  
-  .login-logo {
-    margin-bottom: 12px;
-  }
-  
-  .login-header {
-    margin-bottom: 16px;
-  }
-  
-  .login-title {
-    font-size: 22px;
-  }
-  
-  .login-subtitle {
-    font-size: 13px;
-  }
-  
-  .login-form {
-    gap: 12px;
-  }
-  
-  .login-footer {
-    margin-top: 16px;
-    padding-top: 16px;
-  }
-}
-
-/* Error message styling - consistent with auth field errors */
-.error-message {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #e74c3c;
-  font-size: 14px;
-  font-weight: 500;
-  margin: 8px 0;
-  padding: 8px 12px;
-  background-color: #fdf2f2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-}
-
-.error-message i {
-  font-size: 12px;
-  color: #e74c3c;
-}
-
-/* Mobile responsive for error message */
-@media (max-width: 768px) {
-  .error-message {
-    font-size: 13px;
-    padding: 6px 10px;
-  }
-  
-  .error-message i {
-    font-size: 11px;
-  }
-}
-
-/* Loading states */
-.login-form.loading {
-  position: relative;
-  pointer-events: none;
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  z-index: 10;
-}
-
-.loading-spinner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: #1976d2;
-}
-
-.loading-spinner i {
-  font-size: 32px;
-  color: #1976d2;
-}
-
-.loading-spinner p {
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  margin: 0;
 }
 
 .forgot-password.disabled {
@@ -310,18 +50,15 @@
   cursor: not-allowed;
 }
 
-.remember-me input[type="checkbox"]:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+/* Mobile responsive adjustments for form actions */
+@media (max-width: 768px) {
+  .forgot-password {
+    margin-left: 0;
+    align-self: flex-end;
+  }
 }
 
-/* Mobile responsive for loading */
-@media (max-width: 768px) {
-  .loading-spinner i {
-    font-size: 28px;
-  }
-  
-  .loading-spinner p {
-    font-size: 14px;
-  }
-} 
+/* Button styles are now global in styles.css */
+/* Error message styles are now global in styles.css */
+/* Loading styles are now global in admin-base-page */
+/* Container, card, header, footer styles are now global */

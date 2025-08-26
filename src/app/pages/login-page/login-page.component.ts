@@ -1,7 +1,7 @@
-import { Component, effect, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, effect } from '@angular/core';
 import { AuthenticationStore } from '../../state/authentication.store';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +18,8 @@ export class LoginPageComponent {
   constructor(
     private authenticationStore: AuthenticationStore, 
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navigationService: NavigationService
   ) {
     // Get the return URL from query parameters
     this.route.queryParams.subscribe(params => {
@@ -47,5 +48,9 @@ export class LoginPageComponent {
 
   onFormSubmit(formData: {email: string, password: string, stayLoggedIn: boolean}) {
     this.authenticationStore.login(formData.email, formData.password, formData.stayLoggedIn);
+  }
+
+  navigateToSignup() {
+    this.navigationService.navigateToPublicRoute('/signup');
   }
 }
