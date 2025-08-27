@@ -146,6 +146,9 @@
   top: 8px;
   left: 8px;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Space between discount icon and volatility warning */
 }
 
 /* Base discount icon styles */
@@ -162,6 +165,7 @@
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0; /* Prevent flexbox from shrinking the icon */
 }
 
 .discount-icon:hover {
@@ -192,11 +196,47 @@
   background-color: #1e7e34;
 }
 
+/* Volatility warning icon styling */
+.volatility-warning-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ff6b35;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid #e55a2b;
+  animation: volatilityPulse 2s infinite;
+  flex-shrink: 0; /* Prevent flexbox from shrinking the icon */
+}
+
+.volatility-warning-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  background-color: #e55a2b;
+}
+
+/* Subtle pulsing animation to draw attention */
+@keyframes volatilityPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 /* Mobile responsive discount icon */
 @media (max-width: 768px) {
   .discount-container {
     top: 6px;
     left: 6px;
+    gap: 3px; /* Smaller gap on mobile */
   }
   
   .discount-icon {
@@ -207,6 +247,12 @@
   
   .discount-icon-highest {
     font-size: 12px;
+  }
+  
+  .volatility-warning-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
   }
 }
 

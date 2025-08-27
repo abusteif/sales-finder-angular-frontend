@@ -26,6 +26,7 @@ export class ItemCardComponent {
   highestDiscountSince: number = 0
   isHighestDiscountEver: boolean = false
   trackedSince: number = 0
+  isFlactuating: boolean = false
   
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
@@ -65,8 +66,7 @@ export class ItemCardComponent {
   }
 
   shouldShowDiscountIcon(): boolean {
-    // Only show for DISCOUNT_UP, not for NEW or DISCOUNT_DOWN
-    return this.updateType === UpdateType.DISCOUNT_UP;
+    return this.isHighestDiscountEver || this.highestDiscountSince > 0
   }
 
   getDiscountIconText(): string {
@@ -103,6 +103,7 @@ export class ItemCardComponent {
     this.highestDiscountSince = item.highestDiscountSince || 0
     this.isHighestDiscountEver = item.isHighestDiscountEver || false
     this.trackedSince = item.trackedSince || 0
+    this.isFlactuating = item.isFlactuating || false
   }
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
@@ -194,6 +195,28 @@ export class ItemCardComponent {
       setTimeout(() => {
         discountTooltip.hide();
       }, 2000);
+    }
+  }
+
+  shouldShowVolatilityWarning(): boolean {
+    // Show volatility warning when item is fluctuating and has a discount icon
+    return this.isFlactuating
+  }
+
+  getVolatilityWarningTooltip(): string {
+    return 'Price Volatility Warning: This item\'s price frequently changes up and down';
+  }
+
+  onVolatilityIconClick(event: MouseEvent, volatilityTooltip: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (this.isMobile && volatilityTooltip) {
+      volatilityTooltip.show();
+      
+      setTimeout(() => {
+        volatilityTooltip.hide();
+      }, 3000); // Show longer for warning message
     }
   }
 

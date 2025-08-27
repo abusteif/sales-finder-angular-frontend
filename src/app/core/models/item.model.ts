@@ -17,6 +17,7 @@ export interface Item {
     highestDiscountSince: number;
     isHighestDiscountEver: boolean;
     trackedSince: number
+    isFlactuating: boolean;
 }
 
 export interface ItemColour {
