@@ -9,6 +9,13 @@
   gap: 8px;
 }
 
+.items-per-page-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .items-icon {
   color: #666;
   font-size: 20px;
@@ -118,6 +125,10 @@
   .dropdown-item {
     width: 100% !important;
   }
+  
+  .items-per-page-label {
+    color: #bbb !important;
+  }
 }
 
 /* Responsive design */
@@ -137,10 +148,22 @@
     font-size: 14px;
   }
   
+  .items-per-page-label {
+    display: none;
+  }
+  
+  .icon-dropdown-wrapper {
+    gap: 6px;
+  }
+  
   /* Dark theme mobile fixes */
   @media (prefers-color-scheme: dark) {
     .dropdown-button {
       min-width: 45px !important;
+    }
+    
+    .items-per-page-label {
+      color: #bbb !important;
     }
   }
 }
