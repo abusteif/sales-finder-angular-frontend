@@ -1,14 +1,14 @@
 <!-- Bargain Radar Logo (radar only, with $ signs, black text) -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 350" role="img" aria-label="Bargain Radar logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 2000 120" role="img" aria-label="Bargain Radar logo">
   <style>
-    .icon { transform: translate(60px,60px); }
+    .icon { transform: translate(50px,-10px); }
     .radar { fill: none; stroke-width: 12; }
     .ring  { opacity: .3; }
     .ring2 { opacity: .18; }
     .ring3 { opacity: .1; }
     .tick { stroke-linecap: round; }
-    .word { font: 900 120px/1.1 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; letter-spacing: .02em; fill:#000000; }
-    .tag  { font: 700 70px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; letter-spacing: .12em; opacity:.7; fill:#444; }
+    .word { font: 100 150px/1.1 'Arial Black', 'Impact', 'Franklin Gothic Bold', 'Bebas Neue', 'Oswald', sans-serif; letter-spacing: .02em; fill:#000000; }
+    .tag  { font: 700 70px/1.2 'Open Sans', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .12em; opacity:.7; fill:#444; }
     .sweep { transform-origin: 140px 140px; animation: sweep 4s linear infinite; }
     .dollar { font: 700 60px/1 Arial, sans-serif; fill:#22c55e; }
     @keyframes sweep { to { transform: rotate(360deg); } }
@@ -53,11 +53,11 @@
   </g>
 
   <!-- Wordmark -->
-  <g transform="translate(420,175)">
+  <g transform="translate(400,140)">
     <text class="word" x="0" y="0">
       <tspan>BARGAIN</tspan>
       <tspan dx="30">RADAR</tspan>
     </text>
-    <text class="tag"  x="1" y="140">FIND IT · TRACK IT · SNAG IT</text>
+    <text class="tag"  x="1" y="100">FIND IT · TRACK IT · SNAG IT</text>
   </g>
 </svg>

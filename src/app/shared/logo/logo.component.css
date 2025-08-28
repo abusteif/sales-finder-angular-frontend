@@ -2,7 +2,7 @@
 
 .logo-container {
   display: inline-block;
-  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
   text-align: center;
   overflow: visible; /* Prevent text clipping */
 }
@@ -25,13 +25,13 @@
 }
 
 .logo-container.large .logo {
-  width: 320px;
-  height: 107px;
+  width: 300px;
+  height: 60px;
 }
 
 /* Variant styles */
 .logo-container.navbar {
-  padding: 0;
+  /* padding: 0; */
   background: none;
   box-shadow: none;
 }
@@ -50,7 +50,7 @@
 }
 
 .logo-container.default {
-  padding: 1rem;
+  padding: 1rem; 
   background: none;
   box-shadow: none;
 }
@@ -112,7 +112,7 @@
   }
   
   .logo-container.large .logo {
-    width: 300px; /* Extra wide to prevent text cutoff on small mobile */
-    height: 80px;
+    width: 250px; /* Extra wide to prevent text cutoff on small mobile */
+    height: 50px;
   }
 }
