@@ -1,27 +1,29 @@
 <div class="items-per-page-container">
   <div class="icon-dropdown-wrapper">
     <span class="items-per-page-label">Items per page</span>
-    <button 
-      class="dropdown-button" 
-      (click)="toggleDropdown()"
-      [class.active]="isDropdownOpen">
-      <span class="selected-value">{{ itemsPerPage }}</span>
-      <i class="fas fa-chevron-down chevron-icon" [class.rotated]="isDropdownOpen"></i>
-    </button>
-  </div>
-
-  @if (isDropdownOpen) {
-    <div class="dropdown-menu">
-      @for (option of itemsPerPageOptions; track option) {
-        <button 
-          class="dropdown-item" 
-          [class.selected]="option === itemsPerPage"
-          (click)="selectItemsPerPage(option)">
-          {{ option }}
-        </button>
+    <div class="dropdown-wrapper">
+      <button 
+        class="dropdown-button" 
+        (click)="toggleDropdown()"
+        [class.active]="isDropdownOpen">
+        <span class="selected-value">{{ itemsPerPage }}</span>
+        <i class="fas fa-chevron-down chevron-icon" [class.rotated]="isDropdownOpen"></i>
+      </button>
+      
+      @if (isDropdownOpen) {
+        <div class="dropdown-menu">
+          @for (option of itemsPerPageOptions; track option) {
+            <button 
+              class="dropdown-item" 
+              [class.selected]="option === itemsPerPage"
+              (click)="selectItemsPerPage(option)">
+              {{ option }}
+            </button>
+          }
+        </div>
       }
     </div>
-  }
+  </div>
 </div>
 <!-- Backdrop to close dropdown when clicking outside -->
 @if (isDropdownOpen) {
