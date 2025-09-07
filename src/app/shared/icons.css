@@ -1,0 +1,270 @@
+/* Shared Icon Styles */
+
+/* Item Type Icons - Used in both item cards and filter controls */
+/* These icons now match the item card indicator styling with circular backgrounds */
+.new-items-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #6c5ce7; /* Purple background like new-indicator */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.discount-up-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #00b894; /* Green background like discount-up-indicator */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.discount-down-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ff4757; /* Red background like discount-down-indicator */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.highest-discount-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffd700; /* Golden background like discount-icon-highest */
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid #ffcc00;
+}
+
+.returned-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #6c5ce7; /* Purple background like returned-indicator */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Item Card Specific Icon Styles */
+.discount-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.discount-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Highest discount ever styling */
+.discount-icon-highest {
+  background-color: #ffd700;
+  color: #333;
+  font-size: 14px;
+  border: 2px solid #ffcc00;
+}
+
+.discount-icon-highest:hover {
+  background-color: #ffcc00;
+  border-color: #ff9900;
+}
+
+/* Days since highest discount styling */
+.discount-icon-days {
+  background-color: #28a745;
+  border: 2px solid #1e7e34;
+}
+
+.discount-icon-days:hover {
+  background-color: #1e7e34;
+}
+
+/* Update Type Indicator Icons */
+.indicator-base {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: white;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-circular {
+  padding: 6px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+
+.indicator-circular i {
+  font-size: 12px;
+}
+
+.indicator-pill {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  gap: 4px;
+}
+
+.indicator-pill i {
+  font-size: 10px;
+}
+
+/* Specific indicator colors */
+.new-indicator {
+  background-color: #6c5ce7;
+}
+
+.discount-up-indicator {
+  background-color: #00b894;
+}
+
+.discount-down-indicator {
+  background-color: #ff4757;
+}
+
+.returned-indicator {
+  background-color: #6c5ce7;
+}
+
+/* Volatility warning icon styling */
+.volatility-warning-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ff6b35;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid #e55a2b;
+  animation: volatilityPulse 2s infinite;
+  flex-shrink: 0;
+}
+
+.volatility-warning-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  background-color: #e55a2b;
+}
+
+/* Subtle pulsing animation to draw attention */
+@keyframes volatilityPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Mobile responsive icon styles */
+@media (max-width: 768px) {
+  .new-items-icon,
+  .discount-up-icon,
+  .discount-down-icon,
+  .returned-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+    margin-right: 3px;
+  }
+  
+  .highest-discount-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    margin-right: 3px;
+  }
+  
+  .discount-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  
+  .discount-icon-highest {
+    font-size: 12px;
+  }
+  
+  .volatility-warning-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  
+  .indicator-base {
+    top: 6px;
+    right: 6px;
+  }
+  
+  .indicator-circular {
+    padding: 4px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .indicator-circular i {
+    font-size: 10px;
+  }
+  
+  .indicator-pill {
+    padding: 3px 6px;
+    font-size: 0.6rem;
+    gap: 3px;
+  }
+  
+  .indicator-pill i {
+    font-size: 8px;
+  }
+}

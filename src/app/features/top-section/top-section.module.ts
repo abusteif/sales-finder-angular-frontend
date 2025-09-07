@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MainTopSectionComponent } from './main-top-section/main-top-section.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FilterSearchModalComponent } from './filter-search-modal/filter-search-modal.component';
@@ -23,6 +24,7 @@ import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
     ReactiveFormsModule,
     FormsModule,
     MatSliderModule,
+    MatTooltipModule,
   ],
   exports: [
     MainTopSectionComponent,

@@ -22,6 +22,7 @@ interface ItemConditions {
   sortOrder?: string;
   dateRange?: number;
   updateType?: UpdateType;
+  highestDiscountOnly?: boolean;
 }
 
 interface ItemsState {
@@ -111,6 +112,12 @@ export class ItemsStore extends signalStore(
           conditions = {
             ...conditions,
             updateType: filter.updateType()
+          }
+        }
+        if(filter.highestDiscountOnly()) {
+          conditions = {
+            ...conditions,
+            highestDiscountOnly: filter.highestDiscountOnly()
           }
         }
         patchState(items, { loading: true, error: null, items: [] });

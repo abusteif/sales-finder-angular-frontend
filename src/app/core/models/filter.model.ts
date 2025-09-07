@@ -9,4 +9,5 @@ export interface Filter {
     search: string;
     aiSearch: boolean;
     updateType: UpdateType;
+    highestDiscountOnly: boolean;
 }

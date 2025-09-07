@@ -21,11 +21,22 @@
         <i class="fas fa-search search-icon"></i>
       </form>
     </div>
-    <div class="new-items-checkbox">
+    <div class="category-checkbox hide-on-mobile" matTooltip="New Items Only" matTooltipPosition="below" [matTooltipShowDelay]="500">
       <label class="checkbox-label">
-        <input type="checkbox" (change)="handleNewItemsOnlyChange($event)" [checked]="newItemsOnly">
+        <input type="checkbox" (change)="handleNewItemsOnlyChange($event)" [checked]="isCheckboxChecked('New Items Only')">
         <i class="fas fa-star new-items-icon"></i>
-        <span class="checkbox-text">New Items Only</span>
+      </label>
+    </div>
+    <div class="category-checkbox hide-on-mobile" matTooltip="Discount Up Items Only" matTooltipPosition="below" [matTooltipShowDelay]="500">
+      <label class="checkbox-label">
+        <input type="checkbox" (change)="handleDiscountUpItemsOnlyChange($event)" [checked]="isCheckboxChecked('Discount Up Items Only')">
+        <i class="fas fa-arrow-up discount-up-icon"></i>
+      </label>
+    </div>
+    <div class="category-checkbox" matTooltip="Items With Highest Discount" matTooltipPosition="below" [matTooltipShowDelay]="500">
+      <label class="checkbox-label">
+        <input type="checkbox" (change)="handleItemsWithHighestDiscountChange($event)" [checked]="isCheckboxChecked('Items With Highest Discount')">
+        <span class="highest-discount-icon">🔥</span>
       </label>
     </div>
     </div>

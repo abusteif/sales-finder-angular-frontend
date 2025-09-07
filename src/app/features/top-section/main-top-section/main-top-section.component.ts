@@ -127,6 +127,14 @@ export class MainTopSectionComponent {
     this.filter.setUpdateType(newItemsOnly ? UpdateType.NEW : UpdateType.ALL);
     this.getItemsAndResetPage();
   }
+  onDiscountUpItemsOnlyChange(discountUpItemsOnly: boolean) {
+    this.filter.setUpdateType(discountUpItemsOnly ? UpdateType.DISCOUNT_UP : UpdateType.ALL);
+    this.getItemsAndResetPage();
+  }
+  onItemsWithHighestDiscountChange(itemsWithHighestDiscount: boolean) {
+    this.filter.setHighestDiscountOnly(itemsWithHighestDiscount);
+    this.getItemsAndResetPage();
+  }
 
   openFilterModal() {
     this.showFilterModal = true;

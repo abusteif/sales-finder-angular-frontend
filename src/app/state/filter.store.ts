@@ -28,7 +28,8 @@ export class FilterStore extends signalStore(
         sortBy: '',
         sortOrder: '',
         dateRange: DEFAULT_FILTER_VALUES.selectedDateRange,
-        updateType: UpdateType.ALL
+        updateType: UpdateType.ALL,
+        highestDiscountOnly: false
     }),
     withMethods((filter) => {
         const storageService = inject(StorageService);
@@ -71,7 +72,10 @@ export class FilterStore extends signalStore(
                 storageService.setFilterPreferences({ dateRange } as Filter);
             },
             setUpdateType: (updateType: UpdateType) => {
-                patchState(filter, { updateType });
+                patchState(filter, { updateType, highestDiscountOnly: false });
+            },
+            setHighestDiscountOnly: (highestDiscountOnly: boolean) => {
+                patchState(filter, { highestDiscountOnly, updateType: UpdateType.ALL });
             },
             loadFilterPreferences: () => {
                 const filterPreferences = storageService.getUserPreferences()?.filter;

@@ -9,7 +9,7 @@ import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
   selector: 'app-item-card',
   standalone: false,
   templateUrl: './item-card.component.html',
-  styleUrls: ['./item-card.component.css'],
+  styleUrls: ['./item-card.component.css', '../../../shared/icons.css'],
   providers: [RelativeDatePipe]
 })
 export class ItemCardComponent {
@@ -71,10 +71,8 @@ export class ItemCardComponent {
 
   getDiscountIconText(): string {
     if (this.isHighestDiscountEver) {
-      // Highest discount ever - show star icon only
-      return '★';
+      return '🔥';
     } else {
-      // Show number of days
       return this.highestDiscountSince.toString();
     }
   }

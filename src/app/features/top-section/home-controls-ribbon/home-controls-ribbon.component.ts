@@ -4,11 +4,12 @@ import { delay, distinctUntilChanged, debounceTime, filter, map, takeUntil } fro
 import { fromEvent, Subject } from 'rxjs';
 import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 
+
 @Component({
   selector: 'app-home-controls-ribbon',
   standalone: false,
   templateUrl: './home-controls-ribbon.component.html',
-  styleUrl: './home-controls-ribbon.component.css'
+  styleUrls: ['./home-controls-ribbon.component.css', '../../../shared/icons.css']
 })
 export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
 
@@ -18,14 +19,29 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
   @Output() onSearchChange = new EventEmitter<string>();
   @Output() onAiSearchClick = new EventEmitter<void>();
   @Output() onNewItemsOnlyChange = new EventEmitter<boolean>();
+  @Output() onDiscountUpItemsOnlyChange = new EventEmitter<boolean>();
+  @Output() onItemsWithHighestDiscountChange = new EventEmitter<boolean>();
   @Output() onItemsPerPageChange = new EventEmitter<number>();
 
   @Input() isFilterActive: boolean = false;
   @Input() isSortActive: boolean = false;
   @Input() itemsPerPage: number = 0;
-  searchValue: string = '';
-  newItemsOnly: boolean = false;
 
+  searchValue: string = '';
+  checboxes = [
+    {
+      name: 'New Items Only',
+      checked: false
+    },
+    {
+      name: 'Discount Up Items Only',
+      checked: false
+    },
+    {
+      name: 'Items With Highest Discount',
+      checked: false
+    }
+  ]
   @ViewChild('searchInput') searchInput!: ElementRef;
 
   private destroy$ = new Subject<void>();
@@ -65,8 +81,29 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
 
   handleNewItemsOnlyChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    this.newItemsOnly = checkbox.checked;
-    this.onNewItemsOnlyChange.emit(this.newItemsOnly);
+    this.handleCheckboxChange('New Items Only');
+    this.onNewItemsOnlyChange.emit(checkbox.checked);
+  }
+  handleDiscountUpItemsOnlyChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.handleCheckboxChange('Discount Up Items Only');
+    this.onDiscountUpItemsOnlyChange.emit(checkbox.checked);
+  }
+  handleItemsWithHighestDiscountChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.handleCheckboxChange('Items With Highest Discount');
+    this.onItemsWithHighestDiscountChange.emit(checkbox.checked);
+  }
+
+  isCheckboxChecked(name: string) {
+    return this.checboxes.find(checkbox => checkbox.name === name)?.checked ?? false;
+  }
+  handleCheckboxChange(name: string) {
+    this.checboxes.filter(checkbox => checkbox.name !== name).forEach(checkbox => checkbox.checked = false);
+    const checkbox = this.checboxes.find(checkbox => checkbox.name === name);
+    if (checkbox) {
+      checkbox.checked = !checkbox.checked;
+    }
   }
 
   ngOnDestroy() {
