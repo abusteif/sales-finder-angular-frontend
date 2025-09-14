@@ -72,7 +72,7 @@ export class AlertsStore extends signalStore(
           tap(() => {
             alertService.getAlerts().pipe(
               tap((alerts) => {
-                patchState(userAlerts, { alerts });
+                patchState(userAlerts, { alerts, loading: false });
               }),
               catchError((error) => {
                 patchState(userAlerts, { loading: false, error: error.error.message });
