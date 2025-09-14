@@ -3,7 +3,7 @@
 <section>
   <app-main-top-section></app-main-top-section>
 
-      <hr>
-      <app-main-bottom-section></app-main-bottom-section>
-  </section>
-  
+  <hr>
+  <app-main-bottom-section></app-main-bottom-section>
+</section>
+<app-alert-modal [showAlertModal]="showAlertModal" [existingItemDetails]="itemAlert" (onCloseModal)="closeAlertModal()"></app-alert-modal>

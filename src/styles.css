@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -19,112 +20,120 @@ html, body {
 }
 
 @media (prefers-color-scheme: dark) {
-    body, html {
-      background-color: white !important;
-      color: black !important;
-    }
-  
-    input, textarea, select {
-      background-color: white !important;
-      color: black !important;
-    }
 
-    /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, and admin-page-footer-link buttons */
-    button:not(.is-success):not(.filter-active):not(.sort-active):not(.admin-page-footer-link), .button:not(.is-success):not(.filter-active):not(.sort-active):not(.admin-page-footer-link) {
-      background-color: white !important;
-      color: black !important;
-      border-color: #dee2e6 !important;
-    }
+  body,
+  html {
+    background-color: white !important;
+    color: black !important;
+  }
 
-    button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.admin-page-footer-link):hover, .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.admin-page-footer-link):hover {
-      background-color: #f8f9fa !important;
-      color: black !important;
-      border-color: #ced4da !important;
-    }
+  input,
+  textarea,
+  select {
+    background-color: white !important;
+    color: black !important;
+  }
 
-    /* Specific override for user settings button */
-    .user-settings-btn:hover {
-      background-color: white !important;
-      color: #007bff !important;
-    }
+  /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, bell-icon-btn, and admin-page-footer-link buttons */
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link),
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link) {
+    background-color: white !important;
+    color: black !important;
+    border-color: #dee2e6 !important;
+  }
 
-    button.active:not(.is-success):not(.filter-active):not(.sort-active), .button.active:not(.is-success):not(.filter-active):not(.sort-active),
-    button.is-active:not(.is-success):not(.filter-active):not(.sort-active), .button.is-active:not(.is-success):not(.filter-active):not(.sort-active) {
-      background-color: #007bff !important;
-      color: white !important;
-      border-color: #007bff !important;
-    }
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):hover,
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):hover {
+    background-color: #f8f9fa !important;
+    color: black !important;
+    border-color: #ced4da !important;
+  }
+
+  /* Specific override for user settings button */
+  .user-settings-btn:hover {
+    background-color: white !important;
+    color: #007bff !important;
+  }
+
+  button.active:not(.is-success):not(.filter-active):not(.sort-active),
+  .button.active:not(.is-success):not(.filter-active):not(.sort-active),
+  button.is-active:not(.is-success):not(.filter-active):not(.sort-active),
+  .button.is-active:not(.is-success):not(.filter-active):not(.sort-active) {
+    background-color: #007bff !important;
+    color: white !important;
+    border-color: #007bff !important;
+  }
 
 
-    .dropdown-content {
-      background-color: white !important;
-      border-color: #dee2e6 !important;
-    }
+  .dropdown-content {
+    background-color: white !important;
+    border-color: #dee2e6 !important;
+  }
 
-    .dropdown-item {
-      color: black !important;
-      background-color: white !important;
-    }
+  .dropdown-item {
+    color: black !important;
+    background-color: white !important;
+  }
 
-    .dropdown-item:hover {
-      background-color: #f8f9fa !important;
-      color: black !important;
-    }
+  .dropdown-item:hover {
+    background-color: #f8f9fa !important;
+    color: black !important;
+  }
 
-    /* Target dropdown menu specifically */
-    .dropdown-menu {
-      background-color: white !important;
-      width: fit-content !important;
-      min-width: fit-content !important;
-      box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02) !important;
-      border-radius: 4px !important;
-    }
+  /* Target dropdown menu specifically */
+  .dropdown-menu {
+    background-color: white !important;
+    width: fit-content !important;
+    min-width: fit-content !important;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02) !important;
+    border-radius: 4px !important;
+  }
 
-    /* Target all elements within dropdown */
-    .dropdown * {
-      color: black !important;
-    }
+  /* Target all elements within dropdown */
+  .dropdown * {
+    color: black !important;
+  }
 
-    .dropdown .dropdown-content * {
-      background-color: white !important;
-      color: black !important;
-    }
+  .dropdown .dropdown-content * {
+    background-color: white !important;
+    color: black !important;
+  }
 
-    .dropdown .dropdown-content a {
-      background-color: white !important;
-      color: black !important;
-    }
+  .dropdown .dropdown-content a {
+    background-color: white !important;
+    color: black !important;
+  }
 
-    .dropdown .dropdown-content a:hover {
-      background-color: #f8f9fa !important;
-      color: black !important;
-    }
+  .dropdown .dropdown-content a:hover {
+    background-color: #f8f9fa !important;
+    color: black !important;
+  }
 
-    /* Fix for dropdown items - ensure grey background covers entire option */
-    .dropdown-item:hover,
-    .dropdown-item:hover *,
-    .dropdown-content .dropdown-item:hover,
-    .dropdown-content .dropdown-item:hover *,
-    .dropdown-item:hover label,
-    .dropdown-item:hover label *,
-    .dropdown-item:hover .checkbox,
-    .dropdown-item:hover .checkbox * {
-      background-color: #f8f9fa !important;
-      color: black !important;
-    }
+  /* Fix for dropdown items - ensure grey background covers entire option */
+  .dropdown-item:hover,
+  .dropdown-item:hover *,
+  .dropdown-content .dropdown-item:hover,
+  .dropdown-content .dropdown-item:hover *,
+  .dropdown-item:hover label,
+  .dropdown-item:hover label *,
+  .dropdown-item:hover .checkbox,
+  .dropdown-item:hover .checkbox * {
+    background-color: #f8f9fa !important;
+    color: black !important;
+  }
 
-    /* Ensure the entire dropdown item area gets the grey background */
-    .dropdown .dropdown-content .dropdown-item:hover {
-      background-color: #f8f9fa !important;
-      color: black !important;
-    }
+  /* Ensure the entire dropdown item area gets the grey background */
+  .dropdown .dropdown-content .dropdown-item:hover {
+    background-color: #f8f9fa !important;
+    color: black !important;
+  }
 
-    /* Maintain hr color in dark theme */
-    hr {
-      border-color: #dee2e6 !important;
-      background-color: #dee2e6 !important;
-      color: #dee2e6 !important;
-    }
+  /* Maintain hr color in dark theme */
+  hr {
+    border-color: #dee2e6 !important;
+    background-color: #dee2e6 !important;
+    color: #dee2e6 !important;
+  }
 }
 
 /* Global Admin Button Styles */
@@ -279,7 +288,8 @@ html, body {
   background: transparent;
   color: #1976d2;
   border: 2px solid #1976d2;
-  padding: 12px 18px; /* Adjust for border */
+  padding: 12px 18px;
+  /* Adjust for border */
 }
 
 .btn-outline-primary:hover:not(:disabled) {
@@ -293,7 +303,8 @@ html, body {
   background: transparent;
   color: #495057;
   border: 2px solid #dee2e6;
-  padding: 8px 18px; /* Adjust for border */
+  padding: 8px 18px;
+  /* Adjust for border */
 }
 
 .btn-outline-secondary:hover:not(:disabled) {
@@ -313,8 +324,13 @@ html, body {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Global Admin Page Footer Styles */
@@ -361,7 +377,8 @@ html, body {
 .page-form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Consistent spacing across auth forms */
+  gap: 20px;
+  /* Consistent spacing across auth forms */
   margin-bottom: 20px;
 }
 
@@ -371,17 +388,20 @@ html, body {
 }
 
 .page-form app-auth-field {
-  margin-bottom: 0; /* Reset any individual spacing since gap handles it */
+  margin-bottom: 0;
+  /* Reset any individual spacing since gap handles it */
 }
 
 .page-form .btn {
-  margin-top: 8px; /* Small additional space before buttons */
+  margin-top: 8px;
+  /* Small additional space before buttons */
 }
 
 /* Mobile responsive form spacing */
 @media (max-width: 768px) {
   .page-form {
-    gap: 16px; /* Tighter spacing on mobile */
+    gap: 16px;
+    /* Tighter spacing on mobile */
   }
 }
 
@@ -448,56 +468,72 @@ html, body {
 
 /* Mobile Responsive Button Styles */
 @media (max-width: 768px) {
-  .btn-primary, .btn-success, .btn-danger, .btn-warning, .btn-info {
+
+  .btn-primary,
+  .btn-success,
+  .btn-danger,
+  .btn-warning,
+  .btn-info {
     padding: 12px 20px;
     font-size: 15px;
   }
-  
+
   .btn-secondary {
     padding: 10px 18px;
     font-size: 15px;
   }
-  
+
   .btn-small {
     padding: 6px 12px;
     font-size: 13px;
   }
-  
+
   .btn-large {
     padding: 14px 20px;
     font-size: 16px;
   }
 
   /* Message responsive styles */
-  .error-message, .success-message, .info-message, .warning-message {
+  .error-message,
+  .success-message,
+  .info-message,
+  .warning-message {
     font-size: 13px;
     padding: 8px 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .btn-primary, .btn-success, .btn-danger, .btn-warning, .btn-info {
+
+  .btn-primary,
+  .btn-success,
+  .btn-danger,
+  .btn-warning,
+  .btn-info {
     padding: 10px 16px;
     font-size: 14px;
   }
-  
+
   .btn-secondary {
     padding: 8px 14px;
     font-size: 14px;
   }
-  
+
   .btn-small {
     padding: 6px 10px;
     font-size: 12px;
   }
-  
+
   .btn-large {
     padding: 12px 18px;
     font-size: 15px;
   }
 
   /* Message responsive styles for small screens */
-  .error-message, .success-message, .info-message, .warning-message {
+  .error-message,
+  .success-message,
+  .info-message,
+  .warning-message {
     font-size: 12px;
     padding: 6px 8px;
   }
@@ -515,4 +551,3 @@ html, body {
   z-index: 500;
   padding: 0 10px;
 }
-  

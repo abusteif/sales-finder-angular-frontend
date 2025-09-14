@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { alertConstants } from '../../../core/constants/alert';
 import { AlertsStore } from '../../../state/alerts.store';
 import { User } from '../../../core/models/user.models';
+import { Item } from '../../../core/models/item.model';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class AlertModalComponent {
   @Input() set stores(stores: Store[]) {
     this.storeNames = stores.map(store => store.name);
   }
-
+  @Input() existingItemDetails: Item | null = null;
   @Input() set alert(alert: Alert | null) {
     if (alert) {
       this.alertId = alert.id || '';
@@ -150,6 +151,9 @@ export class AlertModalComponent {
   canProceed(): boolean {
     switch (this.currentStep) {
       case 1:
+        if (this.existingItemDetails) {
+          return true;
+        }
         return this.itemName.trim().length > 0 && this.itemName.length < this.maxCharacterLimit && this.itemName.length >= this.minCharacterLimit;
       case 2:
         return this.selectedStores.length > 0 && this.selectedStores.length <= this.maxStoresPerAlert;

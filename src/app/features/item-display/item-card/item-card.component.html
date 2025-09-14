@@ -52,18 +52,25 @@
       </a>
       }
     </div>
-    <p class="old-price item-detail">
-      <span style="font-weight: bold">RRP: </span>
-      <span>${{ item.oldPrice }}</span>
-    </p>
-    <p class="new-price item-detail">
-      <span style="font-weight: bold">New Price: </span>
-      <span>${{ item.newPrice }}</span>
-    </p>
-    <p class="item-detail">
-      <span style="font-weight: bold; color: black">Discount: </span>
-      <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
-    </p>
+    <div class="pricing-section">
+      <div class="prices-container">
+        <p class="old-price item-detail">
+          <span style="font-weight: bold">RRP: </span>
+          <span>${{ item.oldPrice }}</span>
+        </p>
+        <p class="new-price item-detail">
+          <span style="font-weight: bold">New Price: </span>
+          <span>${{ item.newPrice }}</span>
+        </p>
+        <p class="item-detail">
+          <span style="font-weight: bold; color: black">Discount: </span>
+          <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
+        </p>
+      </div>
+      <button class="bell-button" matTooltip="Create Alert For This Item" matTooltipPosition="below" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" (click)="onAlertButtonClick()">
+        <i class="fas fa-bell"></i>
+      </button>
+    </div>
   </div>
 </div>
 }

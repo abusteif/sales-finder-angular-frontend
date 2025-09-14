@@ -14,6 +14,7 @@ import { SummaryStepComponent } from './alert-creation-steps/summary-step/summar
 import { AlertItemDetailsComponent } from './alert-item-details/alert-item-details.component';
 import { AlertItemResultsComponent } from './alert-item-results/alert-item-results.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ItemLinkStepComponent } from './alert-creation-steps/item-link-step/item-link-step.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     PriceDiscountRangeStepComponent,
     SummaryStepComponent,
     AlertItemDetailsComponent,
-    AlertItemResultsComponent
+    AlertItemResultsComponent,
+    ItemLinkStepComponent
   ],
   imports: [
     CommonModule,

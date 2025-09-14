@@ -202,3 +202,52 @@
   align-items: center;
   width: 100%;
 }
+
+.pricing-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.prices-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.bell-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #666;
+  font-size: 20px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.bell-button:hover {
+  color: #333;
+  transform: scale(1.2);
+}
+
+.bell-button i {
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .bell-button {
+    padding-left: 2px;
+    font-size: 13px;
+    /* Align with discount line on mobile */
+    bottom: -7px; /* Keep at bottom edge */
+    right: -12px; /* Move further to the right */
+  }
+
+
+}

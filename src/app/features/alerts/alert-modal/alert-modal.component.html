@@ -10,11 +10,8 @@
             </div>
             <div class="step-indicators">
                 @for (step of stepsArray; track step) {
-                <div class="step-indicator" 
-                     [class.active]="step <= currentStep" 
-                     [class.current]="step === currentStep"
-                     [class.clickable]="step <= currentStep || canNavigateToStep(step)"
-                     (click)="navigateToStep(step)">
+                <div class="step-indicator" [class.active]="step <= currentStep" [class.current]="step === currentStep"
+                    [class.clickable]="step <= currentStep || canNavigateToStep(step)" (click)="navigateToStep(step)">
                     <span class="step-number">{{ step }}</span>
                 </div>
                 }
@@ -25,31 +22,35 @@
         <div class="step-content">
             <!-- Step 1: Item Name -->
             @if (currentStep === 1) {
-            <div class="step-panel">
-                <app-search-text-step [itemName]="itemName" [maxCharacterLimit]="maxCharacterLimit" [aiSearch]="aiSearch"
-                    [exactMatch]="exactMatch" (itemNameChange)="onItemNameChange($event)" (enterKey)="onEnterKey()"
-                    (exactMatchChange)="onExactMatchChange($event)"
-                    (aiSearchChange)="onAiSearchChange($event)"></app-search-text-step>
+                @if (existingItemDetails) {
+                <div class="step-panel">
+                    <app-item-link-step [item]="existingItemDetails"></app-item-link-step>
+                </div>
+                } @else {
+                <div class="step-panel">
+                    <app-search-text-step [itemName]="itemName" [maxCharacterLimit]="maxCharacterLimit"
+                        [aiSearch]="aiSearch" [exactMatch]="exactMatch" (itemNameChange)="onItemNameChange($event)"
+                        (enterKey)="onEnterKey()" (exactMatchChange)="onExactMatchChange($event)"
+                        (aiSearchChange)="onAiSearchChange($event)"></app-search-text-step>
 
-            </div>
+                </div>
+                }
             }
 
             <!-- Step 2: Store and Category Selection -->
             @if (currentStep === 2) {
             <div class="step-panel">
-                <app-store-selection-step [selectedStores]="selectedStores"
-                    [storeNames]="storeNames" [maxSelectedOptions]="maxStoresPerAlert" (storeChange)="onStoreChange($event)"></app-store-selection-step>
+                <app-store-selection-step [selectedStores]="selectedStores" [storeNames]="storeNames"
+                    [maxSelectedOptions]="maxStoresPerAlert"
+                    (storeChange)="onStoreChange($event)"></app-store-selection-step>
             </div>
             }
 
             <!-- Step 3: Preferences -->
             @if (currentStep === 3) {
             <div class="step-panel">
-                <app-price-discount-range-step 
-                    [priceRange]="priceRange" 
-                    [minDiscount]="minDiscount"
-                    (priceRangeChange)="onPriceRangeChange($event)"
-                    (minDiscountChange)="onMinDiscountChange($event)">
+                <app-price-discount-range-step [priceRange]="priceRange" [minDiscount]="minDiscount"
+                    (priceRangeChange)="onPriceRangeChange($event)" (minDiscountChange)="onMinDiscountChange($event)">
                 </app-price-discount-range-step>
             </div>
             }
@@ -57,13 +58,8 @@
             <!-- Step 4: Summary -->
             @if (currentStep === 4) {
             <div class="step-panel">
-                <app-summary-step 
-                    [searchText]="itemName"
-                    [selectedStores]="selectedStores"
-                    [priceRange]="priceRange"
-                    [minDiscount]="minDiscount"
-                    [exactMatch]="exactMatch"
-                    [aiSearch]="aiSearch"
+                <app-summary-step [searchText]="itemName" [selectedStores]="selectedStores" [priceRange]="priceRange"
+                    [minDiscount]="minDiscount" [exactMatch]="exactMatch" [aiSearch]="aiSearch"
                     [isNewAlert]="isNewAlert">
                 </app-summary-step>
             </div>

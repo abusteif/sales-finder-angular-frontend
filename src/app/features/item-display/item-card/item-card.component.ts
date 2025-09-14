@@ -1,10 +1,11 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, signal, ViewChild } from '@angular/core';
 import { Item, UpdateType, ItemColour } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
 import { AppStore } from '../../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
 
+export const itemAlertSignal = signal<Item | null>(null)
 @Component({
   selector: 'app-item-card',
   standalone: false,
@@ -31,8 +32,14 @@ export class ItemCardComponent {
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
+
+
   constructor(private appStore: AppStore, private relativeDatePipe: RelativeDatePipe) {
     this.isMobile = this.appStore.isMobile()
+  }
+
+  onAlertButtonClick() {
+    itemAlertSignal.set(this._item)
   }
 
   getTitleClass(): string {
