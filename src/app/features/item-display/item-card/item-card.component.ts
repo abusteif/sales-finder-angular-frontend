@@ -1,11 +1,11 @@
 import { Component, Input, signal, ViewChild } from '@angular/core';
-import { Item, UpdateType, ItemColour } from '../../../core/models/item.model';
+import { Item, UpdateType, ItemColour, ItemAlert } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
 import { AppStore } from '../../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
 
-export const itemAlertSignal = signal<Item | null>(null)
+export const itemAlertSignal = signal<ItemAlert | null>(null)
 @Component({
   selector: 'app-item-card',
   standalone: false,
@@ -15,8 +15,34 @@ export const itemAlertSignal = signal<Item | null>(null)
 })
 export class ItemCardComponent {
   @ViewChild(MatTooltip) tooltip!: MatTooltip;
+
+  @Input() alertLimitReached: boolean = false;
+  @Input() set item(item: Item) {
+    this._item = item
+    this.camelCamelCamelUrl = this.generateCamelCamelCamelUrl()
+    this.updateType = item.updateType
+    this.updatedAt = item.updatedAt
+    this.discountChange = item.discountChange
+    this.colour = item.colour
+    this.highestDiscountSince = item.highestDiscountSince || 0
+    this.isHighestDiscountEver = item.isHighestDiscountEver || false
+    this.trackedSince = item.trackedSince || 0
+    this.isFlactuating = item.isFlactuating || false
+    this.alertId = item.alertId || null 
+    this._itemAlert = {
+      alertId: this.alertId || '',
+      item: this._item
+    }
+  }
+  @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
+    this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
+  }
+  get item() {
+    return this._item
+  }
   
   _item: Item = {} as Item
+  _itemAlert: ItemAlert = {} as ItemAlert
   lastCheckedAt: Date = new Date()
   updatedAt: Date = new Date()
   updateType: UpdateType = UpdateType.ALL
@@ -28,6 +54,7 @@ export class ItemCardComponent {
   isHighestDiscountEver: boolean = false
   trackedSince: number = 0
   isFlactuating: boolean = false
+  alertId: string | null = null
   
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
@@ -39,7 +66,19 @@ export class ItemCardComponent {
   }
 
   onAlertButtonClick() {
-    itemAlertSignal.set(this._item)
+    if (!this.isAlertDisabled()) {
+      itemAlertSignal.set(this._itemAlert)
+    }
+  }
+  
+  getTooltipText(): string {
+    if (this.alertLimitReached) {
+      return `You have reached the alert limit for your current plan`;
+    }
+    if (this.alertId) {
+      return `Update Alert For This Item`;
+    }
+    return `Create Alert For This Item`;
   }
 
   getTitleClass(): string {
@@ -98,24 +137,7 @@ export class ItemCardComponent {
     return `${baseClass} ${typeClass}`;
   }
 
-  @Input() set item(item: Item) {
-    this._item = item
-    this.camelCamelCamelUrl = this.generateCamelCamelCamelUrl()
-    this.updateType = item.updateType
-    this.updatedAt = item.updatedAt
-    this.discountChange = item.discountChange
-    this.colour = item.colour
-    this.highestDiscountSince = item.highestDiscountSince || 0
-    this.isHighestDiscountEver = item.isHighestDiscountEver || false
-    this.trackedSince = item.trackedSince || 0
-    this.isFlactuating = item.isFlactuating || false
-  }
-  @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
-    this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
-  }
-  get item() {
-    return this._item
-  }
+
   camelCamelCamelUrl: string = ''
 
   generateCamelCamelCamelUrl() {
@@ -212,6 +234,10 @@ export class ItemCardComponent {
     return 'Price Volatility Warning: This item\'s price frequently changes up and down';
   }
 
+  isAlertDisabled(): boolean {
+    return this.alertLimitReached && !this.alertId
+  }
+
   onVolatilityIconClick(event: MouseEvent, volatilityTooltip: any) {
     event.preventDefault();
     event.stopPropagation();
@@ -222,6 +248,19 @@ export class ItemCardComponent {
       setTimeout(() => {
         volatilityTooltip.hide();
       }, 3000); // Show longer for warning message
+    }
+  }
+
+  onAlertIndicatorClick(event: MouseEvent, alertTooltip: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (this.isMobile && alertTooltip) {
+      alertTooltip.show();
+      
+      setTimeout(() => {
+        alertTooltip.hide();
+      }, 2000);
     }
   }
 

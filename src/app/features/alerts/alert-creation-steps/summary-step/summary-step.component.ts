@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Item } from '../../../../core/models/item.model';
 
 @Component({
   selector: 'app-summary-step',
@@ -14,6 +15,8 @@ export class SummaryStepComponent {
   @Input() exactMatch = false;
   @Input() aiSearch = true;
   @Input() isNewAlert = true;
+  @Input() url = '';
+  @Input() imageUrl = '';
   // Computed properties for display
   get stores(): string[] {
     return this.selectedStores.length > 0 ? this.selectedStores : ['All stores'];

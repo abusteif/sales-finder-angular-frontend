@@ -28,7 +28,8 @@ export class AlertItemComponent {
   lastItemFoundAt: Date | null = null;
   lastItemFoundUrl = '';
   lastItemFoundImageUrl = '';
-
+  url = '';
+  imageUrl = '';
   @Output() toggleAlert = new EventEmitter<Alert>();
   @Output() editAlert = new EventEmitter<Alert>();
   @Output() deleteAlert = new EventEmitter<string>();
@@ -51,6 +52,8 @@ export class AlertItemComponent {
     this.lastItemFoundAt = alert.lastItemFoundAt || null;
     this.lastItemFoundUrl = alert.lastItemFoundUrl || '';
     this.lastItemFoundImageUrl = alert.lastItemFoundImageUrl || '';
+    this.url = alert.url || '';
+    this.imageUrl = alert.imageUrl || '';
   }
   get alert(): Alert {
     return this._alert;

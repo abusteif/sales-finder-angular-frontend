@@ -3,11 +3,11 @@ import { Item } from '../../../core/models/item.model';
 import { ItemsStore } from '../../../state/items.store';
 import { effect } from '@angular/core';
 import { FilterStore } from '../../../state/filter.store';
-import { environment } from '../../../../environments/environment';
 import { storesStore } from '../../../state/stores.store';
 import { Store } from '../../../core/models/store.model';
 import { AppStore } from '../../../state/app.store';
-
+import { AlertsStore } from '../../../state/alerts.store';
+import { AuthenticationStore } from '../../../state/authentication.store';
 @Component({
   selector: 'app-main-bottom-section',
   standalone: false,
@@ -23,11 +23,14 @@ export class MainBottomSectionComponent {
   stores: Store[] = [];
   storesCheckedAt: {name: string, checkedAt: Date}[] = [];
   itemsPerPage: number = 0;
+  alertLimitReached: boolean = false;
   constructor(
     private itemsStore: ItemsStore,
     private filterStore: FilterStore,
     private storesStore: storesStore,
-    private appStore: AppStore
+    private appStore: AppStore,
+    private alertsStore: AlertsStore,
+    private authenticationStore: AuthenticationStore
   ) {
     effect(() => {
       this.items = this.itemsStore.items();
@@ -44,6 +47,7 @@ export class MainBottomSectionComponent {
           checkedAt: store.checkedAt
         }
       });
+      this.alertLimitReached = this.alertsStore.alerts().length >= (this.authenticationStore.user()?.maxAlerts || 0);
     });
   }
 

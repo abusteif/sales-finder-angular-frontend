@@ -24,7 +24,17 @@ export class AlertModalComponent {
   @Input() set stores(stores: Store[]) {
     this.storeNames = stores.map(store => store.name);
   }
-  @Input() existingItemDetails: Item | null = null;
+  _existingItemDetails: Item | null = null;
+  @Input() set existingItemDetails(item: Item | null) {
+    this._existingItemDetails = item || null;
+    if (this._existingItemDetails) {
+      this.itemName = this._existingItemDetails.name;
+    }
+  }
+  get existingItemDetails(): Item | null {
+    return this._existingItemDetails;
+  }
+
   @Input() set alert(alert: Alert | null) {
     if (alert) {
       this.alertId = alert.id || '';
@@ -40,7 +50,7 @@ export class AlertModalComponent {
   }
 
   @Output() onCloseModal = new EventEmitter<void>();
-
+  @Output() onSubmitAlert = new EventEmitter<Alert>();
   currentStep = 1;
   totalSteps = 4;
   stepsArray = Array.from({ length: 4 }, (_, i) => i + 1);
@@ -94,32 +104,54 @@ export class AlertModalComponent {
     this.alertType = 'email';
     this.isNewAlert = true;
     this.alertId = '';
+    this._existingItemDetails = null;
   }
 
   nextStep() {
     if (this.currentStep < this.totalSteps) {
+      if (this.existingItemDetails) {
+        if (this.currentStep === 1) {
+          this.currentStep = 3
+          this.selectedStores = [this.existingItemDetails.store]
+          return;
+        }
+      }
+
+      
       this.currentStep++;
+      
     } else if (this.currentStep === this.totalSteps) {
       const alert: Alert = {
         id: this.alertId,
-        item: this.itemName,
+        item: this.existingItemDetails ? this.existingItemDetails.name : this.itemName,
         aiSearch: this.aiSearch,
         exactMatch: this.exactMatch,
         stores: this.selectedStores,
         minPrice: this.priceRange[0],
         minDiscount: this.minDiscount,
         isActive: true,
-        alertType: this.alertType || 'EMAIL'
+        alertType: this.alertType || 'EMAIL',
+      }
+      if (this.existingItemDetails) {
+        alert.url = this.existingItemDetails.url;
       }
       if (this.priceRange[1] !== environment.maxPriceRange[1]) {
         alert.maxPrice = this.priceRange[1];
       }
       this.alertId ? this.onUpdateAlert(alert) : this.onCreateAlert(alert);
+      this.onSubmitAlert.emit(alert);
+      this.closeAlertModal();
     }
   }
 
   previousStep() {
     if (this.currentStep > 1) {
+      if (this.existingItemDetails) {
+        if (this.currentStep === 3) {
+          this.currentStep = 1
+          return;
+        }
+      }
       this.currentStep--;
     }
   }
@@ -131,11 +163,15 @@ export class AlertModalComponent {
   }
 
   canNavigateToStep(step: number): boolean {
-    // Can always navigate to completed steps or the next available step
+
+    if (this.existingItemDetails) {
+      if (step === 2 ) {
+        return false;
+      }
+    }
     if (step <= this.currentStep) {
       return true;
     }
-    
     // Can navigate to next step if current step is valid
     if (step === this.currentStep + 1) {
       return this.canProceed();
@@ -230,15 +266,14 @@ export class AlertModalComponent {
   }
 
   onUpdateAlert(alert: Alert) {
+    console.log('onUpdateAlert', alert);
     if (this.priceRange[1] !== environment.maxPriceRange[1]) {
       alert.maxPrice = this.priceRange[1];
     }
     this.alertsStore.updateAlert(alert);
-    this.closeAlertModal();
   }
 
     onCreateAlert(alert: Alert) {
     this.alertsStore.createAlert(alert);
-    this.closeAlertModal();
   }
 }

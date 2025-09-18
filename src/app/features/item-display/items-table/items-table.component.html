@@ -23,7 +23,7 @@
     @for (item of items; track item.url) {
       <div class="column is-one-third-mobile is-one-third-tablet is-one-fifth-desktop">
 
-      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt"></app-item-card>
+      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached"></app-item-card>
     </div>
   
 

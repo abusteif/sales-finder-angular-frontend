@@ -9,10 +9,25 @@
   
   <div class="section-content">
     <div class="alert-item__main">  
+      @if (url) {
+      <div class="item-header">
+        <div class="item-image-container">
+          <img [src]="imageUrl" [alt]="searchText" class="item-image" />
+        </div>
+        <div class="item-info">
+          <a [href]="url" target="_blank" rel="noopener noreferrer" class="item-link">
+            <h3 class="alert-item__title item-name" [matTooltip]="searchText">
+              {{ searchText | truncate : 50}}
+              <i class="fas fa-external-link-alt external-link-icon"></i>
+            </h3>
+          </a>
+        </div>
+      </div>
+      } @else {
       <div class="search-header">
         <h3 class="alert-item__title" [matTooltip]="searchText">{{ searchText | truncate : 30}}</h3>
-
       </div>
+      }
       <div class="search-tags">
         @if (aiSearch) {
           <span class="tag ai-search-tag">

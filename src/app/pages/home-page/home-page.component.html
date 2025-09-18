@@ -6,4 +6,5 @@
   <hr>
   <app-main-bottom-section></app-main-bottom-section>
 </section>
-<app-alert-modal [showAlertModal]="showAlertModal" [existingItemDetails]="itemAlert" (onCloseModal)="closeAlertModal()"></app-alert-modal>
+<app-alert-modal [showAlertModal]="showAlertModal" [existingItemDetails]="itemDetails" (onCloseModal)="closeAlertModal()"
+  (onSubmitAlert)="submitAlert($event)" [alert]="alertDetails"></app-alert-modal>

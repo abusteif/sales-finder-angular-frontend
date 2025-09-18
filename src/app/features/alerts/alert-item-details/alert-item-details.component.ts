@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Item } from '../../../core/models/item.model';
 
 @Component({
   selector: 'app-alert-item-details',
@@ -11,7 +12,8 @@ export class AlertItemDetailsComponent {
   @Output() editAlert = new EventEmitter<void>();
   @Output() deleteAlert = new EventEmitter<void>();
 
-  // Input properties for display data
+  @Input() url = '';
+  @Input() imageUrl = '';
   @Input() searchText = '';
   @Input() stores: string[] = [];
   @Input() minPrice = 0;

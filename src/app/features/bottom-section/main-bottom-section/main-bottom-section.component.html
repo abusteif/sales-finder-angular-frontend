@@ -1,5 +1,5 @@
 <div class="container">
-<app-items-table [items]="items" [loading]="isItemsLoading" [error]="itemsError" [storesCheckedAt]="storesCheckedAt"></app-items-table>
+<app-items-table [items]="items" [loading]="isItemsLoading" [error]="itemsError" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached"></app-items-table>
 </div>
 @if (items.length > 0) {
   <app-pagination [currentPage]="currentPage" (onPageChange)="onPageChange($event) " [isLastPage]="isLastPage" [itemsCount]="itemsCount" [itemsPerPage]="itemsPerPage"></app-pagination>

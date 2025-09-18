@@ -1,4 +1,4 @@
-<app-base-modal [showModal]="showAlertModal" (onCloseModal)="closeAlertModal()" [title]="getStepTitle()"
+<app-base-modal     [showModal]="showAlertModal" (onCloseModal)="closeAlertModal()" [title]="getStepTitle()"
     [applyButtonText]="submitAlertText()" [cancelButtonText]="'Cancel'"
     [additionalButton]="currentStep > 1 ? additionalButton : null" [applyButtonDisabled]="getApplyButtonDisabled()"
     (onApply)="nextStep()" (onCancel)="closeAlertModal()" (onAdditionalButtonClick)="onAdditionalButtonClick()">
@@ -22,19 +22,19 @@
         <div class="step-content">
             <!-- Step 1: Item Name -->
             @if (currentStep === 1) {
-                @if (existingItemDetails) {
-                <div class="step-panel">
-                    <app-item-link-step [item]="existingItemDetails"></app-item-link-step>
-                </div>
-                } @else {
-                <div class="step-panel">
-                    <app-search-text-step [itemName]="itemName" [maxCharacterLimit]="maxCharacterLimit"
-                        [aiSearch]="aiSearch" [exactMatch]="exactMatch" (itemNameChange)="onItemNameChange($event)"
-                        (enterKey)="onEnterKey()" (exactMatchChange)="onExactMatchChange($event)"
-                        (aiSearchChange)="onAiSearchChange($event)"></app-search-text-step>
+            @if (existingItemDetails) {
+            <div class="step-panel">
+                <app-item-link-step [item]="existingItemDetails" [isNewAlert]="isNewAlert"></app-item-link-step>
+            </div>
+            } @else {
+            <div class="step-panel">
+                <app-search-text-step [itemName]="itemName" [maxCharacterLimit]="maxCharacterLimit"
+                    [aiSearch]="aiSearch" [exactMatch]="exactMatch" (itemNameChange)="onItemNameChange($event)"
+                    (enterKey)="onEnterKey()" (exactMatchChange)="onExactMatchChange($event)"
+                    (aiSearchChange)="onAiSearchChange($event)"></app-search-text-step>
 
-                </div>
-                }
+            </div>
+            }
             }
 
             <!-- Step 2: Store and Category Selection -->
@@ -60,7 +60,7 @@
             <div class="step-panel">
                 <app-summary-step [searchText]="itemName" [selectedStores]="selectedStores" [priceRange]="priceRange"
                     [minDiscount]="minDiscount" [exactMatch]="exactMatch" [aiSearch]="aiSearch"
-                    [isNewAlert]="isNewAlert">
+                    [isNewAlert]="isNewAlert" [url]="existingItemDetails?.url || ''" [imageUrl]="existingItemDetails?.imageUrl || ''">
                 </app-summary-step>
             </div>
             }

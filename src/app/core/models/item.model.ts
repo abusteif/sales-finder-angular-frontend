@@ -18,6 +18,12 @@ export interface Item {
     isHighestDiscountEver: boolean;
     trackedSince: number
     isFlactuating: boolean;
+    alertId: string | null;
+}
+
+export interface ItemAlert {
+    alertId: string;
+    item: Item;
 }
 
 export interface ItemColour {

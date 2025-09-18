@@ -1,38 +1,22 @@
 <div class="step-description">
-    <p>We'll create an alert for this item</p>
+    <p>{{headingText}}</p>
 </div>
 
 @if(item) {
-<div class="item-details-container">
+<a [href]="item.url" target="_blank" rel="noopener noreferrer" class="item-details-container">
     <div class="item-image-container">
         <figure class="image is-1by1">
             <img [src]="item.imageUrl" [alt]="item.name" class="item-image" />
         </figure>
     </div>
-    
+
     <div class="item-info">
         <h3 class="item-name">{{ item.name }}</h3>
         <div class="item-store">
             <img [src]="'assets/logos/' + item.store + '-logo.svg'" class="store-logo" [alt]="item.store + ' logo'" />
         </div>
-        <div class="item-pricing">
-            <p class="current-price">
-                <span class="price-label">Current Price:</span>
-                <span class="price-value">${{ item.newPrice }}</span>
-            </p>
-            @if(item.discount > 0) {
-            <p class="original-price">
-                <span class="price-label">Original Price:</span>
-                <span class="price-value strikethrough">${{ item.oldPrice }}</span>
-            </p>
-            <p class="discount-info">
-                <span class="price-label">Discount:</span>
-                <span class="discount-value">{{ (item.discount * 100) | number : "1.0-0" }}% off</span>
-            </p>
-            }
-        </div>
     </div>
-</div>
+</a>
 } @else {
 <div class="no-item-message">
     <p>No item selected</p>

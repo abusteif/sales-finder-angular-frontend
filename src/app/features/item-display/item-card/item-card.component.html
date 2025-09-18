@@ -67,7 +67,9 @@
           <span style="color: black">{{ 100 * item.discount | number : "1.0-0" }}%</span>
         </p>
       </div>
-      <button class="bell-button" matTooltip="Create Alert For This Item" matTooltipPosition="below" [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" (click)="onAlertButtonClick()">
+      <button class="bell-button" [class.disabled]="isAlertDisabled()" [class.has-alert]="alertId"
+        [disabled]="isAlertDisabled()" [matTooltip]="getTooltipText()" matTooltipPosition="below"
+        [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" (click)="onAlertButtonClick()">
         <i class="fas fa-bell"></i>
       </button>
     </div>

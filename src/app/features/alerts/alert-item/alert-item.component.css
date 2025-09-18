@@ -6,7 +6,7 @@
   transition: all 0.3s ease;
   border: 2px solid transparent;
   margin-bottom: 16px;
-  height: 360px;
+  height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -201,7 +201,7 @@
 @media (max-width: 768px) {
   .alert-item {
     margin-bottom: 12px;
-    height: 560px;
+    height: 600px;
 
   }
   

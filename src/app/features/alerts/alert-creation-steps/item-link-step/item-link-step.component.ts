@@ -9,4 +9,9 @@ import { Item } from '../../../../core/models/item.model';
 })
 export class ItemLinkStepComponent {
   @Input() item: Item | null = null;
+  @Input() set isNewAlert(isNewAlert: boolean) {
+    this.headingText = isNewAlert ? 'We\'ll create an alert for this item' : 'We\'ll update the alert for this item';
+  }
+  headingText = 'We\'ll create an alert for this item';
+
 }

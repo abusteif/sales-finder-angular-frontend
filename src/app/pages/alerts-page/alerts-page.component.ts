@@ -5,6 +5,7 @@ import { storesStore } from '../../state/stores.store';
 import { Store } from '../../core/models/store.model';
 import { AuthenticationStore } from '../../state/authentication.store';
 import { User } from '../../core/models/user.models';
+import { Item } from '../../core/models/item.model';
 
 @Component({
   selector: 'app-alerts-page',
@@ -22,6 +23,7 @@ export class AlertsPageComponent implements OnInit {
   alert: Alert | null = null;
   user: User | null = null;
   loading = false;
+  existingItemDetails: Item | null = null;
   constructor(
     private alertsStore: AlertsStore,
     private storesStore: storesStore,
@@ -35,7 +37,7 @@ export class AlertsPageComponent implements OnInit {
       this.loading = this.alertsStore.loading();
     });
   }
-  
+
   ngOnInit(): void {
     this.alertsStore.loadAlerts();
     this.storesStore.loadStores();
@@ -57,6 +59,14 @@ export class AlertsPageComponent implements OnInit {
   onEditAlert(alert: Alert): void {
     this.showAlertModal = true;
     this.alert = alert;
+    if (alert.url && alert.imageUrl) {
+      this.existingItemDetails = {
+        name: alert.item,
+        url: alert.url,
+        imageUrl: alert.imageUrl,
+        store: alert.stores[0],
+      } as Item;
+    }
   }
 
   onToggleAlert(alert: Alert): void {

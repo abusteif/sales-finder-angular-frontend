@@ -46,7 +46,7 @@ export class AlertsStore extends signalStore(
             // Show success dialog
             statusDialogService.showSuccess(
               'Alert Created Successfully!',
-              `Your price drop alert for "${alert.item}" has been created and is now active.`,
+              `Your price drop alert has been created and is now active.`,
               'Great!'
             ).subscribe();
 
@@ -101,6 +101,15 @@ export class AlertsStore extends signalStore(
               `Your price drop alert for "${alert.item}" has been updated.`,
               'Great!'
             ).subscribe();
+          }),
+          catchError((error) => {
+            patchState(userAlerts, { loading: false, error: error.error.message });
+            statusDialogService.showError(
+              'Failed to Update Alert',
+              error.error.message,
+              'OK'
+            ).subscribe();
+            return of([]);
           })
         ).subscribe();
       },

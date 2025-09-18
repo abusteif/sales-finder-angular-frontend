@@ -8,6 +8,7 @@ import { Item } from '../../../core/models/item.model';
   styleUrls: ['./items-table.component.css']
 })
 export class ItemsTableComponent {
+  @Input() alertLimitReached: boolean = false;
   @Input() items: Item[] = [];
   @Input() loading: boolean = false;
   @Input() error: string | null = null;
