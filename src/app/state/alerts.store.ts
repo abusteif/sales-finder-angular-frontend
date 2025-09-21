@@ -98,7 +98,7 @@ export class AlertsStore extends signalStore(
             ).subscribe();
             statusDialogService.showSuccess(
               'Alert Updated Successfully!',
-              `Your price drop alert for "${alert.item}" has been updated.`,
+              `Your price drop alert for <strong style="color: #2196F3;">"${alert.item}"</strong> has been updated successfully.`,
               'Great!'
             ).subscribe();
           }),

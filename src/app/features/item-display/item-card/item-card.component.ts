@@ -72,7 +72,7 @@ export class ItemCardComponent {
   }
   
   getTooltipText(): string {
-    if (this.alertLimitReached) {
+    if (this.alertLimitReached && !this.alertId) {
       return `You have reached the alert limit for your current plan`;
     }
     if (this.alertId) {
