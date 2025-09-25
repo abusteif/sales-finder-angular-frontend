@@ -34,16 +34,16 @@ body {
     color: black !important;
   }
 
-  /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, bell-icon-btn, and admin-page-footer-link buttons */
-  button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link),
-  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link) {
+  /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, bell-icon-btn, discount-chip, and admin-page-footer-link buttons */
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):not(.discount-chip),
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):not(.discount-chip) {
     background-color: white !important;
     color: black !important;
     border-color: #dee2e6 !important;
   }
 
-  button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):hover,
-  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):hover {
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):not(.discount-chip):hover,
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.admin-page-footer-link):not(.discount-chip):hover {
     background-color: #f8f9fa !important;
     color: black !important;
     border-color: #ced4da !important;
