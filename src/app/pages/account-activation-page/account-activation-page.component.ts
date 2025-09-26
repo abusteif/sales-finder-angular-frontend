@@ -91,6 +91,10 @@ export class AccountActivationPageComponent implements OnInit {
     this.navigationService.navigateToPublicRoute('/signup');
   }
 
+  navigateToContactUs(): void {
+    this.navigationService.navigateToPublicRoute('/contact-us');
+  }
+
   getPageTitle(): string {
     if (this.isLoading) {
       return 'Activating Your Account';

@@ -61,6 +61,11 @@ export class NavbarComponent {
     this.navigationService.navigateToPublicRoute('/signup');
   }
 
+  contactUs() {
+    this.navigationService.navigateToPublicRoute('/contact-us');
+    this.isUserSettingsOpen = false;
+  }
+
   logout() {
     this.authenticationStore.logout();
     this.isUserSettingsOpen = false;

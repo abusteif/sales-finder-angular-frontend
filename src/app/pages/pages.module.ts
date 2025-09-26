@@ -16,6 +16,7 @@ import { PasswordResetConfirmPageComponent } from './password-reset-confirm-page
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { UpgradePageComponent } from './upgrade-page/upgrade-page.component';
 import { AdminBasePageComponent } from './admin-base-page/admin-base-page.component';
+import { ContactUsPageComponent } from './contact-us-page/contact-us-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     PasswordResetConfirmPageComponent,
     ForgotPasswordPageComponent,
     UpgradePageComponent,
-    AdminBasePageComponent
+    AdminBasePageComponent,
+    ContactUsPageComponent
   ],
   imports: [
     CommonModule,

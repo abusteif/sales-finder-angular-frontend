@@ -10,6 +10,7 @@ import { UpgradePageComponent } from './pages/upgrade-page/upgrade-page.componen
 import { AlertsPageComponent } from './pages/alerts-page/alerts-page.component';
 import { PasswordResetConfirmPageComponent } from './pages/password-reset-confirm-page/password-reset-confirm-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
+import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard } from './core/guards';
 
 const routes: Routes = [
@@ -71,6 +72,11 @@ const routes: Routes = [
     component: ForgotPasswordPageComponent, 
     pathMatch: 'full',
     canActivate: [publicGuard]
+  },
+  {
+    path: 'contact-us', 
+    component: ContactUsPageComponent, 
+    pathMatch: 'full'
   }
 ];
 

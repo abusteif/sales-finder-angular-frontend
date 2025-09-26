@@ -21,4 +21,8 @@ export class ActivationConfirmationPageComponent {
   goToHome(): void {
     this.navigationService.navigateToHome();
   }
+
+  navigateToContactUs(): void {
+    this.navigationService.navigateToPublicRoute('/contact-us');
+  }
 } 

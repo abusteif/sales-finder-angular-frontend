@@ -53,4 +53,8 @@ export class LoginPageComponent {
   navigateToSignup() {
     this.navigationService.navigateToPublicRoute('/signup');
   }
+
+  navigateToContactUs() {
+    this.navigationService.navigateToPublicRoute('/contact-us');
+  }
 }
