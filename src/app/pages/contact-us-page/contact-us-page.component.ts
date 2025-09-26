@@ -37,14 +37,6 @@ export class ContactUsPageComponent {
     });
   }
 
-  onBackToHome() {
-    this.navigationService.navigateToHome();
-  }
-
-  onViewAlerts() {
-    this.navigationService.navigateToProtectedRoute('/alerts', {}, this.authenticationStore.isAuthenticated());
-  }
-
   onSubmit() {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
