@@ -74,6 +74,14 @@
   object-position: center;
 }
 
+.google-logo {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  object-position: center;
+  margin-right: 8px;
+}
+
 @media (max-width: 768px) {
   .item-detail {
     font-size: 10px;
@@ -82,6 +90,12 @@
   .store-logo {
     width: 30px;
     height: 15px;
+  }
+  
+  .google-logo {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
   }
 }
 

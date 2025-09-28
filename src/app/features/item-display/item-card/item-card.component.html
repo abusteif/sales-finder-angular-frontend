@@ -43,6 +43,9 @@
       </p>
     </a>
     <div class="store-logos-container">
+      <a [href]="googleUrl" target="_blank" rel="noopener noreferrer">
+      <img [src]="'assets/logos/google-logo.svg'" class="google-logo" alt="Google Logo" />
+      </a>
       <img [src]="`assets/logos/${item.store}-logo.svg`" class="store-logo" alt="Store Logo"
         [matTooltip]="'Last checked: ' + (lastCheckedAt | relativeDate)" matTooltipPosition="below"
         [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" />

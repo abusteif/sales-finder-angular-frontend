@@ -33,6 +33,7 @@ export class ItemCardComponent {
       alertId: this.alertId || '',
       item: this._item
     }
+    this.googleUrl = this.generateGoogleUrl()
   }
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
@@ -139,7 +140,10 @@ export class ItemCardComponent {
 
 
   camelCamelCamelUrl: string = ''
-
+  googleUrl: string = ''
+  generateGoogleUrl() {
+    return `https://www.google.com/search?q=${this._item?.name}`;
+  }
   generateCamelCamelCamelUrl() {
     const itemUrl = this._item?.url
     const splits = itemUrl?.split('/')
