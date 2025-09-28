@@ -66,6 +66,11 @@ export class NavbarComponent {
     this.isUserSettingsOpen = false;
   }
 
+  faq() {
+    this.navigationService.navigateToPublicRoute('/faq');
+    this.isUserSettingsOpen = false;
+  }
+
   logout() {
     this.authenticationStore.logout();
     this.isUserSettingsOpen = false;

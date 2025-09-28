@@ -1,0 +1,173 @@
+<div class="faq-container">
+    <div class="faq-card">
+        <!-- App Logo -->
+        <div class="faq-logo">
+            <app-logo size="large" variant="default" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
+        </div>
+
+        <!-- FAQ Content -->
+        <div class="faq-content">
+            <div class="faq-icon">
+                <i class="fas fa-question-circle"></i>
+            </div>
+
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find answers to common questions</p>
+
+            <div class="faq-description">
+                <p>Here are some frequently asked questions to help you get the most out of Bargain Radar.</p>
+            </div>
+
+            <div class="faq-questions">
+                <div class="faq-item">
+                    <div class="faq-question" (click)="toggleQuestion(0)">
+                        <h3>How do I create a price alert?</h3>
+                        <i class="fas" [class.fa-chevron-down]="expandedQuestion !== 0" [class.fa-chevron-up]="expandedQuestion === 0"></i>
+                    </div>
+                    <div class="faq-answer" [class.expanded]="expandedQuestion === 0">
+                        <div class="faq-answer-content">
+                            <p>You can create a price alert in two convenient ways:</p>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4><i class="fas fa-bell"></i> Method 1: From the Alerts Page</h4>
+                                <ol>
+                                    <li>Go to the Alerts page and click the "New Alert" button</li>
+                                    <li>Enter a search text that we'll use to find items</li>
+                                    <li>Select the store(s) you want to monitor for that item</li>
+                                    <li>Choose your desired discount range and price range</li>
+                                    <li>We'll notify you when matching items meet your criteria!</li>
+                                </ol>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <h4><i class="fas fa-search"></i> Method 2: From the Items Page</h4>
+                                <ol>
+                                    <li>Browse or search for products on the Items page</li>
+                                    <li>Find the specific item you're interested in</li>
+                                    <li>Click the bell icon on that item card</li>
+                                    <li>This will create an alert for that specific item</li>
+                                </ol>
+                            </div>
+                            
+                            <p>You can manage all your alerts from the Alerts page in your account.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" (click)="toggleQuestion(1)">
+                        <h3>Why didn't I receive an email for an item that matched my alert criteria?</h3>
+                        <i class="fas" [class.fa-chevron-down]="expandedQuestion !== 1" [class.fa-chevron-up]="expandedQuestion === 1"></i>
+                    </div>
+                    <div class="faq-answer" [class.expanded]="expandedQuestion === 1">
+                        <div class="faq-answer-content">
+                            <p>There are several reasons why you might not have received an alert email:</p>
+                            <ul>
+                                <li><strong>Check your junk/spam folder</strong> - Sometimes alert emails can be filtered as spam</li>
+                                <li><strong>Email forwarding issues</strong> - If you have email forwarding set up, the delivery to your final destination might have failed</li>
+                                <li><strong>Recent duplicate notification</strong> - You might have already received an email about the same item recently with a higher discount, and we avoid sending duplicate alerts within a short timeframe</li>
+                                <li><strong>Email delivery delays</strong> - There might be temporary delays with your email provider</li>
+                                <li><strong>Server maintenance</strong> - Occasionally, scheduled maintenance might temporarily affect email delivery</li>
+                            </ul>
+                            <p>If you continue to experience issues, please check your email settings in your profile and consider adding our domain to your email whitelist. You can also <a (click)="contactUs()" style="cursor: pointer;">contact us</a> for further assistance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" (click)="toggleQuestion(2)">
+                        <h3>What stores and categories are you tracking?</h3>
+                        <i class="fas" [class.fa-chevron-down]="expandedQuestion !== 2" [class.fa-chevron-up]="expandedQuestion === 2"></i>
+                    </div>
+                    <div class="faq-answer" [class.expanded]="expandedQuestion === 2">
+                        <div class="faq-answer-content">
+                            <p>We track a wide variety of products across multiple major Australian retailers. Here's what we're currently monitoring:</p>
+                            
+                            <div class="stores-grid">
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> Amazon</h4>
+                                    <p class="store-categories">Amazon Devices, Computers, Electronics, Home, Kitchen, Toys, Some Amazon sellers like: Roborock, GMK Tech AU, INIU, GL Inet, VeektoMX, Webon, DDPAI, Inkbird, Dreame, Ecovacs</p>
+                                </div>
+
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> The Good Guys</h4>
+                                    <p class="store-categories">Appliances, Kitchen, Beauty, Computers, Electronics, Audio, TV</p>
+                                </div>
+
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> David Jones</h4>
+                                    <p class="store-categories">Designer, Beauty, Home</p>
+                                </div>
+
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> Myer</h4>
+                                    <p class="store-categories">Outdoor, Dining, Travel and Tech, Bedroom, Personal Care Appliances, Kitchen, Home Decor, Bathroom, Appliances, Kitchen Appliances, Toys</p>
+                                </div>
+
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> JB Hi-Fi</h4>
+                                    <p class="store-categories">Mobile Phones, Camera, Appliances, TV, Outdoor, Health and Fitness, Computers, Beauty, Headphones</p>
+                                </div>
+
+                                <div class="store-section">
+                                    <h4><i class="fas fa-store"></i> Big W</h4>
+                                    <p class="store-categories">Beauty, Electronics, Toys, Home</p>
+                                </div>
+                            </div>
+
+                            <p class="tracking-note">
+                                <i class="fas fa-info-circle"></i>
+                                We're constantly expanding our tracking to include more stores and categories. If you'd like us to track a specific store or product category, please let us know!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" (click)="toggleQuestion(3)">
+                        <h3>Why do I see different discount amounts on your website compared to the retailer's website?</h3>
+                        <i class="fas" [class.fa-chevron-down]="expandedQuestion !== 3" [class.fa-chevron-up]="expandedQuestion === 3"></i>
+                    </div>
+                    <div class="faq-answer" [class.expanded]="expandedQuestion === 3">
+                        <div class="faq-answer-content">
+                            <p>The discounts we show are the most up-to-date available. Sometimes even the retailer's website can take some time to update their prices, which can cause temporary discrepancies between what you see on our site and theirs.</p>
+                            <p>Our system continuously monitors price changes and updates discount information in real-time. If you notice a significant difference, the retailer's website may still be showing cached or outdated pricing information.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" (click)="toggleQuestion(4)">
+                        <h3>What do the colors and symbols on the items mean?</h3>
+                        <i class="fas" [class.fa-chevron-down]="expandedQuestion !== 4" [class.fa-chevron-up]="expandedQuestion === 4"></i>
+                    </div>
+                    <div class="faq-answer" [class.expanded]="expandedQuestion === 4">
+                        <div class="faq-answer-content">
+                            <p>Let's break it down:</p>
+                            <ul>
+                                <li><strong>Frame Color:</strong> <span style="background-color: #e8e3ff; color: #6c5ce7; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Purple</span> for new items, <span style="background-color: #e8f8f5; color: #00b894; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Green</span> for discount increases, <span style="background-color: #ffe8ea; color: #ff4757; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Red</span> for discount decreases</li>
+                                 <li><strong><span class="discount-icon discount-icon-highest" style="display: inline-flex; position: static; margin-right: 8px;">🔥</span></strong> This item has the highest discount since we started tracking it</li>
+                                 <li><strong><span class="discount-icon discount-icon-days" style="display: inline-flex; position: static; margin-right: 8px;">30</span></strong> How many days since this item had a higher discount</li>
+                                <li><strong><span class="discount-up-icon" style="display: inline-flex; position: static; margin-right: 8px;"><i class="fas fa-arrow-up"></i></span></strong> The discount has gone up since the last check</li>
+                                <li><strong><span class="discount-down-icon" style="display: inline-flex; position: static; margin-right: 8px;"><i class="fas fa-arrow-down"></i></span></strong> The discount has gone down since the last check</li>
+                                <li><strong><span class="returned-icon" style="display: inline-flex; position: static; margin-right: 8px;"><i class="fas fa-redo"></i></span></strong> This item was on discount, went off discount, then came back on discount</li>
+                                <li><strong><span class="new-items-icon" style="display: inline-flex; position: static; margin-right: 8px;"><i class="fas fa-star"></i></span></strong> This item is newly tracked</li>
+                                <li><strong><span class="volatility-warning-icon" style="display: inline-flex; position: static; margin-right: 8px;"><i class="fas fa-exclamation-triangle"></i></span></strong> This item constantly goes up and down in price, which indicates a potentially misleading discount</li>
+                            </ul>
+                            <p>These visual indicators help you quickly identify the best deals and understand price trends at a glance.</p>
+                            <p><strong>Tip:</strong> Hover over any icon on an item card to see additional details and tooltips with more specific information.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-contact">
+                <p>Can't find what you're looking for?</p>
+                <button (click)="contactUs()" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact Us</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
