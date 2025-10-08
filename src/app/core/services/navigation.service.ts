@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class NavigationService {
-  private readonly protectedRoutes = ['/profile', '/alerts', '/'];
+  private readonly protectedRoutes = ['/profile', '/alerts'];
 
   constructor(
     private router: Router,

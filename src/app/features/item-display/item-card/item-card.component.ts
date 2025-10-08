@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { AppStore } from '../../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
+import { Router } from '@angular/router';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null)
 @Component({
@@ -38,6 +39,8 @@ export class ItemCardComponent {
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
   }
+  @Input() isAuthenticated: boolean = false;
+
   get item() {
     return this._item
   }
@@ -62,17 +65,24 @@ export class ItemCardComponent {
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
 
 
-  constructor(private appStore: AppStore, private relativeDatePipe: RelativeDatePipe) {
+  constructor(private appStore: AppStore, private relativeDatePipe: RelativeDatePipe, private router: Router) {
     this.isMobile = this.appStore.isMobile()
   }
 
   onAlertButtonClick() {
+    if (!this.isAuthenticated) {
+      this.router.navigate(['/login']);
+      return;
+    }
     if (!this.isAlertDisabled()) {
       itemAlertSignal.set(this._itemAlert)
     }
   }
   
   getTooltipText(): string {
+    if (!this.isAuthenticated) {
+      return `Please login to create an alert for this item`;
+    }
     if (this.alertLimitReached && !this.alertId) {
       return `You have reached the alert limit for your current plan`;
     }
@@ -126,7 +136,7 @@ export class ItemCardComponent {
 
   getDiscountIconTooltip(): string {
     if (this.isHighestDiscountEver) {
-      return `Highest discount since we started tracking! (${this.trackedSince} days)`;
+      return `Highest discount since we started tracking this item! (${this.trackedSince} days)`;
     } else {
       return `Highest discount in ${this.highestDiscountSince} days`;
     }
@@ -235,11 +245,11 @@ export class ItemCardComponent {
   }
 
   getVolatilityWarningTooltip(): string {
-    return 'Price Volatility Warning: This item\'s price frequently changes up and down';
+    return 'Price Alert: This item\'s price changes frequently, which may indicate a misleading discount';
   }
 
   isAlertDisabled(): boolean {
-    return this.alertLimitReached && !this.alertId
+    return this.alertLimitReached && !this.alertId && this.isAuthenticated
   }
 
   onVolatilityIconClick(event: MouseEvent, volatilityTooltip: any) {

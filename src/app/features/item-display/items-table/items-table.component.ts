@@ -13,4 +13,5 @@ export class ItemsTableComponent {
   @Input() loading: boolean = false;
   @Input() error: string | null = null;
   @Input() storesCheckedAt: {name: string, checkedAt: Date}[] = []
+  @Input() isAuthenticated: boolean = false;
 }

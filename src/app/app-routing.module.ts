@@ -12,14 +12,14 @@ import { PasswordResetConfirmPageComponent } from './pages/password-reset-confir
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
-import { authGuard, publicGuard, ActivationConfirmationGuard } from './core/guards';
+import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 
 const routes: Routes = [
   {
     path: '', 
     component: HomePageComponent, 
     pathMatch: 'full',
-    canActivate: [authGuard]
+    canActivate: [homeGuard]
   },
   {
     path: 'login', 
@@ -42,7 +42,8 @@ const routes: Routes = [
   {
     path: 'verify-email', 
     component: AccountActivationPageComponent, 
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [publicGuard]
   },
   {
     path: 'profile', 
@@ -82,6 +83,11 @@ const routes: Routes = [
   {
     path: 'faq', 
     component: FaqPageComponent, 
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '',
     pathMatch: 'full'
   }
 ];

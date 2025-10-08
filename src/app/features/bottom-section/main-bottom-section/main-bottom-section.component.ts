@@ -24,6 +24,7 @@ export class MainBottomSectionComponent {
   storesCheckedAt: {name: string, checkedAt: Date}[] = [];
   itemsPerPage: number = 0;
   alertLimitReached: boolean = false;
+  isAuthenticated: boolean = false;
   constructor(
     private itemsStore: ItemsStore,
     private filterStore: FilterStore,
@@ -34,6 +35,7 @@ export class MainBottomSectionComponent {
   ) {
     effect(() => {
       this.items = this.itemsStore.items();
+      this.isAuthenticated = this.authenticationStore.isAuthenticated();
       this.itemsPerPage = this.appStore.itemsPerPage();
       this.currentPage = this.filterStore.currentPage();
       this.itemsCount = this.itemsStore.itemsCount();
