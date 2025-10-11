@@ -35,6 +35,7 @@ export class ItemCardComponent {
       item: this._item
     }
     this.googleUrl = this.generateGoogleUrl()
+    this.imageLoadError = false // Reset image error on new item
   }
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
@@ -59,6 +60,7 @@ export class ItemCardComponent {
   trackedSince: number = 0
   isFlactuating: boolean = false
   alertId: string | null = null
+  imageLoadError: boolean = false
   
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
@@ -276,6 +278,10 @@ export class ItemCardComponent {
         alertTooltip.hide();
       }, 2000);
     }
+  }
+
+  onImageError() {
+    this.imageLoadError = true;
   }
 
   }
