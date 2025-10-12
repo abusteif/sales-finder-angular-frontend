@@ -88,7 +88,7 @@ export class DropdownWithCheckboxesComponent {
 
   dropdownText() {
     if (this.selectedOptions.length > 0) {
-      if (this.selectedOptions.length === this.options.length - 1) {
+      if (this.selectedOptions.length === this.options.length) {
         return 'All';
       } else if (this.selectedOptions.length > 1) {
         return 'Multiple Selections';
