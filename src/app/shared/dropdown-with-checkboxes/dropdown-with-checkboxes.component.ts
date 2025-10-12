@@ -14,10 +14,10 @@ export class DropdownWithCheckboxesComponent {
   }
   set options(value: any[]) {
     if (this.maxSelectedOptions >= value.length) {
-      this._options = ['All', ...value];
+      this._options = ['All', ...value].sort((a, b) => a.localeCompare(b));
     }
     else {
-      this._options = value;
+      this._options = value.sort((a, b) => a.localeCompare(b));
     }
   }
   @Output() selectedOptionChange = new EventEmitter<string[]>();
