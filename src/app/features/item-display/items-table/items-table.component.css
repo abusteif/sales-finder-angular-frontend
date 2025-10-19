@@ -35,3 +35,11 @@
 .text-danger {
   color: #dc3545;
 }
+
+/* Mobile padding for items table */
+@media (max-width: 768px) {
+  .columns.is-mobile {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

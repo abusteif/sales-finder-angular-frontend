@@ -23,6 +23,7 @@ export class MainBottomSectionComponent {
   stores: Store[] = [];
   storesCheckedAt: {name: string, checkedAt: Date}[] = [];
   itemsPerPage: number = 0;
+  cardsPerRow: number = 3;
   alertLimitReached: boolean = false;
   isAuthenticated: boolean = false;
   constructor(
@@ -37,6 +38,7 @@ export class MainBottomSectionComponent {
       this.items = this.itemsStore.items();
       this.isAuthenticated = this.authenticationStore.isAuthenticated();
       this.itemsPerPage = this.appStore.itemsPerPage();
+      this.cardsPerRow = this.appStore.cardsPerRow();
       this.currentPage = this.filterStore.currentPage();
       this.itemsCount = this.itemsStore.itemsCount();
       this.isItemsLoading = this.itemsStore.loading();

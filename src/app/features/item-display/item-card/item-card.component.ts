@@ -5,6 +5,7 @@ import { AppStore } from '../../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
 import { Router } from '@angular/router';
+import { DEFAULT_CARDS_PER_ROW } from '../../../core/constants/display';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null)
 @Component({
@@ -41,6 +42,7 @@ export class ItemCardComponent {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
   }
   @Input() isAuthenticated: boolean = false;
+  @Input() cardsPerRow: number = DEFAULT_CARDS_PER_ROW;
 
   get item() {
     return this._item
@@ -96,6 +98,23 @@ export class ItemCardComponent {
 
   getTitleClass(): string {
     return this.isMobile ? 'title is-8 card-title' : 'title is-6  card-title';
+  }
+
+  getCardFontSizeClass(): string {
+    if (!this.isMobile) {
+      return 'card-font-desktop';
+    }
+    
+    // On mobile, adjust font size based on cards per row
+    switch (this.cardsPerRow) {
+      case 1:
+        return 'card-font-mobile-single';
+      case 2:
+        return 'card-font-mobile-double';
+      case 3:
+      default:
+        return 'card-font-mobile-triple';
+    }
   }
 
   getCardShadowStyle(): string {

@@ -6,6 +6,7 @@ export interface UserPreferences {
   filter: Filter;
   sort: SortCriteria;
   itemsPerPage: number;
+  cardsPerRow: number;
 }
 
 export interface AuthData {

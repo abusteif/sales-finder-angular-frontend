@@ -54,6 +54,12 @@ export class StorageService {
     localStorage.setItem(this.USER_PREFERENCES_KEY, JSON.stringify(updated));
   }
 
+  setCardsPerRow(cardsPerRow: number): void {
+    const existingPreferences = this.getUserPreferences();
+    const updated = { ...existingPreferences, cardsPerRow };
+    localStorage.setItem(this.USER_PREFERENCES_KEY, JSON.stringify(updated));
+  }
+
   getUserPreferences(): UserPreferences | null {
     const prefs = localStorage.getItem(this.USER_PREFERENCES_KEY);
     return prefs ? JSON.parse(prefs) : null;

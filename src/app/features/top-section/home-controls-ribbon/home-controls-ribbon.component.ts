@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { delay, distinctUntilChanged, debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
 import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
+import { DEFAULT_CARDS_PER_ROW, DEFAULT_ITEMS_PER_PAGE } from '../../../core/constants/display';
 
 
 @Component({
@@ -21,13 +22,18 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
   @Output() onNewItemsOnlyChange = new EventEmitter<boolean>();
   @Output() onDiscountUpItemsOnlyChange = new EventEmitter<boolean>();
   @Output() onItemsWithHighestDiscountChange = new EventEmitter<boolean>();
+  @Output() onDisplaySettingsClick = new EventEmitter<void>();
   @Output() onItemsPerPageChange = new EventEmitter<number>();
+  @Output() onCardsPerRowChange = new EventEmitter<number>();
+  @Output() onDisplaySettingsApply = new EventEmitter<void>();
 
   @Input() isFilterActive: boolean = false;
   @Input() isSortActive: boolean = false;
-  @Input() itemsPerPage: number = 0;
+  @Input() itemsPerPage: number = DEFAULT_ITEMS_PER_PAGE;
+  @Input() cardsPerRow: number = DEFAULT_CARDS_PER_ROW;
 
   searchValue: string = '';
+  showDisplayModal: boolean = false;
   checboxes = [
     {
       name: 'New Items Only',
@@ -75,8 +81,25 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
     this.onRefreshClick.emit();
   }
 
+  displaySettingsClickHandler() {
+    this.showDisplayModal = true;
+    this.onDisplaySettingsClick.emit();
+  }
+
+  closeDisplayModal() {
+    this.showDisplayModal = false;
+  }
+
+  applyDisplaySettings() {
+    this.onDisplaySettingsApply.emit();
+  }
+
   itemsPerPageChange(itemsPerPage: number) {
     this.onItemsPerPageChange.emit(itemsPerPage);
+  }
+
+  cardsPerRowChange(cardsPerRow: number) {
+    this.onCardsPerRowChange.emit(cardsPerRow);
   }
 
   handleNewItemsOnlyChange(event: Event) {

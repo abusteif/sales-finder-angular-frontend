@@ -21,9 +21,9 @@
     <div class="columns is-multiline is-mobile">
 
     @for (item of items; track item.url) {
-      <div class="column is-one-third-mobile is-one-third-tablet is-one-fifth-desktop">
+      <div class="column" [ngClass]="getColumnClass()">
 
-      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached" [isAuthenticated]="isAuthenticated"></app-item-card>
+      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached" [isAuthenticated]="isAuthenticated" [cardsPerRow]="cardsPerRow"></app-item-card>
     </div>
   
 

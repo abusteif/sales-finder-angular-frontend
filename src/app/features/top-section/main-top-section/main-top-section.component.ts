@@ -34,6 +34,7 @@ export class MainTopSectionComponent {
   public isFilterActive: boolean = false;
   public isSortActive: boolean = false;
   public itemsPerPage: number = 0;
+  public cardsPerRow: number = 3;
   constructor(
     public store: storesStore,
     public category: CategoriesStore,
@@ -50,6 +51,7 @@ export class MainTopSectionComponent {
       this.stores = storeData.map(store => store.name);
       this.search = this.filter.search();
       this.itemsPerPage = this.appStore.itemsPerPage();
+      this.cardsPerRow = this.appStore.cardsPerRow();
       this.selectedStores = [...this.filter.selectedStores()];
       this.selectedCategories = [...this.filter.selectedCategories()];
       this.priceRange = [...this.filter.selectedPriceRange()];
@@ -142,6 +144,10 @@ export class MainTopSectionComponent {
 
   onItemsPerPageChange(itemsPerPage: number) {
     this.appStore.setItemsPerPage(itemsPerPage);
+  }
+
+  onCardsPerRowChange(cardsPerRow: number) {
+    this.appStore.setCardsPerRow(cardsPerRow);
     this.getItemsAndResetPage();
   }
 
@@ -180,5 +186,20 @@ export class MainTopSectionComponent {
     this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
     this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
     this.dateRange = DEFAULT_FILTER_VALUES.selectedDateRange;
+  }
+
+  onDisplaySettingsClick() {
+    // This method can be used for any additional logic when display settings button is clicked
+    // The modal is handled by the home-controls-ribbon component
+  }
+
+  onDisplaySettingsChange(settings: {itemsPerPage: number, cardsPerRow: number}) {
+    this.appStore.setItemsPerPage(settings.itemsPerPage);
+    this.appStore.setCardsPerRow(settings.cardsPerRow);
+    this.getItemsAndResetPage();
+  }
+
+  onDisplaySettingsApply() {
+    this.getItemsAndResetPage();
   }
 }

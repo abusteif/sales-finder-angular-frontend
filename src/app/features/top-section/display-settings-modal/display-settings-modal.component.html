@@ -1,0 +1,48 @@
+<app-base-modal 
+  [showModal]="showModal" 
+  (onCloseModal)="closeModal()" 
+  title="Display Settings"
+  applyButtonText="Apply" 
+  cancelButtonText="Cancel"
+  (onApply)="apply()">
+  
+  <div class="display-settings-content">
+    <div class="setting-group">
+      <div class="setting-header">
+        <h3 class="setting-title">Items per page</h3>
+        <p class="setting-description">Choose how many items to display on each page</p>
+      </div>
+      <div class="options-grid">
+        @for (option of itemsPerPageOptions; track option) {
+          <button 
+            class="option-button" 
+            [class.selected]="tempItemsPerPage === option"
+            (click)="onItemsPerPageChange(option)"
+            [attr.aria-pressed]="tempItemsPerPage === option">
+            <span class="option-value">{{ option }}</span>
+            <span class="option-label">items</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <div class="setting-header">
+        <h3 class="setting-title">Cards per row</h3>
+        <p class="setting-description">Choose how many item cards to show in each row</p>
+      </div>
+      <div class="options-grid">
+        @for (option of cardsPerRowOptions; track option) {
+          <button 
+            class="option-button" 
+            [class.selected]="tempCardsPerRow === option"
+            (click)="onCardsPerRowChange(option)"
+            [attr.aria-pressed]="tempCardsPerRow === option">
+            <span class="option-value">{{ option }}</span>
+            <span class="option-label">{{ option === 1 ? 'card' : 'cards' }}</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</app-base-modal>

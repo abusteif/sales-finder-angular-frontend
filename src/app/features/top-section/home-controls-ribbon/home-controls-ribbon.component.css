@@ -5,7 +5,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    width: 100px; /* Default for mobile */
+    width: 130px; /* Default for mobile */
   }
 
   @media (min-width: 768px) {
@@ -122,7 +122,7 @@
     border-color: #0056b3;
   }
 
-  .filter-icon, .sort-icon, .refresh-icon {
+  .filter-icon, .sort-icon, .refresh-icon, .display-icon {
     font-size: 20px;
     color: #495057;
   }
@@ -197,6 +197,17 @@
     /* Hide specific filters on mobile using class */
     .hide-on-mobile {
       display: none;
+    }
+  }
+
+  /* Mobile-only display button */
+  .mobile-display-button {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .mobile-display-button {
+      display: flex;
     }
   }
 
