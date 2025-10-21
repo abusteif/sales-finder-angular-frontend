@@ -367,3 +367,42 @@
 
 
 }
+
+/* Rating display styles */
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  justify-content: center;
+}
+
+.stars {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.stars i {
+  font-size: 0.9rem;
+  color: #ffc107;
+}
+
+.rating-text {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .rating-container {
+    margin: 0.3rem 0;
+  }
+  
+  .stars i {
+    font-size: 0.8rem;
+  }
+  
+  .rating-text {
+    font-size: 0.75rem;
+  }
+}

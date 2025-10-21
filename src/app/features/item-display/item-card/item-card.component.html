@@ -49,6 +49,16 @@
         {{ item.name | truncate }}
       </p>
     </a>
+    @if(rating > 0) {
+    <div class="rating-container">
+      <div class="stars">
+        @for(star of getStars(); track $index) {
+          <i [class]="star" [style.color]="getStarColor()"></i>
+        }
+      </div>
+      <span class="rating-text">{{ rating | number:'1.1-1' }} ({{ getFormattedRatingCount() }})</span>
+    </div>
+    }
     <div class="store-logos-container">
       <a [href]="googleUrl" target="_blank" rel="noopener noreferrer">
       <img [src]="'assets/logos/google-logo.svg'" class="google-logo" alt="Google Logo" />

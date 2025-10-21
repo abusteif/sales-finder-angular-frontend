@@ -6,6 +6,8 @@ export interface Item {
     oldPrice: number;
     newPrice: number;
     discount: number;
+    rating: number;
+    ratingCount: number;
     url: string;
     imageUrl: string;
     updatedAt: Date;

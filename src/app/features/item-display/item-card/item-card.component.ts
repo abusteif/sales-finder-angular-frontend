@@ -24,6 +24,8 @@ export class ItemCardComponent {
     this.updateType = item.updateType
     this.updatedAt = item.updatedAt
     this.discountChange = item.discountChange
+    this.rating = item.rating
+    this.ratingCount = item.ratingCount
     this.colour = item.colour
     this.highestDiscountSince = item.highestDiscountSince || 0
     this.isHighestDiscountEver = item.isHighestDiscountEver || false
@@ -61,7 +63,8 @@ export class ItemCardComponent {
   isFlactuating: boolean = false
   alertId: string | null = null
   imageLoadError: boolean = false
-  
+  rating: number = 0
+  ratingCount: number = 0
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
@@ -282,6 +285,43 @@ export class ItemCardComponent {
 
   onImageError() {
     this.imageLoadError = true;
+  }
+
+  getStars(): string[] {
+    const stars: string[] = [];
+    const fullStars = Math.floor(this.rating);
+    const hasHalfStar = this.rating % 1 >= 0.5;
+    
+    // Add full stars
+    for (let i = 0; i < fullStars; i++) {
+      stars.push('fas fa-star');
+    }
+    
+    // Add half star if needed
+    if (hasHalfStar) {
+      stars.push('fas fa-star-half-alt');
+    }
+    
+    // Add empty stars to make total 5
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push('far fa-star');
+    }
+    
+    return stars;
+  }
+
+  getStarColor(): string {
+    // Return a golden color for stars
+    return '#ffc107';
+  }
+
+  getFormattedRatingCount(): string {
+    if (this.ratingCount >= 1000) {
+      const kValue = this.ratingCount / 1000;
+      return kValue % 1 === 0 ? `${Math.floor(kValue)}k` : `${kValue.toFixed(1)}k`;
+    }
+    return this.ratingCount.toString();
   }
 
   }
