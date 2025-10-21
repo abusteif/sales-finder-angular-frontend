@@ -14,6 +14,10 @@
         <i class="fas fa-sync refresh-icon"></i>
         <span class="button-text">Refresh</span>
       </button>
+      <button class="control-button mobile-display-button" (click)="displaySettingsClickHandler()">
+        <i class="fas fa-cog display-icon"></i>
+        <span class="button-text">Display</span>
+      </button>
     </div>
     <div class="search-container">
       <form>
@@ -41,6 +45,16 @@
     </div>
     </div>
 
-    <app-item-per-page [itemsPerPage]="itemsPerPage" (itemsPerPageChange)="itemsPerPageChange($event)"></app-item-per-page>
+    <app-item-per-page class="hide-on-mobile" [itemsPerPage]="itemsPerPage" (itemsPerPageChange)="itemsPerPageChange($event)"></app-item-per-page>
     </div>
 </app-controls-ribbon>
+
+<app-display-settings-modal 
+  [showModal]="showDisplayModal" 
+  [itemsPerPage]="itemsPerPage"
+  [cardsPerRow]="cardsPerRow"
+  (onCloseModal)="closeDisplayModal()"
+  (itemsPerPageChange)="itemsPerPageChange($event)"
+  (cardsPerRowChange)="cardsPerRowChange($event)"
+  (onApply)="applyDisplaySettings()">
+</app-display-settings-modal>

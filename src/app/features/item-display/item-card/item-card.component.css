@@ -9,6 +9,70 @@
     position: relative;
     overflow: visible;
     }
+
+/* Desktop font sizing */
+.card-font-desktop {
+    font-size: 0.85rem;
+}
+
+/* Mobile font sizing based on cards per row */
+.card-font-mobile-single {
+    font-size: 1.1rem; /* Larger font for single card per row */
+}
+
+.card-font-mobile-single .item-detail {
+    font-size: 18px; /* Larger item details for single card */
+}
+
+.card-font-mobile-single .card-title {
+    font-size: 1.2rem !important; /* Larger title for single card */
+}
+
+.card-font-mobile-single .store-logo {
+    width: 40px;
+    height: 20px;
+}
+
+.card-font-mobile-single .google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.card-font-mobile-double {
+    font-size: 0.8rem; /* Medium font for two cards per row */
+}
+
+.card-font-mobile-double .item-detail {
+    font-size: 14px; /* Medium item details for two cards */
+}
+
+.card-font-mobile-double .card-title {
+    font-size: 0.8rem !important; /* Medium title for two cards */
+}
+
+.card-font-mobile-double .store-logo {
+    width: 35px;
+    height: 18px;
+}
+
+.card-font-mobile-double .google-logo {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+}
+
+.card-font-mobile-triple {
+    font-size: 0.7rem; /* Smaller font for three cards per row */
+}
+
+.card-font-mobile-triple .item-detail {
+    font-size: 10px; /* Smaller item details for three cards */
+}
+
+.card-font-mobile-triple .card-title {
+    font-size: 0.6rem !important; /* Smaller title for three cards */
+}
   
   .custom-card:hover {
     transform: scale(1.03);
@@ -88,7 +152,7 @@
   }
   
   .store-logo {
-    width: 30px;
+    width: 25px;
     height: 15px;
   }
   

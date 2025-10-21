@@ -2,14 +2,18 @@
   [isFilterActive]="isFilterActive"
   [isSortActive]="isSortActive"
   [itemsPerPage]="itemsPerPage"
+  [cardsPerRow]="cardsPerRow"
   (onItemsPerPageChange)="onItemsPerPageChange($event)"
+  (onCardsPerRowChange)="onCardsPerRowChange($event)"
   (onFilterClick)="openFilterModal()"
   (onSortClick)="openSortModal()"
   (onRefreshClick)="onRefreshClick()"
   (onSearchChange)="onSearchChange($event)"
   (onNewItemsOnlyChange)="onNewItemsOnlyChange($event)"
   (onDiscountUpItemsOnlyChange)="onDiscountUpItemsOnlyChange($event)"
-  (onItemsWithHighestDiscountChange)="onItemsWithHighestDiscountChange($event)" 
+  (onItemsWithHighestDiscountChange)="onItemsWithHighestDiscountChange($event)"
+  (onDisplaySettingsClick)="onDisplaySettingsClick()"
+  (onDisplaySettingsApply)="onDisplaySettingsApply()"
   >
 </app-home-controls-ribbon>
 

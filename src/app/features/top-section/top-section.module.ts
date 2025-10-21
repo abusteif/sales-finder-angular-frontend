@@ -9,6 +9,7 @@ import { FilterSearchModalComponent } from './filter-search-modal/filter-search-
 import { SortModalComponent } from './sort-modal/sort-modal.component';
 import { HomeControlsRibbonComponent } from './home-controls-ribbon/home-controls-ribbon.component';
 import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
+import { DisplaySettingsModalComponent } from './display-settings-modal/display-settings-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
     FilterSearchModalComponent,
     SortModalComponent,
     HomeControlsRibbonComponent,
-    ItemPerPageComponent
+    ItemPerPageComponent,
+    DisplaySettingsModalComponent
   ],
   imports: [
     CommonModule,

@@ -28,7 +28,7 @@ export class AppComponent {
     
     this.authenticationStore.initialiseAuth();
     this.filterStore.loadFilterPreferences();
-    this.appStore.loadItemsPerPage();
+    this.appStore.loadDisplaySettings();
   }
   
   ngOnInit() {
