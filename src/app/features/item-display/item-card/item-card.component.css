@@ -470,3 +470,12 @@
     font-size: 0.75rem;
   }
 }
+
+/* Smaller stars for 3 cards per row on mobile */
+.card-font-mobile-triple .stars i {
+  font-size: 0.4rem;
+}
+
+.card-font-mobile-triple .rating-text {
+  font-size: 0.4rem;
+}
