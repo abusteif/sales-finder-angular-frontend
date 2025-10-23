@@ -15,6 +15,7 @@ export class AlertsControlsRibbonComponent {
   @Input() alerts: Alert[] = [];
   @Input() set user(user: User | null) {
     this.maxAlerts = user?.maxAlerts || 0;
+    console.log(this.maxAlerts);
   }
   showActiveOnly = false;
   maxAlerts = 0;
@@ -28,11 +29,4 @@ export class AlertsControlsRibbonComponent {
     this.addAlertClicked.emit();
   }
 
-  onUpgradeClick(event: Event): void {
-    event.preventDefault();
-    // TODO: Implement upgrade functionality
-    console.log('Upgrade clicked from alerts controls ribbon');
-    this.router.navigate(['/upgrade']);
-    // You can emit an event to the parent component to handle the upgrade navigation
-  }
 }

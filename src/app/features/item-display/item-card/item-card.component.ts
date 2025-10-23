@@ -86,7 +86,7 @@ export class ItemCardComponent {
       return `Please login to create an alert for this item`;
     }
     if (this.alertLimitReached && !this.alertId) {
-      return `You have reached the alert limit for your current plan`;
+      return `You've reached your alert limit. Get in touch and we'll help you set up more!`;
     }
     if (this.alertId) {
       return `Update Alert For This Item`;
