@@ -71,6 +71,11 @@ export class NavbarComponent {
     this.isUserSettingsOpen = false;
   }
 
+  aboutUs() {
+    this.navigationService.navigateToPublicRoute('/about-us');
+    this.isUserSettingsOpen = false;
+  }
+
   logout() {
     this.authenticationStore.logout();
     this.isUserSettingsOpen = false;

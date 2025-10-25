@@ -12,6 +12,7 @@ import { PasswordResetConfirmPageComponent } from './pages/password-reset-confir
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
+import { AboutUsPageComponent } from './pages/about-us-page/about-us-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 
 const routes: Routes = [
@@ -83,6 +84,11 @@ const routes: Routes = [
   {
     path: 'faq', 
     component: FaqPageComponent, 
+    pathMatch: 'full'
+  },
+  {
+    path: 'about-us', 
+    component: AboutUsPageComponent, 
     pathMatch: 'full'
   },
   {
