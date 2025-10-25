@@ -24,19 +24,19 @@
     <div class="category-checkbox hide-on-mobile">
       <label class="checkbox-label">
         <input type="checkbox" (change)="handleNewItemsOnlyChange($event)" [checked]="isCheckboxChecked('New Items Only')">
-        <i class="fas fa-star new-items-icon" matTooltip="New Items Only" matTooltipPosition="below" [matTooltipShowDelay]="500"></i>
+        <i class="fas fa-star new-items-icon" matTooltip="New Items Only" matTooltipPosition="above" [matTooltipShowDelay]="500"></i>
       </label>
     </div>
     <div class="category-checkbox hide-on-mobile">
       <label class="checkbox-label">
         <input type="checkbox" (change)="handleDiscountUpItemsOnlyChange($event)" [checked]="isCheckboxChecked('Discount Up Items Only')">
-        <i class="fas fa-arrow-up discount-up-icon" matTooltip="Discount Up Items Only" matTooltipPosition="below" [matTooltipShowDelay]="500"></i>
+        <i class="fas fa-arrow-up discount-up-icon" matTooltip="Discount Up Items Only" matTooltipPosition="above" [matTooltipShowDelay]="500"></i>
       </label>
     </div>
     <div class="category-checkbox">
       <label class="checkbox-label">
         <input type="checkbox" (change)="handleItemsWithHighestDiscountChange($event)" [checked]="isCheckboxChecked('Items With Highest Discount')">
-        <span class="highest-discount-icon" matTooltip="Items With Highest Discount" matTooltipPosition="below" [matTooltipShowDelay]="500">🔥</span>
+        <span class="highest-discount-icon" matTooltip="Items With Highest Discount" matTooltipPosition="above" [matTooltipShowDelay]="500">🔥</span>
       </label>
     </div>
     </div>
