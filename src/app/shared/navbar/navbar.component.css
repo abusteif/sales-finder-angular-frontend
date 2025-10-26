@@ -35,6 +35,66 @@
   gap: 12px;
 }
 
+.bmc-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.bmc-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+}
+
+.bmc-full-button {
+  height: 40px;
+  width: auto;
+  border-radius: 25px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: block;
+}
+
+.bmc-icon-only {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #FFDD00 0%, #FFB700 100%);
+  padding: 8px;
+  box-shadow: 0 3px 10px rgba(255, 221, 0, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.bmc-btn:hover .bmc-full-button {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bmc-btn:hover .bmc-icon-only {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 221, 0, 0.4);
+  background: linear-gradient(135deg, #FFB700 0%, #FF9500 100%);
+}
+
+.bmc-icon-only::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.bmc-btn:hover .bmc-icon-only::before {
+  left: 100%;
+}
+
 .dropdown-menu {
   display: none;
   position: absolute;
@@ -217,6 +277,17 @@
     font-size: 8px;
     padding: 1px 4px;
   }
+  
+  .bmc-full-button {
+    display: none;
+  }
+  
+  .bmc-icon-only {
+    display: block;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -226,7 +297,13 @@
   }
   
   .user-settings-container {
-    gap: 8px;
+    gap: 6px;
+  }
+  
+  .bmc-icon-only {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
   }
 }
 
