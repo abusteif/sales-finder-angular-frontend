@@ -18,6 +18,7 @@ import { UpgradePageComponent } from './upgrade-page/upgrade-page.component';
 import { AdminBasePageComponent } from './admin-base-page/admin-base-page.component';
 import { ContactUsPageComponent } from './contact-us-page/contact-us-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
+import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 
 @NgModule({
@@ -34,7 +35,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     UpgradePageComponent,
     AdminBasePageComponent,
     ContactUsPageComponent,
-    FaqPageComponent
+    FaqPageComponent,
+    AboutUsPageComponent
   ],
   imports: [
     CommonModule,

@@ -94,6 +94,18 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
     this.onDisplaySettingsApply.emit();
   }
 
+  onSearchSubmit(event: Event) {
+    event.preventDefault();
+    // Trigger the search with the current input value
+    if (this.searchInput) {
+      const currentValue = this.searchInput.nativeElement.value;
+      this.searchValue = currentValue;
+      this.onSearchChange.emit(currentValue);
+      // Dismiss the keyboard by blurring the input
+      this.searchInput.nativeElement.blur();
+    }
+  }
+
   itemsPerPageChange(itemsPerPage: number) {
     this.onItemsPerPageChange.emit(itemsPerPage);
   }
