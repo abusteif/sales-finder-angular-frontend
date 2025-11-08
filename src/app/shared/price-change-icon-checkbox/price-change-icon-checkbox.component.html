@@ -1,0 +1,9 @@
+<div class="category-checkbox">
+  <label class="checkbox-label">
+    <input type="checkbox" (change)="onCheckboxChange($event)" [checked]="checked">
+    <i [class]="getIconClass()" [matTooltip]="tooltipText" matTooltipPosition="above"
+      [matTooltipShowDelay]="500"></i>
+    <span class="checkbox-text">{{ labelText }}</span>
+  </label>
+</div>
+

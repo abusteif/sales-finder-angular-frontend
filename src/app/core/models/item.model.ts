@@ -19,6 +19,7 @@ export interface Item {
     trackedSince: number
     isFlactuating: boolean;
     alertId: string | null;
+    isFeatured: boolean;
 }
 
 export interface ItemAlert {
@@ -42,5 +43,6 @@ export enum UpdateType {
     DISCOUNT_UP = 'DISCOUNT_UP',
     DISCOUNT_DOWN = 'DISCOUNT_DOWN',
     RETURNED = 'RETURNED',
+    HIGHEST_DISCOUNT = 'HIGHEST_DISCOUNT',
     ALL = 'ALL',
 }

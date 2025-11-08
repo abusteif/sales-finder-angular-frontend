@@ -21,8 +21,9 @@ interface ItemConditions {
   sortBy?: string;
   sortOrder?: string;
   dateRange?: number;
-  updateType?: UpdateType;
-  highestDiscountOnly?: boolean;
+  includedUpdateTypes?: UpdateType[];
+  featuredItemsOnly?: boolean;
+  excludeFluctuatingItems?: boolean;
 }
 
 interface ItemsState {
@@ -108,16 +109,22 @@ export class ItemsStore extends signalStore(
             dateRange: filterService.getDateRange(filter.dateRange())
           }
         }
-        if(filter.updateType() !== UpdateType.ALL) {
+        if(filter.includedUpdateTypes().length !== 0) {
           conditions = {
             ...conditions,
-            updateType: filter.updateType()
+            includedUpdateTypes: filter.includedUpdateTypes()
           }
         }
-        if(filter.highestDiscountOnly()) {
+        if(filter.featuredItemsOnly()) {
           conditions = {
             ...conditions,
-            highestDiscountOnly: filter.highestDiscountOnly()
+            featuredItemsOnly: filter.featuredItemsOnly()
+          }
+        }
+        if(filter.excludeFluctuatingItems()) {
+          conditions = {
+            ...conditions,
+            excludeFluctuatingItems: filter.excludeFluctuatingItems()
           }
         }
         patchState(items, { loading: true, error: null, items: [] });

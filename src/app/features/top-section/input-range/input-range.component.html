@@ -1,0 +1,32 @@
+<div class="field">
+  <label class="label">{{label}}</label>
+  <div class="control">
+    <div class="range-container">
+      <div class="inputs-row">
+        <div class="input-group">
+          <label class="range-label">{{minLabel}}</label>
+          <input 
+            type="number" 
+            class="range-input" 
+            [value]="range[0]" 
+            [min]="min" 
+            [max]="max"
+            (input)="onMinChange($event)"
+            [placeholder]="placeholder || 'Min'">
+        </div>
+        <div class="input-group">
+          <label class="range-label">{{maxLabel}}</label>
+          <input 
+            type="number" 
+            class="range-input" 
+            [value]="range[1]" 
+            [min]="min" 
+            [max]="max"
+            (input)="onMaxChange($event)"
+            [placeholder]="placeholder || 'Max'">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

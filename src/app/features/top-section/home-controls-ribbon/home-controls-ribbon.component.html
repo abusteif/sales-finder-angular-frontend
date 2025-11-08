@@ -1,60 +1,47 @@
 <app-controls-ribbon>
-    <div class="controls-layout">
-      <div class="controls-left">
-    <div class="control-buttons">
-      <button class="control-button" [class.filter-active]="isFilterActive" (click)="filterClickHandler()">
-        <i class="fas fa-filter filter-icon"></i>
-        <span class="button-text">Filter</span>
-      </button>
-      <button class="control-button" [class.sort-active]="isSortActive" (click)="sortClickHandler()">
-        <i class="fas fa-sort sort-icon"></i>
-        <span class="button-text">Sort</span>
-      </button>
-      <button class="control-button" (click)="refreshClickHandler()">
-        <i class="fas fa-sync refresh-icon"></i>
-        <span class="button-text">Refresh</span>
-      </button>
-      <button class="control-button mobile-display-button" (click)="displaySettingsClickHandler()">
-        <i class="fas fa-cog display-icon"></i>
-        <span class="button-text">Display</span>
-      </button>
-    </div>
-    <div class="search-container">
-      <form (ngSubmit)="onSearchSubmit($event)">
-        <input #searchInput type="search" class="input" placeholder="Search" enterkeyhint="search">
-        <i class="fas fa-search search-icon"></i>
-      </form>
-    </div>
-    <div class="category-checkbox hide-on-mobile">
-      <label class="checkbox-label">
-        <input type="checkbox" (change)="handleNewItemsOnlyChange($event)" [checked]="isCheckboxChecked('New Items Only')">
-        <i class="fas fa-star new-items-icon" matTooltip="New Items Only" matTooltipPosition="above" [matTooltipShowDelay]="500"></i>
-      </label>
-    </div>
-    <div class="category-checkbox hide-on-mobile">
-      <label class="checkbox-label">
-        <input type="checkbox" (change)="handleDiscountUpItemsOnlyChange($event)" [checked]="isCheckboxChecked('Discount Up Items Only')">
-        <i class="fas fa-arrow-up discount-up-icon" matTooltip="Discount Up Items Only" matTooltipPosition="above" [matTooltipShowDelay]="500"></i>
-      </label>
-    </div>
-    <div class="category-checkbox">
-      <label class="checkbox-label">
-        <input type="checkbox" (change)="handleItemsWithHighestDiscountChange($event)" [checked]="isCheckboxChecked('Items With Highest Discount')">
-        <span class="highest-discount-icon" matTooltip="Items With Highest Discount" matTooltipPosition="above" [matTooltipShowDelay]="500">🔥</span>
-      </label>
-    </div>
+  <div class="controls-layout">
+    <div class="controls-left">
+      <div class="control-buttons">
+        <button class="control-button" [class.filter-active]="isFilterActive" (click)="filterClickHandler()">
+          <i class="fas fa-filter filter-icon"></i>
+          <span class="button-text">Filter</span>
+        </button>
+        <button class="control-button" [class.sort-active]="isSortActive" (click)="sortClickHandler()">
+          <i class="fas fa-sort sort-icon"></i>
+          <span class="button-text">Sort</span>
+        </button>
+        <button class="control-button" (click)="refreshClickHandler()">
+          <i class="fas fa-sync refresh-icon"></i>
+          <span class="button-text">Refresh</span>
+        </button>
+        <button class="control-button mobile-display-button" (click)="displaySettingsClickHandler()">
+          <i class="fas fa-cog display-icon"></i>
+          <span class="button-text">Display</span>
+        </button>
+      </div>
+      <div class="search-container">
+        <form (ngSubmit)="onSearchSubmit($event)">
+          <input #searchInput type="search" class="input" placeholder="Search" enterkeyhint="search">
+          <i class="fas fa-search search-icon"></i>
+        </form>
+      </div>
+
+      <div class="category-checkbox">
+        <label class="checkbox-label">
+          <input type="checkbox" (change)="handleFeaturedItemsOnlyChange($event)"
+            [checked]="isFeaturedItemsOnly">
+          <span class="highest-discount-icon" matTooltip="Featured items only" matTooltipPosition="above"
+            [matTooltipShowDelay]="500">🔥</span>
+        </label>
+      </div>
     </div>
 
-    <app-item-per-page class="hide-on-mobile" [itemsPerPage]="itemsPerPage" (itemsPerPageChange)="itemsPerPageChange($event)"></app-item-per-page>
-    </div>
+    <app-item-per-page class="hide-on-mobile" [itemsPerPage]="itemsPerPage"
+      (itemsPerPageChange)="itemsPerPageChange($event)"></app-item-per-page>
+  </div>
 </app-controls-ribbon>
 
-<app-display-settings-modal 
-  [showModal]="showDisplayModal" 
-  [itemsPerPage]="itemsPerPage"
-  [cardsPerRow]="cardsPerRow"
-  (onCloseModal)="closeDisplayModal()"
-  (itemsPerPageChange)="itemsPerPageChange($event)"
-  (cardsPerRowChange)="cardsPerRowChange($event)"
-  (onApply)="applyDisplaySettings()">
+<app-display-settings-modal [showModal]="showDisplayModal" [itemsPerPage]="itemsPerPage" [cardsPerRow]="cardsPerRow"
+  (onCloseModal)="closeDisplayModal()" (itemsPerPageChange)="itemsPerPageChange($event)"
+  (cardsPerRowChange)="cardsPerRowChange($event)" (onApply)="applyDisplaySettings()">
 </app-display-settings-modal>

@@ -19,9 +19,7 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
   @Output() onRefreshClick = new EventEmitter<void>();
   @Output() onSearchChange = new EventEmitter<string>();
   @Output() onAiSearchClick = new EventEmitter<void>();
-  @Output() onNewItemsOnlyChange = new EventEmitter<boolean>();
-  @Output() onDiscountUpItemsOnlyChange = new EventEmitter<boolean>();
-  @Output() onItemsWithHighestDiscountChange = new EventEmitter<boolean>();
+  @Output() onFeaturedItemsChange = new EventEmitter<boolean>();
   @Output() onDisplaySettingsClick = new EventEmitter<void>();
   @Output() onItemsPerPageChange = new EventEmitter<number>();
   @Output() onCardsPerRowChange = new EventEmitter<number>();
@@ -31,23 +29,10 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
   @Input() isSortActive: boolean = false;
   @Input() itemsPerPage: number = DEFAULT_ITEMS_PER_PAGE;
   @Input() cardsPerRow: number = DEFAULT_CARDS_PER_ROW;
+  @Input() isFeaturedItemsOnly: boolean = false;
 
   searchValue: string = '';
   showDisplayModal: boolean = false;
-  checboxes = [
-    {
-      name: 'New Items Only',
-      checked: false
-    },
-    {
-      name: 'Discount Up Items Only',
-      checked: false
-    },
-    {
-      name: 'Items With Highest Discount',
-      checked: false
-    }
-  ]
   @ViewChild('searchInput') searchInput!: ElementRef;
 
   private destroy$ = new Subject<void>();
@@ -114,31 +99,9 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
     this.onCardsPerRowChange.emit(cardsPerRow);
   }
 
-  handleNewItemsOnlyChange(event: Event) {
+  handleFeaturedItemsOnlyChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    this.handleCheckboxChange('New Items Only');
-    this.onNewItemsOnlyChange.emit(checkbox.checked);
-  }
-  handleDiscountUpItemsOnlyChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    this.handleCheckboxChange('Discount Up Items Only');
-    this.onDiscountUpItemsOnlyChange.emit(checkbox.checked);
-  }
-  handleItemsWithHighestDiscountChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    this.handleCheckboxChange('Items With Highest Discount');
-    this.onItemsWithHighestDiscountChange.emit(checkbox.checked);
-  }
-
-  isCheckboxChecked(name: string) {
-    return this.checboxes.find(checkbox => checkbox.name === name)?.checked ?? false;
-  }
-  handleCheckboxChange(name: string) {
-    this.checboxes.filter(checkbox => checkbox.name !== name).forEach(checkbox => checkbox.checked = false);
-    const checkbox = this.checboxes.find(checkbox => checkbox.name === name);
-    if (checkbox) {
-      checkbox.checked = !checkbox.checked;
-    }
+    this.onFeaturedItemsChange.emit(checkbox.checked);
   }
 
   ngOnDestroy() {

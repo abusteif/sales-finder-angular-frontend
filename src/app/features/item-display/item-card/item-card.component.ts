@@ -37,6 +37,7 @@ export class ItemCardComponent {
     }
     this.googleUrl = this.generateGoogleUrl()
     this.imageLoadError = false // Reset image error on new item
+    this.isFeatured = item.isFeatured || false
   }
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
@@ -63,6 +64,7 @@ export class ItemCardComponent {
   isFlactuating: boolean = false
   alertId: string | null = null
   imageLoadError: boolean = false
+  isFeatured: boolean = false
   
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
@@ -148,7 +150,7 @@ export class ItemCardComponent {
   }
 
   getDiscountIconText(): string {
-    if (this.isHighestDiscountEver) {
+    if (this.isFeatured) {
       return '🔥';
     } else {
       return this.highestDiscountSince.toString();
@@ -156,7 +158,7 @@ export class ItemCardComponent {
   }
 
   getDiscountIconTooltip(): string {
-    if (this.isHighestDiscountEver) {
+    if (this.isFeatured) {
       return `Highest discount since we started tracking this item! (${this.trackedSince} days)`;
     } else {
       return `Highest discount in ${this.highestDiscountSince} days`;
@@ -165,7 +167,7 @@ export class ItemCardComponent {
 
   getDiscountIconClass(): string {
     const baseClass = 'discount-icon';
-    const typeClass = this.isHighestDiscountEver ? 'discount-icon-highest' : 'discount-icon-days';
+    const typeClass = this.isFeatured ? 'discount-icon-highest' : 'discount-icon-days';
     return `${baseClass} ${typeClass}`;
   }
 

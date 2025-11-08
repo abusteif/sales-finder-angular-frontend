@@ -208,6 +208,53 @@
   }
 }
 
+/* Volatility exclude icon - warning icon with cross overlay */
+.volatility-exclude-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ff6b35;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid #e55a2b;
+  flex-shrink: 0;
+  position: relative;
+  margin-right: 4px;
+}
+
+.volatility-exclude-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  background-color: #e55a2b;
+}
+
+.volatility-exclude-icon .fa-exclamation-triangle {
+  font-size: 10px;
+  color: white;
+  z-index: 0;
+}
+
+.volatility-exclude-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 14px;
+  height: 2px;
+  background-color: white;
+  border-radius: 1px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8), 0 0 1px rgba(0, 0, 0, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* Mobile responsive icon styles */
 @media (max-width: 768px) {
   .new-items-icon,

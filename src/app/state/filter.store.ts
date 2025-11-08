@@ -3,7 +3,7 @@ import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { SortCriteria } from "../core/models/sort.model";
 import { environment } from "../../environments/environment";
 import { UpdateType } from "../core/models/item.model";
-import { DEFAULT_FILTER_VALUES } from "../core/constants/filter";
+import { DEFAULT_FILTER_VALUES, DEFAULT_INCLUDED_UPDATE_TYPES } from "../core/constants/filter";
 import { DEFAULT_SORT_VALUE } from "../core/constants/sort";
 import { SortService } from "../core/services/sort.service";
 import { Filter } from "../core/models/filter.model";
@@ -28,8 +28,9 @@ export class FilterStore extends signalStore(
         sortBy: '',
         sortOrder: '',
         dateRange: DEFAULT_FILTER_VALUES.selectedDateRange,
-        updateType: UpdateType.ALL,
-        highestDiscountOnly: false
+        includedUpdateTypes: [...DEFAULT_INCLUDED_UPDATE_TYPES],
+        featuredItemsOnly: false,
+        excludeFluctuatingItems: false
     }),
     withMethods((filter) => {
         const storageService = inject(StorageService);
@@ -71,11 +72,20 @@ export class FilterStore extends signalStore(
                 patchState(filter, { dateRange });
                 storageService.setFilterPreferences({ dateRange } as Filter);
             },
-            setUpdateType: (updateType: UpdateType) => {
-                patchState(filter, { updateType, highestDiscountOnly: false });
+            addIncludedUpdateType: (updateType: UpdateType) => {
+                const newIncludedUpdateTypes = [...filter.includedUpdateTypes(), updateType];
+                patchState(filter, { includedUpdateTypes: newIncludedUpdateTypes, featuredItemsOnly: false });
             },
-            setHighestDiscountOnly: (highestDiscountOnly: boolean) => {
-                patchState(filter, { highestDiscountOnly, updateType: UpdateType.ALL });
+            removeIncludedUpdateType: (updateType: UpdateType) => {
+                const newIncludedUpdateTypes = filter.includedUpdateTypes().filter(type => type !== updateType);
+                patchState(filter, { includedUpdateTypes: newIncludedUpdateTypes, featuredItemsOnly: false });
+            },
+            setFeaturedItemsOnly: (featuredItemsOnly: boolean) => {
+                patchState(filter, { featuredItemsOnly, includedUpdateTypes: [UpdateType.DISCOUNT_UP] });
+            },
+            setExcludeFluctuatingItems: (excludeFluctuatingItems: boolean) => {
+                patchState(filter, { excludeFluctuatingItems });
+                storageService.setFilterPreferences({ excludeFluctuatingItems } as Filter);
             },
             loadFilterPreferences: () => {
                 const filterPreferences = storageService.getUserPreferences()?.filter;

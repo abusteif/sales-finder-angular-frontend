@@ -8,6 +8,7 @@ export interface Filter {
     dateRange: string;
     search: string;
     aiSearch: boolean;
-    updateType: UpdateType;
-    highestDiscountOnly: boolean;
+    includedUpdateTypes: UpdateType[];
+    featuredItemsOnly: boolean;
+    excludeFluctuatingItems: boolean;
 }

@@ -75,3 +75,40 @@
   min-width: 250px;
   width: auto;
 }
+
+
+.dropdown-trigger .button {
+  display: flex !important;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  flex-shrink: 1;
+  flex-grow: 0;
+}
+
+
+
+.dropdown-trigger .button .icon {
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+/* Mobile responsive - smaller buttons */
+@media (max-width: 768px) {
+  .dropdown-trigger .button {
+    padding: 0.3125rem 0.625rem !important;
+    font-size: 0.84375rem !important;
+    height: auto !important;
+    min-height: 2.125rem !important;
+  }
+
+  .dropdown-trigger .button .icon {
+    margin-left: 0.3125rem;
+    font-size: 0.71875rem !important;
+  }
+
+  .dropdown-trigger .button .icon i {
+    font-size: 0.71875rem !important;
+  }
+}

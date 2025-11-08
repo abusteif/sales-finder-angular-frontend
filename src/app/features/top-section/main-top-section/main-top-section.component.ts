@@ -6,7 +6,7 @@ import { FilterStore } from '../../../state/filter.store';
 import { SortService } from '../../../core/services/sort.service';
 import { SortOption } from '../../../core/models/sort.model';
 import { FilterService } from '../../../core/services/filter.service';
-import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES } from '../../../core/constants/filter';
+import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES, DEFAULT_INCLUDED_UPDATE_TYPES } from '../../../core/constants/filter';
 import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
 import { UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
@@ -35,6 +35,9 @@ export class MainTopSectionComponent {
   public isSortActive: boolean = false;
   public itemsPerPage: number = 0;
   public cardsPerRow: number = 3;
+  public includedDiscountTypes: UpdateType[] = [...DEFAULT_INCLUDED_UPDATE_TYPES];
+  public isFeaturedItemsOnly: boolean = false;
+  public excludeFluctuatingItems: boolean = false;
   constructor(
     public store: storesStore,
     public category: CategoriesStore,
@@ -57,9 +60,10 @@ export class MainTopSectionComponent {
       this.priceRange = [...this.filter.selectedPriceRange()];
       this.dateRange = this.filter.dateRange();
       this.discountRange = [...this.filter.selectedDiscountRange()];
-
+      this.includedDiscountTypes = [...this.filter.includedUpdateTypes()];
       this.isFilterActive = this.checkIfFilterActive()
-
+      this.isFeaturedItemsOnly = this.filter.featuredItemsOnly();
+      this.excludeFluctuatingItems = this.filter.excludeFluctuatingItems();
       const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
@@ -125,16 +129,28 @@ export class MainTopSectionComponent {
     this.closeSortModal();
   }
 
-  onNewItemsOnlyChange(newItemsOnly: boolean) {
-    this.filter.setUpdateType(newItemsOnly ? UpdateType.NEW : UpdateType.ALL);
+  onIncludeNewItemsChange(includeNewItems: boolean) {
+    includeNewItems ? this.filter.addIncludedUpdateType(UpdateType.NEW) : this.filter.removeIncludedUpdateType(UpdateType.NEW);
     this.getItemsAndResetPage();
   }
-  onDiscountUpItemsOnlyChange(discountUpItemsOnly: boolean) {
-    this.filter.setUpdateType(discountUpItemsOnly ? UpdateType.DISCOUNT_UP : UpdateType.ALL);
+  onIncludeDiscountUpItemsChange(includeDiscountUpItems: boolean) {
+    includeDiscountUpItems ? this.filter.addIncludedUpdateType(UpdateType.DISCOUNT_UP) : this.filter.removeIncludedUpdateType(UpdateType.DISCOUNT_UP);
     this.getItemsAndResetPage();
   }
-  onItemsWithHighestDiscountChange(itemsWithHighestDiscount: boolean) {
-    this.filter.setHighestDiscountOnly(itemsWithHighestDiscount);
+  onIncludeDiscountDownItemsChange(includeDiscountDownItems: boolean) {
+    includeDiscountDownItems ? this.filter.addIncludedUpdateType(UpdateType.DISCOUNT_DOWN) : this.filter.removeIncludedUpdateType(UpdateType.DISCOUNT_DOWN);
+    this.getItemsAndResetPage();
+  }
+  onIncludeReturnedItemsChange(includeReturnedItems: boolean) {
+    includeReturnedItems ? this.filter.addIncludedUpdateType(UpdateType.RETURNED) : this.filter.removeIncludedUpdateType(UpdateType.RETURNED);
+    this.getItemsAndResetPage();
+  }
+  onFeaturedItemsChange(featuredItemsOnly: boolean) {
+    this.filter.setFeaturedItemsOnly(featuredItemsOnly);
+    this.getItemsAndResetPage();
+  }
+  onExcludeFluctuatingItemsChange(excludeFluctuatingItems: boolean) {
+    this.filter.setExcludeFluctuatingItems(excludeFluctuatingItems);
     this.getItemsAndResetPage();
   }
 
