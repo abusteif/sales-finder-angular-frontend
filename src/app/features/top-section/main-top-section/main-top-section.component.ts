@@ -182,6 +182,8 @@ export class MainTopSectionComponent {
       JSON.stringify(this.priceRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
       JSON.stringify(this.discountRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
       JSON.stringify(this.includedDiscountTypes.sort()) !== JSON.stringify(DEFAULT_INCLUDED_UPDATE_TYPES.sort()) ||
+      this.isFeaturedItemsOnly !== DEFAULT_FILTER_VALUES.featuredItemsOnly ||
+      this.excludeFluctuatingItems !== DEFAULT_FILTER_VALUES.excludeFluctuatingItems ||
       this.dateRange !== DEFAULT_FILTER_VALUES.selectedDateRange;
   }
 
@@ -213,6 +215,8 @@ export class MainTopSectionComponent {
     this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
     this.dateRange = DEFAULT_FILTER_VALUES.selectedDateRange;
     this.includedDiscountTypes = [...DEFAULT_INCLUDED_UPDATE_TYPES];
+    this.isFeaturedItemsOnly = DEFAULT_FILTER_VALUES.featuredItemsOnly;
+    this.excludeFluctuatingItems = DEFAULT_FILTER_VALUES.excludeFluctuatingItems;
   }
 
   onDisplaySettingsClick() {
