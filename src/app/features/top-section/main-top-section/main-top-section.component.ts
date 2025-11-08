@@ -23,7 +23,7 @@ export class MainTopSectionComponent {
   public selectedStores: string[] = [];
   public categories: string[] = [];
   public selectedCategories: string[] = [];
-  public priceRange: number[] = [...environment.maxPriceRange]; 
+  public priceRange: number[] = [...environment.maxPriceRange];
   public discountRange: number[] = [...environment.maxDiscountRange];
   public showFilterModal = false;
   public search: string = '';
@@ -113,6 +113,9 @@ export class MainTopSectionComponent {
     this.filter.setSelectedPriceRange(this.priceRange);
     this.filter.setSelectedDiscountRange(this.discountRange);
     this.filter.setDateRange(this.dateRange);
+    this.filter.updateIncludedUpdateType(this.includedDiscountTypes);
+    this.filter.setFeaturedItemsOnly(this.isFeaturedItemsOnly);
+    this.filter.setExcludeFluctuatingItems(this.excludeFluctuatingItems);
     this.getItemsAndResetPage();
     this.closeFilterModal();
   }
@@ -130,28 +133,34 @@ export class MainTopSectionComponent {
   }
 
   onIncludeNewItemsChange(includeNewItems: boolean) {
-    includeNewItems ? this.filter.addIncludedUpdateType(UpdateType.NEW) : this.filter.removeIncludedUpdateType(UpdateType.NEW);
-    this.getItemsAndResetPage();
+    this.updateIncludedDiscountTypes(UpdateType.NEW, includeNewItems);
   }
   onIncludeDiscountUpItemsChange(includeDiscountUpItems: boolean) {
-    includeDiscountUpItems ? this.filter.addIncludedUpdateType(UpdateType.DISCOUNT_UP) : this.filter.removeIncludedUpdateType(UpdateType.DISCOUNT_UP);
-    this.getItemsAndResetPage();
+    this.updateIncludedDiscountTypes(UpdateType.DISCOUNT_UP, includeDiscountUpItems);
   }
   onIncludeDiscountDownItemsChange(includeDiscountDownItems: boolean) {
-    includeDiscountDownItems ? this.filter.addIncludedUpdateType(UpdateType.DISCOUNT_DOWN) : this.filter.removeIncludedUpdateType(UpdateType.DISCOUNT_DOWN);
-    this.getItemsAndResetPage();
+    this.updateIncludedDiscountTypes(UpdateType.DISCOUNT_DOWN, includeDiscountDownItems);
   }
   onIncludeReturnedItemsChange(includeReturnedItems: boolean) {
-    includeReturnedItems ? this.filter.addIncludedUpdateType(UpdateType.RETURNED) : this.filter.removeIncludedUpdateType(UpdateType.RETURNED);
-    this.getItemsAndResetPage();
+    this.updateIncludedDiscountTypes(UpdateType.RETURNED, includeReturnedItems);
   }
-  onFeaturedItemsChange(featuredItemsOnly: boolean) {
-    this.filter.setFeaturedItemsOnly(featuredItemsOnly);
-    this.getItemsAndResetPage();
+  onFeaturedItemsChange(featuredItemsOnly: boolean, fromControlRibbon: boolean = false) {
+    this.isFeaturedItemsOnly = featuredItemsOnly;
+    if (fromControlRibbon) {
+      this.filter.setFeaturedItemsOnly(featuredItemsOnly);
+      this.getItemsAndResetPage();
+    }
   }
   onExcludeFluctuatingItemsChange(excludeFluctuatingItems: boolean) {
-    this.filter.setExcludeFluctuatingItems(excludeFluctuatingItems);
-    this.getItemsAndResetPage();
+    this.excludeFluctuatingItems = excludeFluctuatingItems;
+  }
+
+  updateIncludedDiscountTypes(type: UpdateType, value: boolean) {
+    if (value) {
+      this.includedDiscountTypes = [...this.includedDiscountTypes, type];
+    } else {
+      this.includedDiscountTypes = this.includedDiscountTypes.filter(t => t !== type);
+    }
   }
 
   openFilterModal() {
@@ -169,10 +178,11 @@ export class MainTopSectionComponent {
 
   checkIfFilterActive() {
     return JSON.stringify(this.selectedStores) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedStores) ||
-        JSON.stringify(this.selectedCategories) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
-        JSON.stringify(this.priceRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
-        JSON.stringify(this.discountRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
-        this.dateRange !== DEFAULT_FILTER_VALUES.selectedDateRange;
+      JSON.stringify(this.selectedCategories) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedCategories) ||
+      JSON.stringify(this.priceRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedPriceRange) ||
+      JSON.stringify(this.discountRange) !== JSON.stringify(DEFAULT_FILTER_VALUES.selectedDiscountRange) ||
+      JSON.stringify(this.includedDiscountTypes.sort()) !== JSON.stringify(DEFAULT_INCLUDED_UPDATE_TYPES.sort()) ||
+      this.dateRange !== DEFAULT_FILTER_VALUES.selectedDateRange;
   }
 
   closeFilterModal() {
@@ -202,6 +212,7 @@ export class MainTopSectionComponent {
     this.priceRange = [...DEFAULT_FILTER_VALUES.selectedPriceRange];
     this.discountRange = [...DEFAULT_FILTER_VALUES.selectedDiscountRange];
     this.dateRange = DEFAULT_FILTER_VALUES.selectedDateRange;
+    this.includedDiscountTypes = [...DEFAULT_INCLUDED_UPDATE_TYPES];
   }
 
   onDisplaySettingsClick() {
@@ -209,7 +220,7 @@ export class MainTopSectionComponent {
     // The modal is handled by the home-controls-ribbon component
   }
 
-  onDisplaySettingsChange(settings: {itemsPerPage: number, cardsPerRow: number}) {
+  onDisplaySettingsChange(settings: { itemsPerPage: number, cardsPerRow: number }) {
     this.appStore.setItemsPerPage(settings.itemsPerPage);
     this.appStore.setCardsPerRow(settings.cardsPerRow);
     this.getItemsAndResetPage();

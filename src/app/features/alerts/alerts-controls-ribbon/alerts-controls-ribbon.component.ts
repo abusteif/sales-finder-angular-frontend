@@ -15,7 +15,6 @@ export class AlertsControlsRibbonComponent {
   @Input() alerts: Alert[] = [];
   @Input() set user(user: User | null) {
     this.maxAlerts = user?.maxAlerts || 0;
-    console.log(this.maxAlerts);
   }
   showActiveOnly = false;
   maxAlerts = 0;

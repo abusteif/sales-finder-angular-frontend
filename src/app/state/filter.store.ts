@@ -72,16 +72,13 @@ export class FilterStore extends signalStore(
                 patchState(filter, { dateRange });
                 storageService.setFilterPreferences({ dateRange } as Filter);
             },
-            addIncludedUpdateType: (updateType: UpdateType) => {
-                const newIncludedUpdateTypes = [...filter.includedUpdateTypes(), updateType];
-                patchState(filter, { includedUpdateTypes: newIncludedUpdateTypes, featuredItemsOnly: false });
-            },
-            removeIncludedUpdateType: (updateType: UpdateType) => {
-                const newIncludedUpdateTypes = filter.includedUpdateTypes().filter(type => type !== updateType);
-                patchState(filter, { includedUpdateTypes: newIncludedUpdateTypes, featuredItemsOnly: false });
+            updateIncludedUpdateType(updateTypes: UpdateType[]) {
+                patchState(filter, { includedUpdateTypes: updateTypes});
+                storageService.setFilterPreferences({ includedUpdateTypes: updateTypes } as Filter);
             },
             setFeaturedItemsOnly: (featuredItemsOnly: boolean) => {
-                patchState(filter, { featuredItemsOnly, includedUpdateTypes: [UpdateType.DISCOUNT_UP] });
+                patchState(filter, { featuredItemsOnly});
+                storageService.setFilterPreferences({ featuredItemsOnly } as Filter);
             },
             setExcludeFluctuatingItems: (excludeFluctuatingItems: boolean) => {
                 patchState(filter, { excludeFluctuatingItems });
@@ -92,7 +89,7 @@ export class FilterStore extends signalStore(
                 if (filterPreferences) {
                     patchState(filter, filterPreferences);
                 }
-            }   
+            }
         }
     })
 ) {

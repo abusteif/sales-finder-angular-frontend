@@ -10,7 +10,7 @@
   (onSortClick)="openSortModal()"
   (onRefreshClick)="onRefreshClick()"
   (onSearchChange)="onSearchChange($event)"
-  (onFeaturedItemsChange)="onFeaturedItemsChange($event)"
+  (onFeaturedItemsChange)="onFeaturedItemsChange($event, true)"
   (onDisplaySettingsClick)="onDisplaySettingsClick()"
   (onDisplaySettingsApply)="onDisplaySettingsApply()"
   >
@@ -40,7 +40,7 @@
   (onIncludeDiscountUpItemsChange)="onIncludeDiscountUpItemsChange($event)"
   (onIncludeDiscountDownItemsChange)="onIncludeDiscountDownItemsChange($event)"
   (onIncludeReturnedItemsChange)="onIncludeReturnedItemsChange($event)"
-  (onFeaturedItemsChange)="onFeaturedItemsChange($event)"
+  (onFeaturedItemsChange)="onFeaturedItemsChange($event, false)"
   (onExcludeFluctuatingItemsChange)="onExcludeFluctuatingItemsChange($event)"
   (onResetFilters)="onResetFilters()">
 </app-filter-search-modal>

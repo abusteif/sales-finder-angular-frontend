@@ -133,7 +133,6 @@ export class ItemsStore extends signalStore(
             patchState(items, { items: result.items, itemsCount: result.count, loading: false });
           }),
           catchError((error) => {
-            console.log('Failed to load items', error);
             patchState(items, {
               loading: false,
               error: 'Failed to load items',

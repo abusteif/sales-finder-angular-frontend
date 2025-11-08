@@ -41,7 +41,6 @@ export class StoreSelectionStepComponent {
 
   onUpgradeClick() {
     // TODO: Implement upgrade functionality
-    console.log('Upgrade clicked - navigate to upgrade page');
     this.router.navigate(['/upgrade']); 
     // You can emit an event to the parent component to handle the upgrade navigation
   }
