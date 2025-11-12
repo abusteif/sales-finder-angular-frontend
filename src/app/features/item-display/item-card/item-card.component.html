@@ -82,6 +82,11 @@
         [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" (click)="onAlertButtonClick()">
         <i class="fas fa-bell"></i>
       </button>
+      <button class="report-button" [class.reported]="isReportedForSaleExpiry" 
+        [matTooltip]="getReportButtonTooltip()" matTooltipPosition="above"
+        [matTooltipShowDelay]="700" [matTooltipClass]="'custom-tooltip'" (click)="onReportNoLongerOnDiscountClick($event)">
+        <i class="fas fa-exclamation-circle"></i>
+      </button>
     </div>
   </div>
 </div>

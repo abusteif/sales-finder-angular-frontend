@@ -34,9 +34,19 @@
 }
 
 .card-font-mobile-single .google-logo {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.card-font-mobile-single .report-button {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.card-font-mobile-single .bell-button {
+  font-size: 18px;
+  padding: 8px;
 }
 
 .card-font-mobile-double {
@@ -57,9 +67,19 @@
 }
 
 .card-font-mobile-double .google-logo {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+}
+
+.card-font-mobile-double .report-button {
+  font-size: 13px;
+  padding: 6px;
+}
+
+.card-font-mobile-double .bell-button {
+  font-size: 15px;
+  padding: 6px;
 }
 
 .card-font-mobile-triple {
@@ -71,7 +91,17 @@
 }
 
 .card-font-mobile-triple .card-title {
-    font-size: 0.6rem !important; /* Smaller title for three cards */
+  font-size: 0.6rem !important; /* Smaller title for three cards */
+}
+
+.card-font-mobile-triple .report-button {
+  font-size: 11px;
+  padding: 5px;
+}
+
+.card-font-mobile-triple .bell-button {
+  font-size: 13px;
+  padding: 5px;
 }
   
   .custom-card:hover {
@@ -420,14 +450,67 @@
   pointer-events: none;
 }
 
+.report-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #999;
+  font-size: 14px;
+  opacity: 0.6;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.report-button:hover {
+  color: #dc3545;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.report-button.reported {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.3);
+}
+
+.report-button.reported:hover {
+  color: #c82333;
+  background: rgba(200, 35, 51, 0.15);
+  box-shadow: 0 0 12px rgba(220, 53, 69, 0.4);
+  transform: scale(1.2);
+}
+
+.report-button i {
+  pointer-events: none;
+}
+
 @media (max-width: 768px) {
   .bell-button {
     padding-left: 2px;
-    font-size: 13px;
     /* Align with discount line on mobile */
     bottom: -7px; /* Keep at bottom edge */
     right: -12px; /* Move further to the right */
   }
 
+  .report-button {
+    bottom: -7px;
+    left: -12px;
+    opacity: 0.5;
+  }
+  
+  .report-button:hover {
+    opacity: 0.9;
+  }
 
+  .report-button.reported {
+    opacity: 1;
+  }
+
+  .report-button.reported:hover {
+    opacity: 1;
+  }
 }

@@ -18,6 +18,7 @@ export interface Item {
     isHighestDiscountEver: boolean;
     trackedSince: number
     isFlactuating: boolean;
+    isReportedForSaleExpiry: boolean;
     alertId: string | null;
     isFeatured: boolean;
 }

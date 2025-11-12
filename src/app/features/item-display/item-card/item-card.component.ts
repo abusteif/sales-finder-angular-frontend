@@ -6,6 +6,9 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { RelativeDatePipe } from '../../../shared/relative-date.pipe';
 import { Router } from '@angular/router';
 import { DEFAULT_CARDS_PER_ROW } from '../../../core/constants/display';
+import { StatusDialogService } from '../../../core/services/status-dialog.service';
+import { UserReportsService } from '../../../core/services/userReports.service';
+import { ItemsStore } from '../../../state/items.store';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null)
 @Component({
@@ -38,6 +41,7 @@ export class ItemCardComponent {
     this.googleUrl = this.generateGoogleUrl()
     this.imageLoadError = false // Reset image error on new item
     this.isFeatured = item.isFeatured || false
+    this.isReportedForSaleExpiry = item.isReportedForSaleExpiry || false
   }
   @Input() set storesCheckedAt(storesCheckedAt: {name: string, checkedAt: Date}[]) {
     this.lastCheckedAt = storesCheckedAt.filter(store => store.name === this._item.store)[0]?.checkedAt
@@ -65,13 +69,20 @@ export class ItemCardComponent {
   alertId: string | null = null
   imageLoadError: boolean = false
   isFeatured: boolean = false
-  
+  isReportedForSaleExpiry: boolean = false
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
 
 
-  constructor(private appStore: AppStore, private relativeDatePipe: RelativeDatePipe, private router: Router) {
+  constructor(
+    private appStore: AppStore, 
+    private relativeDatePipe: RelativeDatePipe, 
+    private router: Router,
+    private statusDialogService: StatusDialogService,
+    private userReportsService: UserReportsService,
+    private items: ItemsStore
+  ) {
     this.isMobile = this.appStore.isMobile()
   }
 
@@ -305,4 +316,52 @@ export class ItemCardComponent {
     this.imageLoadError = true;
   }
 
+  getReportButtonTooltip(): string {
+    if (this.isReportedForSaleExpiry) {
+      return 'This item has been reported as no longer on sale';
+    }
+    return 'Report discount issue';
   }
+
+  onReportNoLongerOnDiscountClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!this._item?.id) {
+      return;
+    }
+
+    if (this.isReportedForSaleExpiry) {
+      this.statusDialogService.showInfo(
+        'Already Reported',
+        'This item has already been reported as no longer on sale. The system will process this report and update the item accordingly.',
+        'OK'
+      ).subscribe();
+      return;
+    }
+
+    this.statusDialogService.showConfirmation(
+      'Report No Longer On Discount',
+      'Are you sure you want to report that this item is no longer on discount? Your report will be processed and the item will be updated accordingly.',
+      'Yes',
+      'No'
+    ).subscribe((result) => {
+      if (result) {
+        this.userReportsService.reportSaleExpiry(this._item.id).subscribe({
+          next: () => {
+            this.statusDialogService.showSuccess(
+              'Report Submitted',
+              'Thank you for your report. The system will check this item and update it if it is no longer on discount.',
+              'OK'
+            ).subscribe(
+              () => {
+                this.items.getItems()
+              }
+            );
+          }
+        });
+      }
+    });
+
+  }
+}
