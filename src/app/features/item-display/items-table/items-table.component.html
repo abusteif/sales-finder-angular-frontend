@@ -23,7 +23,7 @@
     @for (item of items; track item.url) {
       <div class="column" [ngClass]="getColumnClass()">
 
-      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached" [isAuthenticated]="isAuthenticated" [cardsPerRow]="cardsPerRow"></app-item-card>
+      <app-item-card [item]="item" [storesCheckedAt]="storesCheckedAt" [alertLimitReached]="alertLimitReached" [isAuthenticated]="isAuthenticated" [cardsPerRow]="cardsPerRow" [userRole]="userRole"></app-item-card>
     </div>
   
 

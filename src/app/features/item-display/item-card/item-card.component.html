@@ -1,7 +1,7 @@
 @if(item) {
 
 <div class="card custom-card" [class]="getCardFontSizeClass()" [style.box-shadow]="getCardShadowStyle()"
-  [style.--hover-shadow]="getCardHoverShadowStyle()">
+  [style.--hover-shadow]="getCardHoverShadowStyle()" (click)="onCardClick()">
 
   <div class="card-image">
     <a [href]="item.url" target="_blank" rel="noopener noreferrer"

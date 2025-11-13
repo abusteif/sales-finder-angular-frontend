@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Item } from '../../../core/models/item.model';
+import { UserRole } from '../../../core/models/user.models';
 
 @Component({
   selector: 'app-items-table',
@@ -15,7 +16,8 @@ export class ItemsTableComponent {
   @Input() storesCheckedAt: {name: string, checkedAt: Date}[] = []
   @Input() isAuthenticated: boolean = false;
   @Input() cardsPerRow: number = 3;
-
+  @Input() userRole: UserRole = UserRole.USER;
+  
   getColumnClass(): string {
     const desktopClass = 'is-one-fifth-desktop';
     switch (this.cardsPerRow) {

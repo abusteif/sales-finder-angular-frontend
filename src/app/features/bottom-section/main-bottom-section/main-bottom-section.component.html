@@ -1,7 +1,7 @@
 <div class="container">
   <app-items-table [items]="items" [loading]="isItemsLoading" [error]="itemsError" [storesCheckedAt]="storesCheckedAt"
     [alertLimitReached]="alertLimitReached" [isAuthenticated]="isAuthenticated"
-    [cardsPerRow]="cardsPerRow"></app-items-table>
+    [cardsPerRow]="cardsPerRow" [userRole]="userRole"></app-items-table>
 </div>
 @if (items.length > 0) {
 <app-pagination [currentPage]="currentPage" (onPageChange)="onPageChange($event) " [isLastPage]="isLastPage"

@@ -7,5 +7,10 @@ export interface User {
     lastLogin: string | null;
     maxAlerts: number;
     maxStoresPerAlert: number;
-    role: string;
+    role: UserRole;
+}
+
+export enum UserRole {
+    ADMIN = 'ADMIN',
+    USER = 'USER'
 }

@@ -9,6 +9,7 @@ import { DEFAULT_CARDS_PER_ROW } from '../../../core/constants/display';
 import { StatusDialogService } from '../../../core/services/status-dialog.service';
 import { UserReportsService } from '../../../core/services/userReports.service';
 import { ItemsStore } from '../../../state/items.store';
+import { UserRole } from '../../../core/models/user.models';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null)
 @Component({
@@ -52,6 +53,10 @@ export class ItemCardComponent {
   get item() {
     return this._item
   }
+
+  @Input() set userRole(userRole: UserRole) {
+    this.isAdmin = userRole === UserRole.ADMIN
+  }
   
   _item: Item = {} as Item
   _itemAlert: ItemAlert = {} as ItemAlert
@@ -70,6 +75,7 @@ export class ItemCardComponent {
   imageLoadError: boolean = false
   isFeatured: boolean = false
   isReportedForSaleExpiry: boolean = false
+  isAdmin: boolean = false
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
@@ -84,6 +90,12 @@ export class ItemCardComponent {
     private items: ItemsStore
   ) {
     this.isMobile = this.appStore.isMobile()
+  }
+
+  onCardClick() {
+    if (this.isAdmin && this._item?.id) {
+      navigator.clipboard.writeText(this._item.id);
+    }
   }
 
   onAlertButtonClick() {
