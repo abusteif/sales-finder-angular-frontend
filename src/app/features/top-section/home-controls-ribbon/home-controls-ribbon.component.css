@@ -160,7 +160,7 @@
   .category-checkbox {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 7px;
   }
 
   .checkbox-label {
@@ -223,4 +223,18 @@
   display: flex;
   align-items: center;
   gap: 2px;
+}
+
+.filter-separator {
+  width: 1px;
+  height: 24px;
+  background-color: #dee2e6;
+  margin: 0 8px;
+  align-self: center;
+}
+
+@media (max-width: 767px) {
+  .filter-separator {
+    display: none;
+  }
 }

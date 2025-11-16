@@ -1,0 +1,32 @@
+<div class="field">
+  <label class="label">{{label}}</label>
+  <div class="control">
+    <div class="range-container">
+      <div class="inputs-row">
+        <div class="input-group">
+          <label class="range-label">{{minLabel}}</label>
+          <input 
+            type="number" 
+            class="range-input" 
+            [(ngModel)]="lowerValue"
+            (ngModelChange)="onMinChange($event)"
+            [min]="min" 
+            [max]="max"
+            [placeholder]="placeholder">
+        </div>
+        <div class="input-group">
+          <label class="range-label">{{maxLabel}}</label>
+          <input 
+            type="number" 
+            class="range-input" 
+            [(ngModel)]="upperValue"
+            (ngModelChange)="onMaxChange($event)"
+            [min]="min" 
+            [max]="max"
+            [placeholder]="placeholder">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

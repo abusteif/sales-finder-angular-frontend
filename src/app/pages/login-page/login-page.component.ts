@@ -23,7 +23,6 @@ export class LoginPageComponent {
   ) {
     // Get the return URL from query parameters
     this.route.queryParams.subscribe(params => {
-      console.log(params);
       this.returnUrl = params['returnUrl'] || '/';
     });
 

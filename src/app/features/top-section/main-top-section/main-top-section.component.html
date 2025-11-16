@@ -3,18 +3,17 @@
   [isSortActive]="isSortActive"
   [itemsPerPage]="itemsPerPage"
   [cardsPerRow]="cardsPerRow"
+  [isFeaturedItemsOnly]="isFeaturedItemsOnly"
   (onItemsPerPageChange)="onItemsPerPageChange($event)"
   (onCardsPerRowChange)="onCardsPerRowChange($event)"
   (onFilterClick)="openFilterModal()"
   (onSortClick)="openSortModal()"
   (onRefreshClick)="onRefreshClick()"
   (onSearchChange)="onSearchChange($event)"
-  (onNewItemsOnlyChange)="onNewItemsOnlyChange($event)"
-  (onDiscountUpItemsOnlyChange)="onDiscountUpItemsOnlyChange($event)"
-  (onItemsWithHighestDiscountChange)="onItemsWithHighestDiscountChange($event)"
+  (onFeaturedItemsChange)="onFeaturedItemsChange($event, true)"
   (onDisplaySettingsClick)="onDisplaySettingsClick()"
   (onDisplaySettingsApply)="onDisplaySettingsApply()"
-  >
+>
 </app-home-controls-ribbon>
 
 <app-filter-search-modal
@@ -26,6 +25,9 @@
   [priceRange]="priceRange"
   [discountRange]="discountRange"
   [dateRange]="dateRange"
+  [includedDiscountTypes]="includedDiscountTypes"
+  [isFeaturedItemsOnly]="isFeaturedItemsOnly"
+  [excludeFluctuatingItems]="excludeFluctuatingItems"
   [isResetFiltersButtonDisabled]="false"
   (onSubmitFilter)="onSubmitFilter()"
   (onCloseFilterModal)="closeFilterModal()"
@@ -34,7 +36,14 @@
   (onPriceRangeChange)="onPriceRangeChange($event)"
   (onDiscountRangeChange)="onDiscountRangeChange($event)"
   (onDateRangeChange)="onDateRangeChange($event)"
-  (onResetFilters)="onResetFilters()">
+  (onIncludeNewItemsChange)="onIncludeNewItemsChange($event)"
+  (onIncludeDiscountUpItemsChange)="onIncludeDiscountUpItemsChange($event)"
+  (onIncludeDiscountDownItemsChange)="onIncludeDiscountDownItemsChange($event)"
+  (onIncludeReturnedItemsChange)="onIncludeReturnedItemsChange($event)"
+  (onFeaturedItemsChange)="onFeaturedItemsChange($event, false)"
+  (onExcludeFluctuatingItemsChange)="onExcludeFluctuatingItemsChange($event)"
+  (onResetFilters)="onResetFilters()"
+>
 </app-filter-search-modal>
 
 <app-sort-modal
@@ -43,5 +52,6 @@
   [isAiSearch]="aiSearch"
   (onSortChange)="onSortChange($event)"
   (onApplySort)="onApplySort()"
-  [sortOptions]="getSortOptions()">
+  [sortOptions]="getSortOptions()"
+>
 </app-sort-modal>

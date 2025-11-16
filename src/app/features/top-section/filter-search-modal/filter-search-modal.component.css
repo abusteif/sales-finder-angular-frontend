@@ -12,6 +12,13 @@
 
 .modal-card .field {
   font-size: 11px;
+  display: block !important;
+  width: 100%;
+  margin: 0 0 1rem 0;
+}
+
+.modal-card .control {
+  width: 100%;
 }
 
 .modal-card-body {
@@ -115,58 +122,6 @@
   cursor: not-allowed;
 }
 
-/* Price Range Styling */
-.range-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  background-color: #fafafa;
-}
-
-.inputs-row {
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 4px;
-}
-
-.range-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 2px;
-}
-
-.range-input {
-  padding: 8px 12px;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  background-color: white;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.range-input:focus {
-  outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-}
-
-.range-input:hover {
-  border-color: #bbb;
-}
 
 .slider-container {
   margin-top: 4px;
@@ -294,6 +249,43 @@
     gap: 10px;
     padding: 10px;
   }
+
+  /* Force columns to stay side by side on mobile */
+  :host .field .columns {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    margin-left: -0.5rem !important;
+    margin-right: -0.5rem !important;
+  }
+
+  /* Make dropdown buttons flexible on mobile so they fit side by side */
+  :host .field .columns .column {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    width: auto !important;
+  }
+
+  :host .field .columns .column app-dropdown-with-checkboxes {
+    width: 100%;
+    display: block;
+  }
+
+  :host .field .columns .column app-dropdown-with-checkboxes ::ng-deep .dropdown-trigger {
+    width: 100%;
+  }
+
+  :host .field .columns .column app-dropdown-with-checkboxes ::ng-deep .dropdown-trigger .button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  :host .field .columns .column app-dropdown-with-checkboxes ::ng-deep .dropdown-menu .dropdown-content {
+    width: 100% !important;
+    min-width: 200px !important;
+  }
 }
 
 .chip {
@@ -332,6 +324,7 @@
 .field {
   display: inline-block;
   margin: 2px;
+  margin-bottom: 16px;
 }
 
 .custom-radio-options-row {
@@ -433,7 +426,7 @@
 
 @media (max-width: 480px) {
   .custom-radio-label {
-    font-size: 9px;
+    font-size: 12px;
   }
   
   .custom-radio {
@@ -476,4 +469,88 @@
   background: #e7f1ff;
   border-color: #0d6efd;
   color: #0d6efd;
+}
+
+/* Checkbox group styling */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.category-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background: #f8f9fa;
+  border-color: #ced4da;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #1976d2;
+  margin: 0;
+}
+
+.checkbox-label input[type="checkbox"]:checked + i,
+.checkbox-label input[type="checkbox"]:checked + div,
+.checkbox-label input[type="checkbox"]:checked + span {
+  opacity: 1;
+}
+
+.checkbox-label input[type="checkbox"]:not(:checked) + i,
+.checkbox-label input[type="checkbox"]:not(:checked) + div,
+.checkbox-label input[type="checkbox"]:not(:checked) + span {
+  opacity: 0.6;
+}
+
+.checkbox-text {
+  color: #495057;
+  font-weight: 500;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* Icon adjustments for checkboxes */
+.category-checkbox .new-items-icon,
+.category-checkbox .discount-up-icon,
+.category-checkbox .discount-down-icon,
+.category-checkbox .returned-icon,
+.category-checkbox .volatility-exclude-icon,
+.category-checkbox .highest-discount-icon {
+  margin-right: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .checkbox-group {
+    gap: 8px;
+  }
+  
+  .checkbox-label {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .checkbox-text {
+    font-size: 11px;
+  }
 }

@@ -10,6 +10,7 @@ import { SortModalComponent } from './sort-modal/sort-modal.component';
 import { HomeControlsRibbonComponent } from './home-controls-ribbon/home-controls-ribbon.component';
 import { ItemPerPageComponent } from './item-per-page/item-per-page.component';
 import { DisplaySettingsModalComponent } from './display-settings-modal/display-settings-modal.component';
+import { InputRangeComponent } from './input-range/input-range.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DisplaySettingsModalComponent } from './display-settings-modal/display-
     SortModalComponent,
     HomeControlsRibbonComponent,
     ItemPerPageComponent,
-    DisplaySettingsModalComponent
+    DisplaySettingsModalComponent,
+    InputRangeComponent
   ],
   imports: [
     CommonModule,

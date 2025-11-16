@@ -266,7 +266,6 @@ export class AlertModalComponent {
   }
 
   onUpdateAlert(alert: Alert) {
-    console.log('onUpdateAlert', alert);
     if (this.priceRange[1] !== environment.maxPriceRange[1]) {
       alert.maxPrice = this.priceRange[1];
     }

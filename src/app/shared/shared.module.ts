@@ -5,6 +5,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TruncatePipe } from './truncate.pipe';
 import { RelativeDatePipe } from './relative-date.pipe';
 import { DropdownComponent } from './dropdown/dropdown.component';
@@ -17,6 +18,7 @@ import { SpecialNameTitlecasePipe } from './special-name-titlecase.pipe';
 import { ControlsRibbonComponent } from './controls-ribbon/controls-ribbon.component';
 import { SliderComponent } from '../features/top-section/slider/slider.component';
 import { StatusDialogComponent } from './status-dialog/status-dialog.component';
+import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/price-change-icon-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { StatusDialogComponent } from './status-dialog/status-dialog.component';
     SpecialNameTitlecasePipe, 
     ControlsRibbonComponent,
     SliderComponent,
-    StatusDialogComponent
+    StatusDialogComponent,
+    PriceChangeIconCheckboxComponent
   ],
   imports: [
     CommonModule, 
@@ -39,7 +42,8 @@ import { StatusDialogComponent } from './status-dialog/status-dialog.component';
     MatSliderModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   exports: [
     TruncatePipe, 
@@ -53,7 +57,8 @@ import { StatusDialogComponent } from './status-dialog/status-dialog.component';
     SpecialNameTitlecasePipe, 
     ControlsRibbonComponent,
     SliderComponent,
-    StatusDialogComponent
+    StatusDialogComponent,
+    PriceChangeIconCheckboxComponent
   ]
 })
 export class SharedModule { }

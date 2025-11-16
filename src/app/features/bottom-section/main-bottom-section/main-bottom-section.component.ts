@@ -8,6 +8,7 @@ import { Store } from '../../../core/models/store.model';
 import { AppStore } from '../../../state/app.store';
 import { AlertsStore } from '../../../state/alerts.store';
 import { AuthenticationStore } from '../../../state/authentication.store';
+import { UserRole } from '../../../core/models/user.models';
 @Component({
   selector: 'app-main-bottom-section',
   standalone: false,
@@ -26,6 +27,7 @@ export class MainBottomSectionComponent {
   cardsPerRow: number = 3;
   alertLimitReached: boolean = false;
   isAuthenticated: boolean = false;
+  userRole: UserRole = UserRole.USER;
   constructor(
     private itemsStore: ItemsStore,
     private filterStore: FilterStore,
@@ -52,6 +54,7 @@ export class MainBottomSectionComponent {
         }
       });
       this.alertLimitReached = this.alertsStore.alerts().length >= (this.authenticationStore.user()?.maxAlerts || 0);
+      this.userRole = this.authenticationStore.user()?.role || UserRole.USER;
     });
   }
 

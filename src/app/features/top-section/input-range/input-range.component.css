@@ -1,0 +1,121 @@
+.field {
+  font-size: 11px;
+  display: block;
+  width: 100%;
+  margin: 0 0 1rem 0;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.control {
+  width: 100%;
+}
+
+/* Price Range Styling */
+.range-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fafafa;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputs-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+
+.range-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #555 !important;
+  margin-bottom: 1px;
+}
+
+.range-input {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.range-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 1px rgba(25, 118, 210, 0.1);
+}
+
+.range-input:hover {
+  border-color: #bbb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .range-container {
+    gap: 6px;
+    padding: 6px;
+  }
+}
+
+/* Force light theme - ignore dark mode */
+@media (prefers-color-scheme: dark) {
+  .field {
+    color: black !important;
+  }
+
+  .label {
+    color: black !important;
+  }
+
+  .range-container {
+    background-color: #fafafa !important;
+    border-color: #e0e0e0 !important;
+    color: black !important;
+  }
+
+  .range-input {
+    background-color: white !important;
+    color: black !important;
+    border-color: #ddd !important;
+  }
+
+  .range-input::placeholder {
+    color: #333 !important;
+    opacity: 1 !important;
+  }
+
+  .range-label {
+    color: #555 !important;
+  }
+
+  /* Ensure all text stays black */
+  .field * {
+    color: black !important;
+  }
+
+  label {
+    color: black !important;
+  }
+}
+

@@ -123,6 +123,15 @@
   width: 16px;
 }
 
+/* Contact Tip Styles */
+.contact-tip {
+  background: linear-gradient(135deg, #4a7c59 0%, #3d6b4a 100%);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+  box-shadow: 0 4px 12px rgba(74, 124, 89, 0.2);
+}
+
 /* Upgrade Tip Styles */
 .upgrade-tip {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -194,6 +203,39 @@
   font-size: 0.7rem;
 }
 
+.contact-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.contact-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  color: white;
+  text-decoration: none;
+}
+
+.contact-btn:active {
+  transform: translateY(0);
+}
+
+.contact-btn i {
+  font-size: 0.7rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .selection-container {
@@ -226,6 +268,7 @@
     font-size: 0.75rem;
   }
 
+  .contact-tip,
   .upgrade-tip {
     padding: 12px;
   }
@@ -242,6 +285,7 @@
     font-size: 0.75rem;
   }
 
+  .contact-btn,
   .upgrade-btn {
     padding: 6px 12px;
     font-size: 0.75rem;
@@ -287,6 +331,7 @@
     font-size: 0.7rem;
   }
 
+  .contact-tip,
   .upgrade-tip {
     padding: 10px;
   }
@@ -303,6 +348,7 @@
     font-size: 0.7rem;
   }
 
+  .contact-btn,
   .upgrade-btn {
     padding: 5px 10px;
     font-size: 0.7rem;

@@ -79,7 +79,7 @@
   gap: 12px;
 }
 
-.upgrade-message {
+.limit-message {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -91,18 +91,18 @@
   border: 1px solid #e9ecef;
 }
 
-.upgrade-message i {
+.limit-message i {
   color: #007bff;
   font-size: 0.9rem;
 }
 
-.upgrade-message a {
+.limit-message a {
   color: #007bff;
   text-decoration: none;
   font-weight: 500;
 }
 
-.upgrade-message a:hover {
+.limit-message a:hover {
   text-decoration: underline;
 }
 
@@ -122,7 +122,7 @@
     gap: 10px;
   }
 
-  .upgrade-message {
+  .limit-message {
     font-size: 0.75rem;
     padding: 5px 8px;
   }
@@ -139,7 +139,7 @@
     gap: 8px;
   }
 
-  .upgrade-message {
+  .limit-message {
     font-size: 0.7rem;
     padding: 4px 6px;
   }

@@ -13,7 +13,7 @@ export class ItemsService {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     });
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     // Get all items
     getItems(conditions: any): Observable<ItemsAPIResponse> {
