@@ -8,22 +8,22 @@
           <input 
             type="number" 
             class="range-input" 
-            [value]="range[0]" 
+            [(ngModel)]="lowerValue"
+            (ngModelChange)="onMinChange($event)"
             [min]="min" 
             [max]="max"
-            (input)="onMinChange($event)"
-            [placeholder]="placeholder || 'Min'">
+            [placeholder]="placeholder">
         </div>
         <div class="input-group">
           <label class="range-label">{{maxLabel}}</label>
           <input 
             type="number" 
             class="range-input" 
-            [value]="range[1]" 
+            [(ngModel)]="upperValue"
+            (ngModelChange)="onMaxChange($event)"
             [min]="min" 
             [max]="max"
-            (input)="onMaxChange($event)"
-            [placeholder]="placeholder || 'Max'">
+            [placeholder]="placeholder">
         </div>
       </div>
     </div>

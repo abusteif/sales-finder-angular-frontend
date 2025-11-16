@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-input-range',
@@ -10,36 +10,35 @@ export class InputRangeComponent {
   @Input() label: string = '';
   @Input() minLabel: string = 'Min';
   @Input() maxLabel: string = 'Max';
-  @Input() range: number[] = [0, 100];
-  @Input() min: number = 0;
-  @Input() max: number = 100;
-  @Input() placeholder: string = '';
-  @Output() onRangeChange = new EventEmitter<number[]>();
-
-  onMinChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const value = parseFloat(input.value);
-    if (isNaN(value)) {
-      return;
-    }
-    // Clamp value between min and current max value
-    const minValue = Math.max(this.min, Math.min(value, this.range[1]));
-    const newRange = [minValue, this.range[1]];
-    this.range = newRange;
-    this.onRangeChange.emit(this.range);
+  @Input() set range(range: number[]) {
+    this.lowerValue = range[0];
+    this.upperValue = range[1];
   }
 
-  onMaxChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const value = parseFloat(input.value);
-    if (isNaN(value)) {
+  @Input() min: number = 0;
+  @Input() max: number = 100;
+  @Input() placeholder: string = 'Any';
+  @Output() onRangeChange = new EventEmitter<number[]>();
+  constructor(private cdr: ChangeDetectorRef) {}
+  lowerValue: number = 0;
+  upperValue: number = 100;
+
+  onMinChange(value: number | null) {
+    if (value === null || isNaN(value)) {
       return;
     }
-    // Clamp value between current min value and max
-    const maxValue = Math.max(this.range[0], Math.min(value, this.max));
-    const newRange = [this.range[0], maxValue];
-    this.range = newRange;
-    this.onRangeChange.emit(this.range);
+    const minValue = Math.max(this.min, Math.min(value, this.upperValue));
+    this.onRangeChange.emit([minValue, this.upperValue]);
+    this.cdr.detectChanges();
+  }
+
+  onMaxChange(value: number | null) {
+    if (value === null || isNaN(value)) {
+      return;
+    }
+    this.cdr.detectChanges();
+    const maxValue = Math.max(this.lowerValue, Math.min(value, this.max));
+    this.onRangeChange.emit([this.lowerValue, maxValue]);
   }
 }
 

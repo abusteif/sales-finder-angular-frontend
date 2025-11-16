@@ -6,7 +6,7 @@ import { FilterStore } from '../../../state/filter.store';
 import { SortService } from '../../../core/services/sort.service';
 import { SortOption } from '../../../core/models/sort.model';
 import { FilterService } from '../../../core/services/filter.service';
-import { DATE_RANGE_OPTIONS, DEFAULT_FILTER_VALUES, DEFAULT_INCLUDED_UPDATE_TYPES } from '../../../core/constants/filter';
+import { DEFAULT_FILTER_VALUES, DEFAULT_INCLUDED_UPDATE_TYPES } from '../../../core/constants/filter';
 import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
 import { UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
@@ -79,11 +79,11 @@ export class MainTopSectionComponent {
   }
 
   onPriceRangeChange(priceRange: number[]) {
-    this.priceRange = priceRange;
+    this.priceRange = [...priceRange];
   }
 
   onDiscountRangeChange(discountRange: number[]) {
-    this.discountRange = discountRange;
+    this.discountRange = [...discountRange];
   }
 
   onDateRangeChange(dateRange: string) {

@@ -1,15 +1,30 @@
-<app-base-modal [showModal]="showFilterModal" (onCloseModal)="closeFilterModal()" title="Filter Options"
-  [applyButtonText]="'Apply Filters'" [cancelButtonText]="'Cancel'" (onApply)="onSubmit()" [additionalButton]="resetFiltersButton" (onAdditionalButtonClick)="resetFilters()">  
-
-  <form (ngSubmit)="onSubmit()" [formGroup]="filterForm" (keydown.enter)="onSubmit()">
+<app-base-modal
+  [showModal]="showFilterModal"
+  (onCloseModal)="closeFilterModal()"
+  title="Filter Options"
+  [applyButtonText]="'Apply Filters'"
+  [cancelButtonText]="'Cancel'"
+  (onApply)="onSubmit()"
+  [additionalButton]="resetFiltersButton"
+  (onAdditionalButtonClick)="resetFilters()"
+>
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="filterForm"
+    (keydown.enter)="onSubmit()"
+  >
     <div class="field">
       <div class="columns">
         <div class="column is-half pr-2">
           <label class="label">Stores</label>
           <div class="control">
-            <app-dropdown-with-checkboxes [width]="getDropdownWidth()" [options]="stores" (selectedOptionChange)="storeChange($event)"
+            <app-dropdown-with-checkboxes
+              [width]="getDropdownWidth()"
+              [options]="stores"
+              (selectedOptionChange)="storeChange($event)"
               [selectedOptions]="selectedStores"
-              [dropdownItemType]="'Store'">
+              [dropdownItemType]="'Store'"
+            >
             </app-dropdown-with-checkboxes>
           </div>
         </div>
@@ -17,46 +32,57 @@
         <div class="column is-half pl-2">
           <label class="label">Categories</label>
           <div class="control">
-            <app-dropdown-with-checkboxes [width]="getDropdownWidth()" [options]="categories"
+            <app-dropdown-with-checkboxes
+              [width]="getDropdownWidth()"
+              [options]="categories"
               [selectedOptions]="selectedCategories"
-              (selectedOptionChange)="categoryChange($event)" [dropdownItemType]="'Category'">
+              (selectedOptionChange)="categoryChange($event)"
+              [dropdownItemType]="'Category'"
+            >
             </app-dropdown-with-checkboxes>
           </div>
         </div>
       </div>
     </div>
 
-    <app-input-range 
+    <app-input-range
       [label]="'Price Range'"
       [minLabel]="'Min Price ($)'"
       [maxLabel]="'Max Price ($)'"
       [range]="priceRange"
       [min]="minPrice"
       [max]="maxPrice"
-      (onRangeChange)="priceRangeChange($event)">
+      (onRangeChange)="priceRangeChange($event)"
+    >
     </app-input-range>
-    <app-input-range 
+    <app-input-range
       [label]="'Discount Range'"
       [minLabel]="'Min Discount (%)'"
       [maxLabel]="'Max Discount (%)'"
       [range]="discountRange"
       [min]="minDiscount"
       [max]="maxDiscount"
-      (onRangeChange)="discountRangeChange($event)">
+      (onRangeChange)="discountRangeChange($event)"
+    >
     </app-input-range>
-    
 
     <label class="label">Date Range</label>
 
     <div class="custom-radio-options-row">
       @for (option of dateRangeOptions; track option) {
-        <div class="custom-radio-field">
-          <label class="custom-radio">
-            <input type="radio" name="dateRange" [value]="option" (change)="dateRangeChange(option)" [checked]="dateRange === option">
-            <span class="custom-radio-indicator"></span>
-            <span class="custom-radio-label">{{option}}</span>
-          </label>
-        </div>
+      <div class="custom-radio-field">
+        <label class="custom-radio">
+          <input
+            type="radio"
+            name="dateRange"
+            [value]="option"
+            (change)="dateRangeChange(option)"
+            [checked]="dateRange === option"
+          />
+          <span class="custom-radio-indicator"></span>
+          <span class="custom-radio-label">{{ option }}</span>
+        </label>
+      </div>
       }
     </div>
 
@@ -68,28 +94,32 @@
           [checked]="isCheckboxChecked(UpdateType.NEW)"
           tooltipText="Include new items"
           labelText="New Items"
-          (checkedChange)="handleIncludeNewItemsChange($event)">
+          (checkedChange)="handleIncludeNewItemsChange($event)"
+        >
         </app-price-change-icon-checkbox>
         <app-price-change-icon-checkbox
           [updateType]="UpdateType.DISCOUNT_UP"
           [checked]="isCheckboxChecked(UpdateType.DISCOUNT_UP)"
           tooltipText="Include items with discount up"
           labelText="Discount Up"
-          (checkedChange)="handleIncludeDiscountUpItemsChange($event)">
+          (checkedChange)="handleIncludeDiscountUpItemsChange($event)"
+        >
         </app-price-change-icon-checkbox>
         <app-price-change-icon-checkbox
           [updateType]="UpdateType.RETURNED"
           [checked]="isCheckboxChecked(UpdateType.RETURNED)"
           tooltipText="Include returned items"
           labelText="Returned Items"
-          (checkedChange)="handleIncludeReturnedItemsChange($event)">
+          (checkedChange)="handleIncludeReturnedItemsChange($event)"
+        >
         </app-price-change-icon-checkbox>
         <app-price-change-icon-checkbox
           [updateType]="UpdateType.DISCOUNT_DOWN"
           [checked]="isCheckboxChecked(UpdateType.DISCOUNT_DOWN)"
           tooltipText="Include items with discount down"
           labelText="Discount Down"
-          (checkedChange)="handleIncludeDiscountDownItemsChange($event)">
+          (checkedChange)="handleIncludeDiscountDownItemsChange($event)"
+        >
         </app-price-change-icon-checkbox>
       </div>
     </div>
@@ -99,10 +129,17 @@
       <div class="checkbox-group">
         <div class="category-checkbox">
           <label class="checkbox-label">
-            <input type="checkbox" (change)="handleExcludeFluctuatingItemsChange($event)"
-              [checked]="excludeFluctuatingItems">
-            <div class="volatility-exclude-icon" matTooltip="Exclude fluctuating items" matTooltipPosition="above"
-              [matTooltipShowDelay]="500">
+            <input
+              type="checkbox"
+              (change)="handleExcludeFluctuatingItemsChange($event)"
+              [checked]="excludeFluctuatingItems"
+            />
+            <div
+              class="volatility-exclude-icon"
+              matTooltip="Exclude fluctuating items"
+              matTooltipPosition="above"
+              [matTooltipShowDelay]="500"
+            >
               <i class="fas fa-exclamation-triangle"></i>
             </div>
             <span class="checkbox-text">Exclude Fluctuating Items</span>
@@ -110,15 +147,22 @@
         </div>
         <div class="category-checkbox">
           <label class="checkbox-label">
-            <input type="checkbox" (change)="handleFeaturedItemsOnlyChange($event)"
-              [checked]="isFeaturedItemsOnly">
-            <span class="highest-discount-icon" matTooltip="Featured items only" matTooltipPosition="above"
-              [matTooltipShowDelay]="500">🔥</span>
+            <input
+              type="checkbox"
+              (change)="handleFeaturedItemsOnlyChange($event)"
+              [checked]="isFeaturedItemsOnly"
+            />
+            <span
+              class="highest-discount-icon"
+              matTooltip="Featured items only"
+              matTooltipPosition="above"
+              [matTooltipShowDelay]="500"
+              >🔥</span
+            >
             <span class="checkbox-text">Featured Items Only</span>
           </label>
         </div>
       </div>
     </div>
-    
   </form>
 </app-base-modal>

@@ -48,10 +48,10 @@ export class FilterSearchModalComponent {
   @Input() isFeaturedItemsOnly: boolean = false;
   @Input() excludeFluctuatingItems: boolean = false;
 
-  maxPrice: number = environment.maxPriceRange[1];
-  maxDiscount: number = environment.maxDiscountRange[1];
-  minPrice: number = environment.maxPriceRange[0];
-  minDiscount: number = environment.maxDiscountRange[0];
+  maxPrice: number = DEFAULT_FILTER_VALUES.selectedPriceRange[1];
+  maxDiscount: number = DEFAULT_FILTER_VALUES.selectedDiscountRange[1];
+  minPrice: number = DEFAULT_FILTER_VALUES.selectedPriceRange[0];
+  minDiscount: number = DEFAULT_FILTER_VALUES.selectedDiscountRange[0];
   dateRangeOptions: string[] = DATE_RANGE_OPTIONS;
   defaultDateRange = this.dateRange
   resetFiltersButton: AdditionalButton = { text: 'Reset Filters', isDisabled: true };
