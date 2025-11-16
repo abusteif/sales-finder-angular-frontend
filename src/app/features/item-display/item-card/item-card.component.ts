@@ -371,6 +371,15 @@ export class ItemCardComponent {
 
   getStars(): string[] {
     const stars: string[] = [];
+    
+    // If no rating, show 5 empty stars
+    if (!this.rating || this.rating === 0) {
+      for (let i = 0; i < 5; i++) {
+        stars.push('far fa-star');
+      }
+      return stars;
+    }
+    
     const fullStars = Math.floor(this.rating);
     const hasHalfStar = this.rating % 1 >= 0.5;
     

@@ -85,16 +85,21 @@
         {{ item.name | truncate }}
       </p>
     </a>
-    @if(rating > 0) {
     <div class="rating-container">
       <div class="stars">
         @for(star of getStars(); track $index) {
-          <i [class]="star" [style.color]="getStarColor()"></i>
+          <i [class]="star" [style.color]="star.includes('far') ? '' : getStarColor()"></i>
         }
       </div>
-      <span class="rating-text">{{ rating | number:'1.1-1' }} ({{ getFormattedRatingCount() }})</span>
+      @if(rating > 0) {
+      <span class="rating-text">
+        {{ rating | number:'1.1-1' }}
+        @if(ratingCount > 0) {
+          ({{ getFormattedRatingCount() }})
+        }
+      </span>
+      }
     </div>
-    }
     <div class="store-logos-container">
       <a [href]="googleUrl" target="_blank" rel="noopener noreferrer">
         <img

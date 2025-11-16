@@ -534,6 +534,10 @@
   color: #ffc107;
 }
 
+.stars i.far {
+  color: #ddd;
+}
+
 .rating-text {
   font-size: 0.8rem;
   color: #666;
