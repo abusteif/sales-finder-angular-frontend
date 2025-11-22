@@ -27,6 +27,7 @@
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@ngrx/signals": "^19.2.0",
     "bulma": "^1.0.4",
+    "chart.js": "^4.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

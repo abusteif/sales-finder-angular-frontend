@@ -49,3 +49,29 @@ export enum UpdateType {
     HIGHEST_DISCOUNT = 'HIGHEST_DISCOUNT',
     ALL = 'ALL',
 }
+
+export interface ItemDetails {
+    "name": string,
+    "oldPrice": number,
+    "newPrice": number,
+    "url": string,
+    "store": string,
+    "category": string,
+    "imageUrl": string,
+    "discount": number,
+    "priceHistory": PriceHistory[],
+    "rating": number,
+    "ratingCount": number,
+    "isReportedForSaleExpiry": boolean,
+    "updateType": UpdateType,
+    "updatedAt": Date,
+    "averagePrice": number,
+    "isFeatured": boolean,
+}
+
+export interface PriceHistory {
+    fullPrice: number;
+    discountedPrice: number;
+    discount: number;
+    date: Date;
+}

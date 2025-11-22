@@ -5,15 +5,9 @@
   [class]="getCardFontSizeClass()"
   [style.box-shadow]="getCardShadowStyle()"
   [style.--hover-shadow]="getCardHoverShadowStyle()"
-  (click)="onCardClick()"
+  (click)="onCardClick($event)"
 >
-  <div class="card-image">
-    <a
-      [href]="item.url"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="align-items: center; display: flex; justify-content: center"
-    >
+  <div class="card-image" style="align-items: center; display: flex; justify-content: center;">
       @if(updateType !== UpdateType.ALL) {
       <div
         [class]="getIndicatorClass()"
@@ -70,21 +64,16 @@
         </div>
         }
       </figure>
-    </a>
   </div>
   <div class="card-content">
-    <a
-      [href]="item.url"
-      target="_blank"
-      rel="noopener noreferrer"
+    <p 
+      [class]="getTitleClass()"
       [matTooltip]="item.name"
       matTooltipPosition="above"
       [matTooltipShowDelay]="700"
     >
-      <p [class]="getTitleClass()">
-        {{ item.name | truncate }}
-      </p>
-    </a>
+      {{ item.name | truncate }}
+    </p>
     <div class="rating-container">
       <div class="stars">
         @for(star of getStars(); track $index) {
@@ -101,7 +90,7 @@
       }
     </div>
     <div class="store-logos-container">
-      <a [href]="googleUrl" target="_blank" rel="noopener noreferrer">
+      <a [href]="googleUrl" target="_blank" rel="noopener noreferrer" (click)="$event.stopPropagation()">
         <img
           [src]="'assets/logos/google-logo.svg'"
           class="google-logo"
@@ -118,7 +107,7 @@
         [matTooltipClass]="'custom-tooltip'"
       />
       @if(item.store === 'amazon') {
-      <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer">
+      <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer" (click)="$event.stopPropagation()">
         <img
           [src]="'assets/logos/camelcamelcamel-logo.png'"
           class="store-logo"
@@ -153,7 +142,7 @@
         matTooltipPosition="below"
         [matTooltipShowDelay]="700"
         [matTooltipClass]="'custom-tooltip'"
-        (click)="onAlertButtonClick()"
+        (click)="onAlertButtonClick($event)"
       >
         <i class="fas fa-bell"></i>
       </button>
