@@ -6,11 +6,80 @@
   background: transparent;
   border-radius: 0;
   box-shadow: none;
+  position: relative;
+}
+
+.chart-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.zoom-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.zoom-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.zoom-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-button i {
+  font-size: 16px;
+}
+
+.price-chart-container canvas {
+  cursor: default;
+}
+
+.price-chart-container.zoomed-in canvas {
+  cursor: grab;
+}
+
+.price-chart-container.zoomed-in canvas:active {
+  cursor: grabbing;
 }
 
 @media (max-width: 640px) {
   .price-chart-container {
     height: 250px;
+  }
+
+  .chart-controls {
+    top: 5px;
+    right: 5px;
+    gap: 6px;
+  }
+
+  .zoom-button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .zoom-button i {
+    font-size: 14px;
   }
 }
 

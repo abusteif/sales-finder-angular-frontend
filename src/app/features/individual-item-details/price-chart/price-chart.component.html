@@ -1,4 +1,25 @@
-<div *ngIf="priceHistory && priceHistory.length > 0" class="price-chart-container">
+<div 
+  *ngIf="priceHistory && priceHistory.length > 0" 
+  class="price-chart-container"
+  [class.zoomed-in]="isZoomedIn">
+  <div class="chart-controls">
+    <button 
+      type="button" 
+      class="zoom-button zoom-in-button" 
+      (click)="zoomIn()"
+      [disabled]="isZoomedIn"
+      title="Zoom In">
+      <i class="fas fa-search-plus"></i>
+    </button>
+    <button 
+      type="button" 
+      class="zoom-button zoom-out-button" 
+      (click)="zoomOut()"
+      [disabled]="!isZoomedIn"
+      title="Zoom Out">
+      <i class="fas fa-search-minus"></i>
+    </button>
+  </div>
   <canvas #priceChart></canvas>
 </div>
 

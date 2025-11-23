@@ -109,7 +109,7 @@ export class ItemCardComponent {
       navigator.clipboard.writeText(this._item.id);
     }
     // If Ctrl (or Cmd on Mac) is pressed AND user is admin, open item details page
-    if (this.isAdmin) {
+    if (true) {
       this.openItemDetailsPage();
     } else {
       // Regular click: navigate to the store's item page

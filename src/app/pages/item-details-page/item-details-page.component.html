@@ -23,7 +23,12 @@
       <div *ngIf="itemDetails && !isLoading" class="item-details-content">
         <!-- Header Section -->
         <div class="item-header">
-          <h1 class="item-title" [matTooltip]="itemDetails.name" matTooltipPosition="above">{{ itemDetails.name | truncate : 70 }}</h1>
+          <h1 class="item-title" 
+              #titleTooltip="matTooltip"
+              [matTooltip]="itemDetails.name" 
+              matTooltipPosition="above"
+              [matTooltipShowDelay]="isMobile ? 0 : 300"
+              (click)="onTitleClick($event, titleTooltip)">{{ itemDetails.name | truncate : 70 }}</h1>
           <div class="item-meta">
             <span class="meta-badge store-badge">
               <img
@@ -100,7 +105,7 @@
               </div>
               <div class="rating-content" *ngIf="itemDetails.rating && itemDetails.rating > 0; else noRating">
                 <div class="rating-display">
-                  <span class="rating-value">{{ itemDetails.rating }}</span>
+                  <span class="rating-value">{{ itemDetails.rating | number:'1.1-1' }}</span>
                   <div class="stars">
                     <i *ngFor="let star of getStars(itemDetails.rating)" 
                        [class]="star" 

@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
 import { ItemDetails } from '../../core/models/item.model';
+import { AppStore } from '../../state/app.store';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-item-details-page',
@@ -13,19 +15,24 @@ import { ItemDetails } from '../../core/models/item.model';
   encapsulation: ViewEncapsulation.None
 })
 export class ItemDetailsPageComponent implements OnInit, OnDestroy {
+  @ViewChild(MatTooltip) titleTooltip!: MatTooltip;
+  
   itemId: string | null = null;
   itemDetails: ItemDetails | null = null;
   isLoading: boolean = false;
   error: string | null = null;
+  isMobile: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private itemService: ItemService,
-    private titleService: Title
+    private titleService: Title,
+    private appStore: AppStore
   ) {}
 
   ngOnInit(): void {
+    this.isMobile = this.appStore.isMobile();
     this.route.paramMap
       .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
@@ -134,6 +141,19 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  onTitleClick(event: MouseEvent, titleTooltip: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isMobile && titleTooltip) {
+      titleTooltip.show();
+
+      setTimeout(() => {
+        titleTooltip.hide();
+      }, 2000);
+    }
   }
 }
 
