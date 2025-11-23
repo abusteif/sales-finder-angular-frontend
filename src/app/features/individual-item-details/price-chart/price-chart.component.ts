@@ -39,6 +39,7 @@ export class PriceChartComponent
   private swipeStartY: number = 0;
   private isSwiping: boolean = false;
   private tooltipTimeout: any = null;
+  private shouldShowTooltip: boolean = false;
   // Store bound event handlers for proper cleanup
   private boundTouchStart?: (e: TouchEvent) => void;
   private boundTouchMove?: (e: TouchEvent) => void;
@@ -258,10 +259,14 @@ export class PriceChartComponent
           },
           tooltip: {
             enabled: true,
-            mode: 'index',
-            intersect: false,
+            mode: 'point', // Only show when directly over a point
+            intersect: true, // Only show when directly over a point
             animation: {
               duration: 0, // Disable animation for instant display
+            },
+            filter: () => {
+              // Only show tooltip when we explicitly want it
+              return this.shouldShowTooltip;
             },
             callbacks: {
               title: function (context) {
@@ -351,11 +356,14 @@ export class PriceChartComponent
           },
         },
         interaction: {
-          mode: 'nearest',
-          axis: 'x',
+          mode: 'point', // Only interact when directly over a point
           intersect: true, // Only interact when directly over a point
         },
-        events: ['click'], // Only respond to click events to prevent hover tooltips
+        events: ['click', 'mousemove'], // Enable both click and hover events
+        // @ts-ignore - onHover is a valid Chart.js option but not in TypeScript definitions
+        onHover: (event: any, elements: any[]) => {
+          this.handleChartHover(event, elements);
+        },
         onClick: (event, elements) => {
           this.handleChartClick(event, elements);
         },
@@ -433,6 +441,7 @@ export class PriceChartComponent
     }
 
     // Hide tooltip
+    this.shouldShowTooltip = false;
     const tooltip = this.priceChart.tooltip;
     if (tooltip) {
       tooltip.setActiveElements([], { x: 0, y: 0 });
@@ -534,6 +543,8 @@ export class PriceChartComponent
 
   private onCanvasMouseLeave(event: MouseEvent): void {
     this.isSwiping = false;
+    // Hide tooltip when mouse leaves the chart
+    this.hideTooltip();
   }
 
   private onCanvasDoubleClick(event: MouseEvent): void {
@@ -646,6 +657,64 @@ export class PriceChartComponent
     this.priceChart.update();
   }
 
+  private handleChartHover(event: any, elements: any[]): void {
+    if (!this.priceChart || !this.chartCanvas) {
+      return;
+    }
+
+    // Don't show tooltip while swiping
+    if (this.isSwiping) {
+      this.shouldShowTooltip = false;
+      const tooltip = this.priceChart.tooltip;
+      if (tooltip) {
+        tooltip.setActiveElements([], { x: 0, y: 0 });
+        this.priceChart.update('none');
+      }
+      return;
+    }
+
+    const tooltip = this.priceChart.tooltip;
+    if (!tooltip) {
+      return;
+    }
+
+    // Only show tooltip if we're actually over an element
+    if (elements && elements.length > 0) {
+      this.shouldShowTooltip = true;
+      const element = elements[0];
+      const canvas = this.chartCanvas.nativeElement;
+      const rect = canvas.getBoundingClientRect();
+      
+      // Get mouse position relative to canvas
+      const nativeEvent = event.native || event;
+      const x = nativeEvent.offsetX !== undefined 
+        ? nativeEvent.offsetX 
+        : nativeEvent.clientX - rect.left;
+      const y = nativeEvent.offsetY !== undefined 
+        ? nativeEvent.offsetY 
+        : nativeEvent.clientY - rect.top;
+      
+      const canvasPosition = { x, y };
+      
+      // Show tooltip for the hovered point
+      tooltip.setActiveElements(
+        [
+          {
+            datasetIndex: element.datasetIndex,
+            index: element.index,
+          },
+        ],
+        canvasPosition
+      );
+      this.priceChart.update('none');
+    } else {
+      // Explicitly hide tooltip when not over any element
+      this.shouldShowTooltip = false;
+      tooltip.setActiveElements([], { x: 0, y: 0 });
+      this.priceChart.update('none');
+    }
+  }
+
   private handleChartClick(event: any, elements: any[]): void {
     if (!this.priceChart || !this.chartCanvas) {
       return;
@@ -659,6 +728,7 @@ export class PriceChartComponent
 
     // If clicking on empty space, hide tooltip
     if (elements.length === 0) {
+      this.shouldShowTooltip = false;
       const tooltip = this.priceChart.tooltip;
       if (tooltip) {
         tooltip.setActiveElements([], { x: 0, y: 0 });
@@ -668,6 +738,7 @@ export class PriceChartComponent
     }
 
     // Show tooltip for the clicked point
+    this.shouldShowTooltip = true;
     const element = elements[0];
     const canvas = this.chartCanvas.nativeElement;
     const rect = canvas.getBoundingClientRect();
@@ -697,9 +768,10 @@ export class PriceChartComponent
       );
       this.priceChart.update('none');
 
-      // Hide tooltip after 1 second
+      // Hide tooltip after 2 seconds
       this.tooltipTimeout = setTimeout(() => {
         if (this.priceChart && this.priceChart.tooltip) {
+          this.shouldShowTooltip = false;
           this.priceChart.tooltip.setActiveElements([], { x: 0, y: 0 });
           this.priceChart.update('none');
         }
