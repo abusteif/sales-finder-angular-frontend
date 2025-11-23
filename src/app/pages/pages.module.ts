@@ -19,7 +19,9 @@ import { AdminBasePageComponent } from './admin-base-page/admin-base-page.compon
 import { ContactUsPageComponent } from './contact-us-page/contact-us-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
+import { ItemDetailsPageComponent } from './item-details-page/item-details-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
+import { IndividualItemDetailsModule } from '../features/individual-item-details/individual-item-details.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     AdminBasePageComponent,
     ContactUsPageComponent,
     FaqPageComponent,
-    AboutUsPageComponent
+    AboutUsPageComponent,
+    ItemDetailsPageComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { AlertsModule } from '../features/alerts/alerts.module';
     TopSectionModule,
     AuthenticationModule,
     SharedModule,
-    AlertsModule
+    AlertsModule,
+    IndividualItemDetailsModule
   ],
   exports: [
     HomePageComponent,

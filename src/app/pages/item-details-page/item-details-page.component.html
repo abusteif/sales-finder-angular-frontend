@@ -1,0 +1,149 @@
+<app-navbar></app-navbar>
+
+<section class="item-details-section">
+  <div class="item-details-container">
+    <div class="item-details-card">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <p>Loading item details...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error && !isLoading" class="error-state">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <p>{{ error }}</p>
+      </div>
+
+      <!-- Item Details Content -->
+      <div *ngIf="itemDetails && !isLoading" class="item-details-content">
+        <!-- Header Section -->
+        <div class="item-header">
+          <h1 class="item-title" [matTooltip]="itemDetails.name" matTooltipPosition="above">{{ itemDetails.name | truncate : 70 }}</h1>
+          <div class="item-meta">
+            <span class="meta-badge store-badge">
+              <img
+                [src]="'assets/logos/' + itemDetails.store + '-logo.svg'"
+                class="store-logo"
+                [alt]="itemDetails.store + ' logo'"
+              />
+            </span>
+            <span class="meta-badge category-badge">
+              <i class="fas fa-tag"></i>
+              {{ itemDetails.category }}
+            </span>
+            <span class="featured-badge" *ngIf="itemDetails.isFeatured">
+              <i class="fas fa-fire"></i>
+              Featured
+            </span>
+            <span class="lowest-price-badge" *ngIf="isLowestPriceEver()">
+              <i class="fas fa-trophy"></i>
+              <span class="badge-text-full">Lowest Price Since Tracking</span>
+              <span class="badge-text-mobile">Lowest Price</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="item-main-grid">
+          <!-- Left Column: Image -->
+          <div class="item-image-section">
+            <a [href]="itemDetails.url" target="_blank" rel="noopener noreferrer" class="image-link">
+              <div class="image-wrapper" [class.lowest-price-frame]="isLowestPriceEver()">
+                <img [src]="itemDetails.imageUrl" [alt]="itemDetails.name" />
+              </div>
+            </a>
+          </div>
+
+          <!-- Right Column: Pricing & Info -->
+          <div class="item-info-section">
+            <!-- Pricing Card -->
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <h2>Pricing Information</h2>
+              </div>
+              <div class="price-display">
+                <div class="current-price">
+                  <span class="price-label">Current Price</span>
+                  <span class="price-value">${{ itemDetails.newPrice | number:'1.2-2' }}</span>
+                </div>
+                <div class="original-price">
+                  <span class="price-label">Original Price</span>
+                  <span class="price-value old">${{ itemDetails.oldPrice | number:'1.2-2' }}</span>
+                </div>
+                <div class="discount-badge-large">
+                  <span>{{ itemDetails.discount }}% OFF</span>
+                </div>
+              </div>
+              <div class="price-stats">
+                <div class="stat-item" *ngIf="getAllTimeLowestPrice() !== null && !hasOnlyOnePriceHistory()">
+                  <i class="fas fa-arrow-down"></i>
+                  <div class="stat-content">
+                    <span class="stat-label">All-Time Lowest</span>
+                    <span class="stat-value">${{ getAllTimeLowestPrice() | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Card -->
+            <div class="rating-card">
+              <div class="rating-header">
+                <h3>
+                  <i class="fas fa-star"></i>
+                  Rating
+                </h3>
+              </div>
+              <div class="rating-content" *ngIf="itemDetails.rating && itemDetails.rating > 0; else noRating">
+                <div class="rating-display">
+                  <span class="rating-value">{{ itemDetails.rating }}</span>
+                  <div class="stars">
+                    <i *ngFor="let star of getStars(itemDetails.rating)" 
+                       [class]="star" 
+                       class="star-icon"></i>
+                  </div>
+                </div>
+                <p class="rating-count">{{ itemDetails.ratingCount }} reviews</p>
+              </div>
+              <ng-template #noRating>
+                <div class="rating-content no-rating">
+                  <p class="no-rating-message">No rating available</p>
+                </div>
+              </ng-template>
+            </div>
+
+            <!-- Action Button -->
+            <div class="item-actions">
+              <a [href]="itemDetails.url" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="store-link-btn">
+                <i class="fas fa-external-link-alt"></i>
+                View on {{ itemDetails.store | specialNameTitlecase }} Website
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Chart Section -->
+        <div class="chart-section" *ngIf="itemDetails.priceHistory && itemDetails.priceHistory.length > 0">
+          <div class="chart-header">
+            <h2>
+              <i class="fas fa-chart-area"></i>
+              Price History
+            </h2>
+          </div>
+          <!-- Show chart -->
+          <div class="chart-container">
+            <app-price-chart [priceHistory]="itemDetails.priceHistory" [store]="itemDetails.store"></app-price-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

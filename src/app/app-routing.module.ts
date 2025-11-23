@@ -13,6 +13,7 @@ import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot
 import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.component';
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { AboutUsPageComponent } from './pages/about-us-page/about-us-page.component';
+import { ItemDetailsPageComponent } from './pages/item-details-page/item-details-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 
 const routes: Routes = [
@@ -89,6 +90,11 @@ const routes: Routes = [
   {
     path: 'about-us', 
     component: AboutUsPageComponent, 
+    pathMatch: 'full'
+  },
+  {
+    path: 'item/:itemId', 
+    component: ItemDetailsPageComponent, 
     pathMatch: 'full'
   },
   {

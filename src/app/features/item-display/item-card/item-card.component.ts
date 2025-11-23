@@ -104,13 +104,32 @@ export class ItemCardComponent {
     this.isMobile = this.appStore.isMobile();
   }
 
-  onCardClick() {
+  onCardClick(event: MouseEvent) {
     if (this.isAdmin && this._item?.id) {
       navigator.clipboard.writeText(this._item.id);
     }
+    // If Ctrl (or Cmd on Mac) is pressed AND user is admin, open item details page
+    if (this.isAdmin) {
+      this.openItemDetailsPage();
+    } else {
+      // Regular click: navigate to the store's item page
+      if (this._item?.url) {
+        window.open(this._item.url, '_blank');
+      }
+    }
   }
 
-  onAlertButtonClick() {
+  openItemDetailsPage() {
+    if (this._item?.id) {
+      const url = this.router.serializeUrl(this.router.createUrlTree(['/item', this._item.id]));
+      window.open(url, '_blank');
+    }
+  }
+
+  onAlertButtonClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    
     if (!this.isAuthenticated) {
       this.router.navigate(['/login']);
       return;
