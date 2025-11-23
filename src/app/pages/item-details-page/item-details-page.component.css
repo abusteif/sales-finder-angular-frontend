@@ -115,10 +115,10 @@
 .featured-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 500;
   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
   color: white;
@@ -129,17 +129,17 @@
 }
 
 .featured-badge i {
-  font-size: 12px;
+  font-size: 10px;
   color: #ffd700;
 }
 
 .lowest-price-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 500;
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   color: white;
@@ -149,8 +149,12 @@
 }
 
 .lowest-price-badge i {
-  font-size: 12px;
+  font-size: 10px;
   color: #ffd700;
+}
+
+.badge-text-mobile {
+  display: none;
 }
 
 @keyframes pulse {
@@ -173,10 +177,10 @@
 .meta-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 500;
   background: #f8f9fa;
   color: #5a6c7d;
@@ -185,18 +189,18 @@
 }
 
 .meta-badge i {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .store-badge {
   background: transparent;
-  padding: 4px 8px;
+  padding: 2px 6px;
 }
 
 .store-badge .store-logo {
-  height: 24px;
+  height: 20px;
   width: auto;
-  max-width: 120px;
+  max-width: 100px;
   object-fit: contain;
   display: block;
 }
@@ -229,6 +233,13 @@
   min-width: 0;
   width: 100%;
   max-width: 100%;
+}
+
+.image-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
 }
 
 .image-wrapper {
@@ -610,7 +621,42 @@
   }
 
   .item-title {
-    font-size: 24px;
+    font-size: 16px;
+  }
+
+  .badge-text-full {
+    display: none;
+  }
+
+  .badge-text-mobile {
+    display: inline;
+  }
+
+  .item-meta {
+    gap: 6px;
+  }
+
+  .meta-badge,
+  .featured-badge,
+  .lowest-price-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+    gap: 3px;
+  }
+
+  .meta-badge i,
+  .featured-badge i,
+  .lowest-price-badge i {
+    font-size: 9px;
+  }
+
+  .store-badge {
+    padding: 1px 4px;
+  }
+
+  .store-badge .store-logo {
+    height: 16px;
+    max-width: 80px;
   }
 
   .item-header {
@@ -658,7 +704,7 @@
   }
 
   .chart-container {
-    padding: 16px;
+    padding: 16px 0;
   }
 
   .image-wrapper {

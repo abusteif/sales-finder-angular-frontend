@@ -42,7 +42,8 @@
             </span>
             <span class="lowest-price-badge" *ngIf="isLowestPriceEver()">
               <i class="fas fa-trophy"></i>
-              Lowest Price Since Tracking
+              <span class="badge-text-full">Lowest Price Since Tracking</span>
+              <span class="badge-text-mobile">Lowest Price</span>
             </span>
           </div>
         </div>
@@ -51,9 +52,11 @@
         <div class="item-main-grid">
           <!-- Left Column: Image -->
           <div class="item-image-section">
-            <div class="image-wrapper" [class.lowest-price-frame]="isLowestPriceEver()">
-              <img [src]="itemDetails.imageUrl" [alt]="itemDetails.name" />
-            </div>
+            <a [href]="itemDetails.url" target="_blank" rel="noopener noreferrer" class="image-link">
+              <div class="image-wrapper" [class.lowest-price-frame]="isLowestPriceEver()">
+                <img [src]="itemDetails.imageUrl" [alt]="itemDetails.name" />
+              </div>
+            </a>
           </div>
 
           <!-- Right Column: Pricing & Info -->
@@ -73,7 +76,6 @@
                   <span class="price-value old">${{ itemDetails.oldPrice | number:'1.2-2' }}</span>
                 </div>
                 <div class="discount-badge-large">
-                  <i class="fas fa-percent"></i>
                   <span>{{ itemDetails.discount }}% OFF</span>
                 </div>
               </div>

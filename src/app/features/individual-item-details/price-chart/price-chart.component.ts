@@ -183,7 +183,7 @@ export class PriceChartComponent
               ? `Price History - ${this.specialNameTitlecasePipe.transform(this.store)}`
               : 'Price History Over Time',
             font: {
-              size: 18,
+              size: 14,
               weight: 'bold',
             },
             padding: {
@@ -241,8 +241,7 @@ export class PriceChartComponent
             suggestedMin: minPrice - padding,
             suggestedMax: maxPrice + padding,
             title: {
-              display: true,
-              text: 'Price ($)',
+              display: false,
             },
             ticks: {
               callback: function (value) {
