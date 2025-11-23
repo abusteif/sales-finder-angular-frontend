@@ -48,6 +48,7 @@ export class PriceChartComponent
   private boundMouseUp?: (e: MouseEvent) => void;
   private boundMouseLeave?: (e: MouseEvent) => void;
   private boundDocumentClick?: (e: MouseEvent) => void;
+  private boundDoubleClick?: (e: MouseEvent) => void;
 
   constructor(private specialNameTitlecasePipe: SpecialNameTitlecasePipe) {}
 
@@ -112,6 +113,9 @@ export class PriceChartComponent
     }
     if (this.boundMouseLeave) {
       canvas.removeEventListener('mouseleave', this.boundMouseLeave);
+    }
+    if (this.boundDoubleClick) {
+      canvas.removeEventListener('dblclick', this.boundDoubleClick);
     }
   }
 
@@ -404,6 +408,10 @@ export class PriceChartComponent
     canvas.addEventListener('mousemove', this.boundMouseMove);
     canvas.addEventListener('mouseup', this.boundMouseUp);
     canvas.addEventListener('mouseleave', this.boundMouseLeave);
+    
+    // Double-click event for zoom
+    this.boundDoubleClick = this.onCanvasDoubleClick.bind(this);
+    canvas.addEventListener('dblclick', this.boundDoubleClick);
   }
 
   private attachDocumentClickListener(): void {
@@ -479,6 +487,8 @@ export class PriceChartComponent
     // Only process if horizontal movement is greater than vertical (swipe left/right)
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
       this.handleSwipe(deltaX > 0 ? 'right' : 'left');
+      // Hide tooltip after swipe completes
+      this.hideTooltip();
     }
     
     this.isSwiping = false;
@@ -515,6 +525,8 @@ export class PriceChartComponent
     // Only process if horizontal movement is greater than vertical (swipe left/right)
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
       this.handleSwipe(deltaX > 0 ? 'right' : 'left');
+      // Hide tooltip after swipe completes
+      this.hideTooltip();
     }
     
     this.isSwiping = false;
@@ -524,7 +536,57 @@ export class PriceChartComponent
     this.isSwiping = false;
   }
 
-  zoomIn(): void {
+  private onCanvasDoubleClick(event: MouseEvent): void {
+    if (!this.priceChart || !this.chartCanvas) {
+      return;
+    }
+
+    // Prevent default double-click behavior (text selection)
+    event.preventDefault();
+
+    // If already zoomed in, zoom out
+    if (this.isZoomedIn) {
+      this.zoomOut();
+      return;
+    }
+
+    // Get the clicked point from the chart
+    const canvas = this.chartCanvas.nativeElement;
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Use Chart.js to get the elements at the click position
+    const elements = this.priceChart.getElementsAtEventForMode(
+      event as any,
+      'nearest',
+      { intersect: true },
+      true
+    );
+
+    // If we clicked on a point, zoom in centered on that point
+    if (elements.length > 0) {
+      const element = elements[0];
+      const dataIndex = element.index;
+      const clickedPoint = this.currentDataPoints[dataIndex];
+      
+      if (clickedPoint) {
+        this.zoomIn(clickedPoint.x);
+      }
+    } else {
+      // If clicking on empty space, zoom in centered on the click position
+      const scales = this.priceChart.scales;
+      const xScale = scales ? scales['x'] : null;
+      if (xScale) {
+        const value = xScale.getValueForPixel(x);
+        if (value !== null && value !== undefined) {
+          this.zoomIn(value);
+        }
+      }
+    }
+  }
+
+  zoomIn(centerDate?: number): void {
     if (!this.priceChart || this.currentDataPoints.length === 0) {
       return;
     }
@@ -534,18 +596,20 @@ export class PriceChartComponent
       return;
     }
 
-    // Find the center of the current view or use the middle data point
-    let centerDate: number;
-    if (this.isZoomedIn && typeof xScale.min === 'number' && typeof xScale.max === 'number') {
+    // Use provided center date, or find the center of the current view, or use the middle data point
+    let zoomCenterDate: number;
+    if (centerDate !== undefined) {
+      zoomCenterDate = centerDate;
+    } else if (this.isZoomedIn && typeof xScale.min === 'number' && typeof xScale.max === 'number') {
       // Use the center of the current view
-      centerDate = (xScale.min + xScale.max) / 2;
+      zoomCenterDate = (xScale.min + xScale.max) / 2;
     } else {
       // Use the middle data point as the initial zoom center
       const middleIndex = Math.floor(this.currentDataPoints.length / 2);
-      centerDate = this.currentDataPoints[middleIndex]['x'];
+      zoomCenterDate = this.currentDataPoints[middleIndex]['x'];
     }
 
-    const centerDateObj = new Date(centerDate);
+    const centerDateObj = new Date(zoomCenterDate);
     const tenDaysBefore = new Date(centerDateObj);
     tenDaysBefore.setDate(centerDateObj.getDate() - 10);
     const tenDaysAfter = new Date(centerDateObj);
@@ -559,7 +623,7 @@ export class PriceChartComponent
     const maxTime = Math.min(tenDaysAfter.getTime(), dataMax);
 
     this.isZoomedIn = true;
-    this.zoomCenterDate = centerDate;
+    this.zoomCenterDate = zoomCenterDate;
     xScale.min = minTime;
     xScale.max = maxTime;
     this.priceChart.update();
@@ -633,14 +697,14 @@ export class PriceChartComponent
       );
       this.priceChart.update('none');
 
-      // Hide tooltip after 3 seconds
+      // Hide tooltip after 1 second
       this.tooltipTimeout = setTimeout(() => {
         if (this.priceChart && this.priceChart.tooltip) {
           this.priceChart.tooltip.setActiveElements([], { x: 0, y: 0 });
           this.priceChart.update('none');
         }
         this.tooltipTimeout = null;
-      }, 3000);
+      }, 1000);
     }
   }
 
@@ -684,6 +748,9 @@ export class PriceChartComponent
     xScale.min = newMin;
     xScale.max = newMax;
     this.zoomCenterDate = (newMin + newMax) / 2;
+    
+    // Hide tooltip before updating chart
+    this.hideTooltip();
     this.priceChart.update();
   }
 }
