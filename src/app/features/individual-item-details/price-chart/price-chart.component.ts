@@ -122,7 +122,13 @@ export class PriceChartComponent
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     const priceRange = maxPrice - minPrice;
-    const padding = priceRange * 0.1; // 10% padding on each side
+    // For single data point or zero range, use a percentage of the price as padding
+    const padding = priceRange > 0 ? priceRange * 0.1 : Math.max(minPrice * 0.1, 10);
+
+    // Find the index of the lowest price point
+    const lowestPriceIndex = dataPoints.findIndex(
+      (point) => point.y === minPrice
+    );
 
     const chartConfig: ChartConfiguration = {
       type: 'line' as ChartType,
@@ -133,14 +139,27 @@ export class PriceChartComponent
             data: dataPoints,
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 2,
             tension: 0,
             stepped: 'before',
             fill: true,
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            pointBackgroundColor: 'rgb(75, 192, 192)',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
+            pointRadius: (ctx: any) => {
+              return ctx.dataIndex === lowestPriceIndex ? 5 : 3;
+            },
+            pointHoverRadius: (ctx: any) => {
+              return ctx.dataIndex === lowestPriceIndex ? 7 : 5;
+            },
+            pointBackgroundColor: (ctx: any) => {
+              return ctx.dataIndex === lowestPriceIndex
+                ? 'rgb(34, 197, 94)'
+                : 'rgb(75, 192, 192)';
+            },
+            pointBorderColor: (ctx: any) => {
+              return ctx.dataIndex === lowestPriceIndex ? '#fff' : '#fff';
+            },
+            pointBorderWidth: (ctx: any) => {
+              return ctx.dataIndex === lowestPriceIndex ? 2 : 1.5;
+            },
             segment: {
               borderDash: (ctx: any) => {
                 const currentIndex = ctx.p1DataIndex;
@@ -199,13 +218,19 @@ export class PriceChartComponent
               },
               label: function (context) {
                 const price = context.parsed.y;
+                const isLowestPrice = context.dataIndex === lowestPriceIndex;
+                let label = '';
                 if (price === null || price === undefined) {
-                  return 'Price: N/A';
+                  label = 'Price: N/A';
+                } else if (price === 0) {
+                  label = 'Price: $0';
+                } else {
+                  label = `Price: $${Math.round(price)}`;
                 }
-                if (price === 0) {
-                  return 'Price: $0';
+                if (isLowestPrice) {
+                  label += ' (Lowest Price)';
                 }
-                return `Price: $${Math.round(price)}`;
+                return label;
               },
             },
           },
@@ -236,6 +261,12 @@ export class PriceChartComponent
               display: true,
               text: 'Date',
             },
+            min: sortedHistory.length === 1 
+              ? new Date(sortedHistory[0].date).getTime() - 86400000 // 1 day before
+              : undefined,
+            max: sortedHistory.length === 1 
+              ? new Date(sortedHistory[0].date).getTime() + 86400000 // 1 day after
+              : undefined,
             ticks: {
               callback: function (value) {
                 const date = new Date(value);

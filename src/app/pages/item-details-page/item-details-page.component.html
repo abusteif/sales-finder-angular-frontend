@@ -1,12 +1,6 @@
 <app-navbar></app-navbar>
 
 <section class="item-details-section">
-  <app-controls-ribbon>
-    <div class="controls-layout">
-      <!-- Controls can be added here if needed -->
-    </div>
-  </app-controls-ribbon>
-
   <div class="item-details-container">
     <div class="item-details-card">
       <!-- Loading State -->
@@ -29,7 +23,7 @@
       <div *ngIf="itemDetails && !isLoading" class="item-details-content">
         <!-- Header Section -->
         <div class="item-header">
-          <h1 class="item-title">{{ itemDetails.name }}</h1>
+          <h1 class="item-title" [matTooltip]="itemDetails.name" matTooltipPosition="above">{{ itemDetails.name | truncate : 70 }}</h1>
           <div class="item-meta">
             <span class="meta-badge store-badge">
               <img
@@ -84,21 +78,7 @@
                 </div>
               </div>
               <div class="price-stats">
-                <div class="stat-item">
-                  <i class="fas fa-chart-line"></i>
-                  <div class="stat-content">
-                    <span class="stat-label">Average Price</span>
-                    <span class="stat-value">${{ itemDetails.averagePrice | number:'1.2-2' }}</span>
-                  </div>
-                </div>
-                <div class="stat-item" *ngIf="getAllTimeHighestPrice() !== null">
-                  <i class="fas fa-arrow-up"></i>
-                  <div class="stat-content">
-                    <span class="stat-label">All-Time Highest</span>
-                    <span class="stat-value">${{ getAllTimeHighestPrice() | number:'1.2-2' }}</span>
-                  </div>
-                </div>
-                <div class="stat-item" *ngIf="getAllTimeLowestPrice() !== null">
+                <div class="stat-item" *ngIf="getAllTimeLowestPrice() !== null && !hasOnlyOnePriceHistory()">
                   <i class="fas fa-arrow-down"></i>
                   <div class="stat-content">
                     <span class="stat-label">All-Time Lowest</span>
@@ -109,14 +89,14 @@
             </div>
 
             <!-- Rating Card -->
-            <div class="rating-card" *ngIf="itemDetails.rating > 0">
+            <div class="rating-card">
               <div class="rating-header">
                 <h3>
                   <i class="fas fa-star"></i>
                   Rating
                 </h3>
               </div>
-              <div class="rating-content">
+              <div class="rating-content" *ngIf="itemDetails.rating && itemDetails.rating > 0; else noRating">
                 <div class="rating-display">
                   <span class="rating-value">{{ itemDetails.rating }}</span>
                   <div class="stars">
@@ -127,6 +107,11 @@
                 </div>
                 <p class="rating-count">{{ itemDetails.ratingCount }} reviews</p>
               </div>
+              <ng-template #noRating>
+                <div class="rating-content no-rating">
+                  <p class="no-rating-message">No rating available</p>
+                </div>
+              </ng-template>
             </div>
 
             <!-- Action Button -->
@@ -150,21 +135,8 @@
               Price History
             </h2>
           </div>
-          <!-- Show message if only one history item -->
-          <div class="no-price-change-message" *ngIf="hasOnlyOnePriceHistory()">
-            <div class="message-icon">
-              <i class="fas fa-info-circle"></i>
-            </div>
-            <div class="message-content">
-              <h3>Price Hasn't Changed</h3>
-              <p>
-                This item's price hasn't changed since we started tracking it on
-                <strong>{{ getTrackingStartDate() | date:'longDate' }}</strong>.
-              </p>
-            </div>
-          </div>
-          <!-- Show chart if more than one history item -->
-          <div class="chart-container" *ngIf="!hasOnlyOnePriceHistory()">
+          <!-- Show chart -->
+          <div class="chart-container">
             <app-price-chart [priceHistory]="itemDetails.priceHistory" [store]="itemDetails.store"></app-price-chart>
           </div>
         </div>

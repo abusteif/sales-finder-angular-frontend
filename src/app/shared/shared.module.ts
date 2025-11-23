@@ -58,7 +58,8 @@ import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/p
     ControlsRibbonComponent,
     SliderComponent,
     StatusDialogComponent,
-    PriceChangeIconCheckboxComponent
+    PriceChangeIconCheckboxComponent,
+    MatTooltipModule
   ]
 })
 export class SharedModule { }

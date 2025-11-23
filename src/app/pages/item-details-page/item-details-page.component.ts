@@ -108,7 +108,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       return null;
     }
     const prices = this.itemDetails.priceHistory
-      .map(history => history.discountedPrice)
+      .map((history) => history.discountedPrice)
       .filter(price => price !== null && price !== undefined && price > 0);
     return prices.length > 0 ? Math.min(...prices) : null;
   }
@@ -117,12 +117,23 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     if (!this.itemDetails) {
       return false;
     }
+    // Don't show lowest price badge/frame if there's only 1 history entry
+    if (this.hasOnlyOnePriceHistory()) {
+      return false;
+    }
     const lowestPrice = this.getAllTimeLowestPrice();
     if (lowestPrice === null) {
       return false;
     }
     // Compare current price with all-time lowest (with small tolerance for floating point comparison)
-    return Math.abs(this.itemDetails.newPrice - lowestPrice) < 0.01;
+    const count = this.itemDetails.priceHistory.filter(history => history.discountedPrice === lowestPrice).length;
+    if (count > 1) {
+      return false;
+    }
+    if (this.itemDetails.newPrice === lowestPrice) {
+      return true;
+    }
+    return false;
   }
 }
 
