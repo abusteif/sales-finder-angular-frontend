@@ -1,7 +1,6 @@
 <div 
   *ngIf="priceHistory && priceHistory.length > 0" 
-  class="price-chart-container"
-  [class.zoomed-in]="isZoomedIn">
+  class="price-chart-wrapper">
   <div class="chart-controls">
     <button 
       type="button" 
@@ -20,6 +19,10 @@
       <i class="fas fa-search-minus"></i>
     </button>
   </div>
-  <canvas #priceChart></canvas>
+  <div 
+    class="price-chart-container"
+    [class.zoomed-in]="isZoomedIn">
+    <canvas #priceChart></canvas>
+  </div>
 </div>
 

@@ -704,7 +704,7 @@ export class PriceChartComponent
           this.priceChart.update('none');
         }
         this.tooltipTimeout = null;
-      }, 1000);
+      }, 2000);
     }
   }
 
