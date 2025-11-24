@@ -367,11 +367,19 @@
 }
 
 .stat-item i.fa-arrow-up {
-  color: #4caf50;
+  color: #ff9800;
 }
 
 .stat-item i.fa-arrow-down {
-  color: #ff9800;
+  color: #4caf50;
+}
+
+.stat-item i.fa-chart-line {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-item i.fa-minus {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .stat-content {
@@ -388,6 +396,21 @@
 .stat-value {
   font-size: 18px;
   font-weight: 600;
+}
+
+.price-increase {
+  color: #ff9800;
+}
+
+.price-decrease {
+  color: #4caf50;
+  font-weight: 700;
+}
+
+.change-date {
+  font-size: 14px;
+  opacity: 0.8;
+  font-weight: 400;
 }
 
 /* Rating Card */
@@ -473,6 +496,9 @@
 /* Action Button */
 .item-actions {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .store-link-btn {
@@ -507,6 +533,40 @@
 
 .store-link-btn i {
   font-size: 14px;
+}
+
+.google-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  background: white;
+  color: #4285f4;
+  text-decoration: none;
+  border-radius: 12px;
+  border: 2px solid #4285f4;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.15);
+  box-sizing: border-box;
+  min-width: 0;
+  text-align: center;
+}
+
+.google-search-btn i {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.google-search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.25);
+  background: #f8f9ff;
+  border-color: #1a73e8;
+  color: #1a73e8;
 }
 
 /* Chart Section */

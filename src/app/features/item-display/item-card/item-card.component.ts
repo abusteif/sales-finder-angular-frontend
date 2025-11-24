@@ -126,6 +126,13 @@ export class ItemCardComponent {
     }
   }
 
+  getItemDetailsUrl(): string {
+    if (this._item?.id) {
+      return this.router.serializeUrl(this.router.createUrlTree(['/item', this._item.id]));
+    }
+    return '#';
+  }
+
   onAlertButtonClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();

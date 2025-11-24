@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
-import { ItemDetails } from '../../core/models/item.model';
+import { ItemDetails, UpdateType } from '../../core/models/item.model';
 import { AppStore } from '../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 
@@ -22,6 +22,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   error: string | null = null;
   isMobile: boolean = false;
+  googleUrl: string = '';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -57,6 +58,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (details) => {
           this.itemDetails = details;
+          this.googleUrl = this.generateGoogleUrl();
           this.isLoading = false;
           // Set page title to item name
           if (details.name) {
@@ -154,6 +156,63 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
         titleTooltip.hide();
       }, 2000);
     }
+  }
+
+  generateGoogleUrl(): string {
+    return this.itemDetails?.name 
+      ? `https://www.google.com/search?q=${encodeURIComponent(this.itemDetails.name)}`
+      : '';
+  }
+
+  getLastPriceChange(): { date: Date | null; changeType: 'increase' | 'decrease' | 'no-change' | 'back-on-sale' | null; amount: number | null } {
+    // If item has RETURNED status, show it as back on sale
+    if (this.itemDetails?.updateType === UpdateType.RETURNED) {
+      if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length === 0) {
+        return { date: null, changeType: null, amount: null };
+      }
+      // Sort price history by date (most recent first)
+      const sortedHistory = [...this.itemDetails.priceHistory].sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA; // Descending order
+      });
+      const latest = sortedHistory[0];
+      return {
+        date: new Date(latest.date),
+        changeType: 'back-on-sale',
+        amount: null
+      };
+    }
+
+    if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length < 2) {
+      return { date: null, changeType: null, amount: null };
+    }
+
+    // Sort price history by date (most recent first)
+    const sortedHistory = [...this.itemDetails.priceHistory].sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return dateB - dateA; // Descending order
+    });
+
+    const latest = sortedHistory[0];
+    const previous = sortedHistory[1];
+
+    const latestPrice = latest.discountedPrice;
+    const previousPrice = previous.discountedPrice;
+
+    if (latestPrice === null || latestPrice === undefined || previousPrice === null || previousPrice === undefined) {
+      return { date: null, changeType: null, amount: null };
+    }
+
+    const amount = latestPrice - previousPrice;
+    const changeType = amount > 0 ? 'increase' : amount < 0 ? 'decrease' : 'no-change';
+
+    return {
+      date: new Date(latest.date),
+      changeType: changeType,
+      amount: Math.abs(amount)
+    };
   }
 }
 

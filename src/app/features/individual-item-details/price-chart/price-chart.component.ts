@@ -12,6 +12,14 @@ import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { PriceHistory } from '../../../core/models/item.model';
 import { SpecialNameTitlecasePipe } from '../../../shared/special-name-titlecase.pipe';
 
+interface ChartDataPoint {
+  x: number;
+  y: number;
+  originalIndex: number;
+  discountValue: number;
+  isHelper?: boolean;
+}
+
 Chart.register(...registerables);
 
 @Component({
@@ -33,7 +41,7 @@ export class PriceChartComponent
   isZoomedIn = false;
   private originalXMin: number | undefined = undefined;
   private originalXMax: number | undefined = undefined;
-  private currentDataPoints: { x: number; y: number }[] = [];
+  private currentDataPoints: ChartDataPoint[] = [];
   private zoomCenterDate: number = 0; // Timestamp of the center point when zoomed in
   private swipeStartX: number = 0;
   private swipeStartY: number = 0;
@@ -158,14 +166,19 @@ export class PriceChartComponent
 
     // Create data points with x (date) and y (discountedPrice) coordinates
     // If discount is 0, use the fullPrice from the previous point
+    const normalizedDiscounts: number[] = [];
 
     const dataPoints = sortedHistory.map((item, index) => {
       let price = item.discountedPrice;
       // If discount is 0 (or very close to 0), use the fullPrice from the previous point
-      const discount =
+      let discount =
         typeof item.discount === 'string'
           ? parseFloat(item.discount)
           : item.discount;
+      if (isNaN(discount as number)) {
+        discount = 0;
+      }
+      normalizedDiscounts.push(discount);
       if ((discount === 0 || Math.abs(discount) < 0.01) && index > 0) {
         const previousItem = sortedHistory[index - 1];
         if (
@@ -199,10 +212,41 @@ export class PriceChartComponent
     // For single data point or zero range, use a percentage of the price as padding
     const padding = priceRange > 0 ? priceRange * 0.1 : Math.max(minPrice * 0.1, 10);
 
-    // Find the index of the lowest price point
-    const lowestPriceIndex = dataPoints.findIndex(
-      (point) => point.y === minPrice
+    // Build stepped data points so we can style horizontal and vertical segments separately
+    const chartDataPoints: ChartDataPoint[] = [];
+    dataPoints.forEach((point, index) => {
+      const discountValue = normalizedDiscounts[index] ?? 0;
+      const actualPoint: ChartDataPoint = {
+        x: point.x,
+        y: point.y,
+        originalIndex: index,
+        discountValue,
+      };
+      chartDataPoints.push(actualPoint);
+
+      // Insert helper point to maintain stepped appearance without relying on stepped mode
+      if (index < dataPoints.length - 1) {
+        chartDataPoints.push({
+          x: dataPoints[index + 1].x,
+          y: point.y,
+          originalIndex: index,
+          discountValue,
+          isHelper: true,
+        });
+      }
+    });
+
+    const chartLowestPriceIndex = chartDataPoints.findIndex(
+      (point) => !point.isHelper && point.y === minPrice
     );
+    const highlightedLowestIndex =
+      chartLowestPriceIndex !== -1 ? chartLowestPriceIndex : 0;
+
+    // Calculate date range for x-axis padding
+    const dateRange = dataPoints.length > 1
+      ? dataPoints[dataPoints.length - 1].x - dataPoints[0].x
+      : 0;
+    const xAxisPadding = dateRange > 0 ? dateRange * 0.008 : 0; // ~2px padding on each side
 
     const chartConfig: ChartConfiguration = {
       type: 'line' as ChartType,
@@ -210,35 +254,83 @@ export class PriceChartComponent
         datasets: [
           {
             label: 'Price ($)',
-            data: dataPoints,
+            data: chartDataPoints,
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderWidth: 2,
             tension: 0,
-            stepped: 'before',
+            stepped: false,
             fill: true,
             pointRadius: (ctx: any) => {
-              return ctx.dataIndex === lowestPriceIndex ? 5 : 3;
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              if (rawPoint?.isHelper) {
+                return 0;
+              }
+              return ctx.dataIndex === highlightedLowestIndex ? 5 : 3;
             },
             pointHoverRadius: (ctx: any) => {
-              return ctx.dataIndex === lowestPriceIndex ? 7 : 5;
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              if (rawPoint?.isHelper) {
+                return 0;
+              }
+              return ctx.dataIndex === highlightedLowestIndex ? 7 : 5;
             },
             pointBackgroundColor: (ctx: any) => {
-              return ctx.dataIndex === lowestPriceIndex
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              if (rawPoint?.isHelper) {
+                return 'rgba(0,0,0,0)';
+              }
+              return ctx.dataIndex === highlightedLowestIndex
                 ? 'rgb(34, 197, 94)'
                 : 'rgb(75, 192, 192)';
             },
             pointBorderColor: (ctx: any) => {
-              return ctx.dataIndex === lowestPriceIndex ? '#fff' : '#fff';
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              if (rawPoint?.isHelper) {
+                return 'rgba(0,0,0,0)';
+              }
+              return '#fff';
             },
             pointBorderWidth: (ctx: any) => {
-              return ctx.dataIndex === lowestPriceIndex ? 2 : 1.5;
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              if (rawPoint?.isHelper) {
+                return 0;
+              }
+              return ctx.dataIndex === highlightedLowestIndex ? 2 : 1.5;
+            },
+            pointHitRadius: (ctx: any) => {
+              const rawPoint = ctx.raw as ChartDataPoint | undefined;
+              return rawPoint?.isHelper ? 0 : 5;
             },
             segment: {
               borderDash: (ctx: any) => {
-                const currentIndex = ctx.p1DataIndex;
-                const currentDiscount = sortedHistory[currentIndex]?.discount;
-                if (currentDiscount === 0) {
+                // Using duplicated points to mimic stepped lines allows us to detect actual horizontal segments
+                const p0 = ctx.p0?.parsed || ctx.p0;
+                const p1 = ctx.p1?.parsed || ctx.p1;
+
+                if (!p0 || !p1) {
+                  return [];
+                }
+
+                // Check if this segment is horizontal (same y-value)
+                // For stepped lines, horizontal segments maintain the same y value
+                const isHorizontal = p0.y !== undefined && p1.y !== undefined &&
+                                    Math.abs(p0.y - p1.y) < 0.01;
+
+                // Only apply dotted style to horizontal segments
+                if (!isHorizontal) {
+                  return []; // Solid vertical line
+                }
+
+                const rawPoint = ctx.p0?.raw as ChartDataPoint | undefined;
+                if (!rawPoint || rawPoint.isHelper) {
+                  return [];
+                }
+
+                const discount = rawPoint.discountValue ?? 0;
+
+                // Show dotted line only for horizontal segments when discount is 0
+                if (discount === 0 || Math.abs(discount) < 0.01) {
                   return [5, 5];
                 }
                 return [];
@@ -264,12 +356,17 @@ export class PriceChartComponent
             animation: {
               duration: 0, // Disable animation for instant display
             },
-            filter: () => {
-              // Only show tooltip when we explicitly want it
-              return this.shouldShowTooltip;
+            filter: (tooltipItem) => {
+              const rawPoint = tooltipItem.raw as ChartDataPoint | undefined;
+              // Only show tooltip when we explicitly want it and skip helper points
+              return this.shouldShowTooltip && !(rawPoint?.isHelper);
             },
             callbacks: {
               title: function (context) {
+                // Defensive check: ensure context array has elements and first element has parsed data
+                if (!context || context.length === 0 || !context[0] || !context[0].parsed) {
+                  return 'Date: N/A';
+                }
                 const timestamp = context[0].parsed.x;
                 if (timestamp === null || timestamp === undefined) {
                   return 'Date: N/A';
@@ -288,8 +385,16 @@ export class PriceChartComponent
                 });
               },
               label: function (context) {
+                // Defensive check: ensure context has parsed data
+                if (!context || !context.parsed) {
+                  return 'Price: N/A';
+                }
+                const rawPoint = context.raw as ChartDataPoint | undefined;
+                if (rawPoint?.isHelper) {
+                  return '';
+                }
                 const price = context.parsed.y;
-                const isLowestPrice = context.dataIndex === lowestPriceIndex;
+                const isLowestPrice = context.dataIndex === highlightedLowestIndex;
                 let label = '';
                 if (price === null || price === undefined) {
                   label = 'Price: N/A';
@@ -333,10 +438,10 @@ export class PriceChartComponent
             },
             min: sortedHistory.length === 1 
               ? new Date(sortedHistory[0].date).getTime() - 86400000 // 1 day before
-              : undefined,
+              : dataPoints[0].x - xAxisPadding, // Start slightly before first data point
             max: sortedHistory.length === 1 
               ? new Date(sortedHistory[0].date).getTime() + 86400000 // 1 day after
-              : undefined,
+              : dataPoints[dataPoints.length - 1].x + xAxisPadding, // End slightly after last data point
             ticks: {
               callback: function (value) {
                 const date = new Date(value);
@@ -371,7 +476,7 @@ export class PriceChartComponent
     };
 
     // Store data points and original x-axis min/max values
-    this.currentDataPoints = dataPoints;
+    this.currentDataPoints = chartDataPoints;
     const xScaleConfig = chartConfig.options?.scales?.['x'];
     if (xScaleConfig) {
       const minValue = xScaleConfig.min;
@@ -397,14 +502,14 @@ export class PriceChartComponent
 
     const canvas = this.chartCanvas.nativeElement;
 
-    // Bind event handlers and store references
-    this.boundTouchStart = this.onCanvasTouchStart.bind(this);
-    this.boundTouchMove = this.onCanvasTouchMove.bind(this);
-    this.boundTouchEnd = this.onCanvasTouchEnd.bind(this);
-    this.boundMouseDown = this.onCanvasMouseDown.bind(this);
-    this.boundMouseMove = this.onCanvasMouseMove.bind(this);
-    this.boundMouseUp = this.onCanvasMouseUp.bind(this);
-    this.boundMouseLeave = this.onCanvasMouseLeave.bind(this);
+    // Store arrow function references for event handlers
+    this.boundTouchStart = (e: TouchEvent) => this.onCanvasTouchStart(e);
+    this.boundTouchMove = (e: TouchEvent) => this.onCanvasTouchMove(e);
+    this.boundTouchEnd = (e: TouchEvent) => this.onCanvasTouchEnd(e);
+    this.boundMouseDown = (e: MouseEvent) => this.onCanvasMouseDown(e);
+    this.boundMouseMove = (e: MouseEvent) => this.onCanvasMouseMove(e);
+    this.boundMouseUp = (e: MouseEvent) => this.onCanvasMouseUp(e);
+    this.boundMouseLeave = (e: MouseEvent) => this.onCanvasMouseLeave(e);
 
     // Touch events
     canvas.addEventListener('touchstart', this.boundTouchStart, { passive: false });
@@ -418,13 +523,13 @@ export class PriceChartComponent
     canvas.addEventListener('mouseleave', this.boundMouseLeave);
     
     // Double-click event for zoom
-    this.boundDoubleClick = this.onCanvasDoubleClick.bind(this);
+    this.boundDoubleClick = (e: MouseEvent) => this.onCanvasDoubleClick(e);
     canvas.addEventListener('dblclick', this.boundDoubleClick);
   }
 
   private attachDocumentClickListener(): void {
-    // Bind and store the document click handler
-    this.boundDocumentClick = this.onDocumentClick.bind(this);
+    // Store arrow function reference for document click handler
+    this.boundDocumentClick = (e: MouseEvent) => this.onDocumentClick(e);
     // Use capture phase to catch clicks before they bubble
     document.addEventListener('click', this.boundDocumentClick, true);
   }
@@ -519,8 +624,7 @@ export class PriceChartComponent
     if (!this.isSwiping || !this.isZoomedIn) {
       return;
     }
-    // Prevent text selection while dragging
-    event.preventDefault();
+    // Text selection is prevented via CSS user-select: none when zoomed in
   }
 
   private onCanvasMouseUp(event: MouseEvent): void {
@@ -545,6 +649,16 @@ export class PriceChartComponent
     this.isSwiping = false;
     // Hide tooltip when mouse leaves the chart
     this.hideTooltip();
+    
+    // Reset cursor when mouse leaves the chart
+    if (this.chartCanvas) {
+      const canvas = this.chartCanvas.nativeElement;
+      if (this.isZoomedIn) {
+        canvas.style.cursor = 'grab';
+      } else {
+        canvas.style.cursor = 'default';
+      }
+    }
   }
 
   private onCanvasDoubleClick(event: MouseEvent): void {
@@ -662,6 +776,8 @@ export class PriceChartComponent
       return;
     }
 
+    const canvas = this.chartCanvas.nativeElement;
+
     // Don't show tooltip while swiping
     if (this.isSwiping) {
       this.shouldShowTooltip = false;
@@ -669,6 +785,12 @@ export class PriceChartComponent
       if (tooltip) {
         tooltip.setActiveElements([], { x: 0, y: 0 });
         this.priceChart.update('none');
+      }
+      // Reset cursor when swiping
+      if (this.isZoomedIn) {
+        canvas.style.cursor = 'grab';
+      } else {
+        canvas.style.cursor = 'default';
       }
       return;
     }
@@ -682,8 +804,10 @@ export class PriceChartComponent
     if (elements && elements.length > 0) {
       this.shouldShowTooltip = true;
       const element = elements[0];
-      const canvas = this.chartCanvas.nativeElement;
       const rect = canvas.getBoundingClientRect();
+      
+      // Change cursor to pointer when hovering over a dot
+      canvas.style.cursor = 'pointer';
       
       // Get mouse position relative to canvas
       const nativeEvent = event.native || event;
@@ -712,6 +836,13 @@ export class PriceChartComponent
       this.shouldShowTooltip = false;
       tooltip.setActiveElements([], { x: 0, y: 0 });
       this.priceChart.update('none');
+      
+      // Reset cursor when not hovering over a dot
+      if (this.isZoomedIn) {
+        canvas.style.cursor = 'grab';
+      } else {
+        canvas.style.cursor = 'default';
+      }
     }
   }
 

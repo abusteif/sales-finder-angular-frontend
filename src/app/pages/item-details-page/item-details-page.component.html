@@ -86,10 +86,35 @@
               </div>
               <div class="price-stats">
                 <div class="stat-item" *ngIf="getAllTimeLowestPrice() !== null && !hasOnlyOnePriceHistory()">
-                  <i class="fas fa-arrow-down"></i>
+                  <i class="fas fa-chart-line"></i>
                   <div class="stat-content">
                     <span class="stat-label">All-Time Lowest</span>
                     <span class="stat-value">${{ getAllTimeLowestPrice() | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+                <div class="stat-item" *ngIf="getLastPriceChange().date !== null">
+                  <i class="fas" 
+                     [class.fa-arrow-up]="getLastPriceChange().changeType === 'increase'"
+                     [class.fa-arrow-down]="getLastPriceChange().changeType === 'decrease'"
+                     [class.fa-minus]="getLastPriceChange().changeType === 'no-change'"
+                     [class.fa-undo]="getLastPriceChange().changeType === 'back-on-sale'"></i>
+                  <div class="stat-content">
+                    <span class="stat-label">Last Price Change</span>
+                    <span class="stat-value">
+                      <span *ngIf="getLastPriceChange().changeType === 'increase'" class="price-increase">
+                        +${{ getLastPriceChange().amount | number:'1.2-2' }}
+                      </span>
+                      <span *ngIf="getLastPriceChange().changeType === 'decrease'" class="price-decrease">
+                        -${{ getLastPriceChange().amount | number:'1.2-2' }}
+                      </span>
+                      <span *ngIf="getLastPriceChange().changeType === 'no-change'">
+                        No change
+                      </span>
+                      <span *ngIf="getLastPriceChange().changeType === 'back-on-sale'" class="back-on-sale">
+                        Back on sale
+                      </span>
+                      <span class="change-date" *ngIf="getLastPriceChange().date"> • {{ getLastPriceChange().date! | relativeDate }}</span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -121,7 +146,7 @@
               </ng-template>
             </div>
 
-            <!-- Action Button -->
+            <!-- Action Buttons -->
             <div class="item-actions">
               <a [href]="itemDetails.url" 
                  target="_blank" 
@@ -129,6 +154,13 @@
                  class="store-link-btn">
                 <i class="fas fa-external-link-alt"></i>
                 View on {{ itemDetails.store | specialNameTitlecase }} Website
+              </a>
+              <a [href]="googleUrl" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="google-search-btn">
+                <i class="fab fa-google"></i>
+                Search on Google
               </a>
             </div>
           </div>

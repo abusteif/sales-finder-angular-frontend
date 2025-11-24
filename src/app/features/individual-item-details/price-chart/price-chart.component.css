@@ -61,6 +61,10 @@
 
 .price-chart-container.zoomed-in canvas {
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .price-chart-container.zoomed-in canvas:active {

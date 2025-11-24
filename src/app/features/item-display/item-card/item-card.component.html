@@ -51,12 +51,20 @@
       }
       <figure class="image is-1by1 card-image-figure">
         @if(!imageLoadError) {
-        <img
-          [src]="item.imageUrl"
-          alt="Card image"
-          class="card-image-img"
-          (error)="onImageError()"
-        />
+        <a
+          [href]="getItemDetailsUrl()"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="$event.stopPropagation()"
+          style="display: block; width: 100%; height: 100%;"
+        >
+          <img
+            [src]="item.imageUrl"
+            alt="Card image"
+            class="card-image-img"
+            (error)="onImageError()"
+          />
+        </a>
         } @else {
         <div class="no-image-placeholder">
           <i class="fas fa-image"></i>
