@@ -85,7 +85,11 @@
     <div class="rating-container">
       <div class="stars">
         @for(star of getStars(); track $index) {
-          <i [class]="star" [style.color]="star.includes('far') ? '' : getStarColor()"></i>
+          @if(star.includes('far')) {
+            <i [class]="star"></i>
+          } @else {
+            <i [class]="star" [style.color]="getStarColor()"></i>
+          }
         }
       </div>
       @if(rating > 0) {

@@ -539,6 +539,16 @@
   color: #ddd;
 }
 
+/* Dark theme fix for empty stars */
+@media (prefers-color-scheme: dark) {
+  .stars i.far,
+  .stars i.far.fa-star,
+  .rating-container .stars i.far {
+    color: #666 !important;
+    opacity: 1 !important;
+  }
+}
+
 .rating-text {
   font-size: 0.8rem;
   color: #666;

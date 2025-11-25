@@ -134,6 +134,14 @@ body {
     background-color: #dee2e6 !important;
     color: #dee2e6 !important;
   }
+
+  /* Ensure empty rating stars stay visible in dark mode */
+  .stars i.far,
+  .star-icon.far,
+  .far.fa-star {
+    color: #666 !important;
+    opacity: 1 !important;
+  }
 }
 
 /* Global Admin Button Styles */

@@ -61,6 +61,10 @@ export class PriceChartComponent
 
   constructor(private specialNameTitlecasePipe: SpecialNameTitlecasePipe) {}
 
+  get canZoom(): boolean {
+    return this.priceHistory && this.priceHistory.length > 1;
+  }
+
   ngAfterViewInit(): void {
     this.isViewInitialized = true;
     if (this.priceHistory && this.priceHistory.length > 0) {
@@ -666,6 +670,11 @@ export class PriceChartComponent
       return;
     }
 
+    // Don't allow zoom if there's only 1 history item
+    if (!this.canZoom) {
+      return;
+    }
+
     // Prevent default double-click behavior (text selection)
     event.preventDefault();
 
@@ -713,6 +722,11 @@ export class PriceChartComponent
 
   zoomIn(centerDate?: number): void {
     if (!this.priceChart || this.currentDataPoints.length === 0) {
+      return;
+    }
+
+    // Don't allow zoom if there's only 1 history item
+    if (!this.canZoom) {
       return;
     }
 

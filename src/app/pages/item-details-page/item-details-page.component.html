@@ -132,9 +132,9 @@
                 <div class="rating-display">
                   <span class="rating-value">{{ itemDetails.rating | number:'1.1-1' }}</span>
                   <div class="stars">
-                    <i *ngFor="let star of getStars(itemDetails.rating)" 
-                       [class]="star" 
-                       class="star-icon"></i>
+                    <i *ngFor="let star of getStars(itemDetails.rating)"
+                       class="star-icon"
+                       [ngClass]="star"></i>
                   </div>
                 </div>
                 <p class="rating-count">{{ itemDetails.ratingCount }} reviews</p>

@@ -473,6 +473,17 @@
   color: #e0e0e0;
 }
 
+/* Dark theme fix for empty stars */
+@media (prefers-color-scheme: dark) {
+  .star-icon.far,
+  .star-icon.far.fa-star,
+  .stars .star-icon.far,
+  .rating-content .stars .star-icon.far {
+    color: #666 !important;
+    opacity: 1 !important;
+  }
+}
+
 .rating-count {
   font-size: 14px;
   color: #5a6c7d;

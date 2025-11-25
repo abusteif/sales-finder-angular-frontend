@@ -81,13 +81,16 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     for (let i = 0; i < fullStars; i++) {
       stars.push('fas fa-star');
     }
+
     if (hasHalfStar) {
       stars.push('fas fa-star-half-alt');
     }
-    const emptyStars = 5 - Math.ceil(rating);
+
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     for (let i = 0; i < emptyStars; i++) {
       stars.push('far fa-star');
     }
+
     return stars;
   }
 
