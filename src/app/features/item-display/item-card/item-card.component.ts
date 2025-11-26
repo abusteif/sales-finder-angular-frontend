@@ -50,6 +50,7 @@ export class ItemCardComponent {
     this.imageLoadError = false; // Reset image error on new item
     this.isFeatured = item.isFeatured || false;
     this.isReportedForSaleExpiry = item.isReportedForSaleExpiry || false;
+    this.isPotentiallyDeleted = item.checksSinceRemoved > 8;
   }
   @Input() set storesCheckedAt(
     storesCheckedAt: { name: string; checkedAt: Date }[]
@@ -89,6 +90,7 @@ export class ItemCardComponent {
   isFeatured: boolean = false;
   isReportedForSaleExpiry: boolean = false;
   isAdmin: boolean = false;
+  isPotentiallyDeleted: boolean = false;
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
@@ -445,6 +447,9 @@ export class ItemCardComponent {
     if (this.isReportedForSaleExpiry) {
       return 'This item has been reported as no longer on sale';
     }
+    if (this.isPotentiallyDeleted) {
+      return 'This item may no longer be on sale';
+    }
     return 'Report discount issue';
   }
 
@@ -469,8 +474,8 @@ export class ItemCardComponent {
 
     this.statusDialogService
       .showConfirmation(
-        'Report No Longer On Discount',
-        'Are you sure you want to report that this item is no longer on discount? Your report will be processed and the item will be updated accordingly.',
+        'Report Discount Issue',
+        'Are you sure you want to report a discount issue with this item? Your report will be reviewed and the item will be updated if needed.',
         'Yes',
         'No'
       )
@@ -481,7 +486,7 @@ export class ItemCardComponent {
               this.statusDialogService
                 .showSuccess(
                   'Report Submitted',
-                  'Thank you for your report. The system will check this item and update it if it is no longer on discount.',
+                  'Thank you for your report. We will review this discount issue and update the item if needed.',
                   'OK'
                 )
                 .subscribe(() => {
