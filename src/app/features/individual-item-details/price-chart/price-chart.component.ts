@@ -199,6 +199,26 @@ export class PriceChartComponent
       };
     });
 
+    // Add today's date point with the same value as the last point
+    if (dataPoints.length > 0) {
+      const lastPoint = dataPoints[dataPoints.length - 1];
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to start of today
+      const todayTimestamp = today.getTime();
+      
+      // Only add today's point if it's different from the last point's date
+      const lastPointDate = new Date(lastPoint.x);
+      lastPointDate.setHours(0, 0, 0, 0);
+      if (lastPointDate.getTime() !== todayTimestamp) {
+        dataPoints.push({
+          x: todayTimestamp,
+          y: lastPoint.y,
+        });
+        // Add a discount value for today's point (use the last discount value)
+        normalizedDiscounts.push(normalizedDiscounts[normalizedDiscounts.length - 1] ?? 0);
+      }
+    }
+
     // Check if all dates are in the same year
     const years = sortedHistory.map((item) =>
       new Date(item.date).getFullYear()
@@ -407,7 +427,8 @@ export class PriceChartComponent
                 } else {
                   label = `Price: $${Math.round(price)}`;
                 }
-                if (isLowestPrice) {
+                // Only show "Lowest Price" if there's more than one history point
+                if (isLowestPrice && sortedHistory.length > 1) {
                   label += ' (Lowest Price)';
                 }
                 return label;

@@ -167,19 +167,35 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       : '';
   }
 
-  getLastPriceChange(): { date: Date | null; changeType: 'increase' | 'decrease' | 'no-change' | 'back-on-sale' | null; amount: number | null } {
+  getLastPriceChange(): { date: Date | null; changeType: 'increase' | 'decrease' | 'no-change' | 'back-on-sale' | 'not-on-sale' | null; amount: number | null } {
+    const hasPriceHistory = this.itemDetails?.priceHistory && this.itemDetails.priceHistory.length > 0;
+    if (!hasPriceHistory) {
+      return { date: null, changeType: null, amount: null };
+    }
+
+    // Sort price history by date (most recent first)
+    const sortedHistory = [...this.itemDetails!.priceHistory!].sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return dateB - dateA; // Descending order
+    });
+
+    const latest = sortedHistory[0];
+
+    // Show explicit message when the item has been removed from sale/out of stock
+    if (
+      this.itemDetails?.updateType === UpdateType.DELETED &&
+      (latest.discount ?? 0) === 0
+    ) {
+      return {
+        date: new Date(latest.date),
+        changeType: 'not-on-sale',
+        amount: null
+      };
+    }
+
     // If item has RETURNED status, show it as back on sale
     if (this.itemDetails?.updateType === UpdateType.RETURNED) {
-      if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length === 0) {
-        return { date: null, changeType: null, amount: null };
-      }
-      // Sort price history by date (most recent first)
-      const sortedHistory = [...this.itemDetails.priceHistory].sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateB - dateA; // Descending order
-      });
-      const latest = sortedHistory[0];
       return {
         date: new Date(latest.date),
         changeType: 'back-on-sale',
@@ -187,19 +203,24 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       };
     }
 
-    if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length < 2) {
+    if (sortedHistory.length < 2) {
       return { date: null, changeType: null, amount: null };
     }
 
-    // Sort price history by date (most recent first)
-    const sortedHistory = [...this.itemDetails.priceHistory].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateB - dateA; // Descending order
-    });
-
-    const latest = sortedHistory[0];
-    const previous = sortedHistory[1];
+    // For DISCOUNT_UP or DISCOUNT_DOWN, find the previous element that doesn't have a discount of 0
+    let previous;
+    if (this.itemDetails?.updateType === UpdateType.DISCOUNT_UP || this.itemDetails?.updateType === UpdateType.DISCOUNT_DOWN) {
+      // Find the previous entry with discount !== 0
+      previous = sortedHistory.find((entry, index) => index > 0 && (entry.discount ?? 0) !== 0);
+      
+      // If no previous entry with non-zero discount found, fall back to immediately previous entry
+      if (!previous) {
+        previous = sortedHistory[1];
+      }
+    } else {
+      // For other update types, use the immediately previous entry
+      previous = sortedHistory[1];
+    }
 
     const latestPrice = latest.discountedPrice;
     const previousPrice = previous.discountedPrice;

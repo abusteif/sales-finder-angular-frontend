@@ -97,9 +97,10 @@
                      [class.fa-arrow-up]="getLastPriceChange().changeType === 'increase'"
                      [class.fa-arrow-down]="getLastPriceChange().changeType === 'decrease'"
                      [class.fa-minus]="getLastPriceChange().changeType === 'no-change'"
-                     [class.fa-undo]="getLastPriceChange().changeType === 'back-on-sale'"></i>
+                     [class.fa-undo]="getLastPriceChange().changeType === 'back-on-sale'"
+                     *ngIf="getLastPriceChange().changeType !== 'not-on-sale'"></i>
                   <div class="stat-content">
-                    <span class="stat-label">Last Price Change</span>
+                    <span class="stat-label" *ngIf="getLastPriceChange().changeType !== 'not-on-sale'">Last Price Change</span>
                     <span class="stat-value">
                       <span *ngIf="getLastPriceChange().changeType === 'increase'" class="price-increase">
                         +${{ getLastPriceChange().amount | number:'1.2-2' }}
@@ -113,7 +114,11 @@
                       <span *ngIf="getLastPriceChange().changeType === 'back-on-sale'" class="back-on-sale">
                         Back on sale
                       </span>
-                      <span class="change-date" *ngIf="getLastPriceChange().date"> • {{ getLastPriceChange().date! | relativeDate }}</span>
+                      <span *ngIf="getLastPriceChange().changeType === 'not-on-sale'" class="not-on-sale">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        This item is no longer on sale or is out of stock
+                      </span>
+                      <span class="change-date" *ngIf="getLastPriceChange().date && getLastPriceChange().changeType !== 'not-on-sale'"> • {{ getLastPriceChange().date! | relativeDate }}</span>
                     </span>
                   </div>
                 </div>

@@ -406,6 +406,36 @@
   color: #4caf50;
   font-weight: 700;
 }
+.not-on-sale {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  padding: 8px 14px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  animation: pulse-out-of-stock 2s ease-in-out infinite;
+}
+
+.not-on-sale i {
+  font-size: 16px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-out-of-stock {
+  0%, 100% {
+    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 14px rgba(255, 107, 107, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+}
 
 .change-date {
   font-size: 14px;
@@ -800,6 +830,18 @@
   }
 
   .message-content p {
+    font-size: 14px;
+  }
+
+  .not-on-sale {
+    font-size: 12px;
+    padding: 6px 10px;
+    gap: 6px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .not-on-sale i {
     font-size: 14px;
   }
 }

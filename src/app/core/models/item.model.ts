@@ -47,6 +47,7 @@ export enum UpdateType {
     DISCOUNT_DOWN = 'DISCOUNT_DOWN',
     RETURNED = 'RETURNED',
     HIGHEST_DISCOUNT = 'HIGHEST_DISCOUNT',
+    DELETED = 'DELETED',
     ALL = 'ALL',
 }
 
