@@ -61,12 +61,17 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2MB",
-                  "maximumError": "2MB"
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
+                  "maximumWarning": "6KB",
+                  "maximumError": "10KB"
+                },
+                {
+                  "type": "bundle",
                   "maximumWarning": "2MB",
-                  "maximumError": "2MB"
+                  "maximumError": "5MB"
                 }
               ],
               "outputHashing": "all",
