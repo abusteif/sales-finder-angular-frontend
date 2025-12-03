@@ -48,6 +48,20 @@
         </div>
         }
       </div>
+      } @if(isRRPFluctuating) {
+      <div 
+        class="rrp-fluctuating-icon"
+        #rrpFluctuatingTooltip="matTooltip"
+        [matTooltip]="getRRPFluctuatingBadgeTooltip()"
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="isMobile ? 0 : 300"
+        [matTooltipClass]="'custom-tooltip'"
+        (click)="onRRPFluctuatingBadgeClick($event, rrpFluctuatingTooltip)"
+      >
+        <i class="fas fa-arrow-up"></i>
+        <span>RRP</span>
+        <i class="fas fa-arrow-down"></i>
+      </div>
       }
       <figure class="image is-1by1 card-image-figure">
         @if(!imageLoadError) {

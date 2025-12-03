@@ -23,6 +23,7 @@ export interface Item {
     isReportedForSaleExpiry: boolean;
     alertId: string | null;
     isFeatured: boolean;
+    isRRPFluctuating: boolean;
 }
 
 export interface ItemAlert {
@@ -68,6 +69,7 @@ export interface ItemDetails {
     "updatedAt": Date,
     "averagePrice": number,
     "isFeatured": boolean,
+    "isRRPFluctuating": boolean,
 }
 
 export interface PriceHistory {

@@ -51,6 +51,7 @@ export class ItemCardComponent {
     this.isFeatured = item.isFeatured || false;
     this.isReportedForSaleExpiry = item.isReportedForSaleExpiry || false;
     this.isPotentiallyDeleted = item.checksSinceRemoved > 8;
+    this.isRRPFluctuating = item.isRRPFluctuating || false;
   }
   @Input() set storesCheckedAt(
     storesCheckedAt: { name: string; checkedAt: Date }[]
@@ -91,6 +92,7 @@ export class ItemCardComponent {
   isReportedForSaleExpiry: boolean = false;
   isAdmin: boolean = false;
   isPotentiallyDeleted: boolean = false;
+  isRRPFluctuating: boolean = false;
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
@@ -393,6 +395,19 @@ export class ItemCardComponent {
     }
   }
 
+  onRRPFluctuatingBadgeClick(event: MouseEvent, rrpFluctuatingTooltip: any) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isMobile && rrpFluctuatingTooltip) {
+      rrpFluctuatingTooltip.show();
+
+      setTimeout(() => {
+        rrpFluctuatingTooltip.hide();
+      }, 4000); // Show longer for explanation message
+    }
+  }
+
   onImageError() {
     this.imageLoadError = true;
   }
@@ -451,6 +466,10 @@ export class ItemCardComponent {
       return 'This item may no longer be on sale';
     }
     return 'Report discount issue';
+  }
+
+  getRRPFluctuatingBadgeTooltip(): string {
+    return 'RRP Inflation Alert: This item\'s RRP has fluctuated up and down, indicating the discount may be artificially inflated.';
   }
 
   onReportNoLongerOnDiscountClick(event: MouseEvent) {

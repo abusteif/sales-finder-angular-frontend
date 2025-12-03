@@ -261,6 +261,24 @@
   gap: 4px; /* Space between discount icon and volatility warning */
 }
 
+/* RRP fluctuating icon positioning */
+.rrp-fluctuating-icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+}
+
+/* Adjust RRP fluctuating icon position when discount container is present */
+.discount-container ~ .rrp-fluctuating-icon {
+  left: 36px; /* Position to the right of discount icon (24px) + gap (4px) + small spacing (8px) */
+}
+
+/* If volatility warning is also present, move RRP fluctuating icon further right */
+.discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+  left: 64px; /* Position after discount icon (24px) + gap (4px) + volatility icon (24px) + gap (4px) + spacing (8px) */
+}
+
 /* Alert indicator */
 .alert-indicator {
   position: absolute;
@@ -311,6 +329,20 @@
   
   .alert-indicator i {
     font-size: 8px;
+  }
+  
+  .rrp-fluctuating-icon {
+    top: 6px;
+    left: 6px;
+  }
+  
+  /* Adjust RRP fluctuating icon position on mobile when discount container is present */
+  .discount-container ~ .rrp-fluctuating-icon {
+    left: 32px; /* Adjusted for smaller icons on mobile */
+  }
+  
+  .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 56px; /* Adjusted for mobile with volatility warning */
   }
 }
 

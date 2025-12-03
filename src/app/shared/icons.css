@@ -223,6 +223,46 @@
   }
 }
 
+/* RRP fluctuating icon styling - indicates RRP inflation */
+.rrp-fluctuating-icon {
+  min-width: 32px;
+  height: 28px;
+  border-radius: 14px;
+  background-color: #e74c3c;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid #c0392b;
+  flex-shrink: 0;
+  line-height: 1;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.rrp-fluctuating-icon i {
+  font-size: 7px;
+  color: white;
+  line-height: 1;
+}
+
+.rrp-fluctuating-icon span {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.rrp-fluctuating-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  background-color: #c0392b;
+}
+
 /* Volatility exclude icon - warning icon with cross overlay */
 .volatility-exclude-icon {
   width: 20px;
@@ -270,6 +310,33 @@
   pointer-events: none;
 }
 
+/* RRP fluctuating badge styling */
+.rrp-fluctuating-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 6;
+  background-color: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rrp-fluctuating-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
 /* Mobile responsive icon styles */
 @media (max-width: 768px) {
   .new-items-icon,
@@ -309,6 +376,22 @@
     font-size: 9px;
   }
   
+  .rrp-fluctuating-icon {
+    min-width: 28px;
+    height: 24px;
+    font-size: 7px;
+    padding: 0 3px;
+    gap: 1px;
+  }
+  
+  .rrp-fluctuating-icon i {
+    font-size: 6px;
+  }
+  
+  .rrp-fluctuating-icon span {
+    font-size: 7px;
+  }
+  
   .indicator-base {
     top: 6px;
     right: 6px;
@@ -332,5 +415,12 @@
   
   .indicator-pill i {
     font-size: 8px;
+  }
+  
+  .rrp-fluctuating-badge {
+    top: 6px;
+    left: 6px;
+    padding: 3px 6px;
+    font-size: 0.6rem;
   }
 }
