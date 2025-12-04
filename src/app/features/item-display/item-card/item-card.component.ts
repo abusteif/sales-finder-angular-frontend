@@ -234,14 +234,14 @@ export class ItemCardComponent {
         this.updateType !== UpdateType.NEW &&
         this.updateType !== UpdateType.RETURNED
       ) {
-        return `Highest discount since we started tracking this item! (${this.trackedSince} days)`;
+        return `Lowest price since we started tracking this item! (${this.trackedSince} days)`;
       } else {
         return null;
       }
     } else if (this.isHighestDiscountEver) {
-      return `Highest discount since we started tracking this item! (${this.highestDiscountSince} days)`;
+      return `Lowest price since we started tracking this item! (${this.highestDiscountSince} days)`;
     } else {
-      return `Highest discount in ${this.highestDiscountSince} days`;
+      return `Lowest price in ${this.highestDiscountSince} days`;
     }
   }
 

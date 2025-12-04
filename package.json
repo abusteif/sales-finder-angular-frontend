@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
+    "build:prod:fast": "ng build --configuration production --no-progress",
     "build:prod:analyze": "ng build --configuration production --stats-json && npx webpack-bundle-analyzer dist/sales-finder-angular-frontend/stats.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
