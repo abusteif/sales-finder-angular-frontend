@@ -1,3 +1,66 @@
+/* Maintenance Banner */
+.maintenance-banner {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: white;
+  padding: 16px 20px;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.maintenance-banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.maintenance-banner-content i {
+  font-size: 24px;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.maintenance-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.maintenance-text strong {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.maintenance-text span {
+  font-size: 14px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
 /* Global Authentication Loading Overlay */
 .global-auth-loading-overlay {
   position: fixed;
@@ -37,6 +100,51 @@
   color: #333;
   margin: 0;
   text-align: center;
+}
+
+/* Mobile responsive for maintenance banner */
+@media (max-width: 768px) {
+  .maintenance-banner {
+    padding: 12px 16px;
+  }
+  
+  .maintenance-banner-content {
+    gap: 12px;
+  }
+  
+  .maintenance-banner-content i {
+    font-size: 20px;
+  }
+  
+  .maintenance-text strong {
+    font-size: 14px;
+  }
+  
+  .maintenance-text span {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .maintenance-banner {
+    padding: 10px 12px;
+  }
+  
+  .maintenance-banner-content {
+    gap: 10px;
+  }
+  
+  .maintenance-banner-content i {
+    font-size: 18px;
+  }
+  
+  .maintenance-text strong {
+    font-size: 13px;
+  }
+  
+  .maintenance-text span {
+    font-size: 11px;
+  }
 }
 
 /* Mobile responsive for global loading */
