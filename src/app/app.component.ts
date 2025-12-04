@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isLoggingOut = false;
+  readonly GENERIC_SETTINGS = GENERIC_SETTINGS;
   private routerSubscription?: Subscription;
   private readonly resizeListener = () => this.checkScreenSize();
 
