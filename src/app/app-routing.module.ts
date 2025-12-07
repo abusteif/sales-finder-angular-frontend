@@ -44,7 +44,7 @@ const routes: Routes = [
       seo: {
         title: `${APP_NAME} | Login`,
         description: 'Access your personalised deal alerts, watchlists, and savings dashboard.',
-        robots: NOINDEX_ROBOTS
+        robots: DEFAULT_ROBOTS
       }
     }
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
       seo: {
         title: `${APP_NAME} | Create a Free Account`,
         description: 'Sign up to set sale alerts, monitor price drops, and never miss a bargain again.',
-        robots: NOINDEX_ROBOTS
+        robots: DEFAULT_ROBOTS
       }
     }
   },

@@ -211,6 +211,10 @@ export class ItemCardComponent {
   }
 
   shouldShowDiscountIcon(): boolean {
+    // Don't show discount icon if item has been tracked for a day or less
+    if (this.trackedSince <= 1) {
+      return false;
+    }
     return (
       this.isFeatured ||
       this.isHighestDiscountEver ||

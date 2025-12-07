@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
 import { ItemDetails, UpdateType } from '../../core/models/item.model';
 import { AppStore } from '../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
+import { SeoService } from '../../core/services/seo.service';
+import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
 
 @Component({
   selector: 'app-item-details-page',
@@ -28,8 +29,8 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private itemService: ItemService,
-    private titleService: Title,
-    private appStore: AppStore
+    private appStore: AppStore,
+    private seoService: SeoService
   ) {}
 
   ngOnInit(): void {
@@ -60,10 +61,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
           this.itemDetails = details;
           this.googleUrl = this.generateGoogleUrl();
           this.isLoading = false;
-          // Set page title to item name
-          if (details.name) {
-            this.titleService.setTitle(details.name);
-          }
+          this.updateItemSeo(details);
         },
         error: (err) => {
           console.error('Error loading item details:', err);
@@ -165,6 +163,52 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     return this.itemDetails?.name 
       ? `https://www.google.com/search?q=${encodeURIComponent(this.itemDetails.name)}`
       : '';
+  }
+
+  private updateItemSeo(details: ItemDetails): void {
+    const itemUrl = `${GENERIC_SETTINGS.domain}/item/${this.itemId}`;
+    const description = this.buildItemDescription(details);
+    const availability = details.updateType === UpdateType.DELETED
+      ? 'https://schema.org/OutOfStock'
+      : 'https://schema.org/InStock';
+
+    this.seoService.update({
+      title: `${details.name} | ${GENERIC_SETTINGS.app_name}`,
+      description,
+      robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      image: details.imageUrl || GENERIC_SETTINGS.socialImage,
+      url: itemUrl,
+      structuredData: {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: details.name,
+        image: details.imageUrl ? [details.imageUrl] : undefined,
+        brand: details.store,
+        category: details.category,
+        url: itemUrl,
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'AUD',
+          price: details.newPrice ?? details.oldPrice,
+          availability
+        },
+        aggregateRating: details.rating ? {
+          '@type': 'AggregateRating',
+          ratingValue: details.rating,
+          reviewCount: details.ratingCount ?? undefined
+        } : undefined
+      }
+    });
+  }
+
+  private buildItemDescription(details: ItemDetails): string {
+    const hasNewPrice = details.newPrice !== null && details.newPrice !== undefined;
+    const price = hasNewPrice
+      ? `Now $${details.newPrice.toFixed(2)}`
+      : 'Live price tracking available';
+    const hasDiscount = details.discount !== null && details.discount !== undefined && details.discount > 0;
+    const discount = hasDiscount ? `(${details.discount}% off)` : '';
+    return `${details.name} at ${details.store}. ${price} ${discount}. Track price history and alerts with ${GENERIC_SETTINGS.app_name}.`.trim();
   }
 
   getLastPriceChange(): { date: Date | null; changeType: 'increase' | 'decrease' | 'no-change' | 'back-on-sale' | 'not-on-sale' | null; amount: number | null } {

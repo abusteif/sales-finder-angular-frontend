@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bargainradar.com.au/sitemap.xml
