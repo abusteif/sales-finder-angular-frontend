@@ -228,8 +228,9 @@
 /* Image Section */
 .item-image-section {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   min-width: 0;
   width: 100%;
   max-width: 100%;
@@ -238,28 +239,26 @@
 .image-link {
   display: block;
   width: 100%;
+  max-width: 500px;
   text-decoration: none;
   color: inherit;
+  position: relative;
+  overflow: visible;
 }
 
 .image-wrapper {
+  position: relative;
   width: 100%;
-  max-width: 500px;
   background: #f8f9fa;
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: visible;
 }
 
 .image-wrapper.lowest-price-frame {
   border: 4px solid #28a745;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 2px rgba(40, 167, 69, 0.2);
-}
-
-.image-wrapper:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .image-wrapper img {
@@ -269,6 +268,236 @@
   object-fit: contain;
   border-radius: 8px;
   display: block;
+}
+
+/* Status icons positioned absolutely on image - matching item-card */
+.image-wrapper .indicator-base {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+.image-wrapper .discount-container {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.image-wrapper .rrp-fluctuating-icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+}
+
+/* Adjust RRP fluctuating icon position when discount container is present */
+.image-wrapper .discount-container ~ .rrp-fluctuating-icon {
+  left: 36px;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .image-wrapper .indicator-base {
+    top: 6px;
+    right: 6px;
+  }
+
+  .image-wrapper .discount-container {
+    top: 6px;
+    left: 6px;
+    gap: 3px;
+  }
+
+  .image-wrapper .rrp-fluctuating-icon {
+    top: 6px;
+    left: 6px;
+  }
+
+  .image-wrapper .discount-container ~ .rrp-fluctuating-icon {
+    left: 32px;
+  }
+}
+
+/* Item Image Buttons - Mirroring item-card component styling */
+.item-image-buttons {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.item-image-buttons .bell-button {
+  flex: 1;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 12px 16px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.item-image-buttons .bell-button:hover:not(.disabled) {
+  color: #333;
+  border-color: #007bff;
+  background: rgba(0, 123, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.item-image-buttons .bell-button.disabled {
+  color: #ccc;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: 0.5;
+  background: #f5f5f5;
+}
+
+.item-image-buttons .bell-button.disabled:hover {
+  color: #ccc;
+  transform: none;
+  border-color: #e0e0e0;
+  box-shadow: none;
+}
+
+.item-image-buttons .bell-button.has-alert {
+  color: #007bff;
+  border-color: #007bff;
+  background: rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.item-image-buttons .bell-button.has-alert:hover {
+  color: #0056b3;
+  border-color: #0056b3;
+  background: rgba(0, 86, 179, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.item-image-buttons .bell-button i {
+  pointer-events: none;
+  font-size: 18px;
+}
+
+.item-image-buttons .bell-button .button-text {
+  display: inline;
+}
+
+.item-image-buttons .report-button {
+  flex: 1;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 12px 16px;
+  color: #999;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.item-image-buttons .report-button:hover {
+  color: #dc3545;
+  border-color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.item-image-buttons .report-button.reported {
+  color: #dc3545;
+  border-color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.3);
+  opacity: 1;
+}
+
+.item-image-buttons .report-button.reported:hover {
+  color: #c82333;
+  border-color: #c82333;
+  background: rgba(200, 35, 51, 0.15);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  transform: translateY(-2px);
+}
+
+.item-image-buttons .report-button i {
+  pointer-events: none;
+  font-size: 18px;
+}
+
+.item-image-buttons .report-button .button-text {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .item-image-buttons {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .item-image-buttons .bell-button {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .item-image-buttons .bell-button i {
+    font-size: 14px;
+  }
+
+  .item-image-buttons .bell-button .button-text {
+    display: inline;
+    font-size: 12px;
+  }
+
+  .item-image-buttons .report-button {
+    padding: 10px 12px;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  .item-image-buttons .report-button i {
+    font-size: 14px;
+  }
+
+  .item-image-buttons .report-button .button-text {
+    display: inline;
+    font-size: 12px;
+  }
+
+  .item-image-buttons .report-button:hover {
+    opacity: 0.9;
+  }
+
+  .item-image-buttons .report-button.reported {
+    opacity: 1;
+  }
+
+  .item-image-buttons .report-button.reported:hover {
+    opacity: 1;
+  }
 }
 
 /* Info Section */

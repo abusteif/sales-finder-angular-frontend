@@ -7,13 +7,16 @@ import { AppStore } from '../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SeoService } from '../../core/services/seo.service';
 import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
+import { RelativeDatePipe } from '../../shared/relative-date.pipe';
+import { ItemDisplayService } from '../../core/services/item-display.service';
 
 @Component({
   selector: 'app-item-details-page',
   standalone: false,
   templateUrl: './item-details-page.component.html',
-  styleUrl: './item-details-page.component.css',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./item-details-page.component.css', '../../shared/icons.css'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [RelativeDatePipe]
 })
 export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatTooltip) titleTooltip!: MatTooltip;
@@ -24,13 +27,15 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   error: string | null = null;
   isMobile: boolean = false;
   googleUrl: string = '';
+  UpdateType = UpdateType;
   private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private itemService: ItemService,
     private appStore: AppStore,
-    private seoService: SeoService
+    private seoService: SeoService,
+    private itemDisplayService: ItemDisplayService
   ) {}
 
   ngOnInit(): void {
@@ -97,10 +102,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getTrackingStartDate(): Date | null {
-    if (this.itemDetails?.priceHistory && this.itemDetails.priceHistory.length > 0) {
-      return new Date(this.itemDetails.priceHistory[0].date);
-    }
-    return null;
+    return this.itemDisplayService.getTrackingStartDate(this.itemDetails);
   }
 
   getAllTimeHighestPrice(): number | null {
@@ -163,6 +165,57 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     return this.itemDetails?.name 
       ? `https://www.google.com/search?q=${encodeURIComponent(this.itemDetails.name)}`
       : '';
+  }
+
+  getIndicatorClass(): string {
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    return indicatorInfo.cssClass;
+  }
+
+  getIndicatorIcon(): string {
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    return indicatorInfo.icon;
+  }
+
+  getIndicatorText(): string {
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    return indicatorInfo.text;
+  }
+
+  itemTooltip(): string {
+    return this.itemDisplayService.getItemTooltip(this.itemDetails, undefined, this.itemDetails?.updatedAt);
+  }
+
+  shouldShowDiscountIcon(): boolean {
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this.itemDetails,
+    );
+    return discountInfo.shouldShow;
+  }
+
+  getDiscountIconText(): string {
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this.itemDetails,
+    );
+    return discountInfo.text;
+  }
+
+  getDiscountIconTooltip(): string | null {
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this.itemDetails,
+    );
+    return discountInfo.tooltip;
+  }
+
+  getDiscountIconClass(): string {
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this.itemDetails,
+    );
+    return discountInfo.cssClass;
+  }
+
+  getRRPFluctuatingBadgeTooltip(): string {
+    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip();
   }
 
   private updateItemSeo(details: ItemDetails): void {
@@ -281,6 +334,33 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       changeType: changeType,
       amount: Math.abs(amount)
     };
+  }
+
+  onAlertButtonClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    // TODO: Implement alert creation functionality
+    console.log('Alert button clicked for item:', this.itemDetails?.id);
+  }
+
+  onReportButtonClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    // TODO: Implement report functionality
+    console.log('Report button clicked for item:', this.itemDetails?.id);
+  }
+
+  onDiscountIconClick(event: MouseEvent, discountTooltip: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isMobile && discountTooltip) {
+      discountTooltip.show();
+
+      setTimeout(() => {
+        discountTooltip.hide();
+      }, 2000);
+    }
   }
 }
 

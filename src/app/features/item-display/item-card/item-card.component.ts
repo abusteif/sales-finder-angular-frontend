@@ -15,6 +15,7 @@ import { StatusDialogService } from '../../../core/services/status-dialog.servic
 import { UserReportsService } from '../../../core/services/userReports.service';
 import { ItemsStore } from '../../../state/items.store';
 import { UserRole } from '../../../core/models/user.models';
+import { ItemDisplayService } from '../../../core/services/item-display.service';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null);
 @Component({
@@ -103,7 +104,8 @@ export class ItemCardComponent {
     private router: Router,
     private statusDialogService: StatusDialogService,
     private userReportsService: UserReportsService,
-    private items: ItemsStore
+    private items: ItemsStore,
+    private itemDisplayService: ItemDisplayService
   ) {
     this.isMobile = this.appStore.isMobile();
   }
@@ -211,55 +213,23 @@ export class ItemCardComponent {
   }
 
   shouldShowDiscountIcon(): boolean {
-    // Don't show discount icon if item has been tracked for a day or less
-    if (this.trackedSince <= 1 && !this.isFeatured) {
-      return false;
-    }
-    return (
-      this.isFeatured ||
-      this.isHighestDiscountEver ||
-      this.highestDiscountSince > 0
-    );
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    return discountInfo.shouldShow;
   }
 
   getDiscountIconText(): string {
-    if (this.isFeatured) {
-      return '🔥';
-    } else if (this.isHighestDiscountEver) {
-      return this.highestDiscountSince.toString();
-    } else {
-      return this.highestDiscountSince.toString();
-    }
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    return discountInfo.text;
   }
 
   getDiscountIconTooltip(): string | null {
-    if (this.isFeatured) {
-      if (
-        this.updateType !== UpdateType.NEW &&
-        this.updateType !== UpdateType.RETURNED
-      ) {
-        return `Lowest price since we started tracking this item! (${this.trackedSince} days)`;
-      } else {
-        return null;
-      }
-    } else if (this.isHighestDiscountEver) {
-      return `Lowest price since we started tracking this item! (${this.highestDiscountSince} days)`;
-    } else {
-      return `Lowest price in ${this.highestDiscountSince} days`;
-    }
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    return discountInfo.tooltip;
   }
 
   getDiscountIconClass(): string {
-    const baseClass = 'discount-icon';
-    let typeClass: string;
-    if (this.isFeatured) {
-      typeClass = 'discount-icon-highest';
-    } else if (this.isHighestDiscountEver) {
-      typeClass = 'discount-icon-highest-ever';
-    } else {
-      typeClass = 'discount-icon-days';
-    }
-    return `${baseClass} ${typeClass}`;
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    return discountInfo.cssClass;
   }
 
   camelCamelCamelUrl: string = '';
@@ -284,54 +254,22 @@ export class ItemCardComponent {
   }
 
   getIndicatorClass(): string {
-    const baseClass = 'indicator-base';
-    const shapeClass =
-      this.updateType === UpdateType.NEW
-        ? 'indicator-pill'
-        : 'indicator-circular';
-    const colorClass = this.getIndicatorColorClass();
-
-    return `${baseClass} ${shapeClass} ${colorClass}`;
-  }
-
-  private getIndicatorColorClass(): string {
-    switch (this.updateType) {
-      case UpdateType.NEW:
-        return 'new-indicator';
-      case UpdateType.DISCOUNT_UP:
-        return 'discount-up-indicator';
-      case UpdateType.DISCOUNT_DOWN:
-        return 'discount-down-indicator';
-      case UpdateType.RETURNED:
-        return 'returned-indicator';
-      default:
-        return '';
-    }
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    return indicatorInfo.cssClass;
   }
 
   getIndicatorIcon(): string {
-    switch (this.updateType) {
-      case UpdateType.NEW:
-        return 'fas fa-star';
-      case UpdateType.DISCOUNT_UP:
-        return 'fas fa-arrow-up';
-      case UpdateType.DISCOUNT_DOWN:
-        return 'fas fa-arrow-down';
-      case UpdateType.RETURNED:
-        return 'fas fa-redo';
-      default:
-        return '';
-    }
-  }
-
-  itemTooltip(): string {
-    return `${this.discountChange}\n${this.relativeDatePipe.transform(
-      this.updatedAt
-    )}`;
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    return indicatorInfo.icon;
   }
 
   getIndicatorText(): string {
-    return this.updateType === UpdateType.NEW ? 'NEW' : '';
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    return indicatorInfo.text;
+  }
+
+  itemTooltip(): string {
+    return this.itemDisplayService.getItemTooltip(this._item, this.discountChange, this.updatedAt);
   }
 
   onIndicatorClick(event: MouseEvent) {
@@ -473,7 +411,7 @@ export class ItemCardComponent {
   }
 
   getRRPFluctuatingBadgeTooltip(): string {
-    return 'RRP Inflation Alert: This item\'s RRP has fluctuated up and down, indicating the discount may be artificially inflated.';
+    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip();
   }
 
   onReportNoLongerOnDiscountClick(event: MouseEvent) {

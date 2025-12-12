@@ -60,8 +60,69 @@
             <a [href]="itemDetails.url" target="_blank" rel="noopener noreferrer" class="image-link">
               <div class="image-wrapper" [class.lowest-price-frame]="isLowestPriceEver()">
                 <img [src]="itemDetails.imageUrl" [alt]="itemDetails.name" />
+                <!-- Status Icons Overlay -->
+                <div *ngIf="itemDetails.updateType !== UpdateType.ALL && getIndicatorClass()"
+                     [class]="getIndicatorClass()"
+                     #indicatorTooltip="matTooltip"
+                     [matTooltip]="itemTooltip()"
+                     matTooltipPosition="below"
+                     [matTooltipShowDelay]="0"
+                     [matTooltipClass]="'custom-tooltip'">
+                  <i [class]="getIndicatorIcon()"></i>
+                  {{ getIndicatorText() }}
+                </div>
+                <div *ngIf="shouldShowDiscountIcon()" class="discount-container">
+                  <div
+                    [class]="getDiscountIconClass()"
+                    #discountTooltip="matTooltip"
+                    [matTooltip]="getDiscountIconTooltip()"
+                    matTooltipPosition="below"
+                    [matTooltipShowDelay]="isMobile ? 0 : 300"
+                    [matTooltipClass]="'custom-tooltip'"
+                    (click)="onDiscountIconClick($event, discountTooltip)">
+                    {{ getDiscountIconText() }}
+                  </div>
+                </div>
+                <div *ngIf="itemDetails.isRRPFluctuating" 
+                     class="rrp-fluctuating-icon"
+                     #rrpFluctuatingTooltip="matTooltip"
+                     [matTooltip]="getRRPFluctuatingBadgeTooltip()"
+                     matTooltipPosition="below"
+                     [matTooltipShowDelay]="isMobile ? 0 : 300"
+                     [matTooltipClass]="'custom-tooltip'">
+                  <i class="fas fa-arrow-up"></i>
+                  <span>RRP</span>
+                  <i class="fas fa-arrow-down"></i>
+                </div>
               </div>
             </a>
+            <!-- Action Buttons -->
+            <div class="item-image-buttons">
+              <button
+                class="bell-button"
+                [class.disabled]="false"
+                [class.has-alert]="false"
+                [disabled]="false"
+                [matTooltip]="'Create Alert For This Item'"
+                matTooltipPosition="above"
+                [matTooltipShowDelay]="isMobile ? 0 : 300"
+                [matTooltipClass]="'custom-tooltip'"
+                (click)="onAlertButtonClick($event)">
+                <i class="fas fa-bell"></i>
+                <span class="button-text">Create Alert</span>
+              </button>
+              <button
+                class="report-button"
+                [class.reported]="false"
+                [matTooltip]="'Report item as out of stock or no longer on discount'"
+                matTooltipPosition="above"
+                [matTooltipShowDelay]="isMobile ? 0 : 300"
+                [matTooltipClass]="'custom-tooltip'"
+                (click)="onReportButtonClick($event)">
+                <i class="fas fa-exclamation-circle"></i>
+                <span class="button-text">Report Issue</span>
+              </button>
+            </div>
           </div>
 
           <!-- Right Column: Pricing & Info -->
@@ -120,6 +181,13 @@
                       </span>
                       <span class="change-date" *ngIf="getLastPriceChange().date && getLastPriceChange().changeType !== 'not-on-sale'"> • {{ getLastPriceChange().date! | relativeDate }}</span>
                     </span>
+                  </div>
+                </div>
+                <div class="stat-item" *ngIf="getTrackingStartDate() !== null">
+                  <i class="fas fa-calendar-alt"></i>
+                  <div class="stat-content">
+                    <span class="stat-label">Tracking Since</span>
+                    <span class="stat-value">{{ getTrackingStartDate()! | relativeDate }}</span>
                   </div>
                 </div>
               </div>
