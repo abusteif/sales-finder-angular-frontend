@@ -44,19 +44,23 @@ export class AlertsPageComponent implements OnInit {
   }
 
   onActiveOnlyToggled(showActiveOnly: boolean): void {
+    this.authenticationStore.initialiseAuth();
     this.showActiveOnly = showActiveOnly;
     this.filterAlerts();
   }
 
   onAddAlertClicked(): void {
+    this.authenticationStore.initialiseAuth();
     this.showAlertModal = true;
   }
 
   onDeleteAlert(alertId: string): void {
+    this.authenticationStore.initialiseAuth();
     this.alertsStore.deleteAlert(alertId);
   }
 
   onEditAlert(alert: Alert): void {
+    this.authenticationStore.initialiseAuth();
     this.showAlertModal = true;
     this.alert = alert;
     if (alert.url && alert.imageUrl) {
@@ -70,6 +74,7 @@ export class AlertsPageComponent implements OnInit {
   }
 
   onToggleAlert(alert: Alert): void {
+    this.authenticationStore.initialiseAuth();
     this.alertsStore.updateAlertStatus(alert.id!, !alert.isActive);
   }
 

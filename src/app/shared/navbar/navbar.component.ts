@@ -38,6 +38,7 @@ export class NavbarComponent {
 
   openUserSettings(event: MouseEvent) {
     event.stopPropagation();
+    this.authenticationStore.initialiseAuth();
     this.isUserSettingsOpen = !this.isUserSettingsOpen;
   }
 
@@ -50,6 +51,7 @@ export class NavbarComponent {
   }
 
   viewAlerts() {
+    this.authenticationStore.initialiseAuth();
     this.navigationService.navigateToProtectedRoute('/alerts', {}, this.isAuthenticated);
   }
 

@@ -6,15 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BottomSectionModule } from './features/bottom-section/bottom-section.module';
 import { PagesModule } from './pages/pages.module';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TopSectionModule } from './features/top-section/top-section.module';
 import { SharedModule } from './shared/shared.module';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { credentialsInterceptor } from './core/interceptors/credentials.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -24,14 +22,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     TopSectionModule,
     SharedModule,
   ],
-  providers: [
-    provideHttpClient(withInterceptorsFromDi()),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideHttpClient(withInterceptors([credentialsInterceptor]))],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

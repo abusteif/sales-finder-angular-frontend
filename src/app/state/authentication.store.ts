@@ -1,158 +1,139 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { AuthenticationService } from "../core/services/authentication.service";
-import { User } from "../core/models/user.models";
-import { UserService } from "../core/services/user.service";
-import { StorageService } from "../core/services/storage.service";
-import { NavigationService } from "../core/services/navigation.service";
-import { USER_DETAILS_KEY } from "../core/constants/authentication";
-
-const AUTH_TOKEN_KEY = 'auth_token';
+import { AuthenticationService } from '../core/services/authentication.service';
+import { User } from '../core/models/user.models';
+import { UserService } from '../core/services/user.service';
+import { StorageService } from '../core/services/storage.service';
+import { NavigationService } from '../core/services/navigation.service';
+import { USER_DETAILS_KEY } from '../core/constants/authentication';
+import { switchMap, delay } from 'rxjs/operators';
 
 interface AuthenticationState {
-    token: string | null;
-    user: User | null;
-    isLoading: boolean;
-    error: string | null;
+  user: User | null;
+  isLoading: boolean;
+  error: string | null;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationStore extends signalStore(
-    withState<AuthenticationState>({
-        token: null,
-        user: null,
-        isLoading: false,
-        error: null
-    }),
-    withMethods((authentication) => {
-        const authenticationService = inject(AuthenticationService);
-        const userService = inject(UserService);
-        const storageService = inject(StorageService);
-        const navigationService = inject(NavigationService);
-        const deleteAuthData = () => {
-            storageService.clearAuth();
-            sessionStorage.removeItem(AUTH_TOKEN_KEY);
-            sessionStorage.removeItem(USER_DETAILS_KEY);
-        }
-        return {
-            login: (email: string, password: string, stayLoggedIn: boolean) => {
-                patchState(authentication, { isLoading: true, error: null });
-                authenticationService.login(email, password).subscribe({
-                    next: (response) => {
-                        if (stayLoggedIn) {
-                            storageService.setAuthToken(response.accessToken);
-                        }
-                        sessionStorage.setItem(AUTH_TOKEN_KEY, response.accessToken);
-                        patchState(authentication, { 
-                            token: response.accessToken, 
-                            isLoading: false, 
-                            error: null 
-                        });
-                        userService.getUserDetails().subscribe({
-                            next: (userResponse) => {
-                                patchState(authentication, { user: userResponse });
-                                if (stayLoggedIn) {
-                                    storageService.setUserDetails(userResponse);
-                                }
-                                sessionStorage.setItem(USER_DETAILS_KEY, JSON.stringify(userResponse));
-                            },
-                            error: (error) => {
-                                console.error('Failed to get user details:', error);
-                                patchState(authentication, { 
-                                    token: null, 
-                                    user: null,
-                                    isLoading: false, 
-                                    error: error.error.message 
-                                });
-                                if (error.status === 403 || error.status === 401) {
-                                    deleteAuthData();
-                                }
-                            }
-                        });
-                    },
-                    error: (error) => {
-                        console.error(error);
-                        patchState(authentication, { isLoading: false, error: error.error.message });
-                    }
-                });
+  withState<AuthenticationState>({
+    user: null,
+    isLoading: false,
+    error: null,
+  }),
+  withMethods((authentication) => {
+    const authenticationService = inject(AuthenticationService);
+    const userService = inject(UserService);
+    const storageService = inject(StorageService);
+    const navigationService = inject(NavigationService);
+    const deleteAuthData = () => {
+      storageService.clearAuth();
+      sessionStorage.removeItem(USER_DETAILS_KEY);
+    };
+    return {
+      login: (email: string, password: string, stayLoggedIn: boolean) => {
+        patchState(authentication, { isLoading: true, error: null });
+        authenticationService
+          .login(email, password, stayLoggedIn)
+          .pipe(
+            switchMap(() => {
+              return userService.getUserDetails();
+            })
+          )
+          .subscribe({
+            next: (userResponse) => {
+              patchState(authentication, {
+                user: userResponse,
+                isLoading: false,
+                error: null,
+              });
+              if (stayLoggedIn) {
+                storageService.setUserDetails(userResponse);
+              }
+              sessionStorage.setItem(
+                USER_DETAILS_KEY,
+                JSON.stringify(userResponse)
+              );
             },
-            logout: () => {
-                const currentToken = authentication.token();
-                patchState(authentication, {isLoading: true, error: null });
+            error: (error) => {
+              console.error('Login or getUserDetails error:', error);
+              patchState(authentication, {
+                user: null,
+                isLoading: false,
+                error: error.error?.message || 'Login failed',
+              });
+              if (error.status === 403 || error.status === 401) {
+                deleteAuthData();
+              }
+            },
+          });
+      },
+      logout: () => {
+        patchState(authentication, { isLoading: true, error: null });
 
-                if (currentToken) {
-                    authenticationService.logout(currentToken).subscribe({
-                        next: () => {
-                            patchState(authentication, { 
-                                token: null, 
-                                user: null,
-                                isLoading: false, 
-                                error: null 
-                            });
-                            storageService.clearAuth();
-                            navigationService.handleNavigationAfterLogout();                           
-                            sessionStorage.removeItem(AUTH_TOKEN_KEY);
-                            sessionStorage.removeItem(USER_DETAILS_KEY);
-                        },
-                        error: (error) => {
-                            patchState(authentication, { 
-                                isLoading: false, 
-                                error: error.error.message 
-                            });
-                            // Even if logout fails, clear local state and redirect if on protected route
-                            storageService.clearAuth();
-                            navigationService.handleNavigationAfterLogout();
-                        }
-                    });
-                } else {
-                    // No token to logout, just clear the state
-                    patchState(authentication, { 
-                        token: null, 
-                        user: null,
-                        isLoading: false, 
-                        error: null 
-                    });
-                    storageService.clearAuth();
-                    navigationService.handleNavigationAfterLogout();
-                }
-            },
-            isAuthenticated: () => {
-                return !!(authentication.token());
-            },
-            initialiseAuth: () => {
-                const token = storageService.getAuthToken() || sessionStorage.getItem(AUTH_TOKEN_KEY);
-                patchState(authentication, { token });
-                if (token) {
-                    userService.getUserDetails().subscribe({
-                        next: (response) => {
-                            patchState(authentication, { token, user: response });
-                            storageService.setUserDetails(response);
-                            sessionStorage.setItem(USER_DETAILS_KEY, JSON.stringify(response));
-                        },
-                        error: (error) => {
-                            console.error('Failed to get user details:', error);
-                            // Clear invalid token and redirect to login
-                            patchState(authentication, { 
-                                token: null, 
-                                user: null,
-                                isLoading: false, 
-                                error: null 
-                            });
-                            if (error.status === 403 || error.status === 401) {
-                                deleteAuthData();
-                            } 
-                            navigationService.handleNavigationAfterLogout();
-                        }
-                    });
-                }
-            },
-            // resetPassword: (token: string, newPassword: string) => {
-            //     patchState(authentication, { isLoading: true, error: null });
-            //     return authenticationService.resetPassword(token, newPassword);
-            // }
+        authenticationService.logout().subscribe({
+          next: () => {
+            patchState(authentication, {
+              user: null,
+              isLoading: false,
+              error: null,
+            });
+            deleteAuthData();
+            navigationService.handleNavigationAfterLogout();
+          },
+          error: (error) => {
+            patchState(authentication, {
+              isLoading: false,
+              error: error.error?.message || 'Logout failed',
+            });
+            deleteAuthData();
+            navigationService.handleNavigationAfterLogout();
+          },
+        });
+      },
+      isAuthenticated: () => {
+        return !!authentication.user();
+      },
+      clearAuth: () => {
+        patchState(authentication, {
+          user: null,
+          isLoading: false,
+          error: null,
+        });
+        deleteAuthData();
+      },
+      initialiseAuth: () => {
+        const storedUser =
+          storageService.getUserDetails() ||
+          (sessionStorage.getItem(USER_DETAILS_KEY)
+            ? JSON.parse(sessionStorage.getItem(USER_DETAILS_KEY)!)
+            : null);
+
+        if (storedUser) {
+          patchState(authentication, { user: storedUser });
         }
-    })
-) {
-}
+        userService.getUserDetails().subscribe({
+          next: (response) => {
+            patchState(authentication, { user: response });
+            storageService.setUserDetails(response);
+            sessionStorage.setItem(USER_DETAILS_KEY, JSON.stringify(response));
+          },
+          error: (error) => {
+            console.error('Failed to get user details:', error);
+            patchState(authentication, {
+              user: null,
+              isLoading: false,
+              error: null,
+            });
+            if (error.status === 403 || error.status === 401) {
+              deleteAuthData();
+              navigationService.handleNavigationAfterLogout();
+            }
+          },
+        });
+      }
+    };
+  })
+) {}

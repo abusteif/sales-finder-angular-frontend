@@ -1,25 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AuthData, UserPreferences } from '../models/storage.model';
+import { UserPreferences } from '../models/storage.model';
 import { User } from '../models/user.models';
 import { Filter } from '../models/filter.model';
 import { SortCriteria } from '../models/sort.model';
-import { AUTH_TOKEN_KEY } from '../constants/authentication';
 import { USER_DETAILS_KEY } from '../constants/authentication';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
   private readonly USER_PREFERENCES_KEY = 'user_preferences';
-
-
-  setAuthToken(token: string): void {
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
-  }
-
-  getAuthToken(): string | null {
-    return localStorage.getItem(AUTH_TOKEN_KEY);
-  }
 
   setUserDetails(user: User): void {
     localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(user));
@@ -31,14 +21,16 @@ export class StorageService {
   }
 
   clearAuth(): void {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_DETAILS_KEY);
   }
 
   setFilterPreferences(filter: Filter): void {
     const existingPreferences = this.getUserPreferences();
     const existingFilter = existingPreferences?.filter;
-    const updated = { ...existingPreferences, filter: { ...existingFilter, ...filter } };
+    const updated = {
+      ...existingPreferences,
+      filter: { ...existingFilter, ...filter },
+    };
     localStorage.setItem(this.USER_PREFERENCES_KEY, JSON.stringify(updated));
   }
 

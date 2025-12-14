@@ -1,69 +1,106 @@
-<app-base-modal     [showModal]="showAlertModal" (onCloseModal)="closeAlertModal()" [title]="getStepTitle()"
-    [applyButtonText]="submitAlertText()" [cancelButtonText]="'Cancel'"
-    [additionalButton]="currentStep > 1 ? additionalButton : null" [applyButtonDisabled]="getApplyButtonDisabled()"
-    (onApply)="nextStep()" (onCancel)="closeAlertModal()" (onAdditionalButtonClick)="onAdditionalButtonClick()">
-    <div class="alert-modal">
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
-            </div>
-            <div class="step-indicators">
-                @for (step of stepsArray; track step) {
-                <div class="step-indicator" [class.active]="step <= currentStep" [class.current]="step === currentStep"
-                    [class.clickable]="step <= currentStep || canNavigateToStep(step)" (click)="navigateToStep(step)">
-                    <span class="step-number">{{ step }}</span>
-                </div>
-                }
-            </div>
+<app-base-modal
+  [showModal]="showAlertModal"
+  (onCloseModal)="closeAlertModal()"
+  [title]="getStepTitle()"
+  [applyButtonText]="submitAlertText()"
+  [cancelButtonText]="'Cancel'"
+  [additionalButton]="currentStep > 1 ? additionalButton : null"
+  [applyButtonDisabled]="getApplyButtonDisabled()"
+  (onApply)="nextStep()"
+  (onCancel)="closeAlertModal()"
+  (onAdditionalButtonClick)="onAdditionalButtonClick()"
+>
+  <div class="alert-modal">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="(currentStep / totalSteps) * 100"
+        ></div>
+      </div>
+      <div class="step-indicators">
+        @for (step of stepsArray; track step) {
+        <div
+          class="step-indicator"
+          [class.active]="step <= currentStep"
+          [class.current]="step === currentStep"
+          [class.clickable]="step <= currentStep || canNavigateToStep(step)"
+          (click)="navigateToStep(step)"
+        >
+          <span class="step-number">{{ step }}</span>
         </div>
-
-        <!-- Step Content -->
-        <div class="step-content">
-            <!-- Step 1: Item Name -->
-            @if (currentStep === 1) {
-            @if (existingItemDetails) {
-            <div class="step-panel">
-                <app-item-link-step [item]="existingItemDetails" [isNewAlert]="isNewAlert"></app-item-link-step>
-            </div>
-            } @else {
-            <div class="step-panel">
-                <app-search-text-step [itemName]="itemName" [maxCharacterLimit]="maxCharacterLimit"
-                    [aiSearch]="aiSearch" [exactMatch]="exactMatch" (itemNameChange)="onItemNameChange($event)"
-                    (enterKey)="onEnterKey()" (exactMatchChange)="onExactMatchChange($event)"
-                    (aiSearchChange)="onAiSearchChange($event)"></app-search-text-step>
-
-            </div>
-            }
-            }
-
-            <!-- Step 2: Store and Category Selection -->
-            @if (currentStep === 2) {
-            <div class="step-panel">
-                <app-store-selection-step [selectedStores]="selectedStores" [storeNames]="storeNames"
-                    [maxSelectedOptions]="maxStoresPerAlert"
-                    (storeChange)="onStoreChange($event)"></app-store-selection-step>
-            </div>
-            }
-
-            <!-- Step 3: Preferences -->
-            @if (currentStep === 3) {
-            <div class="step-panel">
-                <app-price-discount-range-step [priceRange]="priceRange" [minDiscount]="minDiscount"
-                    (priceRangeChange)="onPriceRangeChange($event)" (minDiscountChange)="onMinDiscountChange($event)">
-                </app-price-discount-range-step>
-            </div>
-            }
-
-            <!-- Step 4: Summary -->
-            @if (currentStep === 4) {
-            <div class="step-panel">
-                <app-summary-step [searchText]="itemName" [selectedStores]="selectedStores" [priceRange]="priceRange"
-                    [minDiscount]="minDiscount" [exactMatch]="exactMatch" [aiSearch]="aiSearch"
-                    [isNewAlert]="isNewAlert" [url]="existingItemDetails?.url || ''" [imageUrl]="existingItemDetails?.imageUrl || ''">
-                </app-summary-step>
-            </div>
-            }
-        </div>
+        }
+      </div>
     </div>
+
+    <!-- Step Content -->
+    <div class="step-content">
+      <!-- Step 1: Item Name -->
+      @if (currentStep === 1) { @if (existingItemDetails) {
+      <div class="step-panel">
+        <app-item-link-step
+          [item]="existingItemDetails"
+          [isNewAlert]="isNewAlert"
+        ></app-item-link-step>
+      </div>
+      } @else {
+      <div class="step-panel">
+        <app-search-text-step
+          [itemName]="itemName"
+          [maxCharacterLimit]="maxCharacterLimit"
+          [aiSearch]="aiSearch"
+          [exactMatch]="exactMatch"
+          (itemNameChange)="onItemNameChange($event)"
+          (enterKey)="onEnterKey()"
+          (exactMatchChange)="onExactMatchChange($event)"
+          (aiSearchChange)="onAiSearchChange($event)"
+        ></app-search-text-step>
+      </div>
+      } }
+
+      <!-- Step 2: Store and Category Selection -->
+      @if (currentStep === 2) {
+      <div class="step-panel">
+        <app-store-selection-step
+          [selectedStores]="selectedStores"
+          [storeNames]="storeNames"
+          [maxSelectedOptions]="maxStoresPerAlert"
+          (storeChange)="onStoreChange($event)"
+        ></app-store-selection-step>
+      </div>
+      }
+
+      <!-- Step 3: Preferences -->
+      @if (currentStep === 3) {
+      <div class="step-panel">
+        <app-price-discount-range-step
+          [priceRange]="priceRange"
+          [minDiscount]="minDiscount"
+          (priceRangeChange)="onPriceRangeChange($event)"
+          (minDiscountChange)="onMinDiscountChange($event)"
+        >
+        </app-price-discount-range-step>
+      </div>
+      }
+
+      <!-- Step 4: Summary -->
+      @if (currentStep === 4) {
+      <div class="step-panel">
+        <app-summary-step
+          [searchText]="itemName"
+          [selectedStores]="selectedStores"
+          [priceRange]="priceRange"
+          [minDiscount]="minDiscount"
+          [exactMatch]="exactMatch"
+          [aiSearch]="aiSearch"
+          [isNewAlert]="isNewAlert"
+          [url]="existingItemDetails?.url || ''"
+          [imageUrl]="existingItemDetails?.imageUrl || ''"
+        >
+        </app-summary-step>
+      </div>
+      }
+    </div>
+  </div>
 </app-base-modal>

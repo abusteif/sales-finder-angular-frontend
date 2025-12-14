@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
@@ -13,11 +19,11 @@ import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
   standalone: false,
   templateUrl: './item-details-page.component.html',
   styleUrl: './item-details-page.component.css',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatTooltip) titleTooltip!: MatTooltip;
-  
+
   itemId: string | null = null;
   itemDetails: ItemDetails | null = null;
   isLoading: boolean = false;
@@ -35,14 +41,12 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isMobile = this.appStore.isMobile();
-    this.route.paramMap
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(params => {
-        this.itemId = params.get('itemId');
-        if (this.itemId) {
-          this.loadItemDetails(this.itemId);
-        }
-      });
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      this.itemId = params.get('itemId');
+      if (this.itemId) {
+        this.loadItemDetails(this.itemId);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -54,7 +58,8 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.error = null;
 
-    this.itemService.getItemDetails(itemId)
+    this.itemService
+      .getItemDetails(itemId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (details) => {
@@ -67,7 +72,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
           console.error('Error loading item details:', err);
           this.error = 'Failed to load item details. Please try again later.';
           this.isLoading = false;
-        }
+        },
       });
   }
 
@@ -97,29 +102,38 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getTrackingStartDate(): Date | null {
-    if (this.itemDetails?.priceHistory && this.itemDetails.priceHistory.length > 0) {
+    if (
+      this.itemDetails?.priceHistory &&
+      this.itemDetails.priceHistory.length > 0
+    ) {
       return new Date(this.itemDetails.priceHistory[0].date);
     }
     return null;
   }
 
   getAllTimeHighestPrice(): number | null {
-    if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length === 0) {
-      return null;
-    }
-    const prices = this.itemDetails.priceHistory
-      .map(history => history.discountedPrice)
-      .filter(price => price !== null && price !== undefined && price > 0);
-    return prices.length > 0 ? Math.max(...prices) : null;
-  }
-
-  getAllTimeLowestPrice(): number | null {
-    if (!this.itemDetails?.priceHistory || this.itemDetails.priceHistory.length === 0) {
+    if (
+      !this.itemDetails?.priceHistory ||
+      this.itemDetails.priceHistory.length === 0
+    ) {
       return null;
     }
     const prices = this.itemDetails.priceHistory
       .map((history) => history.discountedPrice)
-      .filter(price => price !== null && price !== undefined && price > 0);
+      .filter((price) => price !== null && price !== undefined && price > 0);
+    return prices.length > 0 ? Math.max(...prices) : null;
+  }
+
+  getAllTimeLowestPrice(): number | null {
+    if (
+      !this.itemDetails?.priceHistory ||
+      this.itemDetails.priceHistory.length === 0
+    ) {
+      return null;
+    }
+    const prices = this.itemDetails.priceHistory
+      .map((history) => history.discountedPrice)
+      .filter((price) => price !== null && price !== undefined && price > 0);
     return prices.length > 0 ? Math.min(...prices) : null;
   }
 
@@ -127,7 +141,6 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     if (!this.itemDetails) {
       return false;
     }
-    // Don't show lowest price badge/frame if there's only 1 history entry
     if (this.hasOnlyOnePriceHistory()) {
       return false;
     }
@@ -135,8 +148,9 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     if (lowestPrice === null) {
       return false;
     }
-    // Compare current price with all-time lowest (with small tolerance for floating point comparison)
-    const count = this.itemDetails.priceHistory.filter(history => history.discountedPrice === lowestPrice).length;
+    const count = this.itemDetails.priceHistory.filter(
+      (history) => history.discountedPrice === lowestPrice
+    ).length;
     if (count > 1) {
       return false;
     }
@@ -160,22 +174,26 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   generateGoogleUrl(): string {
-    return this.itemDetails?.name 
-      ? `https://www.google.com/search?q=${encodeURIComponent(this.itemDetails.name)}`
+    return this.itemDetails?.name
+      ? `https://www.google.com/search?q=${encodeURIComponent(
+          this.itemDetails.name
+        )}`
       : '';
   }
 
   private updateItemSeo(details: ItemDetails): void {
     const itemUrl = `${GENERIC_SETTINGS.domain}/item/${this.itemId}`;
     const description = this.buildItemDescription(details);
-    const availability = details.updateType === UpdateType.DELETED
-      ? 'https://schema.org/OutOfStock'
-      : 'https://schema.org/InStock';
+    const availability =
+      details.updateType === UpdateType.DELETED
+        ? 'https://schema.org/OutOfStock'
+        : 'https://schema.org/InStock';
 
     this.seoService.update({
       title: `${details.name} | ${GENERIC_SETTINGS.app_name}`,
       description,
-      robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      robots:
+        'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
       image: details.imageUrl || GENERIC_SETTINGS.socialImage,
       url: itemUrl,
       structuredData: {
@@ -190,29 +208,47 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
           '@type': 'Offer',
           priceCurrency: 'AUD',
           price: details.newPrice ?? details.oldPrice,
-          availability
+          availability,
         },
-        aggregateRating: details.rating ? {
-          '@type': 'AggregateRating',
-          ratingValue: details.rating,
-          reviewCount: details.ratingCount ?? undefined
-        } : undefined
-      }
+        aggregateRating: details.rating
+          ? {
+              '@type': 'AggregateRating',
+              ratingValue: details.rating,
+              reviewCount: details.ratingCount ?? undefined,
+            }
+          : undefined,
+      },
     });
   }
 
   private buildItemDescription(details: ItemDetails): string {
-    const hasNewPrice = details.newPrice !== null && details.newPrice !== undefined;
+    const hasNewPrice =
+      details.newPrice !== null && details.newPrice !== undefined;
     const price = hasNewPrice
       ? `Now $${details.newPrice.toFixed(2)}`
       : 'Live price tracking available';
-    const hasDiscount = details.discount !== null && details.discount !== undefined && details.discount > 0;
+    const hasDiscount =
+      details.discount !== null &&
+      details.discount !== undefined &&
+      details.discount > 0;
     const discount = hasDiscount ? `(${details.discount}% off)` : '';
     return `${details.name} at ${details.store}. ${price} ${discount}. Track price history and alerts with ${GENERIC_SETTINGS.app_name}.`.trim();
   }
 
-  getLastPriceChange(): { date: Date | null; changeType: 'increase' | 'decrease' | 'no-change' | 'back-on-sale' | 'not-on-sale' | null; amount: number | null } {
-    const hasPriceHistory = this.itemDetails?.priceHistory && this.itemDetails.priceHistory.length > 0;
+  getLastPriceChange(): {
+    date: Date | null;
+    changeType:
+      | 'increase'
+      | 'decrease'
+      | 'no-change'
+      | 'back-on-sale'
+      | 'not-on-sale'
+      | null;
+    amount: number | null;
+  } {
+    const hasPriceHistory =
+      this.itemDetails?.priceHistory &&
+      this.itemDetails.priceHistory.length > 0;
     if (!hasPriceHistory) {
       return { date: null, changeType: null, amount: null };
     }
@@ -234,7 +270,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       return {
         date: new Date(latest.date),
         changeType: 'not-on-sale',
-        amount: null
+        amount: null,
       };
     }
 
@@ -243,7 +279,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       return {
         date: new Date(latest.date),
         changeType: 'back-on-sale',
-        amount: null
+        amount: null,
       };
     }
 
@@ -253,10 +289,15 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
 
     // For DISCOUNT_UP or DISCOUNT_DOWN, find the previous element that doesn't have a discount of 0
     let previous;
-    if (this.itemDetails?.updateType === UpdateType.DISCOUNT_UP || this.itemDetails?.updateType === UpdateType.DISCOUNT_DOWN) {
+    if (
+      this.itemDetails?.updateType === UpdateType.DISCOUNT_UP ||
+      this.itemDetails?.updateType === UpdateType.DISCOUNT_DOWN
+    ) {
       // Find the previous entry with discount !== 0
-      previous = sortedHistory.find((entry, index) => index > 0 && (entry.discount ?? 0) !== 0);
-      
+      previous = sortedHistory.find(
+        (entry, index) => index > 0 && (entry.discount ?? 0) !== 0
+      );
+
       // If no previous entry with non-zero discount found, fall back to immediately previous entry
       if (!previous) {
         previous = sortedHistory[1];
@@ -269,18 +310,23 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     const latestPrice = latest.discountedPrice;
     const previousPrice = previous.discountedPrice;
 
-    if (latestPrice === null || latestPrice === undefined || previousPrice === null || previousPrice === undefined) {
+    if (
+      latestPrice === null ||
+      latestPrice === undefined ||
+      previousPrice === null ||
+      previousPrice === undefined
+    ) {
       return { date: null, changeType: null, amount: null };
     }
 
     const amount = latestPrice - previousPrice;
-    const changeType = amount > 0 ? 'increase' : amount < 0 ? 'decrease' : 'no-change';
+    const changeType =
+      amount > 0 ? 'increase' : amount < 0 ? 'decrease' : 'no-change';
 
     return {
       date: new Date(latest.date),
       changeType: changeType,
-      amount: Math.abs(amount)
+      amount: Math.abs(amount),
     };
   }
 }
-

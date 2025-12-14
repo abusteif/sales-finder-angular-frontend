@@ -5,15 +5,14 @@ import { environment } from '../../../environments/environment';
 import { User } from '../models/user.models';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-    private userBaseUrl = `${environment.apiBaseUrl}/user`;
+  private userBaseUrl = `${environment.apiBaseUrl}/user`;
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    // Get all items
-    getUserDetails(): Observable<User> {
-        return this.http.get<User>(`${this.userBaseUrl}`);
-    }
+  getUserDetails(): Observable<User> {
+    return this.http.get<User>(`${this.userBaseUrl}`);
+  }
 }

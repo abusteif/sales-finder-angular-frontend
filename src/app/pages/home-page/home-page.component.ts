@@ -6,6 +6,9 @@ import { Item, ItemAlert } from '../../core/models/item.model';
 import { itemAlertSignal } from '../../features/item-display/item-card/item-card.component';
 import { Alert } from '../../core/models/alert.model';
 import { AlertsStore } from '../../state/alerts.store';
+import { UserService } from '../../core/services/user.service';
+import { AuthenticationStore } from '../../state/authentication.store';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home-page',
   standalone: false,
@@ -24,30 +27,42 @@ export class HomePageComponent {
     private store: storesStore,
     private category: CategoriesStore,
     private alertsStore: AlertsStore,
+    private userService: UserService,
+    private authenticationStore: AuthenticationStore,
+    private router: Router,
   ) {
     effect(() => {
       const itemAlert = this.itemAlertSignal();
       if (!itemAlert?.item) return;
-
-      const { item, alertId } = itemAlert;
+      this.userService.getUserDetails().subscribe({
+        next: () => {
+          const { item, alertId } = itemAlert;
       
-      if (alertId) {
-        const alerts = this.alertsStore.alerts();
-        const isLoading = this.alertsStore.loading();
-        
-        if (isLoading && alerts.length === 0) {
-          return;
-        }
-        
-        this.alertDetails = alerts.find(alert => alert.id === alertId) || null;
-      } else {
-        this.alertDetails = null;
-      }
+          if (alertId) {
+            const alerts = this.alertsStore.alerts();
+            const isLoading = this.alertsStore.loading();
+            
+            if (isLoading && alerts.length === 0) {
+              return;
+            }
+            
+            this.alertDetails = alerts.find(alert => alert.id === alertId) || null;
+          } else {
+            this.alertDetails = null;
+          }
+    
+          this.showAlertModal = true;
+          this.itemDetails = item;
+          this.alertId = alertId || null;
+          this.itemAlertSignal.set(null);
+        },
+        error: () => {
+          this.authenticationStore.clearAuth();
+          this.router.navigate(['/login']);
+        },
+      });
 
-      this.showAlertModal = true;
-      this.itemDetails = item;
-      this.alertId = alertId || null;
-      this.itemAlertSignal.set(null);
+
     })
   }
   ngOnInit() {
