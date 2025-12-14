@@ -7,13 +7,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SeoService, SeoMetadata } from './core/services/seo.service';
 import { GENERIC_SETTINGS } from './core/constants/generic-settings';
 import { Subscription } from 'rxjs';
-// import { UserStore } from './state/user.store';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: false,
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
   isLoggingOut = false;
@@ -27,24 +26,24 @@ export class AppComponent implements OnInit, OnDestroy {
     private filterStore: FilterStore,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private seoService: SeoService,
-    // private userStore: UserStore
+    private seoService: SeoService
   ) {
     effect(() => {
-      // Show logout overlay when loading and user is authenticated
-      this.isLoggingOut = this.authenticationStore.isLoading() && this.authenticationStore.isAuthenticated();
+      this.isLoggingOut =
+        this.authenticationStore.isLoading() &&
+        this.authenticationStore.isAuthenticated();
     });
-    
+
     this.authenticationStore.initialiseAuth();
     this.filterStore.loadFilterPreferences();
     this.appStore.loadDisplaySettings();
   }
-  
+
   ngOnInit() {
     this.checkScreenSize();
     window.addEventListener('resize', this.resizeListener);
     this.monitorRouteSeo();
-  } 
+  }
 
   checkScreenSize() {
     const isMobile = window.innerWidth < 768;
@@ -59,19 +58,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private monitorRouteSeo() {
-    this.routerSubscription = this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationEnd)) {
         return;
       }
 
       const activeRoute = this.getDeepestChildRoute(this.activatedRoute);
-      const seoData = (activeRoute.snapshot.data?.['seo'] ?? {}) as Partial<SeoMetadata>;
+      const seoData = (activeRoute.snapshot.data?.['seo'] ??
+        {}) as Partial<SeoMetadata>;
       const path = event.urlAfterRedirects.split('?')[0];
-      const canonicalUrl = `${GENERIC_SETTINGS.domain}${path === '/' ? '' : path}`;
+      const canonicalUrl = `${GENERIC_SETTINGS.domain}${
+        path === '/' ? '' : path
+      }`;
 
       this.seoService.update({
         ...seoData,
-        url: canonicalUrl
+        url: canonicalUrl,
       });
     });
   }

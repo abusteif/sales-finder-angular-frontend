@@ -3,8 +3,13 @@
 <section>
   <app-main-top-section></app-main-top-section>
 
-  <hr>
+  <hr />
   <app-main-bottom-section></app-main-bottom-section>
 </section>
-<app-alert-modal [showAlertModal]="showAlertModal" [existingItemDetails]="itemDetails" (onCloseModal)="closeAlertModal()"
-  (onSubmitAlert)="submitAlert($event)" [alert]="alertDetails"></app-alert-modal>
+<app-alert-modal
+  [showAlertModal]="showAlertModal"
+  [existingItemDetails]="itemDetails"
+  (onCloseModal)="closeAlertModal()"
+  (onSubmitAlert)="submitAlert($event)"
+  [alert]="alertDetails"
+></app-alert-modal>
