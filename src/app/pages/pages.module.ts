@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -22,6 +23,7 @@ import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { ItemDetailsPageComponent } from './item-details-page/item-details-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 import { IndividualItemDetailsModule } from '../features/individual-item-details/individual-item-details.module';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +41,12 @@ import { IndividualItemDetailsModule } from '../features/individual-item-details
     ContactUsPageComponent,
     FaqPageComponent,
     AboutUsPageComponent,
-    ItemDetailsPageComponent
+    ItemDetailsPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
     BottomSectionModule,
     TopSectionModule,

@@ -1,4 +1,5 @@
-import { Component, Input, signal, ViewChild } from '@angular/core';
+import { Component, Input, signal, ViewChild, OnDestroy } from '@angular/core';
+import { filter, switchMap, takeUntil, Subject, tap, of } from 'rxjs';
 import {
   Item,
   UpdateType,
@@ -25,7 +26,7 @@ export const itemAlertSignal = signal<ItemAlert | null>(null);
   styleUrls: ['./item-card.component.css', '../../../shared/icons.css'],
   providers: [RelativeDatePipe],
 })
-export class ItemCardComponent {
+export class ItemCardComponent implements OnDestroy {
   @ViewChild(MatTooltip) tooltip!: MatTooltip;
 
   @Input() alertLimitReached: boolean = false;
@@ -51,7 +52,6 @@ export class ItemCardComponent {
     this.imageLoadError = false; // Reset image error on new item
     this.isFeatured = item.isFeatured || false;
     this.isReportedForSaleExpiry = item.isReportedForSaleExpiry || false;
-    this.isPotentiallyDeleted = item.checksSinceRemoved > 8;
     this.isRRPFluctuating = item.isRRPFluctuating || false;
   }
   @Input() set storesCheckedAt(
@@ -97,6 +97,7 @@ export class ItemCardComponent {
   // Default shadow styles
   private readonly defaultShadow = '0 4px 8px rgba(0, 0, 0, 0.4)';
   private readonly defaultHoverShadow = '0 8px 16px rgba(0, 0, 0, 0.5)';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private appStore: AppStore,
@@ -440,22 +441,27 @@ export class ItemCardComponent {
         'Yes',
         'No'
       )
-      .subscribe((result) => {
-        if (result) {
-          this.userReportsService.reportSaleExpiry(this._item.id).subscribe({
-            next: () => {
-              this.statusDialogService
-                .showSuccess(
-                  'Report Submitted',
-                  'Thank you for your report. We will review this discount issue and update the item if needed.',
-                  'OK'
-                )
-                .subscribe(() => {
-                  this.items.getItems();
-                });
-            },
-          });
-        }
-      });
+      .pipe(
+        filter((result) => result === true),
+        switchMap(() => this.userReportsService.reportSaleExpiry(this._item.id)),
+        switchMap(() =>
+          this.statusDialogService.showSuccess(
+            'Report Submitted',
+            'Thank you for your report. We will review this discount issue and update the item if needed.',
+            'OK'
+          )
+        ),
+        tap(() => {
+          this.items.getItems();
+        }),
+        switchMap(() => of(null)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,5 +1,11 @@
 <app-navbar></app-navbar>
-
+<app-alert-modal
+  [showAlertModal]="showAlertModal"
+  [existingItemDetails]="itemDetailsForAlert"
+  (onCloseModal)="closeAlertModal()"
+  (onSubmitAlert)="submitAlert($event)"
+  [alert]="alertDetails"
+></app-alert-modal>
 <section class="item-details-section">
   <div class="item-details-container">
     <div class="item-details-card">
@@ -23,12 +29,16 @@
       <div *ngIf="itemDetails && !isLoading" class="item-details-content">
         <!-- Header Section -->
         <div class="item-header">
-          <h1 class="item-title" 
-              #titleTooltip="matTooltip"
-              [matTooltip]="itemDetails.name" 
-              matTooltipPosition="above"
-              [matTooltipShowDelay]="isMobile ? 0 : 300"
-              (click)="onTitleClick($event, titleTooltip)">{{ itemDetails.name | truncate : 70 }}</h1>
+          <h1
+            class="item-title"
+            #titleTooltip="matTooltip"
+            [matTooltip]="itemDetails.name"
+            matTooltipPosition="above"
+            [matTooltipShowDelay]="isMobile ? 0 : 300"
+            (click)="onTitleClick($event, titleTooltip)"
+          >
+            {{ itemDetails.name | truncate : 70 }}
+          </h1>
           <div class="item-meta">
             <span class="meta-badge store-badge">
               <img
@@ -57,21 +67,37 @@
         <div class="item-main-grid">
           <!-- Left Column: Image -->
           <div class="item-image-section">
-            <a [href]="itemDetails.url" target="_blank" rel="noopener noreferrer" class="image-link">
-              <div class="image-wrapper" [class.lowest-price-frame]="isLowestPriceEver()">
+            <a
+              [href]="itemDetails.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="image-link"
+            >
+              <div
+                class="image-wrapper"
+                [class.lowest-price-frame]="isLowestPriceEver()"
+              >
                 <img [src]="itemDetails.imageUrl" [alt]="itemDetails.name" />
                 <!-- Status Icons Overlay -->
-                <div *ngIf="itemDetails.updateType !== UpdateType.ALL && getIndicatorClass()"
-                     [class]="getIndicatorClass()"
-                     #indicatorTooltip="matTooltip"
-                     [matTooltip]="itemTooltip()"
-                     matTooltipPosition="below"
-                     [matTooltipShowDelay]="0"
-                     [matTooltipClass]="'custom-tooltip'">
+                <div
+                  *ngIf="
+                    itemDetails.updateType !== UpdateType.ALL &&
+                    getIndicatorClass()
+                  "
+                  [class]="getIndicatorClass()"
+                  #indicatorTooltip="matTooltip"
+                  [matTooltip]="itemTooltip()"
+                  matTooltipPosition="below"
+                  [matTooltipShowDelay]="0"
+                  [matTooltipClass]="'custom-tooltip'"
+                >
                   <i [class]="getIndicatorIcon()"></i>
                   {{ getIndicatorText() }}
                 </div>
-                <div *ngIf="shouldShowDiscountIcon()" class="discount-container">
+                <div
+                  *ngIf="shouldShowDiscountIcon()"
+                  class="discount-container"
+                >
                   <div
                     [class]="getDiscountIconClass()"
                     #discountTooltip="matTooltip"
@@ -79,17 +105,20 @@
                     matTooltipPosition="below"
                     [matTooltipShowDelay]="isMobile ? 0 : 300"
                     [matTooltipClass]="'custom-tooltip'"
-                    (click)="onDiscountIconClick($event, discountTooltip)">
+                    (click)="onDiscountIconClick($event, discountTooltip)"
+                  >
                     {{ getDiscountIconText() }}
                   </div>
                 </div>
-                <div *ngIf="itemDetails.isRRPFluctuating" 
-                     class="rrp-fluctuating-icon"
-                     #rrpFluctuatingTooltip="matTooltip"
-                     [matTooltip]="getRRPFluctuatingBadgeTooltip()"
-                     matTooltipPosition="below"
-                     [matTooltipShowDelay]="isMobile ? 0 : 300"
-                     [matTooltipClass]="'custom-tooltip'">
+                <div
+                  *ngIf="itemDetails.isRRPFluctuating"
+                  class="rrp-fluctuating-icon"
+                  #rrpFluctuatingTooltip="matTooltip"
+                  [matTooltip]="getRRPFluctuatingBadgeTooltip()"
+                  matTooltipPosition="below"
+                  [matTooltipShowDelay]="isMobile ? 0 : 300"
+                  [matTooltipClass]="'custom-tooltip'"
+                >
                   <i class="fas fa-arrow-up"></i>
                   <span>RRP</span>
                   <i class="fas fa-arrow-down"></i>
@@ -103,22 +132,24 @@
                 [class.disabled]="false"
                 [class.has-alert]="false"
                 [disabled]="false"
-                [matTooltip]="'Create Alert For This Item'"
-                matTooltipPosition="above"
-                [matTooltipShowDelay]="isMobile ? 0 : 300"
-                [matTooltipClass]="'custom-tooltip'"
-                (click)="onAlertButtonClick($event)">
+                (click)="onAlertButtonClick()"
+              >
                 <i class="fas fa-bell"></i>
-                <span class="button-text">Create Alert</span>
+                <span class="button-text">{{
+                  initialAlertDetails ? "Update Alert" : "Create Alert"
+                }}</span>
               </button>
               <button
                 class="report-button"
                 [class.reported]="false"
-                [matTooltip]="'Report item as out of stock or no longer on discount'"
+                [matTooltip]="
+                  'Report item as out of stock or no longer on discount'
+                "
                 matTooltipPosition="above"
                 [matTooltipShowDelay]="isMobile ? 0 : 300"
                 [matTooltipClass]="'custom-tooltip'"
-                (click)="onReportButtonClick($event)">
+                (click)="onReportButtonClick()"
+              >
                 <i class="fas fa-exclamation-circle"></i>
                 <span class="button-text">Report Issue</span>
               </button>
@@ -135,51 +166,106 @@
               <div class="price-display">
                 <div class="current-price">
                   <span class="price-label">Current Price</span>
-                  <span class="price-value">${{ itemDetails.newPrice | number:'1.2-2' }}</span>
+                  <span class="price-value"
+                    >${{ itemDetails.newPrice | number : "1.2-2" }}</span
+                  >
                 </div>
                 <div class="original-price">
                   <span class="price-label">Original Price</span>
-                  <span class="price-value old">${{ itemDetails.oldPrice | number:'1.2-2' }}</span>
+                  <span class="price-value old"
+                    >${{ itemDetails.oldPrice | number : "1.2-2" }}</span
+                  >
                 </div>
                 <div class="discount-badge-large">
                   <span>{{ itemDetails.discount }}% OFF</span>
                 </div>
               </div>
               <div class="price-stats">
-                <div class="stat-item" *ngIf="getAllTimeLowestPrice() !== null && !hasOnlyOnePriceHistory()">
+                <div
+                  class="stat-item"
+                  *ngIf="
+                    getAllTimeLowestPrice() !== null &&
+                    !hasOnlyOnePriceHistory()
+                  "
+                >
                   <i class="fas fa-chart-line"></i>
                   <div class="stat-content">
                     <span class="stat-label">All-Time Lowest</span>
-                    <span class="stat-value">${{ getAllTimeLowestPrice() | number:'1.2-2' }}</span>
+                    <span class="stat-value"
+                      >${{ getAllTimeLowestPrice() | number : "1.2-2" }}</span
+                    >
                   </div>
                 </div>
-                <div class="stat-item" *ngIf="getLastPriceChange().date !== null">
-                  <i class="fas" 
-                     [class.fa-arrow-up]="getLastPriceChange().changeType === 'increase'"
-                     [class.fa-arrow-down]="getLastPriceChange().changeType === 'decrease'"
-                     [class.fa-minus]="getLastPriceChange().changeType === 'no-change'"
-                     [class.fa-undo]="getLastPriceChange().changeType === 'back-on-sale'"
-                     *ngIf="getLastPriceChange().changeType !== 'not-on-sale'"></i>
+                <div
+                  class="stat-item"
+                  *ngIf="getLastPriceChange().date !== null"
+                >
+                  <i
+                    class="fas"
+                    [class.fa-arrow-up]="
+                      getLastPriceChange().changeType === 'increase'
+                    "
+                    [class.fa-arrow-down]="
+                      getLastPriceChange().changeType === 'decrease'
+                    "
+                    [class.fa-minus]="
+                      getLastPriceChange().changeType === 'no-change'
+                    "
+                    [class.fa-undo]="
+                      getLastPriceChange().changeType === 'back-on-sale'
+                    "
+                    *ngIf="getLastPriceChange().changeType !== 'not-on-sale'"
+                  ></i>
                   <div class="stat-content">
-                    <span class="stat-label" *ngIf="getLastPriceChange().changeType !== 'not-on-sale'">Last Price Change</span>
+                    <span
+                      class="stat-label"
+                      *ngIf="getLastPriceChange().changeType !== 'not-on-sale'"
+                      >Last Price Change</span
+                    >
                     <span class="stat-value">
-                      <span *ngIf="getLastPriceChange().changeType === 'increase'" class="price-increase">
-                        +${{ getLastPriceChange().amount | number:'1.2-2' }}
+                      <span
+                        *ngIf="getLastPriceChange().changeType === 'increase'"
+                        class="price-increase"
+                      >
+                        +${{ getLastPriceChange().amount | number : "1.2-2" }}
                       </span>
-                      <span *ngIf="getLastPriceChange().changeType === 'decrease'" class="price-decrease">
-                        -${{ getLastPriceChange().amount | number:'1.2-2' }}
+                      <span
+                        *ngIf="getLastPriceChange().changeType === 'decrease'"
+                        class="price-decrease"
+                      >
+                        -${{ getLastPriceChange().amount | number : "1.2-2" }}
                       </span>
-                      <span *ngIf="getLastPriceChange().changeType === 'no-change'">
+                      <span
+                        *ngIf="getLastPriceChange().changeType === 'no-change'"
+                      >
                         No change
                       </span>
-                      <span *ngIf="getLastPriceChange().changeType === 'back-on-sale'" class="back-on-sale">
+                      <span
+                        *ngIf="
+                          getLastPriceChange().changeType === 'back-on-sale'
+                        "
+                        class="back-on-sale"
+                      >
                         Back on sale
                       </span>
-                      <span *ngIf="getLastPriceChange().changeType === 'not-on-sale'" class="not-on-sale">
+                      <span
+                        *ngIf="
+                          getLastPriceChange().changeType === 'not-on-sale'
+                        "
+                        class="not-on-sale"
+                      >
                         <i class="fas fa-exclamation-triangle"></i>
                         This item is no longer on sale or is out of stock
                       </span>
-                      <span class="change-date" *ngIf="getLastPriceChange().date && getLastPriceChange().changeType !== 'not-on-sale'"> • {{ getLastPriceChange().date! | relativeDate }}</span>
+                      <span
+                        class="change-date"
+                        *ngIf="
+                          getLastPriceChange().date &&
+                          getLastPriceChange().changeType !== 'not-on-sale'
+                        "
+                      >
+                        • {{ getLastPriceChange().date! | relativeDate }}</span
+                      >
                     </span>
                   </div>
                 </div>
@@ -187,7 +273,11 @@
                   <i class="fas fa-calendar-alt"></i>
                   <div class="stat-content">
                     <span class="stat-label">Tracking Since</span>
-                    <span class="stat-value">{{ getTrackingStartDate()! | relativeDate }}</span>
+                    <span class="stat-value">
+                      {{ getTrackingStartDate()! | date : "d MMM yyyy" }} ({{
+                        getTrackingStartDate()! | relativeDate : "exact"
+                      }})
+                    </span>
                   </div>
                 </div>
               </div>
@@ -201,16 +291,28 @@
                   Rating
                 </h3>
               </div>
-              <div class="rating-content" *ngIf="itemDetails.rating && itemDetails.rating > 0; else noRating">
+              <div
+                class="rating-content"
+                *ngIf="
+                  itemDetails.rating && itemDetails.rating > 0;
+                  else noRating
+                "
+              >
                 <div class="rating-display">
-                  <span class="rating-value">{{ itemDetails.rating | number:'1.1-1' }}</span>
+                  <span class="rating-value">{{
+                    itemDetails.rating | number : "1.1-1"
+                  }}</span>
                   <div class="stars">
-                    <i *ngFor="let star of getStars(itemDetails.rating)"
-                       class="star-icon"
-                       [ngClass]="star"></i>
+                    <i
+                      *ngFor="let star of getStars(itemDetails.rating)"
+                      class="star-icon"
+                      [ngClass]="star"
+                    ></i>
                   </div>
                 </div>
-                <p class="rating-count">{{ itemDetails.ratingCount }} reviews</p>
+                <p class="rating-count">
+                  {{ itemDetails.ratingCount }} reviews
+                </p>
               </div>
               <ng-template #noRating>
                 <div class="rating-content no-rating">
@@ -221,17 +323,21 @@
 
             <!-- Action Buttons -->
             <div class="item-actions">
-              <a [href]="itemDetails.url" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 class="store-link-btn">
+              <a
+                [href]="itemDetails.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="store-link-btn"
+              >
                 <i class="fas fa-external-link-alt"></i>
                 View on {{ itemDetails.store | specialNameTitlecase }} Website
               </a>
-              <a [href]="googleUrl" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 class="google-search-btn">
+              <a
+                [href]="googleUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="google-search-btn"
+              >
                 <i class="fab fa-google"></i>
                 Search on Google
               </a>
@@ -240,7 +346,12 @@
         </div>
 
         <!-- Price Chart Section -->
-        <div class="chart-section" *ngIf="itemDetails.priceHistory && itemDetails.priceHistory.length > 0">
+        <div
+          class="chart-section"
+          *ngIf="
+            itemDetails.priceHistory && itemDetails.priceHistory.length > 0
+          "
+        >
           <div class="chart-header">
             <h2>
               <i class="fas fa-chart-area"></i>
@@ -249,11 +360,13 @@
           </div>
           <!-- Show chart -->
           <div class="chart-container">
-            <app-price-chart [priceHistory]="itemDetails.priceHistory" [store]="itemDetails.store"></app-price-chart>
+            <app-price-chart
+              [priceHistory]="itemDetails.priceHistory"
+              [store]="itemDetails.store"
+            ></app-price-chart>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-

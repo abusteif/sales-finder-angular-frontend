@@ -14,6 +14,7 @@ import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { AboutUsPageComponent } from './pages/about-us-page/about-us-page.component';
 import { ItemDetailsPageComponent } from './pages/item-details-page/item-details-page.component';
+import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 import { GENERIC_SETTINGS } from './core/constants/generic-settings';
 
@@ -202,8 +203,14 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
+    component: NotFoundPageComponent,
+    data: {
+      seo: {
+        title: `${APP_NAME} | Page Not Found`,
+        description: `The page you requested could not be found on ${APP_NAME}.`,
+        robots: NOINDEX_ROBOTS
+      }
+    }
   }
 ];
 

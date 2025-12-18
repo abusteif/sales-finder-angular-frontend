@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, effect } from '@angular/core';
 import { AdditionalButton } from '../../../core/models/modal.model';
 import { Alert } from '../../../core/models/alert.model';
 import { Store } from '../../../core/models/store.model';
@@ -50,7 +50,7 @@ export class AlertModalComponent {
   }
 
   @Output() onCloseModal = new EventEmitter<void>();
-  @Output() onSubmitAlert = new EventEmitter<Alert>();
+  @Output() onSubmitAlert = new EventEmitter<Alert | null>();
   currentStep = 1;
   totalSteps = 4;
   stepsArray = Array.from({ length: 4 }, (_, i) => i + 1);
@@ -71,9 +71,35 @@ export class AlertModalComponent {
   maxCharacterLimit = alertConstants.maxCharacterLimit;
   maxStoresPerAlert = 0;
   isNewAlert = true;
+  creatingAlert = false;
+  updatingAlert = false;
+  newAlert: Alert | null = null;
   constructor(
     private alertsStore: AlertsStore
-  ) { }
+  ) { 
+    effect(() => {
+      const isCreating = this.alertsStore.creating();
+      const error = this.alertsStore.error();
+      if (this.creatingAlert && !isCreating) {
+        this.creatingAlert = false;
+        if (!error) {
+          this.onSubmitAlert.emit(this.newAlert);
+        }
+        this.closeAlertModal();
+      }
+   });
+   effect(() => {
+    const isUpdating = this.alertsStore.updating();
+    const error = this.alertsStore.error();
+    if (this.updatingAlert && !isUpdating) {
+      this.updatingAlert = false;
+      if (!error) {
+        this.onSubmitAlert.emit(this.newAlert);
+      }
+      this.closeAlertModal();
+    }
+  })
+  }
 
 
   onStoreChange(selectedStores: string[]) {
@@ -121,7 +147,7 @@ export class AlertModalComponent {
       this.currentStep++;
       
     } else if (this.currentStep === this.totalSteps) {
-      const alert: Alert = {
+      this.newAlert = {
         id: this.alertId,
         item: this.existingItemDetails ? this.existingItemDetails.name : this.itemName,
         aiSearch: this.aiSearch,
@@ -133,14 +159,12 @@ export class AlertModalComponent {
         alertType: this.alertType || 'EMAIL',
       }
       if (this.existingItemDetails) {
-        alert.url = this.existingItemDetails.url;
+        this.newAlert.url = this.existingItemDetails.url;
       }
       if (this.priceRange[1] !== environment.maxPriceRange[1]) {
-        alert.maxPrice = this.priceRange[1];
+        this.newAlert.maxPrice = this.priceRange[1];
       }
-      this.alertId ? this.onUpdateAlert(alert) : this.onCreateAlert(alert);
-      this.onSubmitAlert.emit(alert);
-      this.closeAlertModal();
+      this.alertId ? this.onUpdateAlert(this.newAlert) : this.onCreateAlert(this.newAlert);
     }
   }
 
@@ -266,6 +290,7 @@ export class AlertModalComponent {
   }
 
   onUpdateAlert(alert: Alert) {
+    this.updatingAlert = true;
     if (this.priceRange[1] !== environment.maxPriceRange[1]) {
       alert.maxPrice = this.priceRange[1];
     }
@@ -273,6 +298,7 @@ export class AlertModalComponent {
   }
 
     onCreateAlert(alert: Alert) {
+    this.creatingAlert = true;
     this.alertsStore.createAlert(alert);
   }
 }

@@ -12,6 +12,11 @@ export class AlertService {
     return this.http.get<Alert[]>(url);
   }
 
+  getAlert(alertId: string) {
+    const url = `${environment.apiBaseUrl}/alert/${alertId}`;
+    return this.http.get<Alert>(url);
+  }
+
   createAlert(alert: Alert) {
     const url = `${environment.apiBaseUrl}/alert`;
     return this.http.post<Alert>(url, alert);

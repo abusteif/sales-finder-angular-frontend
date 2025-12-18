@@ -67,15 +67,24 @@ export class AppComponent implements OnInit, OnDestroy {
       const seoData = (activeRoute.snapshot.data?.['seo'] ??
         {}) as Partial<SeoMetadata>;
       const path = event.urlAfterRedirects.split('?')[0];
-      const canonicalUrl = `${GENERIC_SETTINGS.domain}${
-        path === '/' ? '' : path
-      }`;
+      const normalizedPath = this.normalizePathForCanonical(path);
+      const canonicalUrl = `${GENERIC_SETTINGS.domain}${normalizedPath === '/' ? '' : normalizedPath}`;
 
       this.seoService.update({
         ...seoData,
         url: canonicalUrl,
       });
     });
+  }
+
+  private normalizePathForCanonical(path: string): string {
+    if (!path || path === '/') {
+      return '/';
+    }
+
+    // Ensure leading slash and strip trailing slashes to avoid duplicate canonicals like /faq vs /faq/
+    const withLeadingSlash = path.startsWith('/') ? path : `/${path}`;
+    return withLeadingSlash.replace(/\/+$/, '');
   }
 
   private getDeepestChildRoute(route: ActivatedRoute): ActivatedRoute {

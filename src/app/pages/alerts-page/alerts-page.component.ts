@@ -75,7 +75,7 @@ export class AlertsPageComponent implements OnInit {
 
   onToggleAlert(alert: Alert): void {
     this.authenticationStore.initialiseAuth();
-    this.alertsStore.updateAlertStatus(alert.id!, !alert.isActive);
+    this.alertsStore.updateAlertStatus({ alertId: alert.id!, isActive: !alert.isActive });
   }
 
   closeAlertModal() {

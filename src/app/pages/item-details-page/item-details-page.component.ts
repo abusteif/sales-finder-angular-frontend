@@ -5,24 +5,29 @@ import {
   ViewEncapsulation,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil, switchMap, of, tap, catchError, filter } from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
-import { ItemDetails, UpdateType } from '../../core/models/item.model';
+import { Item, ItemDetails, UpdateType } from '../../core/models/item.model';
 import { AppStore } from '../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SeoService } from '../../core/services/seo.service';
 import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
 import { RelativeDatePipe } from '../../shared/relative-date.pipe';
 import { ItemDisplayService } from '../../core/services/item-display.service';
-
+import { Alert } from '../../core/models/alert.model';
+import { AlertService } from '../../core/services/alert.service';
+import { AuthenticationStore } from '../../state/authentication.store';
+import { UserService } from '../../core/services/user.service';
+import { UserReportsService } from '../../core/services/userReports.service';
+import { StatusDialogService } from '../../core/services/status-dialog.service';
 @Component({
   selector: 'app-item-details-page',
   standalone: false,
   templateUrl: './item-details-page.component.html',
   styleUrls: ['./item-details-page.component.css', '../../shared/icons.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [RelativeDatePipe]
+  providers: [RelativeDatePipe],
 })
 export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatTooltip) titleTooltip!: MatTooltip;
@@ -34,6 +39,12 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   isMobile: boolean = false;
   googleUrl: string = '';
   UpdateType = UpdateType;
+  showAlertModal: boolean = false;
+  alertDetails: Alert | null = null;
+  initialAlertDetails: Alert | null = null;
+  itemDetailsForAlert: Item | null = null;
+  initialItemDetailsForAlert: any = null;
+  isReportedForSaleExpiry: boolean = false; 
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -41,17 +52,29 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     private itemService: ItemService,
     private appStore: AppStore,
     private seoService: SeoService,
-    private itemDisplayService: ItemDisplayService
+    private itemDisplayService: ItemDisplayService,
+    private alertService: AlertService,
+    private userService: UserService,
+    private authenticationStore: AuthenticationStore,
+    private router: Router,
+    private userReportsService: UserReportsService,
+    private statusDialogService: StatusDialogService
   ) {}
 
   ngOnInit(): void {
     this.isMobile = this.appStore.isMobile();
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.itemId = params.get('itemId');
-      if (this.itemId) {
-        this.loadItemDetails(this.itemId);
-      }
-    });
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          this.itemId = params.get('itemId');
+          if (this.itemId) {
+            return this.loadItemDetails(this.itemId);
+          }
+          return of(null);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -59,26 +82,53 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private loadItemDetails(itemId: string): void {
+  private loadItemDetails(itemId: string) {
     this.isLoading = true;
     this.error = null;
 
-    this.itemService
-      .getItemDetails(itemId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (details) => {
-          this.itemDetails = details;
-          this.googleUrl = this.generateGoogleUrl();
-          this.isLoading = false;
-          this.updateItemSeo(details);
-        },
-        error: (err) => {
-          console.error('Error loading item details:', err);
-          this.error = 'Failed to load item details. Please try again later.';
-          this.isLoading = false;
-        },
-      });
+    return this.itemService.getItemDetails(itemId).pipe(
+      tap((details) => {
+        this.itemDetails = details;
+        this.googleUrl = this.generateGoogleUrl();
+        this.isLoading = false;
+        this.updateItemSeo(details);
+        this.itemDetailsForAlert = details;
+        this.initialItemDetailsForAlert = details;
+        this.isReportedForSaleExpiry = details.isReportedForSaleExpiry;
+      }),
+      switchMap((details) => {
+        if (details?.alertId) {
+          return this.loadAlertDetails(details.alertId);
+        }
+        return of(null);
+      }),
+      catchError((err) => {
+        console.error('Error loading item details:', err);
+        this.error = 'Failed to load item details. Please try again later.';
+        this.isLoading = false;
+        this.seoService.update({
+          title: `${GENERIC_SETTINGS.app_name} | Item Not Found`,
+          description: `The requested item could not be found on ${GENERIC_SETTINGS.app_name}.`,
+          robots: 'noindex, nofollow',
+          url: `${GENERIC_SETTINGS.domain}/item/${this.itemId ?? ''}`,
+        });
+        return of(null);
+      })
+    );
+  }
+
+  private loadAlertDetails(alertId: string) {
+    return this.alertService.getAlert(alertId).pipe(
+      tap((alert: Alert) => {
+        this.alertDetails = alert;
+        this.initialAlertDetails = { ...alert };
+        this.initialItemDetailsForAlert = { ...this.itemDetailsForAlert };
+      }),
+      catchError((err) => {
+        console.error('Error loading alert details:', err);
+        return of(null);
+      })
+    );
   }
 
   getStars(rating: number): string[] {
@@ -181,48 +231,58 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getIndicatorClass(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.itemDetails?.updateType
+    );
     return indicatorInfo.cssClass;
   }
 
   getIndicatorIcon(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.itemDetails?.updateType
+    );
     return indicatorInfo.icon;
   }
 
   getIndicatorText(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.itemDetails?.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.itemDetails?.updateType
+    );
     return indicatorInfo.text;
   }
 
   itemTooltip(): string {
-    return this.itemDisplayService.getItemTooltip(this.itemDetails, undefined, this.itemDetails?.updatedAt);
+    return this.itemDisplayService.getItemTooltip(
+      this.itemDetails,
+      undefined,
+      this.itemDetails?.updatedAt
+    );
   }
 
   shouldShowDiscountIcon(): boolean {
     const discountInfo = this.itemDisplayService.getDiscountIconInfo(
-      this.itemDetails,
+      this.itemDetails
     );
     return discountInfo.shouldShow;
   }
 
   getDiscountIconText(): string {
     const discountInfo = this.itemDisplayService.getDiscountIconInfo(
-      this.itemDetails,
+      this.itemDetails
     );
     return discountInfo.text;
   }
 
   getDiscountIconTooltip(): string | null {
     const discountInfo = this.itemDisplayService.getDiscountIconInfo(
-      this.itemDetails,
+      this.itemDetails
     );
     return discountInfo.tooltip;
   }
 
   getDiscountIconClass(): string {
     const discountInfo = this.itemDisplayService.getDiscountIconInfo(
-      this.itemDetails,
+      this.itemDetails
     );
     return discountInfo.cssClass;
   }
@@ -234,6 +294,8 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   private updateItemSeo(details: ItemDetails): void {
     const itemUrl = `${GENERIC_SETTINGS.domain}/item/${this.itemId}`;
     const description = this.buildItemDescription(details);
+    const robots =
+      details.updateType === UpdateType.DELETED ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
     const availability =
       details.updateType === UpdateType.DELETED
         ? 'https://schema.org/OutOfStock'
@@ -242,8 +304,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     this.seoService.update({
       title: `${details.name} | ${GENERIC_SETTINGS.app_name}`,
       description,
-      robots:
-        'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      robots,
       image: details.imageUrl || GENERIC_SETTINGS.socialImage,
       url: itemUrl,
       structuredData: {
@@ -379,11 +440,72 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       amount: Math.abs(amount),
     };
   }
-  onReportButtonClick(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    // TODO: Implement report functionality
-    console.log('Report button clicked for item:', this.itemDetails?.id);
+
+  onAlertButtonClick(): void {
+    this.userService
+      .getUserDetails()
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((err) => {
+          this.authenticationStore.clearAuth();
+          this.router.navigate(['/login']);
+          return of(null);
+        })
+      )
+      .subscribe(() => {
+        this.showAlertModal = true;
+      });
+      this.alertDetails = this.initialAlertDetails;
+      this.itemDetailsForAlert = this.initialItemDetailsForAlert;
+  }
+
+  closeAlertModal(): void {
+    this.showAlertModal = false;
+    this.alertDetails = null;
+    this.itemDetailsForAlert = null;
+  }
+
+  submitAlert(alert: Alert | null): void {
+    if (this.itemId && alert) {
+      this.loadItemDetails(this.itemId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
+  }
+
+  onReportButtonClick(): void {
+    if (this.isReportedForSaleExpiry) {
+      this.statusDialogService
+        .showInfo(
+          'Already Reported',
+          'This item has already been reported as no longer on sale. The system will process this report and update the item accordingly.',
+          'OK'
+        )
+        .subscribe();
+      return;
+    }
+
+    this.statusDialogService
+      .showConfirmation(
+        'Report Discount Issue',
+        'Are you sure you want to report a discount issue with this item? Your report will be reviewed and the item will be updated if needed.',
+        'Yes',
+        'No'
+      )
+      .pipe(
+        filter((result) => result === true),
+        switchMap(() => this.userReportsService.reportSaleExpiry(this.itemId ?? '')),
+        switchMap(() =>
+          this.statusDialogService.showSuccess(
+            'Report Submitted',
+            'Thank you for your report. We will review this discount issue and update the item if needed.',
+            'OK'
+          )
+        ),
+        switchMap(() => this.loadItemDetails(this.itemId ?? '')),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();   
   }
 
   onDiscountIconClick(event: MouseEvent, discountTooltip: any): void {
@@ -399,4 +521,3 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
     }
   }
 }
-

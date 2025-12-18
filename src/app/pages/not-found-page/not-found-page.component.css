@@ -1,0 +1,52 @@
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.not-found-card {
+  width: 100%;
+  max-width: 760px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 28px;
+}
+
+.not-found-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.not-found-content {
+  text-align: center;
+}
+
+.not-found-icon {
+  font-size: 42px;
+  color: #3273dc;
+  margin-bottom: 12px;
+}
+
+.not-found-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.not-found-subtitle {
+  font-size: 16px;
+  color: #5b5b5b;
+  margin-bottom: 18px;
+}
+
+.not-found-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+
