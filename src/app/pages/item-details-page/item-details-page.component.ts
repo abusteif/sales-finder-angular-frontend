@@ -45,6 +45,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   itemDetailsForAlert: Item | null = null;
   initialItemDetailsForAlert: any = null;
   isReportedForSaleExpiry: boolean = false; 
+  GENERIC_SETTINGS = GENERIC_SETTINGS;
   private destroy$ = new Subject<void>();
 
   constructor(

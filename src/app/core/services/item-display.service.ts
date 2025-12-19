@@ -194,17 +194,11 @@ export class ItemDisplayService {
       return '';
     }
 
-    // For Item, use discountChange and updatedAt
-    if ('discountChange' in item && item.discountChange) {
-      const dateStr = updatedAt ? this.formatRelativeDate(updatedAt) : '';
-      return `${item.discountChange}\n${dateStr}`;
+    if (item.discountChange) {
+      const dateToUse = updatedAt || item.updatedAt;
+      const dateStr = dateToUse ? this.formatRelativeDate(dateToUse) : '';
+      return dateStr ? `${item.discountChange}\n${dateStr}` : item.discountChange;
     }
-
-    // For ItemDetails, use updatedAt
-    if ('updatedAt' in item && item.updatedAt) {
-      return this.formatRelativeDate(item.updatedAt);
-    }
-
     return '';
   }
 

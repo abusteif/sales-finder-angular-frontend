@@ -1,3 +1,10 @@
+/* Ensure `\n` in MatTooltip strings renders as actual line breaks (matches item-card behavior) */
+.mat-mdc-tooltip-panel.custom-tooltip .mdc-tooltip__surface,
+.mat-mdc-tooltip-panel.custom-tooltip .mat-mdc-tooltip,
+.mat-mdc-tooltip-panel.custom-tooltip .mat-mdc-tooltip-surface {
+  white-space: pre-line !important;
+}
+
 .item-details-section {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding-top: env(safe-area-inset-top);
@@ -99,6 +106,168 @@
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 2px solid #f0f0f0;
+}
+
+/* Share Banner */
+.share-banner {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 50%, #d6e9ff 100%);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.12), 
+              0 2px 8px rgba(0, 123, 255, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: slideIn 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(0, 123, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.share-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    transparent 100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.share-banner:hover {
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.18), 
+              0 4px 12px rgba(0, 123, 255, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 123, 255, 0.25);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.share-banner-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.share-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  color: #2c3e50;
+}
+
+.share-banner-text strong {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #0056b3;
+  letter-spacing: 0.2px;
+}
+
+.share-banner-text span {
+  font-size: 14px;
+  color: #5a6c7d;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Dark mode support for share banner */
+@media (prefers-color-scheme: dark) {
+  .share-banner {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 50%, #004085 100%);
+    box-shadow: 0 8px 24px rgba(0, 123, 255, 0.25), 
+                0 4px 12px rgba(0, 123, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .share-banner::before {
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      transparent 100%);
+  }
+
+  .share-banner:hover {
+    box-shadow: 0 12px 32px rgba(0, 123, 255, 0.3), 
+                0 6px 16px rgba(0, 123, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+
+  .share-banner-text {
+    color: white;
+  }
+
+  .share-banner-text strong {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .share-banner-text span {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Mobile responsive for share banner */
+@media (max-width: 768px) {
+  .share-banner {
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+  }
+
+
+  .share-banner-text strong {
+    font-size: 16px;
+  }
+
+  .share-banner-text span {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 640px) {
+  .share-banner {
+    padding: 14px 16px;
+    border-radius: 12px;
+  }
+
+
+  .share-banner-text strong {
+    font-size: 15px;
+  }
+
+  .share-banner-text span {
+    font-size: 12px;
+  }
 }
 
 .item-title {
@@ -384,10 +553,7 @@
 }
 
 .item-image-buttons .bell-button.has-alert:hover {
-  color: #007bff;
-  border-color: #007bff;
-  background: rgba(0, 123, 255, 0.1);
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+
   transform: translateY(-2px);
 }
 

@@ -19,6 +19,16 @@ body {
   box-sizing: border-box;
 }
 
+/* ---------- Angular Material tooltip: allow multi-line text (`\n`) ---------- */
+/* Tooltips render in the CDK overlay container, so tooltip styling must be global. */
+.custom-tooltip,
+.mat-mdc-tooltip,
+.mat-mdc-tooltip-panel.custom-tooltip,
+.mat-mdc-tooltip-panel.custom-tooltip .mdc-tooltip__surface {
+  white-space: pre-line !important;
+  word-wrap: break-word !important;
+}
+
 @media (prefers-color-scheme: dark) {
 
   body,

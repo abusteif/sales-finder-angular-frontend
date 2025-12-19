@@ -7,5 +7,5 @@ export const GENERIC_SETTINGS = {
     'bargain radar, sales finder, price tracker, deals, discounts, sales alerts, bargain hunting, price drops, shopping deals, Australia deals, online shopping, sale tracker, discount finder, bargain finder, price monitoring, black friday deals, boxing day sales, cyber monday deals, clearance sales, cheap deals, cheap prices, outlet bargains, flash sales, holiday sales, end of financial year sale, best sale prices, budget shopping',
   socialImage:
     'https://bargainradar.com.au/assets/logos/bargain-radar-logo.svg',
-  maintenanceMode: false,
+  maintenanceMode: true,
 };

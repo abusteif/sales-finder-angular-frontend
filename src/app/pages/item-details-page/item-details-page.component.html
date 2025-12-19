@@ -63,6 +63,16 @@
           </div>
         </div>
 
+        <!-- Share Banner -->
+        <div class="share-banner" *ngIf="itemDetails && !isLoading">
+          <div class="share-banner-content">
+            <div class="share-banner-text">
+              <strong>Found a great deal?</strong>
+              <span>If you share this deal with others, we'd be grateful if you could mention {{ GENERIC_SETTINGS.app_name }}. Your support helps us continue to bring you the best deals!</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Main Content Grid -->
         <div class="item-main-grid">
           <!-- Left Column: Image -->
