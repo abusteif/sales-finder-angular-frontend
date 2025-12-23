@@ -158,6 +158,14 @@
   color: green;
 }
 
+.membership-asterisk {
+  color: green;
+  font-weight: bold;
+  cursor: help;
+  margin-left: 2px;
+  font-size: 1.1em;
+}
+
 .item-detail {
   font-size: 16px
 }

@@ -351,6 +351,19 @@ export class ItemCardComponent implements OnDestroy {
     }
   }
 
+  onMembershipTooltipClick(event: MouseEvent, membershipTooltip: any) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isMobile && membershipTooltip) {
+      membershipTooltip.show();
+
+      setTimeout(() => {
+        membershipTooltip.hide();
+      }, 2000);
+    }
+  }
+
   onImageError() {
     this.imageLoadError = true;
   }

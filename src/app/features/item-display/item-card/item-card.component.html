@@ -151,6 +151,17 @@
         <p class="new-price item-detail">
           <span style="font-weight: bold">New Price: </span>
           <span>${{ item.newPrice }}</span>
+          @if(item.store === 'costco') {
+          <span
+            class="membership-asterisk"
+            #membershipTooltip="matTooltip"
+            [matTooltip]="'Membership required'"
+            matTooltipPosition="below"
+            [matTooltipShowDelay]="isMobile ? 0 : 300"
+            [matTooltipClass]="'custom-tooltip'"
+            (click)="onMembershipTooltipClick($event, membershipTooltip)"
+          >*</span>
+          }
         </p>
         <p class="item-detail">
           <span style="font-weight: bold; color: black">Discount: </span>
