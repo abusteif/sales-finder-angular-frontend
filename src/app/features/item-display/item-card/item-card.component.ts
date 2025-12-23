@@ -6,6 +6,7 @@ import {
   ItemColour,
   ItemAlert,
 } from '../../../core/models/item.model';
+import { EllipsisMenuOption } from '../../../core/models/ellipsis-menu.model';
 import { environment } from '../../../../environments/environment';
 import { AppStore } from '../../../state/app.store';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -36,8 +37,8 @@ export class ItemCardComponent implements OnDestroy {
     this.updateType = item.updateType;
     this.updatedAt = item.updatedAt;
     this.discountChange = item.discountChange;
-    this.rating = item.rating
-    this.ratingCount = item.ratingCount
+    this.rating = item.rating;
+    this.ratingCount = item.ratingCount;
     this.colour = item.colour;
     this.highestDiscountSince = item.highestDiscountSince || 0;
     this.isHighestDiscountEver = item.isHighestDiscountEver || false;
@@ -87,8 +88,8 @@ export class ItemCardComponent implements OnDestroy {
   isFlactuating: boolean = false;
   alertId: string | null = null;
   imageLoadError: boolean = false;
-  rating: number = 0
-  ratingCount: number = 0
+  rating: number = 0;
+  ratingCount: number = 0;
   isFeatured: boolean = false;
   isReportedForSaleExpiry: boolean = false;
   isAdmin: boolean = false;
@@ -112,6 +113,10 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   onCardClick(event: MouseEvent) {
+    if ((event.target as HTMLElement).closest('[data-ellipsis-menu]')) {
+      return;
+    }
+
     if (this.isAdmin && this._item?.id) {
       navigator.clipboard.writeText(this._item.id);
     }
@@ -128,22 +133,23 @@ export class ItemCardComponent implements OnDestroy {
 
   openItemDetailsPage() {
     if (this._item?.id) {
-      const url = this.router.serializeUrl(this.router.createUrlTree(['/item', this._item.id]));
+      const url = this.router.serializeUrl(
+        this.router.createUrlTree(['/item', this._item.id])
+      );
       window.open(url, '_blank');
     }
   }
 
   getItemDetailsUrl(): string {
     if (this._item?.id) {
-      return this.router.serializeUrl(this.router.createUrlTree(['/item', this._item.id]));
+      return this.router.serializeUrl(
+        this.router.createUrlTree(['/item', this._item.id])
+      );
     }
     return '#';
   }
 
-  onAlertButtonClick(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    
+  onAlertOptionClick = (): void => {
     if (!this.isAuthenticated) {
       this.router.navigate(['/login']);
       return;
@@ -151,6 +157,12 @@ export class ItemCardComponent implements OnDestroy {
     if (!this.isAlertDisabled()) {
       itemAlertSignal.set(this._itemAlert);
     }
+  };
+
+  onAlertButtonClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.onAlertOptionClick();
   }
 
   getTooltipText(): string {
@@ -214,22 +226,30 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   shouldShowDiscountIcon(): boolean {
-    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this._item
+    );
     return discountInfo.shouldShow;
   }
 
   getDiscountIconText(): string {
-    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this._item
+    );
     return discountInfo.text;
   }
 
   getDiscountIconTooltip(): string | null {
-    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this._item
+    );
     return discountInfo.tooltip;
   }
 
   getDiscountIconClass(): string {
-    const discountInfo = this.itemDisplayService.getDiscountIconInfo(this._item);
+    const discountInfo = this.itemDisplayService.getDiscountIconInfo(
+      this._item
+    );
     return discountInfo.cssClass;
   }
 
@@ -255,22 +275,32 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   getIndicatorClass(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.updateType
+    );
     return indicatorInfo.cssClass;
   }
 
   getIndicatorIcon(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.updateType
+    );
     return indicatorInfo.icon;
   }
 
   getIndicatorText(): string {
-    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(this.updateType);
+    const indicatorInfo = this.itemDisplayService.getIndicatorInfo(
+      this.updateType
+    );
     return indicatorInfo.text;
   }
 
   itemTooltip(): string {
-    return this.itemDisplayService.getItemTooltip(this._item, this.discountChange, this.updatedAt);
+    return this.itemDisplayService.getItemTooltip(
+      this._item,
+      this.discountChange,
+      this.updatedAt
+    );
   }
 
   onIndicatorClick(event: MouseEvent) {
@@ -357,7 +387,7 @@ export class ItemCardComponent implements OnDestroy {
 
   getStars(): string[] {
     const stars: string[] = [];
-    
+
     // If no rating, show 5 empty stars
     if (!this.rating || this.rating === 0) {
       for (let i = 0; i < 5; i++) {
@@ -365,26 +395,26 @@ export class ItemCardComponent implements OnDestroy {
       }
       return stars;
     }
-    
+
     const fullStars = Math.floor(this.rating);
     const hasHalfStar = this.rating % 1 >= 0.5;
-    
+
     // Add full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push('fas fa-star');
     }
-    
+
     // Add half star if needed
     if (hasHalfStar) {
       stars.push('fas fa-star-half-alt');
     }
-    
+
     // Add empty stars to make total 5
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     for (let i = 0; i < emptyStars; i++) {
       stars.push('far fa-star');
     }
-    
+
     return stars;
   }
 
@@ -396,7 +426,9 @@ export class ItemCardComponent implements OnDestroy {
   getFormattedRatingCount(): string {
     if (this.ratingCount >= 1000) {
       const kValue = this.ratingCount / 1000;
-      return kValue % 1 === 0 ? `${Math.floor(kValue)}k` : `${kValue.toFixed(1)}k`;
+      return kValue % 1 === 0
+        ? `${Math.floor(kValue)}k`
+        : `${kValue.toFixed(1)}k`;
     }
     return this.ratingCount.toString();
   }
@@ -415,10 +447,7 @@ export class ItemCardComponent implements OnDestroy {
     return this.itemDisplayService.getRRPFluctuatingBadgeTooltip();
   }
 
-  onReportNoLongerOnDiscountClick(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-
+  onReportNoLongerOnDiscountButtonClick = (): void => {
     if (!this._item?.id) {
       return;
     }
@@ -443,7 +472,9 @@ export class ItemCardComponent implements OnDestroy {
       )
       .pipe(
         filter((result) => result === true),
-        switchMap(() => this.userReportsService.reportSaleExpiry(this._item.id)),
+        switchMap(() =>
+          this.userReportsService.reportSaleExpiry(this._item.id)
+        ),
         switchMap(() =>
           this.statusDialogService.showSuccess(
             'Report Submitted',
@@ -458,8 +489,41 @@ export class ItemCardComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe();
+  };
+
+  onReportNoLongerOnDiscountClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.onReportNoLongerOnDiscountButtonClick();
   }
 
+  get ellipsisOptions(): EllipsisMenuOption[] {
+    const alertOptionText = this.alertId ? 'Update Alert' : 'Create Alert';
+    const baseOptions = [
+      { label: alertOptionText, action: this.onAlertOptionClick },
+      {
+        label: 'Report Discount Issue',
+        action: this.onReportNoLongerOnDiscountButtonClick,
+      },
+    ];
+    return this.isAdmin
+      ? [
+          ...baseOptions,
+          { label: 'Add to featured', action: this.onAddToFeaturedClick },
+          {
+            label: 'Remove from featured',
+            action: this.removeFromFeaturedClick,
+          },
+        ]
+      : baseOptions;
+  }
+
+  onAddToFeaturedClick = (): void => {
+    console.log('Add to featured');
+  };
+  removeFromFeaturedClick = (): void => {
+    console.log('Remove from featured');
+  };
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

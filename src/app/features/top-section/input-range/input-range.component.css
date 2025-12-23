@@ -60,6 +60,13 @@
   box-sizing: border-box;
 }
 
+/* Prevent zoom on mobile when focusing input fields */
+@media (max-width: 768px) {
+  .range-input {
+    font-size: 16px;
+  }
+}
+
 .range-input:focus {
   outline: none;
   border-color: #1976d2;

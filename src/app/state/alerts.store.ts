@@ -89,7 +89,7 @@ export class AlertsStore extends signalStore(
                   }),
                   mergeMap(() => statusDialogService.showSuccess(
                     'Alert Updated Successfully!',
-                    `Your price drop alert for <strong style="color: #2196F3;">"${alert.item}"</strong> has been updated successfully.`,
+                    `Your price drop alert for <strong class="item-name-highlight">"${alert.item}"</strong> has been updated successfully.`,
                     'Great!'
                   ))
                 );

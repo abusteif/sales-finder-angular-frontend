@@ -19,6 +19,7 @@ import { ControlsRibbonComponent } from './controls-ribbon/controls-ribbon.compo
 import { SliderComponent } from '../features/top-section/slider/slider.component';
 import { StatusDialogComponent } from './status-dialog/status-dialog.component';
 import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/price-change-icon-checkbox.component';
+import { EllipsisMenuComponent } from './ellipsis-menu/ellipsis-menu.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/p
     ControlsRibbonComponent,
     SliderComponent,
     StatusDialogComponent,
-    PriceChangeIconCheckboxComponent
+    PriceChangeIconCheckboxComponent,
+    EllipsisMenuComponent
   ],
   imports: [
     CommonModule, 
@@ -59,6 +61,7 @@ import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/p
     SliderComponent,
     StatusDialogComponent,
     PriceChangeIconCheckboxComponent,
+    EllipsisMenuComponent,
     MatTooltipModule
   ]
 })

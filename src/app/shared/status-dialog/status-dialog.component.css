@@ -49,6 +49,11 @@
   color: #424242;
 }
 
+.dialog-message ::ng-deep .item-name-highlight {
+  color: #2196F3;
+  font-weight: 600;
+}
+
 /* Actions */
 .dialog-actions {
   display: flex;
@@ -124,5 +129,54 @@
   
   .confirm-button {
     min-width: 70px;
+  }
+}
+
+/* Dark theme support - Force light theme to match global dark theme override */
+@media (prefers-color-scheme: dark) {
+  .status-dialog-container {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  .dialog-title {
+    color: #212121 !important;
+  }
+
+  .dialog-content {
+    background-color: white !important;
+    color: #424242 !important;
+  }
+
+  .dialog-message {
+    color: #424242 !important;
+  }
+
+  .dialog-message ::ng-deep strong:not(.item-name-highlight),
+  .dialog-message ::ng-deep span:not(.item-name-highlight),
+  .dialog-message ::ng-deep p {
+    color: #424242 !important;
+  }
+
+  .dialog-message ::ng-deep .item-name-highlight {
+    color: #2196F3 !important;
+  }
+
+  .dialog-header {
+    background-color: white !important;
+    border-bottom-color: #e0e0e0 !important;
+  }
+
+  .dialog-actions {
+    background-color: white !important;
+    border-top-color: #e0e0e0 !important;
+  }
+
+  .icon-container {
+    background-color: #f5f5f5 !important;
+  }
+
+  .cancel-button {
+    color: #666 !important;
   }
 } 

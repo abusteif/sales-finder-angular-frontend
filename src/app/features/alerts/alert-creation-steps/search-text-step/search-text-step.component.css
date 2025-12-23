@@ -333,11 +333,7 @@
 @media (max-width: 768px) {
   .item-name-input {
     font-size: 16px;
-  }
-  
-  .item-name-input {
     padding: 14px 14px 14px 44px;
-    font-size: 0.95rem;
   }
 
 
@@ -385,6 +381,7 @@
 @media (max-width: 480px) {
   .item-name-input {
     font-size: 16px;
+    padding: 12px 12px 12px 40px;
   }
   
   .step-description {
@@ -397,11 +394,6 @@
   
   .input-group {
     margin-bottom: 24px;
-  }
-  
-  .item-name-input {
-    padding: 12px 12px 12px 40px;
-    font-size: 0.9rem;
   }
 
 

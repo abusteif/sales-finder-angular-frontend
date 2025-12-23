@@ -41,13 +41,112 @@
 }
 
 .card-font-mobile-single .report-button {
-  font-size: 16px;
-  padding: 8px;
+  font-size: 20.8px; /* 16px * 1.3 = 30% bigger */
+  padding: 10.4px; /* 8px * 1.3 = 30% bigger */
 }
 
 .card-font-mobile-single .bell-button {
-  font-size: 18px;
-  padding: 8px;
+  font-size: 23.4px; /* 18px * 1.3 = 30% bigger */
+  padding: 10.4px; /* 8px * 1.3 = 30% bigger */
+}
+
+/* 30% bigger icons for single card per row on mobile */
+@media (max-width: 768px) {
+  .card-font-mobile-single .discount-icon {
+    width: 26px; /* 20px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+    font-size: 11.7px; /* 9px * 1.3 */
+    padding: 2.6px; /* 2px * 1.3 */
+  }
+
+  .card-font-mobile-single .discount-icon-highest {
+    font-size: 15.6px; /* 12px * 1.3 */
+  }
+
+  .card-font-mobile-single .discount-icon-highest-ever {
+    font-size: 15.6px; /* 12px * 1.3 */
+  }
+
+  .card-font-mobile-single .volatility-warning-icon {
+    width: 26px; /* 20px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+    font-size: 11.7px; /* 9px * 1.3 */
+  }
+
+  .card-font-mobile-single .rrp-fluctuating-icon {
+    min-width: 31.2px; /* 24px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+    border-radius: 13px; /* 10px * 1.3 */
+    font-size: 7.8px; /* 6px * 1.3 */
+    padding: 0 2.6px; /* 0 2px * 1.3 */
+    gap: 1.3px; /* 1px * 1.3 */
+  }
+
+  .card-font-mobile-single .rrp-fluctuating-icon i {
+    font-size: 6.5px; /* 5px * 1.3 */
+  }
+
+  .card-font-mobile-single .rrp-fluctuating-icon span {
+    font-size: 7.8px; /* 6px * 1.3 */
+  }
+
+  .card-font-mobile-single .indicator-base {
+    top: 7.8px; /* 6px * 1.3 */
+    right: 41.6px; /* 32px * 1.3 */
+  }
+
+  .card-font-mobile-single .indicator-circular {
+    padding: 5.2px; /* 4px * 1.3 */
+    width: 26px; /* 20px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+  }
+
+  .card-font-mobile-single .indicator-circular i {
+    font-size: 13px; /* 10px * 1.3 */
+  }
+
+  .card-font-mobile-single .indicator-pill {
+    padding: 3.9px 7.8px; /* 3px * 1.3, 6px * 1.3 */
+    font-size: 0.78rem; /* 0.6rem * 1.3 */
+    gap: 3.9px; /* 3px * 1.3 */
+    min-height: 26px; /* 20px * 1.3 */
+  }
+
+  .card-font-mobile-single .indicator-pill i {
+    font-size: 10.4px; /* 8px * 1.3 */
+  }
+
+  .card-font-mobile-single .alert-indicator {
+    width: 26px; /* 20px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+    font-size: 13px; /* 10px * 1.3 */
+  }
+
+  .card-font-mobile-single .alert-indicator i {
+    font-size: 10.4px; /* 8px * 1.3 */
+  }
+
+  /* Adjust positioning for larger icons in single card mode */
+  .card-font-mobile-single .discount-container {
+    top: 7.8px; /* 6px * 1.3 */
+    left: 7.8px; /* 6px * 1.3 */
+    gap: 3.9px; /* 3px * 1.3 */
+  }
+
+  .card-font-mobile-single .rrp-fluctuating-icon {
+    top: 7.8px; /* 6px * 1.3 */
+    left: 7.8px; /* 6px * 1.3 */
+  }
+
+  /* Adjust RRP fluctuating icon position when discount container is present (single card) */
+  .card-font-mobile-single .discount-container ~ .rrp-fluctuating-icon {
+    left: 39px; /* 7.8px base + 26px discount icon + 5.2px spacing (4px * 1.3) */
+  }
+
+  /* If volatility warning is also present, move RRP fluctuating icon further right (single card) */
+  .card-font-mobile-single .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 65px; /* 7.8px base + 26px discount + 3.9px gap + 26px volatility + 1.3px spacing */
+  }
 }
 
 .card-font-mobile-double {
@@ -103,6 +202,69 @@
 .card-font-mobile-triple .bell-button {
   font-size: 13px;
   padding: 5px;
+}
+
+/* 30% smaller icons for 3 cards per row on mobile */
+@media (max-width: 768px) {
+  .card-font-mobile-triple .discount-container {
+    top: 4px;
+    left: 4px;
+  }
+
+  .card-font-mobile-triple .discount-icon {
+    width: 14px; /* 20px * 0.7 */
+    height: 14px; /* 20px * 0.7 */
+    font-size: 6.3px; /* 9px * 0.7 */
+    padding: 1.4px; /* 2px * 0.7 */
+  }
+
+  .card-font-mobile-triple .volatility-warning-icon {
+    width: 14px; /* 20px * 0.7 */
+    height: 14px; /* 20px * 0.7 */
+    font-size: 6.3px; /* 9px * 0.7 */
+    /* Position adjusted via discount-container alignment */
+  }
+
+  .card-font-mobile-triple .rrp-fluctuating-icon {
+    min-width: 16.8px; /* 24px * 0.7 */
+    height: 14px; /* 20px * 0.7 */
+    border-radius: 7px; /* Half of height for pill shape, matching indicator-pill style */
+    font-size: 4.2px; /* 6px * 0.7 */
+    padding: 0 1.4px; /* 2px * 0.7 */
+  }
+
+  .card-font-mobile-triple .rrp-fluctuating-icon i {
+    font-size: 3.5px; /* 5px * 0.7 */
+  }
+
+  .card-font-mobile-triple .rrp-fluctuating-icon span {
+    font-size: 4.2px; /* 6px * 0.7 */
+  }
+
+  /* Adjust RRP fluctuating icon position for 3 cards per row */
+  .card-font-mobile-triple .rrp-fluctuating-icon {
+    top: 4px;
+    left: 4px;
+  }
+
+  .card-font-mobile-triple .discount-container ~ .rrp-fluctuating-icon {
+    left: 20px; /* 4px base + 14px discount icon + 2px spacing */
+  }
+
+  .card-font-mobile-triple .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 34px; /* 4px base + 14px discount + 14px volatility + 2px spacing */
+  }
+
+  /* Special positioning for buttons when showing 3 cards per row */
+  .card-font-mobile-triple .bell-button {
+    bottom: -12px; /* Move away from bottom edge */
+    right: -7px; /* Move away from right edge */
+  }
+
+  .card-font-mobile-triple .report-button {
+    bottom: -12px; /* Move away from bottom edge */
+    left: -7px; /* Move away from left edge */
+  }
 }
   
   .custom-card:hover {
@@ -267,16 +429,19 @@
   top: 8px;
   left: 8px;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Adjust RRP fluctuating icon position when discount container is present */
 .discount-container ~ .rrp-fluctuating-icon {
-  left: 36px; /* Position to the right of discount icon (24px) + gap (4px) + small spacing (8px) */
+  left: 36px; /* Position to the right of discount icon (24px) + gap (8px spacing) */
 }
 
 /* If volatility warning is also present, move RRP fluctuating icon further right */
 .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
-  left: 64px; /* Position after discount icon (24px) + gap (4px) + volatility icon (24px) + gap (4px) + spacing (8px) */
+  left: 60px; /* Position after discount icon (24px) + gap (4px) + volatility icon (24px) + gap (8px spacing) */
 }
 
 /* Alert indicator */
@@ -320,7 +485,7 @@
   }
   
   .alert-indicator {
-    top: 6px;
+    top: 6px; /* All icons are now 20px on mobile, so same top position */
     right: 6px;
     width: 20px;
     height: 20px;
@@ -334,15 +499,18 @@
   .rrp-fluctuating-icon {
     top: 6px;
     left: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Adjust RRP fluctuating icon position on mobile when discount container is present */
   .discount-container ~ .rrp-fluctuating-icon {
-    left: 32px; /* Adjusted for smaller icons on mobile */
+    left: 30px; /* 6px base + 20px discount icon + 4px spacing */
   }
   
   .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
-    left: 56px; /* Adjusted for mobile with volatility warning */
+    left: 50px; /* 6px base + 20px discount + 20px volatility + 4px spacing */
   }
 }
 
@@ -525,13 +693,13 @@
   .bell-button {
     padding-left: 2px;
     /* Align with discount line on mobile */
-    bottom: -7px; /* Keep at bottom edge */
-    right: -12px; /* Move further to the right */
+    bottom: -2px; /* Move away from bottom edge */
+    right: -5px; /* Move away from right edge */
   }
 
   .report-button {
-    bottom: -7px;
-    left: -12px;
+    bottom: -2px; /* Move away from bottom edge */
+    left: -5px; /* Move away from left edge */
     opacity: 0.5;
   }
   

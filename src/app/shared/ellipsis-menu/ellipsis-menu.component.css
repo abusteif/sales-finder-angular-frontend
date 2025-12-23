@@ -1,0 +1,159 @@
+.ellipsis-menu-container {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 20;
+}
+
+.ellipsis-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ellipsis-button:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+}
+
+.ellipsis-button.active {
+  background: rgba(255, 255, 255, 1);
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ellipsis-button i {
+  font-size: 12px;
+}
+
+.options-menu {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 120px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.option-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: white;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option-item:hover {
+  background-color: #f5f5f5;
+}
+
+.option-item:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.option-item:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .ellipsis-menu-container {
+    top: 6px;
+    right: 6px;
+  }
+
+  .ellipsis-button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ellipsis-button i {
+    font-size: 10px;
+  }
+
+  .options-menu {
+    top: 28px;
+    min-width: 100px;
+  }
+
+  .option-item {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  /* 30% smaller for 3 cards per row */
+  :host-context(.card-font-mobile-triple) .ellipsis-menu-container {
+    top: 4px;
+    right: 4px;
+  }
+
+  :host-context(.card-font-mobile-triple) .ellipsis-button {
+    width: 14px; /* 20px * 0.7 */
+    height: 14px; /* 20px * 0.7 */
+  }
+
+  :host-context(.card-font-mobile-triple) .ellipsis-button i {
+    font-size: 7px; /* 10px * 0.7 */
+  }
+
+  :host-context(.card-font-mobile-triple) .options-menu {
+    top: 20px; /* 28px * 0.7 */
+    min-width: 70px; /* 100px * 0.7 */
+  }
+
+  :host-context(.card-font-mobile-triple) .option-item {
+    padding: 5.6px 8.4px; /* 8px * 0.7, 12px * 0.7 */
+    font-size: 8.4px; /* 12px * 0.7 */
+  }
+
+  /* 30% bigger for single card per row */
+  :host-context(.card-font-mobile-single) .ellipsis-menu-container {
+    top: 7.8px; /* 6px * 1.3 */
+    right: 7.8px; /* 6px * 1.3 */
+  }
+
+  :host-context(.card-font-mobile-single) .ellipsis-button {
+    width: 26px; /* 20px * 1.3 */
+    height: 26px; /* 20px * 1.3 */
+  }
+
+  :host-context(.card-font-mobile-single) .ellipsis-button i {
+    font-size: 13px; /* 10px * 1.3 */
+  }
+
+  :host-context(.card-font-mobile-single) .options-menu {
+    top: 36.4px; /* 28px * 1.3 */
+    min-width: 130px; /* 100px * 1.3 */
+  }
+
+  :host-context(.card-font-mobile-single) .option-item {
+    padding: 10.4px 15.6px; /* 8px * 1.3, 12px * 1.3 */
+    font-size: 15.6px; /* 12px * 1.3 */
+  }
+}
+

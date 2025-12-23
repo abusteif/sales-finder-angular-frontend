@@ -75,20 +75,20 @@
 
 /* Item Card Specific Icon Styles */
 .discount-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   flex-shrink: 0;
-  padding: 4px;
+  padding: 3px;
   box-sizing: border-box;
 }
 
@@ -138,14 +138,15 @@
 /* Update Type Indicator Icons */
 .indicator-base {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 8px; /* All icons are now 24px, so same top position */
+  right: 40px;
   color: white;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
 }
 
 .indicator-circular {
@@ -167,6 +168,11 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   gap: 4px;
+  min-height: 24px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .indicator-pill i {
@@ -207,6 +213,7 @@
   border: 2px solid #e55a2b;
   animation: volatilityPulse 2s infinite;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .volatility-warning-icon:hover {
@@ -227,16 +234,16 @@
 
 /* RRP fluctuating icon styling - indicates RRP inflation */
 .rrp-fluctuating-icon {
-  min-width: 32px;
-  height: 28px;
-  border-radius: 14px;
+  min-width: 28px;
+  height: 24px;
+  border-radius: 12px;
   background-color: #e74c3c;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2px;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -245,17 +252,17 @@
   flex-shrink: 0;
   line-height: 1;
   text-align: center;
-  padding: 0 4px;
+  padding: 0 3px;
 }
 
 .rrp-fluctuating-icon i {
-  font-size: 7px;
+  font-size: 6px;
   color: white;
   line-height: 1;
 }
 
 .rrp-fluctuating-icon span {
-  font-size: 8px;
+  font-size: 7px;
   line-height: 1;
 }
 
@@ -359,10 +366,10 @@
   }
   
   .discount-icon {
-    width: 24px;
-    height: 24px;
-    font-size: 10px;
-    padding: 3px;
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+    padding: 2px;
   }
   
   .discount-icon-highest {
@@ -380,24 +387,25 @@
   }
   
   .rrp-fluctuating-icon {
-    min-width: 28px;
-    height: 24px;
-    font-size: 7px;
-    padding: 0 3px;
+    min-width: 24px;
+    height: 20px;
+    border-radius: 10px; /* Half of height for pill shape, matching indicator-pill style */
+    font-size: 6px;
+    padding: 0 2px;
     gap: 1px;
   }
   
   .rrp-fluctuating-icon i {
-    font-size: 6px;
+    font-size: 5px;
   }
   
   .rrp-fluctuating-icon span {
-    font-size: 7px;
+    font-size: 6px;
   }
   
   .indicator-base {
-    top: 6px;
-    right: 6px;
+    top: 6px; /* All icons are now 20px on mobile, so same top position */
+    right: 32px;
   }
   
   .indicator-circular {
@@ -414,10 +422,40 @@
     padding: 3px 6px;
     font-size: 0.6rem;
     gap: 3px;
+    min-height: 20px;
+    line-height: 1.2;
   }
   
   .indicator-pill i {
     font-size: 8px;
+  }
+
+  /* 30% smaller indicator icons for 3 cards per row */
+  .card-font-mobile-triple .indicator-base {
+    top: 4px; /* All icons are now 14px for 3 cards per row, so same top position */
+    right: 22.4px; /* 32px * 0.7 */
+  }
+
+  .card-font-mobile-triple .indicator-circular {
+    padding: 2.8px; /* 4px * 0.7 */
+    width: 14px; /* 20px * 0.7 */
+    height: 14px; /* 20px * 0.7 */
+  }
+
+  .card-font-mobile-triple .indicator-circular i {
+    font-size: 7px; /* 10px * 0.7 */
+  }
+
+  .card-font-mobile-triple .indicator-pill {
+    padding: 2.1px 4.2px; /* 3px * 0.7, 6px * 0.7 */
+    font-size: 0.42rem; /* 0.6rem * 0.7 */
+    gap: 2.1px; /* 3px * 0.7 */
+    min-height: 14px; /* 20px * 0.7 */
+    line-height: 1.2;
+  }
+
+  .card-font-mobile-triple .indicator-pill i {
+    font-size: 5.6px; /* 8px * 0.7 */
   }
   
   .rrp-fluctuating-badge {

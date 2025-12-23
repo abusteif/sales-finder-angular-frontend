@@ -1,0 +1,21 @@
+<div class="ellipsis-menu-container" data-ellipsis-menu>
+  <button
+    class="ellipsis-button"
+    (click)="toggleMenu($event)"
+    [class.active]="isMenuOpen"
+    aria-label="Menu options"
+  >
+    <i class="fas fa-ellipsis-v"></i>
+  </button>
+  
+  @if (isMenuOpen && options.length > 0) {
+    <div class="options-menu">
+      @for (option of options; track $index) {
+        <button class="option-item" (click)="onOptionClick($event, option)">
+          {{ option.label }}
+        </button>
+      }
+    </div>
+  }
+</div>
+

@@ -7,88 +7,92 @@
   [style.--hover-shadow]="getCardHoverShadowStyle()"
   (click)="onCardClick($event)"
 >
-  <div class="card-image" style="align-items: center; display: flex; justify-content: center;">
-      @if(updateType !== UpdateType.ALL) {
+  <div
+    class="card-image"
+    style="align-items: center; display: flex; justify-content: center"
+  >
+    <app-ellipsis-menu [options]="ellipsisOptions"></app-ellipsis-menu>
+    @if(updateType !== UpdateType.ALL) {
+    <div
+      [class]="getIndicatorClass()"
+      #tooltip="matTooltip"
+      matTooltip="{{ itemTooltip() }}"
+      matTooltipPosition="below"
+      [matTooltipShowDelay]="0"
+      [matTooltipClass]="'custom-tooltip'"
+      (click)="onIndicatorClick($event)"
+    >
+      <i [class]="getIndicatorIcon()"></i>
+      {{ getIndicatorText() }}
+    </div>
+    } @if(shouldShowDiscountIcon()) {
+    <div class="discount-container">
       <div
-        [class]="getIndicatorClass()"
-        #tooltip="matTooltip"
-        matTooltip="{{ itemTooltip() }}"
-        matTooltipPosition="below"
-        [matTooltipShowDelay]="0"
-        [matTooltipClass]="'custom-tooltip'"
-        (click)="onIndicatorClick($event)"
-      >
-        <i [class]="getIndicatorIcon()"></i>
-        {{ getIndicatorText() }}
-      </div>
-      } @if(shouldShowDiscountIcon()) {
-      <div class="discount-container">
-        <div
-          [class]="getDiscountIconClass()"
-          #discountTooltip="matTooltip"
-          [matTooltip]="getDiscountIconTooltip()"
-          matTooltipPosition="below"
-          [matTooltipShowDelay]="isMobile ? 0 : 300"
-          [matTooltipClass]="'custom-tooltip'"
-          (click)="onDiscountIconClick($event, discountTooltip)"
-        >
-          {{ getDiscountIconText() }}
-        </div>
-        @if(shouldShowVolatilityWarning()) {
-        <div
-          class="volatility-warning-icon"
-          #volatilityTooltip="matTooltip"
-          [matTooltip]="getVolatilityWarningTooltip()"
-          matTooltipPosition="below"
-          [matTooltipShowDelay]="isMobile ? 0 : 300"
-          [matTooltipClass]="'custom-tooltip'"
-          (click)="onVolatilityIconClick($event, volatilityTooltip)"
-        >
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        }
-      </div>
-      } @if(isRRPFluctuating) {
-      <div 
-        class="rrp-fluctuating-icon"
-        #rrpFluctuatingTooltip="matTooltip"
-        [matTooltip]="getRRPFluctuatingBadgeTooltip()"
+        [class]="getDiscountIconClass()"
+        #discountTooltip="matTooltip"
+        [matTooltip]="getDiscountIconTooltip()"
         matTooltipPosition="below"
         [matTooltipShowDelay]="isMobile ? 0 : 300"
         [matTooltipClass]="'custom-tooltip'"
-        (click)="onRRPFluctuatingBadgeClick($event, rrpFluctuatingTooltip)"
+        (click)="onDiscountIconClick($event, discountTooltip)"
       >
-        <i class="fas fa-arrow-up"></i>
-        <span>RRP</span>
-        <i class="fas fa-arrow-down"></i>
+        {{ getDiscountIconText() }}
+      </div>
+      @if(shouldShowVolatilityWarning()) {
+      <div
+        class="volatility-warning-icon"
+        #volatilityTooltip="matTooltip"
+        [matTooltip]="getVolatilityWarningTooltip()"
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="isMobile ? 0 : 300"
+        [matTooltipClass]="'custom-tooltip'"
+        (click)="onVolatilityIconClick($event, volatilityTooltip)"
+      >
+        <i class="fas fa-exclamation-triangle"></i>
       </div>
       }
-      <figure class="image is-1by1 card-image-figure">
-        @if(!imageLoadError) {
-        <a
-          [href]="getItemDetailsUrl()"
-          target="_blank"
-          rel="noopener noreferrer"
-          (click)="$event.stopPropagation()"
-          style="display: block; width: 100%; height: 100%;"
-        >
-          <img
-            [src]="item.imageUrl"
-            alt="Card image"
-            class="card-image-img"
-            (error)="onImageError()"
-          />
-        </a>
-        } @else {
-        <div class="no-image-placeholder">
-          <i class="fas fa-image"></i>
-          <p>No image available</p>
-        </div>
-        }
-      </figure>
+    </div>
+    } @if(isRRPFluctuating) {
+    <div
+      class="rrp-fluctuating-icon"
+      #rrpFluctuatingTooltip="matTooltip"
+      [matTooltip]="getRRPFluctuatingBadgeTooltip()"
+      matTooltipPosition="below"
+      [matTooltipShowDelay]="isMobile ? 0 : 300"
+      [matTooltipClass]="'custom-tooltip'"
+      (click)="onRRPFluctuatingBadgeClick($event, rrpFluctuatingTooltip)"
+    >
+      <i class="fas fa-arrow-up"></i>
+      <span>RRP</span>
+      <i class="fas fa-arrow-down"></i>
+    </div>
+    }
+    <figure class="image is-1by1 card-image-figure">
+      @if(!imageLoadError) {
+      <a
+        [href]="getItemDetailsUrl()"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="$event.stopPropagation()"
+        style="display: block; width: 100%; height: 100%"
+      >
+        <img
+          [src]="item.imageUrl"
+          alt="Card image"
+          class="card-image-img"
+          (error)="onImageError()"
+        />
+      </a>
+      } @else {
+      <div class="no-image-placeholder">
+        <i class="fas fa-image"></i>
+        <p>No image available</p>
+      </div>
+      }
+    </figure>
   </div>
   <div class="card-content">
-    <p 
+    <p
       [class]="getTitleClass()"
       [matTooltip]="item.name"
       matTooltipPosition="above"
@@ -98,25 +102,26 @@
     </p>
     <div class="rating-container">
       <div class="stars">
-        @for(star of getStars(); track $index) {
-          @if(star.includes('far')) {
-            <i [class]="star"></i>
-          } @else {
-            <i [class]="star" [style.color]="getStarColor()"></i>
-          }
-        }
+        @for(star of getStars(); track $index) { @if(star.includes('far')) {
+        <i [class]="star"></i>
+        } @else {
+        <i [class]="star" [style.color]="getStarColor()"></i>
+        } }
       </div>
       @if(rating > 0) {
       <span class="rating-text">
-        {{ rating | number:'1.1-1' }}
-        @if(ratingCount > 0) {
-          ({{ getFormattedRatingCount() }})
-        }
+        {{ rating | number : "1.1-1" }}
+        @if(ratingCount > 0) { ({{ getFormattedRatingCount() }}) }
       </span>
       }
     </div>
     <div class="store-logos-container">
-      <a [href]="googleUrl" target="_blank" rel="noopener noreferrer" (click)="$event.stopPropagation()">
+      <a
+        [href]="googleUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="$event.stopPropagation()"
+      >
         <img
           [src]="'assets/logos/google-logo.svg'"
           class="google-logo"
@@ -133,7 +138,12 @@
         [matTooltipClass]="'custom-tooltip'"
       />
       @if(item.store === 'amazon') {
-      <a [href]="camelCamelCamelUrl" target="_blank" rel="noopener noreferrer" (click)="$event.stopPropagation()">
+      <a
+        [href]="camelCamelCamelUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="$event.stopPropagation()"
+      >
         <img
           [src]="'assets/logos/camelcamelcamel-logo.png'"
           class="store-logo"
@@ -159,6 +169,8 @@
           >
         </p>
       </div>
+      @if(alertId){
+
       <button
         class="bell-button"
         [class.disabled]="isAlertDisabled()"
@@ -172,6 +184,7 @@
       >
         <i class="fas fa-bell"></i>
       </button>
+      } @if (isReportedForSaleExpiry) {
       <button
         class="report-button"
         [class.reported]="isReportedForSaleExpiry"
@@ -183,6 +196,7 @@
       >
         <i class="fas fa-exclamation-circle"></i>
       </button>
+      }
     </div>
   </div>
 </div>
