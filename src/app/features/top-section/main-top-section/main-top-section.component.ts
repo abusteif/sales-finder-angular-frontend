@@ -1,4 +1,5 @@
 import { Component, effect } from '@angular/core';
+import { Router } from '@angular/router';
 import { storesStore } from '../../../state/stores.store';
 import { CategoriesStore } from '../../../state/categories.store';
 import { ItemsStore } from '../../../state/items.store';
@@ -45,7 +46,8 @@ export class MainTopSectionComponent {
     public filter: FilterStore,
     public sortService: SortService,
     public filterService: FilterService,
-    public appStore: AppStore
+    public appStore: AppStore,
+    private router: Router
   ) {
 
     effect(() => {
@@ -148,6 +150,12 @@ export class MainTopSectionComponent {
     this.isFeaturedItemsOnly = featuredItemsOnly;
     if (fromControlRibbon) {
       this.filter.setFeaturedItemsOnly(featuredItemsOnly);
+      // Navigate to /featured when checkbox is checked, navigate to home when unchecked
+      if (featuredItemsOnly) {
+        this.router.navigate(['/featured']);
+      } else {
+        this.router.navigate(['/']);
+      }
       this.getItemsAndResetPage();
     }
   }

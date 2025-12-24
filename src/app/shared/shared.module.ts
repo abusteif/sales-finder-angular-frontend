@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,6 +42,7 @@ import { EllipsisMenuComponent } from './ellipsis-menu/ellipsis-menu.component';
   imports: [
     CommonModule, 
     FormsModule,
+    RouterModule,
     MatSliderModule,
     MatDialogModule,
     MatButtonModule,

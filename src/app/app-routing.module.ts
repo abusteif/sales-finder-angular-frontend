@@ -37,6 +37,20 @@ const routes: Routes = [
     }
   },
   {
+    path: 'featured', 
+    component: HomePageComponent, 
+    pathMatch: 'full',
+    canActivate: [homeGuard],
+    data: {
+      featured: true,
+      seo: {
+        title: `${APP_NAME} | Featured Deals`,
+        description: `Discover the best featured deals and exclusive offers on ${APP_NAME}.`,
+        robots: DEFAULT_ROBOTS
+      }
+    }
+  },
+  {
     path: 'login', 
     component: LoginPageComponent, 
     pathMatch: 'full',
