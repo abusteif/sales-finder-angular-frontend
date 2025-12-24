@@ -509,21 +509,27 @@ export class ItemCardComponent implements OnDestroy {
     return this.isAdmin
       ? [
           ...baseOptions,
-          { label: 'Add to featured', action: this.onAddToFeaturedClick },
+          { label: 'Set as featured', action: () => this.changeFeaturedStatus(true) },
           {
-            label: 'Remove from featured',
-            action: this.removeFromFeaturedClick,
+            label: 'Set as not featured',
+            action: () => this.changeFeaturedStatus(false),
           },
         ]
       : baseOptions;
   }
 
-  onAddToFeaturedClick = (): void => {
-    console.log('Add to featured');
-  };
-  removeFromFeaturedClick = (): void => {
-    console.log('Remove from featured');
-  };
+  changeFeaturedStatus(isFeatured: boolean): void {
+    this.userReportsService.setFeaturedStatus(this._item.id, isFeatured).pipe(
+      switchMap(() => this.statusDialogService.showSuccess(
+        isFeatured ? 'Added to featured' : 'Removed from featured',
+        isFeatured ? 'This item has been added to featured. It will be displayed on the featured page.' : 'This item has been removed from featured. It will no longer be displayed on the featured page.',
+        'OK'
+      )),
+      tap(() => this.items.getItems()),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
