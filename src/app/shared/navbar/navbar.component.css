@@ -177,6 +177,68 @@
   font-weight: 500;
 }
 
+.featured-btn {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 25px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.featured-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #f7931e 0%, #e8851a 100%);
+}
+
+.featured-btn.active {
+  background: linear-gradient(135deg, #e8851a 0%, #d67715 100%);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.5);
+}
+
+.featured-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.featured-btn:hover::before {
+  left: 100%;
+}
+
+.featured-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-icon-container span {
+  font-size: 18px;
+  color: white;
+}
+
+.featured-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
 .price-alerts-btn {
   background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   border: none;
@@ -261,13 +323,27 @@
     display: none;
   }
   
+  .featured-text {
+    display: none;
+  }
+  
   .price-alerts-btn {
     padding: 8px 12px;
     border-radius: 20px;
     min-width: auto;
   }
   
+  .featured-btn {
+    padding: 8px 12px;
+    border-radius: 20px;
+    min-width: auto;
+  }
+  
   .price-alerts-btn i {
+    font-size: 16px;
+  }
+  
+  .featured-icon-container span {
     font-size: 16px;
   }
   
@@ -292,6 +368,11 @@
 
 @media (max-width: 480px) {
   .price-alerts-btn {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+  
+  .featured-btn {
     padding: 6px 10px;
     gap: 6px;
   }

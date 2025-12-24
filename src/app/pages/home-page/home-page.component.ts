@@ -8,7 +8,8 @@ import { Alert } from '../../core/models/alert.model';
 import { AlertsStore } from '../../state/alerts.store';
 import { UserService } from '../../core/services/user.service';
 import { AuthenticationStore } from '../../state/authentication.store';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FilterStore } from '../../state/filter.store';
 @Component({
   selector: 'app-home-page',
   standalone: false,
@@ -29,7 +30,9 @@ export class HomePageComponent {
     private alertsStore: AlertsStore,
     private userService: UserService,
     private authenticationStore: AuthenticationStore,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private filterStore: FilterStore
   ) {
     effect(() => {
       const itemAlert = this.itemAlertSignal();
@@ -65,6 +68,14 @@ export class HomePageComponent {
     });
   }
   ngOnInit() {
+    // Check if we're on the featured route
+    const isFeaturedRoute = this.route.snapshot.data['featured'] === true;
+    if (isFeaturedRoute) {
+      // Set featured filter to true and refresh items
+      this.filterStore.setFeaturedItemsOnly(true);
+      this.filterStore.setCurrentPage(1);
+    }
+    
     this.store.loadStores();
     this.category.loadCategories([]);
     this.itemsStore.getItems();
