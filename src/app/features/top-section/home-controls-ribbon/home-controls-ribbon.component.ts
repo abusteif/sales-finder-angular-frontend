@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { of } from 'rxjs';
 import { delay, distinctUntilChanged, debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { DEFAULT_CARDS_PER_ROW, DEFAULT_ITEMS_PER_PAGE } from '../../../core/con
   templateUrl: './home-controls-ribbon.component.html',
   styleUrls: ['./home-controls-ribbon.component.css', '../../../shared/icons.css']
 })
-export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
+export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   @Output() onFilterClick = new EventEmitter<void>();
   @Output() onSortClick = new EventEmitter<void>();
@@ -30,14 +30,17 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
   @Input() itemsPerPage: number = DEFAULT_ITEMS_PER_PAGE;
   @Input() cardsPerRow: number = DEFAULT_CARDS_PER_ROW;
   @Input() isFeaturedItemsOnly: boolean = false;
+  @Input() searchValue: string = '';
 
-  searchValue: string = '';
   showDisplayModal: boolean = false;
   @ViewChild('searchInput') searchInput!: ElementRef;
 
   private destroy$ = new Subject<void>();
 
   ngAfterViewInit() {
+    // Set initial search value from input
+    this.updateSearchInputValue();
+    
     // Set up the debounced search using RxJS
     if (this.searchInput) {
       fromEvent(this.searchInput.nativeElement, 'input')
@@ -51,6 +54,19 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy {
           this.searchValue = value;
           this.onSearchChange.emit(value);
         });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Update input field when searchValue input changes (e.g., after navigation)
+    if (changes['searchValue'] && !changes['searchValue'].firstChange && this.searchInput) {
+      this.updateSearchInputValue();
+    }
+  }
+
+  private updateSearchInputValue() {
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = this.searchValue || '';
     }
   }
 

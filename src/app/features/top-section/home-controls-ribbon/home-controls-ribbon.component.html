@@ -21,7 +21,7 @@
       </div>
       <div class="search-container">
         <form (ngSubmit)="onSearchSubmit($event)">
-          <input #searchInput type="search" class="input" placeholder="Search" enterkeyhint="search">
+          <input #searchInput type="search" class="input" placeholder="Search" enterkeyhint="search" [value]="searchValue">
           <i class="fas fa-search search-icon"></i>
         </form>
       </div>
