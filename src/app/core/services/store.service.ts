@@ -15,7 +15,7 @@ export class StoreService {
     getStores(): Observable<Store[]> {
         return this.http.get<Store[]>(this.storesBaseUrl).pipe(
             map((stores: Store[]) => {
-                return stores.filter((store: Store) => store.name !== "costco");
+                return stores
             })
         );
     }
