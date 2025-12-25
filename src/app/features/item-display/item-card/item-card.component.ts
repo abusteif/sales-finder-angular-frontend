@@ -457,7 +457,7 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   getRRPFluctuatingBadgeTooltip(): string {
-    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip();
+    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip(this._item);
   }
 
   onReportNoLongerOnDiscountButtonClick = (): void => {

@@ -289,7 +289,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getRRPFluctuatingBadgeTooltip(): string {
-    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip();
+    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip(this.itemDetails);
   }
 
   private updateItemSeo(details: ItemDetails): void {

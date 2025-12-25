@@ -15,7 +15,7 @@ export interface IndicatorInfo {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemDisplayService {
   constructor() {}
@@ -28,18 +28,19 @@ export class ItemDisplayService {
       return {
         cssClass: '',
         icon: '',
-        text: ''
+        text: '',
       };
     }
 
     const baseClass = 'indicator-base';
-    const shapeClass = updateType === UpdateType.NEW ? 'indicator-pill' : 'indicator-circular';
+    const shapeClass =
+      updateType === UpdateType.NEW ? 'indicator-pill' : 'indicator-circular';
     const colorClass = this.getIndicatorColorClass(updateType);
 
     return {
       cssClass: `${baseClass} ${shapeClass} ${colorClass}`,
       icon: this.getIndicatorIcon(updateType),
-      text: updateType === UpdateType.NEW ? 'NEW' : ''
+      text: updateType === UpdateType.NEW ? 'NEW' : '',
     };
   }
 
@@ -77,18 +78,16 @@ export class ItemDisplayService {
    * Get discount icon information
    * Works with both Item and ItemDetails (both have the same properties)
    */
-  getDiscountIconInfo(
-    item: Item | ItemDetails | null,
-  ): DiscountIconInfo {
+  getDiscountIconInfo(item: Item | ItemDetails | null): DiscountIconInfo {
     if (!item) {
       return {
         shouldShow: false,
         text: '',
         tooltip: null,
-        cssClass: 'discount-icon'
+        cssClass: 'discount-icon',
       };
     }
-    
+
     return this.getDiscountIconInfoFromItem(item as Item);
   }
 
@@ -104,18 +103,19 @@ export class ItemDisplayService {
         shouldShow: false,
         text: '',
         tooltip: null,
-        cssClass: 'discount-icon'
+        cssClass: 'discount-icon',
       };
     }
 
-    const shouldShow = isFeatured || isHighestDiscountEver || highestDiscountSince > 0;
+    const shouldShow =
+      isFeatured || isHighestDiscountEver || highestDiscountSince > 0;
 
     if (!shouldShow) {
       return {
         shouldShow: false,
         text: '',
         tooltip: null,
-        cssClass: 'discount-icon'
+        cssClass: 'discount-icon',
       };
     }
 
@@ -125,7 +125,10 @@ export class ItemDisplayService {
 
     if (isFeatured) {
       text = '🔥';
-      if (item.updateType !== UpdateType.NEW && item.updateType !== UpdateType.RETURNED) {
+      if (
+        item.updateType !== UpdateType.NEW &&
+        item.updateType !== UpdateType.RETURNED
+      ) {
         tooltip = `Lowest price since we started tracking this item! (${trackedSince} days)`;
       } else {
         tooltip = null;
@@ -145,15 +148,22 @@ export class ItemDisplayService {
       shouldShow: true,
       text,
       tooltip,
-      cssClass: `discount-icon ${typeClass}`
+      cssClass: `discount-icon ${typeClass}`,
     };
   }
 
   /**
    * Get RRP fluctuating badge tooltip
    */
-  getRRPFluctuatingBadgeTooltip(): string {
-    return 'RRP Inflation Alert: This item\'s RRP has fluctuated up and down, indicating the discount may be artificially inflated.';
+  getRRPFluctuatingBadgeTooltip(item: Item | ItemDetails | null): string {
+
+    if (!item || !item.previousRRP)
+      return "RRP Inflation Alert: This item's RRP has fluctuated up and down, indicating the discount may be artificially inflated.";
+    else {
+      const oldRRP = item.previousRRP || 0;
+      const newRRP = item.oldPrice;
+      return `RRP has fluctuated; discount may be inflated. \nPrevious RRP: $${oldRRP}\nCurrent RRP: $${newRRP}`;
+    }
   }
 
   /**
@@ -165,7 +175,11 @@ export class ItemDisplayService {
     }
 
     // If item has priceHistory (ItemDetails), use the oldest date from price history
-    if ('priceHistory' in item && item.priceHistory && item.priceHistory.length > 0) {
+    if (
+      'priceHistory' in item &&
+      item.priceHistory &&
+      item.priceHistory.length > 0
+    ) {
       // Sort by date to get the oldest entry
       const sortedHistory = [...item.priceHistory].sort((a, b) => {
         const dateA = new Date(a.date).getTime();
@@ -189,7 +203,11 @@ export class ItemDisplayService {
   /**
    * Get item tooltip text (for indicator)
    */
-  getItemTooltip(item: Item | ItemDetails | null, discountChange?: string, updatedAt?: Date): string {
+  getItemTooltip(
+    item: Item | ItemDetails | null,
+    discountChange?: string,
+    updatedAt?: Date
+  ): string {
     if (!item) {
       return '';
     }
@@ -197,7 +215,9 @@ export class ItemDisplayService {
     if (item.discountChange) {
       const dateToUse = updatedAt || item.updatedAt;
       const dateStr = dateToUse ? this.formatRelativeDate(dateToUse) : '';
-      return dateStr ? `${item.discountChange}\n${dateStr}` : item.discountChange;
+      return dateStr
+        ? `${item.discountChange}\n${dateStr}`
+        : item.discountChange;
     }
     return '';
   }
@@ -209,7 +229,7 @@ export class ItemDisplayService {
     if (!value) {
       return 'Just now';
     }
-    
+
     const date = new Date(value);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
@@ -233,9 +253,7 @@ export class ItemDisplayService {
     } else if (seconds > 0) {
       return seconds + ' seconds ago';
     }
-    
+
     return 'Just now';
   }
-
 }
-

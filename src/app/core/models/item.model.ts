@@ -24,6 +24,7 @@ export interface Item {
     alertId: string | null;
     isFeatured: boolean;
     isRRPFluctuating: boolean;
+    previousRRP: number;
 }
 
 export interface ItemAlert {
