@@ -1,19 +1,37 @@
 <section class="navbar-container">
   <nav class="container">
-
-
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <app-logo size="large" variant="navbar" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
+    >
+      <app-logo
+        size="large"
+        variant="navbar"
+        [showText]="true"
+        [clickable]="true"
+        routerLink="/"
+      ></app-logo>
 
       <div class="user-settings-container">
         <div class="bmc-button-container">
-          <a href="https://www.buymeacoffee.com/bargainradar" target="_blank" class="bmc-btn">
-            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" class="bmc-full-button" />
-            <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy Me A Coffee" class="bmc-icon-only" />
+          <a
+            href="https://www.buymeacoffee.com/bargainradar"
+            target="_blank"
+            class="bmc-btn"
+          >
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              class="bmc-full-button"
+            />
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
+              alt="Buy Me A Coffee"
+              class="bmc-icon-only"
+            />
           </a>
         </div>
-        
-        <button class="price-alerts-btn" (click)="viewAlerts()" >
+
+        <button class="price-alerts-btn" (click)="viewAlerts()">
           <div class="alerts-icon-container">
             <i class="fas fa-bell"></i>
           </div>
@@ -23,20 +41,36 @@
         <button class="user-settings-btn" (click)="openUserSettings($event)">
           <i class="fas fa-user"></i>
         </button>
-        @if(isUserSettingsOpen) { 
-        <div class="dropdown-menu" >
+        @if(isUserSettingsOpen) {
+        <div class="dropdown-menu">
           @if(!user) {
-          <a class="dropdown-item" (click)="login()"><i class="fas fa-sign-in-alt"></i>Login</a>
-          <a class="dropdown-item" (click)="signup()"><i class="fas fa-user-plus"></i>Sign Up</a>
+          <a class="dropdown-item" (click)="login()"
+            ><i class="fas fa-sign-in-alt"></i>Login</a
+          >
+          <a class="dropdown-item" (click)="signup()"
+            ><i class="fas fa-user-plus"></i>Sign Up</a
+          >
 
           }
-          <a class="dropdown-item" (click)="viewAlerts()"><i class="fas fa-bell"></i>View Alerts</a>
-          <a class="dropdown-item" (click)="viewProfile()"><i class="fas fa-user-circle"></i>View Profile</a>
-          <a class="dropdown-item" (click)="aboutUs()"><i class="fas fa-info-circle"></i>About Us</a>
-          <a class="dropdown-item" (click)="faq()"><i class="fas fa-question-circle"></i>FAQ</a>
-          <a class="dropdown-item" (click)="contactUs()"><i class="fas fa-envelope"></i>Contact Us</a>
+          <a class="dropdown-item" (click)="viewAlerts()"
+            ><i class="fas fa-bell"></i>View Alerts</a
+          >
+          <a class="dropdown-item" (click)="viewProfile()"
+            ><i class="fas fa-user-circle"></i>View Profile</a
+          >
+          <a class="dropdown-item" (click)="aboutUs()"
+            ><i class="fas fa-info-circle"></i>About Us</a
+          >
+          <a class="dropdown-item" (click)="faq()"
+            ><i class="fas fa-question-circle"></i>FAQ</a
+          >
+          <a class="dropdown-item" (click)="contactUs()"
+            ><i class="fas fa-envelope"></i>Contact Us</a
+          >
           @if(user) {
-          <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="dropdown-item" (click)="logout()"
+            ><i class="fas fa-sign-out-alt"></i>Logout</a
+          >
           }
         </div>
         }

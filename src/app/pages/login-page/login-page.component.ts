@@ -46,7 +46,11 @@ export class LoginPageComponent {
   }
 
   onFormSubmit(formData: {email: string, password: string, stayLoggedIn: boolean}) {
-    this.authenticationStore.login(formData.email, formData.password, formData.stayLoggedIn);
+    this.authenticationStore.login({
+      email: formData.email,
+      password: formData.password,
+      stayLoggedIn: formData.stayLoggedIn
+    });
   }
 
   navigateToSignup() {

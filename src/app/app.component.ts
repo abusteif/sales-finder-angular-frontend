@@ -30,8 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     effect(() => {
       this.isLoggingOut =
-        this.authenticationStore.isLoading() &&
-        this.authenticationStore.isAuthenticated();
+        this.authenticationStore.isLoggingOut() 
     });
 
     this.authenticationStore.initialiseAuth();

@@ -1,30 +1,50 @@
-import { Component, effect, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { User } from '../../core/models/user.models';
-import { Router } from '@angular/router';
-// import { UserStore } from '../../state/user.store';
 import { AuthenticationStore } from '../../state/authentication.store';
 import { NavigationService } from '../../core/services/navigation.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
+import { map, take } from 'rxjs';
+import { effect } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   isUserSettingsOpen = false;
   user: User | null = null;
   isAuthenticated = false;
+  viewProfileClicked = false;
+  viewAlertsClicked = false;
   constructor(
-    private router: Router, 
-    // private userStore: UserStore,
     private authenticationStore: AuthenticationStore,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    private authenticationService: AuthenticationService
   ) {
     effect(() => {
-      // Use authentication store's user state
       this.user = this.authenticationStore.user();
-      this.isAuthenticated = this.authenticationStore.isAuthenticated();
+      const isLoading = this.authenticationStore.isLoading();
+      if (isLoading) {
+        return;
+      }
+      if (this.viewProfileClicked) {
+        this.viewProfileClicked = false;
+        this.navigationService.navigateToProtectedRoute(
+          '/profile',
+          {},
+          !!this.user
+        );
+      }
+      if (this.viewAlertsClicked) {
+        this.viewAlertsClicked = false;
+        this.navigationService.navigateToProtectedRoute(
+          '/alerts',
+          {},
+          !!this.user
+        );
+      }
     });
   }
 
@@ -39,27 +59,32 @@ export class NavbarComponent {
   openUserSettings(event: MouseEvent) {
     event.stopPropagation();
     this.authenticationStore.initialiseAuth();
-    this.isUserSettingsOpen = !this.isUserSettingsOpen;
+    this.isUserSettingsOpen = true;
   }
 
   welcomeMessage() {
-    return this.authenticationStore.user()?.firstName ? `Welcome, ${this.authenticationStore.user()?.firstName}` : '';
+    return this.authenticationStore.user()?.firstName
+      ? `Welcome, ${this.authenticationStore.user()?.firstName}`
+      : '';
   }
 
   viewProfile() {
-    this.navigationService.navigateToProtectedRoute('/profile', {}, this.isAuthenticated);
+    this.viewProfileClicked = true;
+    this.authenticationStore.initialiseAuth();
   }
 
   viewAlerts() {
+    this.viewAlertsClicked = true;
     this.authenticationStore.initialiseAuth();
-    this.navigationService.navigateToProtectedRoute('/alerts', {}, this.isAuthenticated);
   }
 
   login() {
+    this.authenticationStore.initialiseAuth();
     this.navigationService.navigateToPublicRoute('/login');
   }
 
   signup() {
+    this.authenticationStore.initialiseAuth();
     this.navigationService.navigateToPublicRoute('/signup');
   }
 

@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.models';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
@@ -48,6 +47,12 @@ export class AuthenticationService {
     return this.http.post<{ message?: string }>(
       `${this.authBaseUrl}/logout`,
       {}
+    );
+  }
+
+  checkAuthenticationStatus() {
+    return this.http.get<{ isAuthenticated: boolean }>(
+      `${this.authBaseUrl}/authentication-status`
     );
   }
 
