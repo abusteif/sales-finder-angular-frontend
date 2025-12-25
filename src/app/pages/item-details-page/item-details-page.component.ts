@@ -6,7 +6,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil, switchMap, of, tap, catchError, filter } from 'rxjs';
+import {
+  Subject,
+  takeUntil,
+  switchMap,
+  of,
+  tap,
+  catchError,
+  filter,
+} from 'rxjs';
 import { ItemService } from '../../core/services/item.service';
 import { Item, ItemDetails, UpdateType } from '../../core/models/item.model';
 import { AppStore } from '../../state/app.store';
@@ -44,7 +52,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   initialAlertDetails: Alert | null = null;
   itemDetailsForAlert: Item | null = null;
   initialItemDetailsForAlert: any = null;
-  isReportedForSaleExpiry: boolean = false; 
+  isReportedForSaleExpiry: boolean = false;
   GENERIC_SETTINGS = GENERIC_SETTINGS;
   private destroy$ = new Subject<void>();
 
@@ -289,14 +297,22 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   getRRPFluctuatingBadgeTooltip(): string {
-    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip(this.itemDetails);
+    return this.itemDisplayService.getRRPFluctuatingBadgeTooltip(
+      this.itemDetails
+    );
+  }
+
+  shouldDisplayShareBanner(): boolean {
+    return this.itemDetails?.updateType !== UpdateType.DELETED && !this.isLoading;
   }
 
   private updateItemSeo(details: ItemDetails): void {
     const itemUrl = `${GENERIC_SETTINGS.domain}/item/${this.itemId}`;
     const description = this.buildItemDescription(details);
     const robots =
-      details.updateType === UpdateType.DELETED ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+      details.updateType === UpdateType.DELETED
+        ? 'noindex, nofollow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
     const availability =
       details.updateType === UpdateType.DELETED
         ? 'https://schema.org/OutOfStock'
@@ -456,8 +472,8 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.showAlertModal = true;
       });
-      this.alertDetails = this.initialAlertDetails;
-      this.itemDetailsForAlert = this.initialItemDetailsForAlert;
+    this.alertDetails = this.initialAlertDetails;
+    this.itemDetailsForAlert = this.initialItemDetailsForAlert;
   }
 
   closeAlertModal(): void {
@@ -495,7 +511,9 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
       )
       .pipe(
         filter((result) => result === true),
-        switchMap(() => this.userReportsService.reportSaleExpiry(this.itemId ?? '')),
+        switchMap(() =>
+          this.userReportsService.reportSaleExpiry(this.itemId ?? '')
+        ),
         switchMap(() =>
           this.statusDialogService.showSuccess(
             'Report Submitted',
@@ -506,7 +524,7 @@ export class ItemDetailsPageComponent implements OnInit, OnDestroy {
         switchMap(() => this.loadItemDetails(this.itemId ?? '')),
         takeUntil(this.destroy$)
       )
-      .subscribe();   
+      .subscribe();
   }
 
   onDiscountIconClick(event: MouseEvent, discountTooltip: any): void {

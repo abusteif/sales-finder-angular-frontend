@@ -64,7 +64,7 @@
         </div>
 
         <!-- Share Banner -->
-        <div class="share-banner" *ngIf="itemDetails && !isLoading">
+        <div class="share-banner" *ngIf="shouldDisplayShareBanner()">
           <div class="share-banner-content">
             <div class="share-banner-text">
               <strong>Found a great deal?</strong>
