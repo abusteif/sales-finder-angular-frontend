@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { Item } from '../../../core/models/item.model';
 import { UserRole } from '../../../core/models/user.models';
+
+export const clearSearchCriteriaSignal = signal<boolean>(false);
 
 @Component({
   selector: 'app-items-table',
@@ -18,6 +20,7 @@ export class ItemsTableComponent {
   @Input() cardsPerRow: number = 3;
   @Input() userRole: UserRole = UserRole.USER;
   
+
   getColumnClass(): string {
     const desktopClass = 'is-one-fifth-desktop';
     switch (this.cardsPerRow) {
@@ -30,5 +33,8 @@ export class ItemsTableComponent {
       default:
         return `is-one-third-mobile is-one-third-tablet ${desktopClass}`;
     }
+  }
+  clearSearchCriteria(): void {
+    clearSearchCriteriaSignal.set(true);
   }
 }

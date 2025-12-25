@@ -12,7 +12,7 @@ import { DEFAULT_SORT_VALUE, SORT_OPTIONS } from '../../../core/constants/sort';
 import { UpdateType } from '../../../core/models/item.model';
 import { environment } from '../../../../environments/environment';
 import { AppStore } from '../../../state/app.store';
-
+import { clearSearchCriteriaSignal } from '../../item-display/items-table/items-table.component';
 @Component({
   selector: 'app-main-top-section',
   standalone: false,
@@ -69,6 +69,15 @@ export class MainTopSectionComponent {
       const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
+    });
+    effect(() => {
+      const clearSearchCriteria = clearSearchCriteriaSignal();
+      if (clearSearchCriteria) {
+        this.filter.setSearch('');
+        this.onResetFilters();
+        this.onSubmitFilter();
+        clearSearchCriteriaSignal.set(false);
+      }
     });
   }
 
