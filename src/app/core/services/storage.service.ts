@@ -4,12 +4,14 @@ import { User } from '../models/user.models';
 import { Filter } from '../models/filter.model';
 import { SortCriteria } from '../models/sort.model';
 import { USER_DETAILS_KEY } from '../constants/authentication';
+import { DEFAULT_SORT_VALUE } from '../constants/sort';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
   private readonly USER_PREFERENCES_KEY = 'user_preferences';
+  private readonly APP_ACCESS_KEY = 'has_accessed_app';
 
   setUserDetails(user: User): void {
     localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(user));
@@ -80,5 +82,70 @@ export class StorageService {
     } catch (e) {
       return false;
     }
+  }
+
+  hasAccessedApp(): boolean {
+    try {
+      const accessData = localStorage.getItem(this.APP_ACCESS_KEY);
+      const userPreferences = this.getUserPreferences();
+      if (userPreferences) {
+        if (
+          userPreferences.filter ||
+          userPreferences.itemsPerPage ||
+          userPreferences.cardsPerRow
+        ) {
+          return true;
+        }
+      }
+      if (accessData) {
+        const parsed = JSON.parse(accessData);
+        return parsed?.accessed === true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  markAppAsAccessed(): void {
+    const existingData = localStorage.getItem(this.APP_ACCESS_KEY);
+    let firstAccessDate: string;
+
+    if (existingData) {
+      try {
+        const parsed = JSON.parse(existingData);
+        firstAccessDate = parsed?.firstAccessDate || new Date().toISOString();
+      } catch {
+        firstAccessDate = new Date().toISOString();
+      }
+    } else {
+      firstAccessDate = new Date().toISOString();
+    }
+
+    const accessData = {
+      accessed: true,
+      firstAccessDate: firstAccessDate,
+    };
+
+    localStorage.setItem(this.APP_ACCESS_KEY, JSON.stringify(accessData));
+  }
+
+  getFirstAccessDate(): Date | null {
+    const accessData = localStorage.getItem(this.APP_ACCESS_KEY);
+    if (!accessData) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(accessData);
+      if (parsed?.firstAccessDate) {
+        return new Date(parsed.firstAccessDate);
+      }
+    } catch {
+      // Legacy data - return null as we don't have the date
+      return null;
+    }
+
+    return null;
   }
 }

@@ -1,0 +1,52 @@
+<div class="walkthrough-container">
+  <div class="walkthrough-card">
+    <div class="walkthrough-header">
+      <div class="walkthrough-logo">
+        <app-logo size="large" variant="default" [showText]="true" [clickable]="false"></app-logo>
+      </div>
+      <h1 class="walkthrough-title">Create Alerts to Track Your Favorite Items</h1>
+      <p class="walkthrough-subtitle">
+        After signing up, you can create alerts to get notified instantly when items go on sale. Never miss a great deal again!
+      </p>
+    </div>
+
+    <div class="alert-creation-content">
+      <div class="info-section">
+        <div class="info-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <p class="info-text">
+          To start tracking items and receiving alerts, you'll need to create a free account with {{ appName }} first.
+        </p>
+        <p class="info-text-secondary">
+          Once you're signed up, you can create alerts in two ways:
+        </p>
+        <ul class="alert-options-list">
+          <li>
+            <i class="fas fa-bell"></i>
+            <span>Go to the <strong>Alerts page</strong> to create an alert with free text search</span>
+          </li>
+          <li>
+            <i class="fas fa-ellipsis-v"></i>
+            <span>Click the <strong>item options menu</strong> (three dots) on any item to create an alert for that specific product</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="walkthrough-actions">
+      <button class="skip-walkthrough-btn" (click)="onSkip()">
+        Skip to home
+        <i class="fas fa-home"></i>
+      </button>
+      <button 
+        class="join-btn" 
+        (click)="onJoinClick()"
+      >
+        Join {{ appName }} to Start Tracking
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+

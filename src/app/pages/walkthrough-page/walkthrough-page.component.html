@@ -1,0 +1,24 @@
+<app-walkthrough-purpose-selection-step
+  *ngIf="currentStep === 1"
+  [browsingDeals]="browsingDeals"
+  [trackingItems]="trackingItems"
+  (browsingDealsChange)="onBrowsingDealsChange($event)"
+  (trackingItemsChange)="onTrackingItemsChange($event)"
+  (continue)="onStepOneContinue()"
+  (skip)="onSkip()"
+></app-walkthrough-purpose-selection-step>
+
+<app-walkthrough-categories-step
+  *ngIf="currentStep === 2"
+  [selectedCategories]="selectedCategories"
+  [categories]="categories"
+  (selectedCategoriesChange)="onSelectedCategoriesChange($event)"
+  (continue)="onCategoriesStepContinue()"
+  (skip)="onSkip()"
+></app-walkthrough-categories-step>
+
+<app-walkthrough-alert-creation-step
+  *ngIf="currentStep === 3"
+  (skip)="onSkip()"
+></app-walkthrough-alert-creation-step>
+

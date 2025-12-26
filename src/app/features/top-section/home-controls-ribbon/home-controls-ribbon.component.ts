@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
-import { of } from 'rxjs';
-import { delay, distinctUntilChanged, debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime, map, takeUntil } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
-import { DEFAULT_SORT_VALUE } from '../../../core/constants/sort';
 import { DEFAULT_CARDS_PER_ROW, DEFAULT_ITEMS_PER_PAGE } from '../../../core/constants/display';
 
 

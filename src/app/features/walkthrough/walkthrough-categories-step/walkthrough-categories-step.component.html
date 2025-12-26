@@ -1,0 +1,66 @@
+<div class="walkthrough-container">
+  <div class="walkthrough-card">
+    <div class="walkthrough-header">
+      <div class="walkthrough-logo">
+        <app-logo size="large" variant="default" [showText]="true" [clickable]="false"></app-logo>
+      </div>
+      <h1 class="walkthrough-title">Select Your Favorite Categories</h1>
+      <p class="walkthrough-subtitle">Choose the categories you're interested in. You can select as many as you want.</p>
+      <p class="walkthrough-note">Don't worry—you can always update your category preferences later using the filter options.</p>
+    </div>
+
+    <div class="categories-container" *ngIf="!loading; else loadingTemplate">
+      <div class="categories-grid" *ngIf="categories.length > 0; else noCategoriesTemplate">
+        <div 
+          class="category-card" 
+          *ngFor="let category of categories"
+          [class.selected]="isCategorySelected(category)"
+          (click)="onCategoryToggle(category)"
+        >
+          <label class="category-label">
+            <div class="checkbox-wrapper">
+              <input 
+                type="checkbox" 
+                class="category-checkbox"
+                [checked]="isCategorySelected(category)"
+                (change)="onCategoryToggle(category)"
+              />
+              <div class="custom-checkbox" [class.checked]="isCategorySelected(category)">
+                <i class="fas fa-check" *ngIf="isCategorySelected(category)"></i>
+              </div>
+            </div>
+            <span class="category-name">{{ category }}</span>
+          </label>
+        </div>
+      </div>
+      <ng-template #noCategoriesTemplate>
+        <div class="no-categories-message">
+          <i class="fas fa-info-circle"></i>
+          <p>No categories available at the moment.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <ng-template #loadingTemplate>
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading categories...</p>
+      </div>
+    </ng-template>
+
+    <div class="walkthrough-actions">
+      <button class="skip-walkthrough-btn" (click)="onSkip()">
+        Skip to home
+        <i class="fas fa-home"></i>
+      </button>
+      <button 
+        class="continue-btn" 
+        (click)="onContinue()"
+      >
+        Continue
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+

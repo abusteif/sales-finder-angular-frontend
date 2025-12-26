@@ -1,0 +1,67 @@
+<div class="landing-page-container">
+  <div class="landing-hero">
+    <div class="hero-content">
+      <div class="hero-logo-title">
+        <img src="assets/logos/bargain-radar-favicon.svg" alt="Bargain Radar Logo" class="logo-icon" />
+        <div class="hero-title-container">
+          <h1 class="hero-title">{{ appName }}</h1>
+          <p class="hero-tagline">FIND IT. TRACK IT. SNAG IT.</p>
+        </div>
+      </div>
+      <p class="hero-description">
+        {{ defaultDescription }}
+      </p>
+      <button class="get-started-btn" (click)="onGetStarted()">
+        Get Started
+      </button>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <div class="container">
+      <h2 class="features-title">Why Choose {{ appName }}?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3 class="feature-title">Real-Time Deals</h3>
+          <p class="feature-description">
+            Get instant access to deals as they happen. Our platform continuously monitors retailers and delivers fresh deals to you in real-time, so you never miss an opportunity.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <h3 class="feature-title">Multi-Store Alerts</h3>
+          <p class="feature-description">
+            Set up alerts for any item and track it across multiple stores simultaneously. Get instant notifications when your desired item goes on sale at any retailer, ensuring you never miss the best deal.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h3 class="feature-title">Featured Price Drops</h3>
+          <p class="feature-description">
+            Discover items with significant price reductions highlighted in our featured section. We spotlight the biggest savings so you can quickly identify the best bargains worth your attention.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Price Tracking</h3>
+          <p class="feature-description">
+            Monitor price drops and track price history across all your favorite stores to know when it's the best time to buy.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

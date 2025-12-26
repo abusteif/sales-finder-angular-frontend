@@ -10,6 +10,7 @@ import { UserService } from '../../core/services/user.service';
 import { AuthenticationStore } from '../../state/authentication.store';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilterStore } from '../../state/filter.store';
+import { StorageService } from '../../core/services/storage.service';
 @Component({
   selector: 'app-home-page',
   standalone: false,
@@ -23,6 +24,8 @@ export class HomePageComponent {
   itemDetails: Item | null = null;
   alertId: string | null = null;
   alertDetails: Alert | null = null;
+  showLandingPage = false;
+
   constructor(
     private itemsStore: ItemsStore,
     private store: storesStore,
@@ -32,8 +35,11 @@ export class HomePageComponent {
     private authenticationStore: AuthenticationStore,
     private router: Router,
     private route: ActivatedRoute,
-    private filterStore: FilterStore
+    private filterStore: FilterStore,
+    private storageService: StorageService
   ) {
+    this.showLandingPage = !this.storageService.hasAccessedApp();
+
     effect(() => {
       const itemAlert = this.itemAlertSignal();
       if (!itemAlert?.item) return;
@@ -67,6 +73,12 @@ export class HomePageComponent {
       });
     });
   }
+  onAppAccessed(appAccessed: boolean) {
+    if (appAccessed) {
+      this.router.navigate(['/walkthrough']);
+    }
+  }
+
   ngOnInit() {
     // Check if we're on the featured route
     const isFeaturedRoute = this.route.snapshot.data['featured'] === true;

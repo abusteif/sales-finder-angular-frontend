@@ -1,0 +1,82 @@
+<div class="walkthrough-container">
+  <div class="walkthrough-card">
+    <div class="walkthrough-header">
+      <div class="walkthrough-logo">
+        <app-logo size="large" variant="default" [showText]="true" [clickable]="false"></app-logo>
+      </div>
+      <h1 class="walkthrough-title">How would you like to use {{ appName }}?</h1>
+    </div>
+
+    <div class="options-container">
+      <div class="option-card" [class.selected]="browsingDeals">
+        <label class="option-label">
+          <div class="checkbox-wrapper">
+            <input 
+              type="checkbox" 
+              class="option-checkbox"
+              [checked]="browsingDeals"
+              (change)="onBrowsingDealsChange($any($event.target).checked)"
+            />
+            <div class="custom-checkbox" [class.checked]="browsingDeals">
+              <i class="fas fa-check" *ngIf="browsingDeals"></i>
+            </div>
+          </div>
+          <div class="option-content">
+            <div class="option-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <div class="option-text">
+              <h3 class="option-title">Browse Latest Deals</h3>
+              <p class="option-description">
+                Explore fresh deals and discounts as they become available. Discover great bargains across all your favorite stores in real-time.
+              </p>
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <div class="option-card" [class.selected]="trackingItems">
+        <label class="option-label">
+          <div class="checkbox-wrapper">
+            <input 
+              type="checkbox" 
+              class="option-checkbox"
+              [checked]="trackingItems"
+              (change)="onTrackingItemsChange($any($event.target).checked)"
+            />
+            <div class="custom-checkbox" [class.checked]="trackingItems">
+              <i class="fas fa-check" *ngIf="trackingItems"></i>
+            </div>
+          </div>
+          <div class="option-content">
+            <div class="option-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="option-text">
+              <h3 class="option-title">Track Specific Items</h3>
+              <p class="option-description">
+                Set up alerts for items you're looking for and get notified instantly when they go on sale at any retailer.
+              </p>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="walkthrough-actions">
+      <button 
+        class="continue-btn" 
+        (click)="onContinue()"
+        [disabled]="!browsingDeals && !trackingItems"
+      >
+        Continue
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <button class="skip-walkthrough-btn" (click)="onSkip()">
+        Skip to home
+        <i class="fas fa-home"></i>
+      </button>
+    </div>
+  </div>
+</div>
+

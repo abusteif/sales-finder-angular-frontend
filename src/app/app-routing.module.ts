@@ -15,6 +15,7 @@ import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { AboutUsPageComponent } from './pages/about-us-page/about-us-page.component';
 import { ItemDetailsPageComponent } from './pages/item-details-page/item-details-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
+import { WalkthroughPageComponent } from './pages/walkthrough-page/walkthrough-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 import { GENERIC_SETTINGS } from './core/constants/generic-settings';
 
@@ -212,6 +213,18 @@ const routes: Routes = [
         title: `${APP_NAME} | Item Insights`,
         description: 'Deep dive into price history, stock movement, and savings opportunities for individual products.',
         robots: DEFAULT_ROBOTS
+      }
+    }
+  },
+  {
+    path: 'walkthrough',
+    component: WalkthroughPageComponent,
+    pathMatch: 'full',
+    data: {
+      seo: {
+        title: `${APP_NAME} | Get Started`,
+        description: 'Choose how you want to use Bargain Radar to find the best deals.',
+        robots: NOINDEX_ROBOTS
       }
     }
   },

@@ -152,6 +152,11 @@ body {
     color: #666 !important;
     opacity: 1 !important;
   }
+
+  /* Ensure continue button has outline in dark mode */
+  .continue-btn {
+    border: 2px solid #007bff !important;
+  }
 }
 
 /* Global Admin Button Styles */
