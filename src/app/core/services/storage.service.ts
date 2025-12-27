@@ -4,7 +4,6 @@ import { User } from '../models/user.models';
 import { Filter } from '../models/filter.model';
 import { SortCriteria } from '../models/sort.model';
 import { USER_DETAILS_KEY } from '../constants/authentication';
-import { DEFAULT_SORT_VALUE } from '../constants/sort';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +11,7 @@ import { DEFAULT_SORT_VALUE } from '../constants/sort';
 export class StorageService {
   private readonly USER_PREFERENCES_KEY = 'user_preferences';
   private readonly APP_ACCESS_KEY = 'has_accessed_app';
+  private readonly WALKTHROUGH_VERSION_KEY = 'walkthrough_version';
 
   setUserDetails(user: User): void {
     localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(user));
@@ -147,5 +147,22 @@ export class StorageService {
     }
 
     return null;
+  }
+
+  getWalkthroughVersion(): string | null {
+    try {
+      const version = localStorage.getItem(this.WALKTHROUGH_VERSION_KEY);
+      return version || null;
+    } catch {
+      return null;
+    }
+  }
+
+  setWalkthroughVersion(version: string): void {
+    try {
+      localStorage.setItem(this.WALKTHROUGH_VERSION_KEY, version);
+    } catch (error) {
+      console.error('Failed to save walkthrough version:', error);
+    }
   }
 }

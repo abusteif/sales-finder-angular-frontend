@@ -2,6 +2,8 @@ import { Component, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesStore } from '../../state/categories.store';
 import { FilterStore } from '../../state/filter.store';
+import { StorageService } from '../../core/services/storage.service';
+import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
 
 @Component({
   selector: 'app-walkthrough-page',
@@ -18,7 +20,8 @@ export class WalkthroughPageComponent implements OnInit {
   constructor(
     private router: Router,
     private categoriesStore: CategoriesStore,
-    private filterStore: FilterStore
+    private filterStore: FilterStore,
+    private storageService: StorageService
   ) {
     effect(() => {
       this.categories = this.categoriesStore.categoriesList().sort();
@@ -66,16 +69,10 @@ export class WalkthroughPageComponent implements OnInit {
   }
 
   onSkip() {
-    this.router.navigate(['/']);
+    this.completeWalkthrough();
   }
 
   private completeWalkthrough() {
-    // TODO: Save walkthrough preferences and navigate to home
-    console.log('Walkthrough completed:', {
-      browsingDeals: this.browsingDeals,
-      trackingItems: this.trackingItems,
-      selectedCategories: this.selectedCategories
-    });
     this.router.navigate(['/']);
   }
 }

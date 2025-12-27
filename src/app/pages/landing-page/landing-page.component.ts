@@ -18,6 +18,7 @@ export class LandingPageComponent {
 
   onGetStarted() {
     this.storageService.markAppAsAccessed();
+    this.storageService.setWalkthroughVersion(GENERIC_SETTINGS.walkthroughVersion);
     this.appAccessed.emit(true);
   }
 }
