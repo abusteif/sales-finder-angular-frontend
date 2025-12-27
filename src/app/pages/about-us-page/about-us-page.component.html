@@ -1,74 +1,121 @@
 <div class="about-us-container">
-    <div class="about-us-card">
-        <!-- App Logo -->
-        <div class="about-us-logo">
-            <app-logo size="large" variant="default" [showText]="true" [clickable]="true" routerLink="/"></app-logo>
-        </div>
-
-        <!-- About Us Content -->
-        <div class="about-us-content">
-            <div class="about-us-icon">
-                <i class="fas fa-info-circle"></i>
-            </div>
-
-            <h1 class="about-us-title">About Us</h1>
-            <p class="about-us-subtitle">Your Ultimate Sales Discovery Platform</p>
-
-            <!-- Who Are We Section -->
-            <div class="about-section">
-                <div class="section-header">
-                    <i class="fas fa-users"></i>
-                    <h2>Who Are We</h2>
-                </div>
-                <div class="section-content">
-                    <p>Meet the team behind this obsession with savings! I'm a software engineer with an unhealthy addiction to Ozbargain and an irrational fear of paying full price for anything. My motto? "If it's not on sale, it's not worth buying." This pathological need to find the best deals everywhere led me to build a platform that does the bargain hunting for you.</p>
-                </div>
-            </div>
-
-            <!-- Where The Idea Came From Section -->
-            <div class="about-section">
-                <div class="section-header">
-                    <i class="fas fa-lightbulb"></i>
-                    <h2>The Birth of an Idea</h2>
-                </div>
-                <div class="section-content">
-                    <p>This whole operation started with my sister, an eBay entrepreneur who discovered that some retailers occasionally lose their minds and offer insane discounts. She came to me with a brilliant suggestion: "You know how you're always complaining about missing sales? Why don't you build something that finds them for you?"</p>
-                    <p>And just like that, what began as a simple tool to track a few stores evolved into a focused deal-hunting platform that monitors sales across key retailers. Because why settle for missing out on bargains when you can stay on top of the stores that matter most?</p>
-                </div>
-            </div>
-
-            <!-- Why Us Section -->
-            <div class="about-section">
-                <div class="section-header">
-                    <i class="fas fa-star"></i>
-                    <h2>Why We're Different</h2>
-                </div>
-                <div class="section-content">
-                    <p>While other price tracking services like CamelCamelCamel and Price Hipster are great, we offer something they don't:</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-bolt"></i> <strong>Lightning-fast updates</strong> - We're talking real-time, not "real-time-ish"</li>
-                        <li><i class="fas fa-clock"></i> <strong>Regular monitoring</strong> - We check for deals more often than you check your phone</li>
-                        <li><i class="fas fa-search"></i> <strong>Plain text search</strong> - Search for anything using natural language, not just specific items</li>
-                        <li><i class="fas fa-mobile-alt"></i> <strong>Instant gratification</strong> - Get alerts faster than you can say "add to cart"</li>
-                    </ul>
-                    <p class="highlight-text">Perfect for deal addicts and bargain hunters who live for that rush of finding the deal of the century. Every second brings new opportunities, and every second could be the moment you discover your next great steal!</p>
-                </div>
-            </div>
-
-            <!-- Call to Action -->
-            <div class="about-contact">
-                <p>Ready to start saving?</p>
-                <div class="contact-buttons">
-                    <button (click)="getStarted()" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Get Started Free</span>
-                    </button>
-                    <button (click)="contactUs()" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i>
-                        <span>Contact Us</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+  <div class="about-us-card">
+    <!-- App Logo -->
+    <div class="about-us-logo">
+      <app-logo
+        size="large"
+        variant="default"
+        [showText]="true"
+        [clickable]="true"
+        routerLink="/"
+      ></app-logo>
     </div>
+
+    <!-- About Us Content -->
+    <div class="about-us-content">
+      <div class="about-us-icon">
+        <i class="fas fa-info-circle"></i>
+      </div>
+
+      <h1 class="about-us-title">About Us</h1>
+      <p class="about-us-subtitle">Your Ultimate Sales Discovery Platform</p>
+
+      <!-- Who Are We Section -->
+      <div class="about-section">
+        <div class="section-header">
+          <i class="fas fa-users"></i>
+          <h2>Who Are We</h2>
+        </div>
+        <div class="section-content">
+          <p>
+            Meet the team behind this obsession with savings! I'm a software
+            engineer with an unhealthy addiction to Ozbargain and an irrational
+            fear of paying full price for anything. My motto? "If it's not on
+            sale, it's not worth buying." This pathological need to find the
+            best deals everywhere led me to build a platform that does the
+            bargain hunting for you.
+          </p>
+        </div>
+      </div>
+
+      <!-- Where The Idea Came From Section -->
+      <div class="about-section">
+        <div class="section-header">
+          <i class="fas fa-lightbulb"></i>
+          <h2>The Birth of an Idea</h2>
+        </div>
+        <div class="section-content">
+          <p>
+            This whole operation started with my sister, an eBay entrepreneur
+            who discovered that some retailers occasionally lose their minds and
+            offer insane discounts. She came to me with a brilliant suggestion:
+            "You know how you're always complaining about missing sales? Why
+            don't you build something that finds them for you?"
+          </p>
+          <p>
+            And just like that, what began as a simple tool to track a few
+            stores evolved into a focused deal-hunting platform that monitors
+            sales across key retailers. Because why settle for missing out on
+            bargains when you can stay on top of the stores that matter most?
+          </p>
+        </div>
+      </div>
+
+      <!-- Why Us Section -->
+      <div class="about-section">
+        <div class="section-header">
+          <i class="fas fa-star"></i>
+          <h2>Why We're Different</h2>
+        </div>
+        <div class="section-content">
+          <p>
+            While other price tracking services like CamelCamelCamel and Price
+            Hipster are great, we offer something they don't:
+          </p>
+          <ul class="features-list">
+            <li>
+              <i class="fas fa-bolt"></i>
+              <strong>Lightning-fast updates</strong> - We're talking real-time,
+              not "real-time-ish"
+            </li>
+            <li>
+              <i class="fas fa-clock"></i> <strong>Regular monitoring</strong> -
+              We check for deals more often than you check your phone
+            </li>
+            <li>
+              <i class="fas fa-search"></i> <strong>Plain text search</strong> -
+              Search for anything using natural language, not just specific
+              items
+            </li>
+            <li>
+              <i class="fas fa-mobile-alt"></i>
+              <strong>Instant gratification</strong> - Get alerts faster than
+              you can say "add to cart"
+            </li>
+          </ul>
+          <p class="highlight-text">
+            Perfect for deal addicts and bargain hunters who live for that rush
+            of finding the deal of the century. Every second brings new
+            opportunities, and every second could be the moment you discover
+            your next great steal!
+          </p>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="about-contact">
+        <p>Ready to start saving?</p>
+        <div class="contact-buttons">
+          <button (click)="getStarted()" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i>
+            <span>Get Started Free</span>
+          </button>
+          <button (click)="contactUs()" class="btn btn-secondary">
+            <i class="fas fa-envelope"></i>
+            <span>Contact Us</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
