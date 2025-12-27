@@ -5,6 +5,7 @@ import { effect } from '@angular/core';
 import { FilterStore } from './state/filter.store';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SeoService, SeoMetadata } from './core/services/seo.service';
+import { AnalyticsService } from './core/services/analytics.service';
 import { GENERIC_SETTINGS } from './core/constants/generic-settings';
 import { Subscription } from 'rxjs';
 
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private filterStore: FilterStore,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private seoService: SeoService
+    private seoService: SeoService,
+    private analyticsService: AnalyticsService
   ) {
     effect(() => {
       this.isLoggingOut =
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkScreenSize();
     window.addEventListener('resize', this.resizeListener);
     this.monitorRouteSeo();
+    this.initializeAnalytics();
   }
 
   checkScreenSize() {
@@ -73,7 +76,14 @@ export class AppComponent implements OnInit, OnDestroy {
         ...seoData,
         url: canonicalUrl,
       });
+
+      // Track page view in GA4
+      this.analyticsService.trackPageView(normalizedPath, seoData.title);
     });
+  }
+
+  private initializeAnalytics() {
+    this.analyticsService.initialize();
   }
 
   private normalizePathForCanonical(path: string): string {

@@ -8,5 +8,6 @@ export const environment = {
   // Security settings
   enableDebugMode: false,
   enableConsoleLogs: false,
-  enableSecurityLogging: true
+  enableSecurityLogging: true,
+  ga4MeasurementId: 'G-G1PVGL76TY' // Add your GA4 Measurement ID here (e.g., 'G-XXXXXXXXXX')
 };
