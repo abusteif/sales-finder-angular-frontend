@@ -40,6 +40,20 @@ export class WalkthroughCategoriesStepComponent {
     return this.selectedCategories.includes(category);
   }
 
+  areAllSelected(): boolean {
+    return this.categories.length > 0 && this.selectedCategories.length === this.categories.length;
+  }
+
+  onSelectAll() {
+    this.selectedCategories = [...this.categories];
+    this.selectedCategoriesChange.emit(this.selectedCategories);
+  }
+
+  onSelectNone() {
+    this.selectedCategories = [];
+    this.selectedCategoriesChange.emit(this.selectedCategories);
+  }
+
   onContinue() {
     this.continue.emit();
   }

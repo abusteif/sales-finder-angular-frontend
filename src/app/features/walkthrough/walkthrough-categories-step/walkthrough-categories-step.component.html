@@ -10,6 +10,31 @@
     </div>
 
     <div class="categories-container" *ngIf="!loading; else loadingTemplate">
+      <div class="select-all-controls" *ngIf="categories.length > 0">
+        <button 
+          class="select-all-btn" 
+          (click)="onSelectAll()"
+          [class.active]="areAllSelected()"
+        >
+          <div class="checkbox-wrapper">
+            <div class="custom-checkbox" [class.checked]="areAllSelected()">
+              <i class="fas fa-check" *ngIf="areAllSelected()"></i>
+            </div>
+          </div>
+          <span>Select All</span>
+        </button>
+        <button 
+          class="select-none-btn" 
+          [disabled]="selectedCategories.length === 0"
+          (click)="onSelectNone()"
+        >
+          <div class="checkbox-wrapper">
+            <div class="custom-checkbox">
+            </div>
+          </div>
+          <span>Select None</span>
+        </button>
+      </div>
       <div class="categories-grid" *ngIf="categories.length > 0; else noCategoriesTemplate">
         <div 
           class="category-card" 
