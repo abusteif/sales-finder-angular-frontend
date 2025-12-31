@@ -59,6 +59,7 @@ export class PriceChartService {
       const dateTime = new Date(item.date).getTime();
       if (isNaN(dateTime)) return false;
       if (item.discountedPrice === null || item.discountedPrice === undefined) return false;
+      if (item.discountedPrice === 0) return false; // Ignore entries with zero price
       return true;
     });
 
@@ -103,8 +104,12 @@ export class PriceChartService {
         }
       }
       
+      // Normalize date to midnight for consistent year-based ordering
+      const normalizedDate = new Date(item.date);
+      normalizedDate.setHours(0, 0, 0, 0);
+      
       return {
-        x: new Date(item.date).getTime(),
+        x: normalizedDate.getTime(),
         y: price,
       };
     });
@@ -127,10 +132,12 @@ export class PriceChartService {
       }
     }
 
-    // Check if all dates are in the same year
-    const years = sortedHistory.map((item) =>
-      new Date(item.date).getFullYear()
-    );
+    // Check if all dates are in the same year (using normalized dates)
+    const years = sortedHistory.map((item) => {
+      const normalizedDate = new Date(item.date);
+      normalizedDate.setHours(0, 0, 0, 0);
+      return normalizedDate.getFullYear();
+    });
     const uniqueYears = [...new Set(years)];
     const allSameYear = uniqueYears.length === 1;
 
