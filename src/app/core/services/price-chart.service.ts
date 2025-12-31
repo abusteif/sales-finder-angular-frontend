@@ -59,7 +59,6 @@ export class PriceChartService {
       const dateTime = new Date(item.date).getTime();
       if (isNaN(dateTime)) return false;
       if (item.discountedPrice === null || item.discountedPrice === undefined) return false;
-      if (item.discountedPrice === 0) return false; // Ignore entries with zero price
       return true;
     });
 
@@ -142,9 +141,15 @@ export class PriceChartService {
     const allSameYear = uniqueYears.length === 1;
 
     // Calculate min and max values from data points for y-axis scaling
+    // Exclude zero prices from min/max calculation (but keep them in the chart)
     const prices = dataPoints
       .map((point) => point.y)
-      .filter((price) => price !== null && price !== undefined);
+      .filter((price) => price !== null && price !== undefined && price > 0);
+    
+    if (prices.length === 0) {
+      throw new Error('No valid non-zero price entries found');
+    }
+    
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
 
