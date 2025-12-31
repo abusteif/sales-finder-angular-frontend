@@ -25,6 +25,9 @@ import { ComparePageComponent } from './compare-page/compare-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 import { IndividualItemDetailsModule } from '../features/individual-item-details/individual-item-details.module';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { WalkthroughPageComponent } from './walkthrough-page/walkthrough-page.component';
+import { WalkthroughModule } from '../features/walkthrough/walkthrough.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,9 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     AboutUsPageComponent,
     ItemDetailsPageComponent,
     ComparePageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    LandingPageComponent,
+    WalkthroughPageComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +60,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     AuthenticationModule,
     SharedModule,
     AlertsModule,
-    IndividualItemDetailsModule
+    IndividualItemDetailsModule,
+    WalkthroughModule
   ],
   exports: [
     HomePageComponent,

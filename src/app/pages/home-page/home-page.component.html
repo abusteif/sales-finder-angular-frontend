@@ -1,5 +1,7 @@
+@if (showLandingPage ) {
+<app-landing-page (appAccessed)="onAppAccessed($event)"></app-landing-page>
+} @else {
 <app-navbar></app-navbar>
-
 <section>
   <app-main-top-section></app-main-top-section>
 
@@ -13,3 +15,4 @@
   (onSubmitAlert)="submitAlert()"
   [alert]="alertDetails"
 ></app-alert-modal>
+}

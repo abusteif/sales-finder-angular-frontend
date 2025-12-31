@@ -153,6 +153,11 @@ body {
     opacity: 1 !important;
   }
 
+  /* Ensure continue button has outline in dark mode */
+  .continue-btn {
+    border: 2px solid #007bff !important;
+  }
+
   /* Ensure select-active button uses light blue like filter-active and sort-active */
   .control-button.select-active {
     background-color: #007bff !important;

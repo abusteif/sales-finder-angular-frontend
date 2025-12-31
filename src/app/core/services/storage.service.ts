@@ -10,6 +10,8 @@ import { USER_DETAILS_KEY } from '../constants/authentication';
 })
 export class StorageService {
   private readonly USER_PREFERENCES_KEY = 'user_preferences';
+  private readonly APP_ACCESS_KEY = 'has_accessed_app';
+  private readonly WALKTHROUGH_VERSION_KEY = 'walkthrough_version';
 
   setUserDetails(user: User): void {
     localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(user));
@@ -79,6 +81,88 @@ export class StorageService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  hasAccessedApp(): boolean {
+    try {
+      const accessData = localStorage.getItem(this.APP_ACCESS_KEY);
+      const userPreferences = this.getUserPreferences();
+      if (userPreferences) {
+        if (
+          userPreferences.filter ||
+          userPreferences.itemsPerPage ||
+          userPreferences.cardsPerRow
+        ) {
+          return true;
+        }
+      }
+      if (accessData) {
+        const parsed = JSON.parse(accessData);
+        return parsed?.accessed === true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  markAppAsAccessed(): void {
+    const existingData = localStorage.getItem(this.APP_ACCESS_KEY);
+    let firstAccessDate: string;
+
+    if (existingData) {
+      try {
+        const parsed = JSON.parse(existingData);
+        firstAccessDate = parsed?.firstAccessDate || new Date().toISOString();
+      } catch {
+        firstAccessDate = new Date().toISOString();
+      }
+    } else {
+      firstAccessDate = new Date().toISOString();
+    }
+
+    const accessData = {
+      accessed: true,
+      firstAccessDate: firstAccessDate,
+    };
+
+    localStorage.setItem(this.APP_ACCESS_KEY, JSON.stringify(accessData));
+  }
+
+  getFirstAccessDate(): Date | null {
+    const accessData = localStorage.getItem(this.APP_ACCESS_KEY);
+    if (!accessData) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(accessData);
+      if (parsed?.firstAccessDate) {
+        return new Date(parsed.firstAccessDate);
+      }
+    } catch {
+      // Legacy data - return null as we don't have the date
+      return null;
+    }
+
+    return null;
+  }
+
+  getWalkthroughVersion(): string | null {
+    try {
+      const version = localStorage.getItem(this.WALKTHROUGH_VERSION_KEY);
+      return version || null;
+    } catch {
+      return null;
+    }
+  }
+
+  setWalkthroughVersion(version: string): void {
+    try {
+      localStorage.setItem(this.WALKTHROUGH_VERSION_KEY, version);
+    } catch (error) {
+      console.error('Failed to save walkthrough version:', error);
     }
   }
 }
