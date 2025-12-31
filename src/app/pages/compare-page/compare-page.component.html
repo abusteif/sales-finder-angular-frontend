@@ -1,0 +1,139 @@
+<app-navbar></app-navbar>
+
+<section class="compare-section">
+  <div class="compare-container">
+    <div class="compare-header">
+      <div class="header-wrapper">
+        <div class="header-icon">
+          <i class="fas fa-balance-scale"></i>
+        </div>
+        <div class="header-text">
+          <h1>Compare Items</h1>
+          <p class="header-subtitle">Compare prices, discounts, and ratings side by side</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+      <p>Loading comparison data...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="error-state">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Comparison Table -->
+    <div *ngIf="!isLoading && !error && getItemsArray().length > 0" class="compare-table-wrapper">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="sticky-col"></th>
+            <th *ngFor="let item of getItemsArray()" class="item-column">
+              <div class="item-header-cell">
+                <a href="{{ item.url }}" target="_blank">
+                  <img
+                    [src]="item.imageUrl"
+                    [alt]="item.name"
+                    class="item-image"
+                  />
+                  <h3 class="item-name" [title]="item.name">{{ truncateName(item.name) }}</h3>
+                  <div class="item-store">
+                    <img
+                      [src]="'assets/logos/' + item.store + '-logo.svg'"
+                      class="store-logo"
+                      [alt]="item.store + ' logo'"
+                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                    />
+                    <span class="store-name-fallback" style="display: none;">{{ item.store }}</span>
+                  </div>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- Price Before Row -->
+          <tr>
+            <td class="property-name sticky-col">RRP</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="price-before">{{ item.oldPrice ? '$' + item.oldPrice.toFixed(2) : 'N/A' }}</span>
+            </td>
+          </tr>
+
+          <!-- Price After Row -->
+          <tr>
+            <td class="property-name sticky-col">Current Price</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="price-after" [class.lowest-price]="isLowestPrice(item)">
+                {{ item.newPrice ? '$' + item.newPrice.toFixed(2) : 'N/A' }}
+              </span>
+            </td>
+          </tr>
+
+          <!-- Discount Row -->
+          <tr>
+            <td class="property-name sticky-col">Discount</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="discount" [class.has-discount]="item.discount > 0" [class.highest-discount]="isHighestDiscount(item)">
+                {{ item.discount > 0 ? item.discount + '%' : 'No discount' }}
+              </span>
+            </td>
+          </tr>
+
+          <!-- Days Since Tracking Row -->
+          <tr>
+            <td class="property-name sticky-col">Tracked For</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="days-tracking">{{ getDaysSinceTracking(item) }} days</span>
+            </td>
+          </tr>
+
+          <!-- Last Update Row -->
+          <tr>
+            <td class="property-name sticky-col">Last Update</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="last-update">{{ item.updatedAt | relativeDate }}</span>
+            </td>
+          </tr>
+
+          <!-- Rating Row -->
+          <tr>
+            <td class="property-name sticky-col">Rating</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <div class="rating-container">
+                <div class="stars">
+                  <i
+                    *ngFor="let star of getStars(item.rating)"
+                    [class]="star"
+                  ></i>
+                </div>
+                <span class="rating-value" *ngIf="getFormattedRating(item.rating)">
+                  {{ getFormattedRating(item.rating) }}
+                  <span class="rating-count" *ngIf="item.ratingCount">
+                    ({{ item.ratingCount }})
+                  </span>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Price Chart -->
+    <div *ngIf="!isLoading && !error && getItemsArray().length > 0" class="price-chart-section">
+      <h2 class="chart-title">Price History Comparison</h2>
+      <app-multi-item-price-chart [items]="getItemsArray()"></app-multi-item-price-chart>
+    </div>
+  </div>
+</section>
+

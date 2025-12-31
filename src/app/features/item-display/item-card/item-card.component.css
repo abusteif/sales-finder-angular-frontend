@@ -2,13 +2,40 @@
     font-size: 0.85rem;
     height: 100%;
     border-radius: 8px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     display: flex;
     flex-direction: column;
     background-color: white;
     position: relative;
     overflow: visible;
     cursor: pointer;
+    }
+
+.custom-card.faded {
+    position: relative;
+    }
+
+.custom-card.faded .card-image > *:not(.item-selection-checkbox),
+.custom-card.faded .card-image > figure,
+.custom-card.faded .card-image > app-ellipsis-menu,
+.custom-card.faded .card-content {
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    }
+
+.custom-card.faded .item-selection-checkbox {
+    opacity: 1 !important;
+    pointer-events: auto;
+    }
+
+/* Disable all interactions when in selection mode */
+.custom-card:has(.item-selection-checkbox) {
+    pointer-events: none;
+    }
+
+.custom-card:has(.item-selection-checkbox) .item-selection-checkbox {
+    pointer-events: auto;
     }
 
 /* Desktop font sizing */
@@ -126,6 +153,13 @@
     font-size: 10.4px; /* 8px * 1.3 */
   }
 
+  .card-font-mobile-single .item-selection-checkbox {
+    top: 7.8px; /* 6px * 1.3 */
+    left: 7.8px; /* 6px * 1.3 */
+    width: 23.4px; /* 18px * 1.3 */
+    height: 23.4px; /* 18px * 1.3 */
+  }
+
   /* Adjust positioning for larger icons in single card mode */
   .card-font-mobile-single .discount-container {
     top: 7.8px; /* 6px * 1.3 */
@@ -133,9 +167,19 @@
     gap: 3.9px; /* 3px * 1.3 */
   }
 
+  /* Adjust discount container position when checkbox is present (single card) */
+  .card-font-mobile-single .card-image:has(.item-selection-checkbox) .discount-container {
+    left: 37.2px; /* 7.8px base + 23.4px checkbox + 6px spacing */
+  }
+
   .card-font-mobile-single .rrp-fluctuating-icon {
     top: 7.8px; /* 6px * 1.3 */
     left: 7.8px; /* 6px * 1.3 */
+  }
+
+  /* Adjust RRP fluctuating icon position when checkbox is present (single card) */
+  .card-font-mobile-single .card-image:has(.item-selection-checkbox) .rrp-fluctuating-icon {
+    left: 37.2px; /* 7.8px base + 23.4px checkbox + 6px spacing */
   }
 
   /* Adjust RRP fluctuating icon position when discount container is present (single card) */
@@ -143,9 +187,19 @@
     left: 39px; /* 7.8px base + 26px discount icon + 5.2px spacing (4px * 1.3) */
   }
 
+  /* Adjust RRP fluctuating icon when both checkbox and discount container are present (single card) */
+  .card-font-mobile-single .card-image:has(.item-selection-checkbox) .discount-container ~ .rrp-fluctuating-icon {
+    left: 67.6px; /* 7.8px base + 23.4px checkbox + 6px spacing + 26px discount + 4.4px gap */
+  }
+
   /* If volatility warning is also present, move RRP fluctuating icon further right (single card) */
   .card-font-mobile-single .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
     left: 65px; /* 7.8px base + 26px discount + 3.9px gap + 26px volatility + 1.3px spacing */
+  }
+
+  /* Adjust RRP fluctuating icon when checkbox, discount, and volatility are all present (single card) */
+  .card-font-mobile-single .card-image:has(.item-selection-checkbox) .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 93.6px; /* 7.8px base + 23.4px checkbox + 6px spacing + 26px discount + 3.9px gap + 26px volatility + 0.5px gap */
   }
 }
 
@@ -206,9 +260,21 @@
 
 /* 30% smaller icons for 3 cards per row on mobile */
 @media (max-width: 768px) {
+  .card-font-mobile-triple .item-selection-checkbox {
+    top: 4px;
+    left: 4px;
+    width: 16px;
+    height: 16px;
+  }
+
   .card-font-mobile-triple .discount-container {
     top: 4px;
     left: 4px;
+  }
+
+  /* Adjust discount container position when checkbox is present (triple card) */
+  .card-font-mobile-triple .card-image:has(.item-selection-checkbox) .discount-container {
+    left: 24px; /* 4px base + 16px checkbox + 4px spacing */
   }
 
   .card-font-mobile-triple .discount-icon {
@@ -247,12 +313,27 @@
     left: 4px;
   }
 
+  /* Adjust RRP fluctuating icon position when checkbox is present (triple card) */
+  .card-font-mobile-triple .card-image:has(.item-selection-checkbox) .rrp-fluctuating-icon {
+    left: 24px; /* 4px base + 16px checkbox + 4px spacing */
+  }
+
   .card-font-mobile-triple .discount-container ~ .rrp-fluctuating-icon {
     left: 20px; /* 4px base + 14px discount icon + 2px spacing */
   }
 
+  /* Adjust RRP fluctuating icon when both checkbox and discount container are present (triple card) */
+  .card-font-mobile-triple .card-image:has(.item-selection-checkbox) .discount-container ~ .rrp-fluctuating-icon {
+    left: 38px; /* 4px base + 16px checkbox + 4px spacing + 14px discount + 0px gap */
+  }
+
   .card-font-mobile-triple .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
     left: 34px; /* 4px base + 14px discount + 14px volatility + 2px spacing */
+  }
+
+  /* Adjust RRP fluctuating icon when checkbox, discount, and volatility are all present (triple card) */
+  .card-font-mobile-triple .card-image:has(.item-selection-checkbox) .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 52px; /* 4px base + 16px checkbox + 4px spacing + 14px discount + 14px volatility + 0px gap */
   }
 
   /* Special positioning for buttons when showing 3 cards per row */
@@ -420,6 +501,61 @@
   overflow: visible !important;
 }
 
+/* Item selection checkbox */
+.item-selection-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  accent-color: #003d82;
+  border: 2px solid #003d82 !important;
+  border-radius: 4px;
+  background-color: white !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 1);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  font-weight: 900;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.item-selection-checkbox:hover {
+  border-color: #002752 !important;
+  transform: scale(1.1);
+}
+
+.item-selection-checkbox:checked {
+  border-color: #002752 !important;
+  background-color: #003d82 !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 1);
+}
+
+.item-selection-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.item-selection-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-color: #999 !important;
+  background-color: #f5f5f5 !important;
+}
+
+.item-selection-checkbox:disabled:hover {
+  transform: none;
+  border-color: #999 !important;
+}
+
 /* Discount icon container */
 .discount-container {
   position: absolute;
@@ -429,6 +565,11 @@
   display: flex;
   align-items: center;
   gap: 4px; /* Space between discount icon and volatility warning */
+}
+
+/* Adjust discount container position when checkbox is present */
+.card-image:has(.item-selection-checkbox) .discount-container {
+  left: 36px; /* 8px base + 20px checkbox + 8px spacing */
 }
 
 /* RRP fluctuating icon positioning */
@@ -442,14 +583,29 @@
   justify-content: center;
 }
 
+/* Adjust RRP fluctuating icon position when checkbox is present */
+.card-image:has(.item-selection-checkbox) .rrp-fluctuating-icon {
+  left: 36px; /* 8px base + 20px checkbox + 8px spacing */
+}
+
 /* Adjust RRP fluctuating icon position when discount container is present */
 .discount-container ~ .rrp-fluctuating-icon {
   left: 36px; /* Position to the right of discount icon (24px) + gap (8px spacing) */
 }
 
+/* Adjust RRP fluctuating icon when both checkbox and discount container are present */
+.card-image:has(.item-selection-checkbox) .discount-container ~ .rrp-fluctuating-icon {
+  left: 64px; /* 8px base + 20px checkbox + 8px spacing + 24px discount + 4px gap */
+}
+
 /* If volatility warning is also present, move RRP fluctuating icon further right */
 .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
   left: 60px; /* Position after discount icon (24px) + gap (4px) + volatility icon (24px) + gap (8px spacing) */
+}
+
+/* Adjust RRP fluctuating icon when checkbox, discount, and volatility are all present */
+.card-image:has(.item-selection-checkbox) .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+  left: 88px; /* 8px base + 20px checkbox + 8px spacing + 24px discount + 4px gap + 24px volatility + 0px gap */
 }
 
 /* Alert indicator */
@@ -486,10 +642,22 @@
 
 /* Mobile responsive discount icon */
 @media (max-width: 768px) {
+  .item-selection-checkbox {
+    top: 6px;
+    left: 6px;
+    width: 18px;
+    height: 18px;
+  }
+
   .discount-container {
     top: 6px;
     left: 6px;
     gap: 3px; /* Smaller gap on mobile */
+  }
+
+  /* Adjust discount container position on mobile when checkbox is present */
+  .card-image:has(.item-selection-checkbox) .discount-container {
+    left: 30px; /* 6px base + 18px checkbox + 6px spacing */
   }
   
   .alert-indicator {
@@ -511,14 +679,29 @@
     align-items: center;
     justify-content: center;
   }
+
+  /* Adjust RRP fluctuating icon position on mobile when checkbox is present */
+  .card-image:has(.item-selection-checkbox) .rrp-fluctuating-icon {
+    left: 30px; /* 6px base + 18px checkbox + 6px spacing */
+  }
   
   /* Adjust RRP fluctuating icon position on mobile when discount container is present */
   .discount-container ~ .rrp-fluctuating-icon {
     left: 30px; /* 6px base + 20px discount icon + 4px spacing */
   }
+
+  /* Adjust RRP fluctuating icon on mobile when both checkbox and discount container are present */
+  .card-image:has(.item-selection-checkbox) .discount-container ~ .rrp-fluctuating-icon {
+    left: 54px; /* 6px base + 18px checkbox + 6px spacing + 20px discount + 4px gap */
+  }
   
   .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
     left: 50px; /* 6px base + 20px discount + 20px volatility + 4px spacing */
+  }
+
+  /* Adjust RRP fluctuating icon on mobile when checkbox, discount, and volatility are all present */
+  .card-image:has(.item-selection-checkbox) .discount-container:has(.volatility-warning-icon) ~ .rrp-fluctuating-icon {
+    left: 74px; /* 6px base + 18px checkbox + 6px spacing + 20px discount + 3px gap + 20px volatility + 1px gap */
   }
 }
 

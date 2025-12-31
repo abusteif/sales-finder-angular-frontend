@@ -21,5 +21,12 @@ export class ItemService {
             headers: this.headers
         });
     }
+
+    compareItems(itemIds: string[]): Observable<{ [key: string]: ItemDetails }> {
+        const compareUrl = `${environment.apiBaseUrl}/compare`;
+        return this.http.post<{ [key: string]: ItemDetails }>(compareUrl, { itemIds }, {
+            headers: this.headers
+        });
+    }
 }
 

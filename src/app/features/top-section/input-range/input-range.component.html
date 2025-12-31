@@ -10,6 +10,7 @@
             class="range-input" 
             [(ngModel)]="lowerValue"
             (ngModelChange)="onMinChange($event)"
+            (keydown.enter)="onEnterKey($event)"
             [min]="min" 
             [max]="max"
             [placeholder]="placeholder">
@@ -21,6 +22,7 @@
             class="range-input" 
             [(ngModel)]="upperValue"
             (ngModelChange)="onMaxChange($event)"
+            (keydown.enter)="onEnterKey($event)"
             [min]="min" 
             [max]="max"
             [placeholder]="placeholder">

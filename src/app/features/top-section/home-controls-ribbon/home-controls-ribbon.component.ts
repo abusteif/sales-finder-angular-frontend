@@ -16,6 +16,8 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
 
   @Output() onFilterClick = new EventEmitter<void>();
   @Output() onSortClick = new EventEmitter<void>();
+  @Output() onSelectItemsClick = new EventEmitter<void>();
+  @Output() onCompareClick = new EventEmitter<void>();
   @Output() onRefreshClick = new EventEmitter<void>();
   @Output() onSearchChange = new EventEmitter<string>();
   @Output() onAiSearchClick = new EventEmitter<void>();
@@ -31,6 +33,8 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
   @Input() cardsPerRow: number = DEFAULT_CARDS_PER_ROW;
   @Input() isFeaturedItemsOnly: boolean = false;
   @Input() searchValue: string = '';
+  @Input() isItemSelectionMode: boolean = false;
+  @Input() selectedItemsCount: number = 0;
 
   showDisplayModal: boolean = false;
   @ViewChild('searchInput') searchInput!: ElementRef;
@@ -46,12 +50,22 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
       fromEvent(this.searchInput.nativeElement, 'input')
         .pipe(
           map((event: any) => event.target.value),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((value: string) => {
+          // Update searchValue immediately for UI (clear button visibility)
+          this.searchValue = value;
+        });
+
+      // Debounced emit to parent
+      fromEvent(this.searchInput.nativeElement, 'input')
+        .pipe(
+          map((event: any) => event.target.value),
           debounceTime(500),
           distinctUntilChanged(),
           takeUntil(this.destroy$)
         )
         .subscribe((value: string) => {
-          this.searchValue = value;
           this.onSearchChange.emit(value);
         });
     }
@@ -76,6 +90,14 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
 
   sortClickHandler() {
     this.onSortClick.emit();
+  }
+
+  selectItemsClickHandler() {
+    this.onSelectItemsClick.emit();
+  }
+
+  compareClickHandler() {
+    this.onCompareClick.emit();
   }
 
   refreshClickHandler() {
@@ -118,6 +140,14 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
   handleFeaturedItemsOnlyChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.onFeaturedItemsChange.emit(checkbox.checked);
+  }
+
+  clearSearch() {
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = '';
+      this.searchValue = '';
+      this.onSearchChange.emit('');
+    }
   }
 
   ngOnDestroy() {

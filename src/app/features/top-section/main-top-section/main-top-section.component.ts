@@ -39,6 +39,9 @@ export class MainTopSectionComponent {
   public includedDiscountTypes: UpdateType[] = [...DEFAULT_INCLUDED_UPDATE_TYPES];
   public isFeaturedItemsOnly: boolean = false;
   public excludeFluctuatingItems: boolean = false;
+  public isSelectItemsClicked: boolean = false;
+  public isItemSelectionMode: boolean = false;
+  public selectedItemsCount: number = 0;
   constructor(
     public store: storesStore,
     public category: CategoriesStore,
@@ -47,6 +50,7 @@ export class MainTopSectionComponent {
     public sortService: SortService,
     public filterService: FilterService,
     public appStore: AppStore,
+    public itemsStore: ItemsStore,
     private router: Router
   ) {
 
@@ -79,6 +83,12 @@ export class MainTopSectionComponent {
         clearSearchCriteriaSignal.set(false);
       }
     });
+    effect(() => {
+      this.isItemSelectionMode = this.itemsStore.isItemSelectionMode();
+    });
+    effect(() => {
+      this.selectedItemsCount = this.itemsStore.selectedItems().length;
+    });
   }
 
   onStoreChange(selectedStores: string[]) {
@@ -99,6 +109,24 @@ export class MainTopSectionComponent {
 
   onDateRangeChange(dateRange: string) {
     this.dateRange = dateRange;
+  }
+
+  onSelectItemsClick() {
+    this.isSelectItemsClicked = !this.isSelectItemsClicked;
+    this.itemsStore.setItemSelectionMode(this.isSelectItemsClicked);
+    if (!this.isSelectItemsClicked) {
+      this.itemsStore.clearSelectedItems();
+    }
+  }
+
+  onCompareClick() {
+    const selectedItems = this.itemsStore.selectedItems();
+    if (selectedItems.length >= 2) {
+      const queryParams = { items: selectedItems.map(item => item.id).join(',') };
+      const urlTree = this.router.createUrlTree(['/compare'], { queryParams });
+      const url = this.router.serializeUrl(urlTree);
+      window.open(url, '_blank');
+    }
   }
 
   onSearchChange(search: string) {

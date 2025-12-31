@@ -1,6 +1,6 @@
 <div class="dropdown" [ngClass]="{'is-active': isActive}" [style]="'width:' + width + 'px;'">
   <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown($event)"
+    <button type="button" class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown($event)"
       [style.width]="width + 'px'">
       <span>{{ dropdownText() | specialNameTitlecase }}</span>
       <span class="icon is-small">

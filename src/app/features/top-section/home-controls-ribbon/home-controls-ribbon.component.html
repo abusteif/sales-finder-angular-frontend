@@ -18,6 +18,18 @@
           <i class="fas fa-sort sort-icon"></i>
           <span class="button-text">Sort</span>
         </button>
+        <button class="control-button" [class.select-active]="isItemSelectionMode" (click)="selectItemsClickHandler()">
+          <i class="fas fa-check-square select-icon"></i>
+          <span class="button-text">{{ selectedItemsCount > 0 ? 'Unselect' : 'Select' }}</span>
+        </button>
+        <button 
+          *ngIf="selectedItemsCount >= 2"
+          class="control-button compare-button-flash" 
+          (click)="compareClickHandler()"
+        >
+          <i class="fas fa-columns compare-icon"></i>
+          <span class="button-text">Compare</span>
+        </button>
         <button class="control-button" (click)="refreshClickHandler()">
           <i class="fas fa-sync refresh-icon"></i>
           <span class="button-text">Refresh</span>
@@ -30,35 +42,42 @@
           <span class="button-text">Display</span>
         </button>
       </div>
-      <div class="search-container">
-        <form (ngSubmit)="onSearchSubmit($event)">
-          <input
-            #searchInput
-            type="search"
-            class="input"
-            placeholder="Search"
-            enterkeyhint="search"
-            [value]="searchValue"
-          />
-          <i class="fas fa-search search-icon"></i>
-        </form>
-      </div>
+      <div class="mobile-second-row">
+        <div class="search-container">
+          <form (ngSubmit)="onSearchSubmit($event)" [class.has-search-value]="searchValue">
+            <input
+              #searchInput
+              type="search"
+              class="input"
+              placeholder="Search"
+              enterkeyhint="search"
+              [value]="searchValue"
+            />
+            <i 
+              *ngIf="searchValue" 
+              class="fas fa-times clear-icon" 
+              (click)="clearSearch()"
+            ></i>
+            <i class="fas fa-search search-icon" [class.search-icon-with-clear]="searchValue"></i>
+          </form>
+        </div>
 
-      <div class="category-checkbox">
-        <label class="checkbox-label">
-          <input
-            type="checkbox"
-            (change)="handleFeaturedItemsOnlyChange($event)"
-            [checked]="isFeaturedItemsOnly"
-          />
-          <span
-            class="highest-discount-icon"
-            matTooltip="Featured items only"
-            matTooltipPosition="above"
-            [matTooltipShowDelay]="500"
-            >🔥</span
-          >
-        </label>
+        <div class="category-checkbox">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              (change)="handleFeaturedItemsOnlyChange($event)"
+              [checked]="isFeaturedItemsOnly"
+            />
+            <span
+              class="highest-discount-icon"
+              matTooltip="Featured items only"
+              matTooltipPosition="above"
+              [matTooltipShowDelay]="500"
+              >🔥</span
+            >
+          </label>
+        </div>
       </div>
     </div>
 

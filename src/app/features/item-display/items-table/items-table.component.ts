@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { Item } from '../../../core/models/item.model';
 import { UserRole } from '../../../core/models/user.models';
 
@@ -19,7 +19,9 @@ export class ItemsTableComponent {
   @Input() isAuthenticated: boolean = false;
   @Input() cardsPerRow: number = 3;
   @Input() userRole: UserRole = UserRole.USER;
-  
+  @Input() isItemSelectionMode: boolean = false;
+  @Input() isMaxItemSelectionCountReached: boolean = false;
+  @Input() selectedItems: Item[] = [];
 
   getColumnClass(): string {
     const desktopClass = 'is-one-fifth-desktop';
@@ -37,4 +39,9 @@ export class ItemsTableComponent {
   clearSearchCriteria(): void {
     clearSearchCriteriaSignal.set(true);
   }
+
+  isItemSelected(itemId: string): boolean {
+    return this.selectedItems.some(item => item.id === itemId);
+  }
+
 }

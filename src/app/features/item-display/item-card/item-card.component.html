@@ -3,6 +3,7 @@
 <div
   class="card custom-card"
   [class]="getCardFontSizeClass()"
+  [class.faded]="isItemSelectionMode && !isSelected"
   [style.box-shadow]="getCardShadowStyle()"
   [style.--hover-shadow]="getCardHoverShadowStyle()"
   (click)="onCardClick($event)"
@@ -11,6 +12,20 @@
     class="card-image"
     style="align-items: center; display: flex; justify-content: center"
   >
+    @if(isItemSelectionMode) {
+    <input
+      type="checkbox"
+      class="item-selection-checkbox"
+      [checked]="isSelected"
+      [disabled]="isCheckboxDisabled()"
+      [matTooltip]="getCheckboxTooltip()"
+      matTooltipPosition="below"
+      [matTooltipShowDelay]="0"
+      [matTooltipClass]="'custom-tooltip'"
+      (click)="onItemSelectionClick($event)"
+      (change)="onItemSelectionChange($event)"
+    />
+    }
     <app-ellipsis-menu [options]="ellipsisOptions"></app-ellipsis-menu>
     @if(updateType !== UpdateType.ALL) {
     <div
@@ -170,7 +185,8 @@
             [matTooltipShowDelay]="isMobile ? 0 : 300"
             [matTooltipClass]="'custom-tooltip'"
             (click)="onMembershipTooltipClick($event, membershipTooltip)"
-          >*</span>
+            >*</span
+          >
           }
         </p>
         <p class="item-detail">

@@ -1,0 +1,88 @@
+.multi-item-price-chart-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-hint {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid rgb(59, 130, 246);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.hint-text {
+  font-size: 13px;
+  color: rgb(59, 130, 246);
+  line-height: 1.4;
+}
+
+.price-chart-container {
+  width: 100%;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+.price-chart-container canvas {
+  cursor: default;
+}
+
+@media (max-width: 640px) {
+  .price-chart-container {
+    height: 300px;
+  }
+  
+  .hint-text {
+    font-size: 12px;
+  }
+  
+  /* Fix Chart.js legend vertical alignment on mobile */
+  .price-chart-container ::ng-deep canvas ~ div {
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  
+  .price-chart-container ::ng-deep canvas ~ div ul {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 8px !important;
+  }
+  
+  .price-chart-container ::ng-deep canvas ~ div li {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.6 !important;
+  }
+  
+  .price-chart-container ::ng-deep canvas ~ div li span {
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Override Chart.js legend label padding to ensure consistent spacing */
+  .price-chart-container ::ng-deep canvas ~ div li > span {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+

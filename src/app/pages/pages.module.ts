@@ -21,6 +21,7 @@ import { ContactUsPageComponent } from './contact-us-page/contact-us-page.compon
 import { FaqPageComponent } from './faq-page/faq-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { ItemDetailsPageComponent } from './item-details-page/item-details-page.component';
+import { ComparePageComponent } from './compare-page/compare-page.component';
 import { AlertsModule } from '../features/alerts/alerts.module';
 import { IndividualItemDetailsModule } from '../features/individual-item-details/individual-item-details.module';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
@@ -42,6 +43,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     FaqPageComponent,
     AboutUsPageComponent,
     ItemDetailsPageComponent,
+    ComparePageComponent,
     NotFoundPageComponent
   ],
   imports: [

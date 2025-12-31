@@ -4,13 +4,15 @@
   title="Filter Options"
   [applyButtonText]="'Apply Filters'"
   [cancelButtonText]="'Cancel'"
-  (onApply)="onSubmit()"
+  (onApply)="onApplyButtonClick()"
   [additionalButton]="resetFiltersButton"
   (onAdditionalButtonClick)="resetFilters()"
 >
   <form
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSubmit($event)"
     [formGroup]="filterForm"
+    (submit)="onSubmit($event)"
+    #filterFormElement
   >
     <div class="field">
       <div class="columns">

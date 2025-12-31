@@ -44,16 +44,16 @@ body {
     color: black !important;
   }
 
-  /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, bell-icon-btn, discount-chip, and admin-page-footer-link buttons */
-  button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip),
-  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip) {
+  /* Ensure buttons stay white in dark mode, except success, filter-active, sort-active, select-active, compare-button-flash, bell-icon-btn, discount-chip, and admin-page-footer-link buttons */
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip),
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip) {
     background-color: white !important;
     color: black !important;
     border-color: #dee2e6 !important;
   }
 
-  button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip):hover,
-  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip):hover {
+  button:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip):hover,
+  .button:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash):not(.user-settings-btn):not(.bell-icon-btn):not(.bell-button):not(.report-button):not(.admin-page-footer-link):not(.discount-chip):hover {
     background-color: #f8f9fa !important;
     color: black !important;
     border-color: #ced4da !important;
@@ -65,10 +65,10 @@ body {
     color: #007bff !important;
   }
 
-  button.active:not(.is-success):not(.filter-active):not(.sort-active),
-  .button.active:not(.is-success):not(.filter-active):not(.sort-active),
-  button.is-active:not(.is-success):not(.filter-active):not(.sort-active),
-  .button.is-active:not(.is-success):not(.filter-active):not(.sort-active) {
+  button.active:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash),
+  .button.active:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash),
+  button.is-active:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash),
+  .button.is-active:not(.is-success):not(.filter-active):not(.sort-active):not(.select-active):not(.compare-button-flash) {
     background-color: #007bff !important;
     color: white !important;
     border-color: #007bff !important;
@@ -151,6 +151,31 @@ body {
   .far.fa-star {
     color: #666 !important;
     opacity: 1 !important;
+  }
+
+  /* Ensure select-active button uses light blue like filter-active and sort-active */
+  .control-button.select-active {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+  }
+
+  .control-button.select-active .select-icon,
+  .control-button.select-active .button-text {
+    color: white !important;
+  }
+
+  .control-button.select-active:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+  }
+
+  /* On touch devices, disable hover effect for active buttons to show standard active color */
+  @media (hover: none) {
+    .control-button.select-active:hover {
+      background-color: #007bff !important;
+      border-color: #007bff !important;
+    }
   }
 }
 
@@ -568,4 +593,13 @@ body {
   top: 0;
   z-index: 500;
   padding: 0 10px;
+}
+
+@media (max-width: 767px) {
+  .controls-ribbon {
+    height: auto;
+    min-height: 70px;
+    align-items: flex-start;
+    padding: 10px;
+  }
 }

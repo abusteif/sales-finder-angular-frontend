@@ -40,5 +40,12 @@ export class InputRangeComponent {
     const maxValue = Math.max(this.lowerValue, Math.min(value, this.max));
     this.onRangeChange.emit([this.lowerValue, maxValue]);
   }
+
+  onEnterKey(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Blur the input to trigger any blur handlers
+    (event.target as HTMLInputElement)?.blur();
+  }
 }
 

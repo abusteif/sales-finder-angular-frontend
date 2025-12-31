@@ -5,6 +5,8 @@
   [cardsPerRow]="cardsPerRow"
   [isFeaturedItemsOnly]="isFeaturedItemsOnly"
   [searchValue]="search"
+  [isItemSelectionMode]="isItemSelectionMode"
+  [selectedItemsCount]="selectedItemsCount"
   (onItemsPerPageChange)="onItemsPerPageChange($event)"
   (onCardsPerRowChange)="onCardsPerRowChange($event)"
   (onFilterClick)="openFilterModal()"
@@ -14,6 +16,8 @@
   (onFeaturedItemsChange)="onFeaturedItemsChange($event, true)"
   (onDisplaySettingsClick)="onDisplaySettingsClick()"
   (onDisplaySettingsApply)="onDisplaySettingsApply()"
+  (onSelectItemsClick)="onSelectItemsClick()"
+  (onCompareClick)="onCompareClick()"
 >
 </app-home-controls-ribbon>
 

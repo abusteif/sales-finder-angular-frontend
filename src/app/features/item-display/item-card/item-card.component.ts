@@ -1,4 +1,10 @@
-import { Component, Input, signal, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  signal,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { filter, switchMap, takeUntil, Subject, tap, of } from 'rxjs';
 import {
   Item,
@@ -18,8 +24,14 @@ import { UserReportsService } from '../../../core/services/userReports.service';
 import { ItemsStore } from '../../../state/items.store';
 import { UserRole } from '../../../core/models/user.models';
 import { ItemDisplayService } from '../../../core/services/item-display.service';
+import { MAX_ITEM_SELECTION_COUNT } from '../../../core/constants/item';
+import { GENERIC_SETTINGS } from '../../../core/constants/generic-settings';
 
 export const itemAlertSignal = signal<ItemAlert | null>(null);
+export const itemSelectionSignal = signal<{
+  item: Item | null;
+  isSelected: boolean;
+}>({ item: null, isSelected: false });
 @Component({
   selector: 'app-item-card',
   standalone: false,
@@ -72,6 +84,9 @@ export class ItemCardComponent implements OnDestroy {
   @Input() set userRole(userRole: UserRole) {
     this.isAdmin = userRole === UserRole.ADMIN;
   }
+  @Input() isSelected: boolean = false;
+  @Input() isItemSelectionMode: boolean = false;
+  @Input() isMaxItemSelectionCountReached: boolean = false;
 
   _item: Item = {} as Item;
   _itemAlert: ItemAlert = {} as ItemAlert;
@@ -113,6 +128,11 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   onCardClick(event: MouseEvent) {
+    // Don't handle card clicks when in selection mode (checkbox handles selection)
+    if (this.isItemSelectionMode) {
+      return;
+    }
+
     if ((event.target as HTMLElement).closest('[data-ellipsis-menu]')) {
       return;
     }
@@ -504,6 +524,27 @@ export class ItemCardComponent implements OnDestroy {
       .subscribe();
   };
 
+  onItemSelectionClick(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  onItemSelectionChange(event: Event) {
+    event.stopPropagation();
+    const checkbox = event.target as HTMLInputElement;
+    itemSelectionSignal.set({ item: this._item, isSelected: checkbox.checked });
+  }
+
+  isCheckboxDisabled(): boolean {
+    return this.isMaxItemSelectionCountReached && !this.isSelected;
+  }
+
+  getCheckboxTooltip(): string {
+    if (this.isCheckboxDisabled()) {
+      return `You can only select ${MAX_ITEM_SELECTION_COUNT} items to compare`;
+    }
+    return '';
+  }
+
   onReportNoLongerOnDiscountClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -522,7 +563,10 @@ export class ItemCardComponent implements OnDestroy {
     return this.isAdmin
       ? [
           ...baseOptions,
-          { label: 'Set as featured', action: () => this.changeFeaturedStatus(true) },
+          {
+            label: 'Set as featured',
+            action: () => this.changeFeaturedStatus(true),
+          },
           {
             label: 'Set as not featured',
             action: () => this.changeFeaturedStatus(false),
@@ -532,15 +576,22 @@ export class ItemCardComponent implements OnDestroy {
   }
 
   changeFeaturedStatus(isFeatured: boolean): void {
-    this.userReportsService.setFeaturedStatus(this._item.id, isFeatured).pipe(
-      switchMap(() => this.statusDialogService.showSuccess(
-        isFeatured ? 'Added to featured' : 'Removed from featured',
-        isFeatured ? 'This item has been added to featured. It will be displayed on the featured page.' : 'This item has been removed from featured. It will no longer be displayed on the featured page.',
-        'OK'
-      )),
-      tap(() => this.items.getItems()),
-      takeUntil(this.destroy$)
-    ).subscribe();
+    this.userReportsService
+      .setFeaturedStatus(this._item.id, isFeatured)
+      .pipe(
+        switchMap(() =>
+          this.statusDialogService.showSuccess(
+            isFeatured ? 'Added to featured' : 'Removed from featured',
+            isFeatured
+              ? 'This item has been added to featured. It will be displayed on the featured page.'
+              : 'This item has been removed from featured. It will no longer be displayed on the featured page.',
+            'OK'
+          )
+        ),
+        tap(() => this.items.getItems()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

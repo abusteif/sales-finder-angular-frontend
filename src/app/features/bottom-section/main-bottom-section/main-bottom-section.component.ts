@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../../../core/models/item.model';
 import { ItemsStore } from '../../../state/items.store';
 import { effect } from '@angular/core';
@@ -9,6 +9,7 @@ import { AppStore } from '../../../state/app.store';
 import { AlertsStore } from '../../../state/alerts.store';
 import { AuthenticationStore } from '../../../state/authentication.store';
 import { UserRole } from '../../../core/models/user.models';
+import { MAX_ITEM_SELECTION_COUNT } from '../../../core/constants/item';
 @Component({
   selector: 'app-main-bottom-section',
   standalone: false,
@@ -28,6 +29,9 @@ export class MainBottomSectionComponent {
   alertLimitReached: boolean = false;
   isAuthenticated: boolean = false;
   userRole: UserRole = UserRole.USER;
+  selectedItems: Item[] = [];
+  isItemSelectionMode: boolean = false;
+  isMaxItemSelectionCountReached: boolean = false;
   constructor(
     private itemsStore: ItemsStore,
     private filterStore: FilterStore,
@@ -55,6 +59,13 @@ export class MainBottomSectionComponent {
       });
       this.alertLimitReached = this.alertsStore.alerts().length >= (this.authenticationStore.user()?.maxAlerts || 0);
       this.userRole = this.authenticationStore.user()?.role || UserRole.USER;
+    });
+    effect(() => {
+      this.selectedItems = this.itemsStore.selectedItems();
+      this.isMaxItemSelectionCountReached = this.selectedItems.length >= MAX_ITEM_SELECTION_COUNT;
+    });
+    effect(() => {
+      this.isItemSelectionMode = this.itemsStore.isItemSelectionMode();
     });
   }
 

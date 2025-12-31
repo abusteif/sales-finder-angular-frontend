@@ -31,6 +31,8 @@ interface ItemsState {
   loading: boolean;
   error: string | null;
   itemsCount: number;
+  selectedItems: Item[];
+  isItemSelectionMode: boolean;
 }
 
 @Injectable({
@@ -42,7 +44,9 @@ export class ItemsStore extends signalStore(
     items: [],
     loading: false,
     error: null,
-    itemsCount: 0
+    itemsCount: 0,
+    selectedItems: [],
+    isItemSelectionMode: false
   }),
   withMethods((items) => {
     const itemsService = inject(ItemsService);        
@@ -140,6 +144,20 @@ export class ItemsStore extends signalStore(
             return of([]);
           })
         ).subscribe();
+      },
+      addSelectedItem: (selectedItem: Item) => {
+        const selectedItems = [...items.selectedItems(), selectedItem];
+        patchState(items, { selectedItems });
+      },
+      removeSelectedItem: (selectedItem: Item) => {
+        const selectedItems = items.selectedItems().filter((item) => item.id !== selectedItem.id);
+        patchState(items, { selectedItems });
+      },
+      clearSelectedItems: () => {
+        patchState(items, { selectedItems: [] });
+      },
+      setItemSelectionMode: (isItemSelectionMode: boolean) => {
+        patchState(items, { isItemSelectionMode });
       }
     }
   })

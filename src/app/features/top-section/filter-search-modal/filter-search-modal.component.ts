@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { AdditionalButton } from '../../../core/models/modal.model';
@@ -80,6 +80,9 @@ export class FilterSearchModalComponent {
       checked: false
     }
   ];
+  @ViewChild('filterFormElement', { static: false }) filterFormElement?: ElementRef<HTMLFormElement>;
+  private shouldSubmit: boolean = false;
+
   constructor(private appStore: AppStore) {}
 
   filterForm: FormGroup = new FormGroup({
@@ -89,11 +92,28 @@ export class FilterSearchModalComponent {
     discountRange: new FormControl([...environment.maxDiscountRange]),
   });
 
-  onSubmit() {
+  onSubmit(event?: Event) {
+    // Only submit if explicitly triggered by Apply button, not by Enter key in inputs
+    if (!this.shouldSubmit) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
+    
+    this.shouldSubmit = false; // Reset flag
+    
     if (this.filterForm.valid) {
       this.onSubmitFilter.emit(
       );
     }
+  }
+
+  // This method should be called explicitly by the Apply button
+  onApplyButtonClick() {
+    this.shouldSubmit = true;
+    this.onSubmit();
   }
 
   storeChange(selectedStores: string[]) {

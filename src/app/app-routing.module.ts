@@ -14,6 +14,7 @@ import { ContactUsPageComponent } from './pages/contact-us-page/contact-us-page.
 import { FaqPageComponent } from './pages/faq-page/faq-page.component';
 import { AboutUsPageComponent } from './pages/about-us-page/about-us-page.component';
 import { ItemDetailsPageComponent } from './pages/item-details-page/item-details-page.component';
+import { ComparePageComponent } from './pages/compare-page/compare-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { authGuard, publicGuard, ActivationConfirmationGuard, homeGuard } from './core/guards';
 import { GENERIC_SETTINGS } from './core/constants/generic-settings';
@@ -212,6 +213,18 @@ const routes: Routes = [
         title: `${APP_NAME} | Item Insights`,
         description: 'Deep dive into price history, stock movement, and savings opportunities for individual products.',
         robots: DEFAULT_ROBOTS
+      }
+    }
+  },
+  {
+    path: 'compare',
+    component: ComparePageComponent,
+    pathMatch: 'full',
+    data: {
+      seo: {
+        title: `${APP_NAME} | Compare Items`,
+        description: `Compare prices, discounts, and ratings across multiple items on ${APP_NAME}.`,
+        robots: NOINDEX_ROBOTS
       }
     }
   },

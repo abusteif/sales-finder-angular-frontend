@@ -1,0 +1,11 @@
+<div 
+  *ngIf="hasValidData()" 
+  class="multi-item-price-chart-wrapper">
+  <div class="chart-hint">
+    <span class="hint-text">💡 Tap on an item name in the legend to hide or show it</span>
+  </div>
+  <div class="price-chart-container">
+    <canvas #priceChart></canvas>
+  </div>
+</div>
+

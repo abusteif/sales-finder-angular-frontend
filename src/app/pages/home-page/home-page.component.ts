@@ -4,6 +4,7 @@ import { CategoriesStore } from '../../state/categories.store';
 import { storesStore } from '../../state/stores.store';
 import { Item, ItemAlert } from '../../core/models/item.model';
 import { itemAlertSignal } from '../../features/item-display/item-card/item-card.component';
+import { itemSelectionSignal } from '../../features/item-display/item-card/item-card.component';
 import { Alert } from '../../core/models/alert.model';
 import { AlertsStore } from '../../state/alerts.store';
 import { UserService } from '../../core/services/user.service';
@@ -19,6 +20,7 @@ import { FilterStore } from '../../state/filter.store';
 export class HomePageComponent {
   showAlertModal = false;
   itemAlertSignal = itemAlertSignal;
+  itemSelectionSignal = itemSelectionSignal;
   itemAlert: ItemAlert | null = null;
   itemDetails: Item | null = null;
   alertId: string | null = null;
@@ -34,6 +36,18 @@ export class HomePageComponent {
     private route: ActivatedRoute,
     private filterStore: FilterStore
   ) {
+    effect(() => {
+      const itemSelection = this.itemSelectionSignal();
+      if (!itemSelection.item) {
+        return; // Skip if no item to process
+      }
+      if (itemSelection.isSelected) {
+        this.itemsStore.addSelectedItem(itemSelection.item as Item);
+      } else {
+        this.itemsStore.removeSelectedItem(itemSelection.item as Item);
+      }
+      itemSelectionSignal.set({ item: null, isSelected: false });
+    });
     effect(() => {
       const itemAlert = this.itemAlertSignal();
       if (!itemAlert?.item) return;
@@ -75,7 +89,7 @@ export class HomePageComponent {
       this.filterStore.setFeaturedItemsOnly(true);
       this.filterStore.setCurrentPage(1);
     }
-    
+
     this.store.loadStores();
     this.category.loadCategories([]);
     this.itemsStore.getItems();

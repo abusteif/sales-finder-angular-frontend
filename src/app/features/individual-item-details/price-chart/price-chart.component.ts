@@ -8,17 +8,10 @@ import {
   OnDestroy,
   AfterViewInit,
 } from '@angular/core';
-import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { PriceHistory } from '../../../core/models/item.model';
 import { SpecialNameTitlecasePipe } from '../../../shared/special-name-titlecase.pipe';
-
-interface ChartDataPoint {
-  x: number;
-  y: number;
-  originalIndex: number;
-  discountValue: number;
-  isHelper?: boolean;
-}
+import { PriceChartService, ChartDataPoint } from '../../../core/services/price-chart.service';
 
 Chart.register(...registerables);
 
@@ -59,7 +52,10 @@ export class PriceChartComponent
   private boundDocumentClick?: (e: MouseEvent) => void;
   private boundDoubleClick?: (e: MouseEvent) => void;
 
-  constructor(private specialNameTitlecasePipe: SpecialNameTitlecasePipe) {}
+  constructor(
+    private specialNameTitlecasePipe: SpecialNameTitlecasePipe,
+    private priceChartService: PriceChartService
+  ) {}
 
   get canZoom(): boolean {
     return this.priceHistory && this.priceHistory.length > 1;
@@ -161,347 +157,33 @@ export class PriceChartComponent
       return;
     }
 
-    // Sort price history by date
-    const sortedHistory = [...this.priceHistory].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateA - dateB;
-    });
+    // Use service to prepare chart data
+    const chartData = this.priceChartService.prepareChartData(this.priceHistory);
+    this.currentDataPoints = chartData.dataPoints;
 
-    // Create data points with x (date) and y (discountedPrice) coordinates
-    // If discount is 0, use the fullPrice from the previous point
-    const normalizedDiscounts: number[] = [];
+    // Use service to create chart configuration
+    const chartConfig = this.priceChartService.createSingleItemChartConfig(chartData);
 
-    const dataPoints = sortedHistory.map((item, index) => {
-      let price = item.discountedPrice;
-      // If discount is 0 (or very close to 0), use the fullPrice from the previous point
-      let discount =
-        typeof item.discount === 'string'
-          ? parseFloat(item.discount)
-          : item.discount;
-      if (isNaN(discount as number)) {
-        discount = 0;
-      }
-      normalizedDiscounts.push(discount);
-      if ((discount === 0 || Math.abs(discount) < 0.01) && index > 0) {
-        const previousItem = sortedHistory[index - 1];
-        if (
-          previousItem &&
-          previousItem.fullPrice !== undefined &&
-          previousItem.fullPrice !== null
-        ) {
-          price = previousItem.fullPrice;
-        }
-      }
-      return {
-        x: new Date(item.date).getTime(),
-        y: price,
+    // Override tooltip filter to use component's shouldShowTooltip flag
+    if (chartConfig.options?.plugins?.tooltip) {
+      const originalFilter = chartConfig.options.plugins.tooltip.filter;
+      chartConfig.options.plugins.tooltip.filter = (tooltipItem) => {
+        const rawPoint = tooltipItem.raw as ChartDataPoint | undefined;
+        return this.shouldShowTooltip && !(rawPoint?.isHelper);
       };
-    });
-
-    // Add today's date point with the same value as the last point
-    if (dataPoints.length > 0) {
-      const lastPoint = dataPoints[dataPoints.length - 1];
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Set to start of today
-      const todayTimestamp = today.getTime();
-      
-      // Only add today's point if it's different from the last point's date
-      const lastPointDate = new Date(lastPoint.x);
-      lastPointDate.setHours(0, 0, 0, 0);
-      if (lastPointDate.getTime() !== todayTimestamp) {
-        dataPoints.push({
-          x: todayTimestamp,
-          y: lastPoint.y,
-        });
-        // Add a discount value for today's point (use the last discount value)
-        normalizedDiscounts.push(normalizedDiscounts[normalizedDiscounts.length - 1] ?? 0);
-      }
     }
 
-    // Check if all dates are in the same year
-    const years = sortedHistory.map((item) =>
-      new Date(item.date).getFullYear()
-    );
-    const uniqueYears = [...new Set(years)];
-    const allSameYear = uniqueYears.length === 1;
-
-    // Calculate min and max values from data points for y-axis scaling
-    const prices = dataPoints
-      .map((point) => point.y)
-      .filter((price) => price !== null && price !== undefined);
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
-    const priceRange = maxPrice - minPrice;
-    // For single data point or zero range, use a percentage of the price as padding
-    const padding = priceRange > 0 ? priceRange * 0.1 : Math.max(minPrice * 0.1, 10);
-
-    // Build stepped data points so we can style horizontal and vertical segments separately
-    const chartDataPoints: ChartDataPoint[] = [];
-    dataPoints.forEach((point, index) => {
-      const discountValue = normalizedDiscounts[index] ?? 0;
-      const actualPoint: ChartDataPoint = {
-        x: point.x,
-        y: point.y,
-        originalIndex: index,
-        discountValue,
-      };
-      chartDataPoints.push(actualPoint);
-
-      // Insert helper point to maintain stepped appearance without relying on stepped mode
-      if (index < dataPoints.length - 1) {
-        chartDataPoints.push({
-          x: dataPoints[index + 1].x,
-          y: point.y,
-          originalIndex: index,
-          discountValue,
-          isHelper: true,
-        });
-      }
-    });
-
-    const chartLowestPriceIndex = chartDataPoints.findIndex(
-      (point) => !point.isHelper && point.y === minPrice
-    );
-    const highlightedLowestIndex =
-      chartLowestPriceIndex !== -1 ? chartLowestPriceIndex : 0;
-
-    // Calculate date range for x-axis padding
-    const dateRange = dataPoints.length > 1
-      ? dataPoints[dataPoints.length - 1].x - dataPoints[0].x
-      : 0;
-    const xAxisPadding = dateRange > 0 ? dateRange * 0.008 : 0; // ~2px padding on each side
-
-    const chartConfig: ChartConfiguration = {
-      type: 'line' as ChartType,
-      data: {
-        datasets: [
-          {
-            label: 'Price ($)',
-            data: chartDataPoints,
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderWidth: 2,
-            tension: 0,
-            stepped: false,
-            fill: true,
-            pointRadius: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              if (rawPoint?.isHelper) {
-                return 0;
-              }
-              return ctx.dataIndex === highlightedLowestIndex ? 5 : 3;
-            },
-            pointHoverRadius: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              if (rawPoint?.isHelper) {
-                return 0;
-              }
-              return ctx.dataIndex === highlightedLowestIndex ? 7 : 5;
-            },
-            pointBackgroundColor: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              if (rawPoint?.isHelper) {
-                return 'rgba(0,0,0,0)';
-              }
-              return ctx.dataIndex === highlightedLowestIndex
-                ? 'rgb(34, 197, 94)'
-                : 'rgb(75, 192, 192)';
-            },
-            pointBorderColor: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              if (rawPoint?.isHelper) {
-                return 'rgba(0,0,0,0)';
-              }
-              return '#fff';
-            },
-            pointBorderWidth: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              if (rawPoint?.isHelper) {
-                return 0;
-              }
-              return ctx.dataIndex === highlightedLowestIndex ? 2 : 1.5;
-            },
-            pointHitRadius: (ctx: any) => {
-              const rawPoint = ctx.raw as ChartDataPoint | undefined;
-              return rawPoint?.isHelper ? 0 : 5;
-            },
-            segment: {
-              borderDash: (ctx: any) => {
-                // Using duplicated points to mimic stepped lines allows us to detect actual horizontal segments
-                const p0 = ctx.p0?.parsed || ctx.p0;
-                const p1 = ctx.p1?.parsed || ctx.p1;
-
-                if (!p0 || !p1) {
-                  return [];
-                }
-
-                // Check if this segment is horizontal (same y-value)
-                // For stepped lines, horizontal segments maintain the same y value
-                const isHorizontal = p0.y !== undefined && p1.y !== undefined &&
-                                    Math.abs(p0.y - p1.y) < 0.01;
-
-                // Only apply dotted style to horizontal segments
-                if (!isHorizontal) {
-                  return []; // Solid vertical line
-                }
-
-                const rawPoint = ctx.p0?.raw as ChartDataPoint | undefined;
-                if (!rawPoint || rawPoint.isHelper) {
-                  return [];
-                }
-
-                const discount = rawPoint.discountValue ?? 0;
-
-                // Show dotted line only for horizontal segments when discount is 0
-                if (discount === 0 || Math.abs(discount) < 0.01) {
-                  return [5, 5];
-                }
-                return [];
-              },
-            },
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: false,
-          },
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            enabled: true,
-            mode: 'point', // Only show when directly over a point
-            intersect: true, // Only show when directly over a point
-            animation: {
-              duration: 0, // Disable animation for instant display
-            },
-            filter: (tooltipItem) => {
-              const rawPoint = tooltipItem.raw as ChartDataPoint | undefined;
-              // Only show tooltip when we explicitly want it and skip helper points
-              return this.shouldShowTooltip && !(rawPoint?.isHelper);
-            },
-            callbacks: {
-              title: function (context) {
-                // Defensive check: ensure context array has elements and first element has parsed data
-                if (!context || context.length === 0 || !context[0] || !context[0].parsed) {
-                  return 'Date: N/A';
-                }
-                const timestamp = context[0].parsed.x;
-                if (timestamp === null || timestamp === undefined) {
-                  return 'Date: N/A';
-                }
-                const date = new Date(timestamp);
-                if (allSameYear) {
-                  return date.toLocaleDateString('en-AU', {
-                    month: 'short',
-                    day: 'numeric',
-                  });
-                }
-                return date.toLocaleDateString('en-AU', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                });
-              },
-              label: function (context) {
-                // Defensive check: ensure context has parsed data
-                if (!context || !context.parsed) {
-                  return 'Price: N/A';
-                }
-                const rawPoint = context.raw as ChartDataPoint | undefined;
-                if (rawPoint?.isHelper) {
-                  return '';
-                }
-                const price = context.parsed.y;
-                const isLowestPrice = context.dataIndex === highlightedLowestIndex;
-                let label = '';
-                if (price === null || price === undefined) {
-                  label = 'Price: N/A';
-                } else if (price === 0) {
-                  label = 'Price: $0';
-                } else {
-                  label = `Price: $${Math.round(price)}`;
-                }
-                // Only show "Lowest Price" if there's more than one history point
-                if (isLowestPrice && sortedHistory.length > 1) {
-                  label += ' (Lowest Price)';
-                }
-                return label;
-              },
-            },
-          },
-        },
-        scales: {
-          y: {
-            beginAtZero: false,
-            suggestedMin: minPrice - padding,
-            suggestedMax: maxPrice + padding,
-            title: {
-              display: false,
-            },
-            ticks: {
-              callback: function (value) {
-                const numValue =
-                  typeof value === 'string' ? parseFloat(value) : value;
-                if (isNaN(numValue)) {
-                  return '$0';
-                }
-                return '$' + Math.round(numValue);
-              },
-            },
-          },
-          x: {
-            type: 'linear',
-            title: {
-              display: true,
-              text: 'Date',
-            },
-            min: sortedHistory.length === 1 
-              ? new Date(sortedHistory[0].date).getTime() - 86400000 // 1 day before
-              : dataPoints[0].x - xAxisPadding, // Start slightly before first data point
-            max: sortedHistory.length === 1 
-              ? new Date(sortedHistory[0].date).getTime() + 86400000 // 1 day after
-              : dataPoints[dataPoints.length - 1].x + xAxisPadding, // End slightly after last data point
-            ticks: {
-              callback: function (value) {
-                const date = new Date(value);
-                if (allSameYear) {
-                  return date.toLocaleDateString('en-AU', {
-                    month: 'short',
-                    day: 'numeric',
-                  });
-                }
-                return date.toLocaleDateString('en-AU', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                });
-              },
-            },
-          },
-        },
-        interaction: {
-          mode: 'point', // Only interact when directly over a point
-          intersect: true, // Only interact when directly over a point
-        },
-        events: ['click', 'mousemove'], // Enable both click and hover events
-        // @ts-ignore - onHover is a valid Chart.js option but not in TypeScript definitions
-        onHover: (event: any, elements: any[]) => {
-          this.handleChartHover(event, elements);
-        },
-        onClick: (event, elements) => {
-          this.handleChartClick(event, elements);
-        },
-      },
+    // Add event handlers
+    chartConfig.options = chartConfig.options || {};
+    // @ts-ignore - onHover is a valid Chart.js option but not in TypeScript definitions
+    chartConfig.options.onHover = (event: any, elements: any[]) => {
+      this.handleChartHover(event, elements);
+    };
+    chartConfig.options.onClick = (event, elements) => {
+      this.handleChartClick(event, elements);
     };
 
-    // Store data points and original x-axis min/max values
-    this.currentDataPoints = chartDataPoints;
+    // Store original x-axis min/max values for zoom functionality
     const xScaleConfig = chartConfig.options?.scales?.['x'];
     if (xScaleConfig) {
       const minValue = xScaleConfig.min;
