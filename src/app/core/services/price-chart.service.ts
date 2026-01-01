@@ -90,8 +90,7 @@ export class PriceChartService {
       
       normalizedDiscounts.push(discount ?? 0);
       
-      // Only use previous fullPrice if discount is explicitly 0 (not null) and previous fullPrice is valid
-      if (discount !== null && (discount === 0 || Math.abs(discount) < 0.01) && index > 0) {
+      if (index > 0 && (item.discountedPrice === 0 || (discount !== null && (discount === 0 || Math.abs(discount) < 0.01)))) {
         const previousItem = sortedHistory[index - 1];
         if (
           previousItem &&
@@ -99,7 +98,7 @@ export class PriceChartService {
           previousItem.fullPrice !== null &&
           previousItem.fullPrice > 0
         ) {
-          price = previousItem.fullPrice;
+          price = previousItem.discountedPrice;
         }
       }
       

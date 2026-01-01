@@ -36,6 +36,35 @@
   cursor: default;
 }
 
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 8px 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-line {
+  width: 30px;
+  height: 2px;
+  background-color: #333;
+}
+
+.legend-line-dotted {
+  border-top: 2px dashed #999;
+  background-color: transparent;
+}
+
+.legend-label {
+  font-size: 12px;
+  color: #666;
+}
+
 @media (max-width: 640px) {
   .price-chart-container {
     height: 300px;
@@ -83,6 +112,23 @@
     padding-bottom: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+
+  .chart-legend {
+    margin-top: 8px;
+    padding: 6px 0;
+  }
+
+  .legend-item {
+    gap: 6px;
+  }
+
+  .legend-line {
+    width: 25px;
+  }
+
+  .legend-label {
+    font-size: 11px;
   }
 }
 
