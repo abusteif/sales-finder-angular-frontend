@@ -66,7 +66,6 @@ export class HomeControlsRibbonComponent
 
   constructor() {
     effect(() => {
-      console.log('dialogClosedSignal', dialogClosedSignal());
       if (dialogClosedSignal()) {
         // Defer the update to avoid ExpressionChangedAfterItHasBeenCheckedError
         setTimeout(() => {

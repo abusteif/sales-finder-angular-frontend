@@ -127,50 +127,50 @@
     }
 
     /* Ensure compare button flash maintains blue color in dark theme */
-    .compare-button-flash {
+    .control-button.compare-button-flash {
       background-color: #007bff !important;
       border-color: #007bff !important;
       color: white !important;
     }
 
-    .compare-button-flash .compare-icon,
-    .compare-button-flash .button-text {
+    .control-button.compare-button-flash .compare-icon,
+    .control-button.compare-button-flash .button-text {
       color: white !important;
     }
 
-    .compare-button-flash:hover {
+    .control-button.compare-button-flash:hover {
       background-color: #0056b3 !important;
       border-color: #0056b3 !important;
     }
 
     /* On touch devices, disable hover effect for compare button to show standard active color */
     @media (hover: none) {
-      .compare-button-flash:hover {
+      .control-button.compare-button-flash:hover {
         background-color: #007bff !important;
         border-color: #007bff !important;
       }
     }
 
     /* Ensure select button flash maintains blue color in dark theme */
-    .select-button-flash {
+    .control-button.select-button-flash {
       background-color: #007bff !important;
       border-color: #007bff !important;
       color: white !important;
     }
 
-    .select-button-flash .select-icon,
-    .select-button-flash .button-text {
+    .control-button.select-button-flash .select-icon,
+    .control-button.select-button-flash .button-text {
       color: white !important;
     }
 
-    .select-button-flash:hover {
+    .control-button.select-button-flash:hover {
       background-color: #0056b3 !important;
       border-color: #0056b3 !important;
     }
 
     /* On touch devices, disable hover effect for select button to show standard active color */
     @media (hover: none) {
-      .select-button-flash:hover {
+      .control-button.select-button-flash:hover {
         background-color: #007bff !important;
         border-color: #007bff !important;
       }
