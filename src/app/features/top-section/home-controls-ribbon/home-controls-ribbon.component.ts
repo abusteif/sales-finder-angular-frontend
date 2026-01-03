@@ -1,17 +1,41 @@
-import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
-import { distinctUntilChanged, debounceTime, map, takeUntil } from 'rxjs/operators';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  Input,
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
+  effect,
+} from '@angular/core';
+import {
+  distinctUntilChanged,
+  debounceTime,
+  map,
+  takeUntil,
+} from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
-import { DEFAULT_CARDS_PER_ROW, DEFAULT_ITEMS_PER_PAGE } from '../../../core/constants/display';
-
+import {
+  DEFAULT_CARDS_PER_ROW,
+  DEFAULT_ITEMS_PER_PAGE,
+} from '../../../core/constants/display';
+import { dialogClosedSignal } from '../../../shared/feature-announcement/feature-announcement.component';
 
 @Component({
   selector: 'app-home-controls-ribbon',
   standalone: false,
   templateUrl: './home-controls-ribbon.component.html',
-  styleUrls: ['./home-controls-ribbon.component.css', '../../../shared/icons.css']
+  styleUrls: [
+    './home-controls-ribbon.component.css',
+    '../../../shared/icons.css',
+  ],
 })
-export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, OnChanges {
-
+export class HomeControlsRibbonComponent
+  implements AfterViewInit, OnDestroy, OnChanges
+{
   @Output() onFilterClick = new EventEmitter<void>();
   @Output() onSortClick = new EventEmitter<void>();
   @Output() onSelectItemsClick = new EventEmitter<void>();
@@ -34,15 +58,28 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
   @Input() isItemSelectionMode: boolean = false;
   @Input() selectedItemsCount: number = 0;
 
+  isSelectButtonFlashing: boolean = false;
   showDisplayModal: boolean = false;
   @ViewChild('searchInput') searchInput!: ElementRef;
-
+  selectButtonStyle: string = '';
   private destroy$ = new Subject<void>();
+
+  constructor() {
+    effect(() => {
+      console.log('dialogClosedSignal', dialogClosedSignal());
+      if (dialogClosedSignal()) {
+        // Defer the update to avoid ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => {
+          this.isSelectButtonFlashing = true;
+        }, 0);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     // Set initial search value from input
     this.updateSearchInputValue();
-    
+
     // Set up the debounced search using RxJS
     if (this.searchInput) {
       fromEvent(this.searchInput.nativeElement, 'input')
@@ -71,7 +108,11 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
 
   ngOnChanges(changes: SimpleChanges) {
     // Update input field when searchValue input changes (e.g., after navigation)
-    if (changes['searchValue'] && !changes['searchValue'].firstChange && this.searchInput) {
+    if (
+      changes['searchValue'] &&
+      !changes['searchValue'].firstChange &&
+      this.searchInput
+    ) {
       this.updateSearchInputValue();
     }
   }
@@ -91,6 +132,7 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
   }
 
   selectItemsClickHandler() {
+    this.isSelectButtonFlashing = false;
     this.onSelectItemsClick.emit();
   }
 
@@ -153,4 +195,3 @@ export class HomeControlsRibbonComponent implements AfterViewInit, OnDestroy, On
     this.destroy$.complete();
   }
 }
-

@@ -387,6 +387,17 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
+.all-time-lowest {
+  font-size: 16px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.all-time-lowest:not(:empty) {
+  color: #17a2b8;
+  font-weight: 700;
+}
+
 .days-tracking {
   font-size: 16px;
   color: #495057;
@@ -578,6 +589,10 @@
 
   .days-tracking,
   .last-update {
+    font-size: 12px;
+  }
+
+  .all-time-lowest {
     font-size: 12px;
   }
 

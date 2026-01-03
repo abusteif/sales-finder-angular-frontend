@@ -9,4 +9,5 @@ export const GENERIC_SETTINGS = {
     'https://bargainradar.com.au/assets/logos/bargain-radar-logo.svg',
   maintenanceMode: false,
   walkthroughVersion: '1.0.0',
+  appVersion: '1.0.0',
 };

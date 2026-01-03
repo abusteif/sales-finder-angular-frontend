@@ -5,7 +5,7 @@ import { AdditionalButton } from '../../core/models/modal.model';
   selector: 'app-base-modal',
   standalone: false,
   templateUrl: './base-modal.component.html',
-  styleUrl: './base-modal.component.css'
+  styleUrl: './base-modal.component.css',
 })
 export class BaseModalComponent {
   @Input() showModal: boolean = false;

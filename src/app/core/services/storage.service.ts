@@ -12,6 +12,7 @@ export class StorageService {
   private readonly USER_PREFERENCES_KEY = 'user_preferences';
   private readonly APP_ACCESS_KEY = 'has_accessed_app';
   private readonly WALKTHROUGH_VERSION_KEY = 'walkthrough_version';
+  private readonly APP_VERSION_KEY = 'app_version';
 
   setUserDetails(user: User): void {
     localStorage.setItem(USER_DETAILS_KEY, JSON.stringify(user));
@@ -163,6 +164,23 @@ export class StorageService {
       localStorage.setItem(this.WALKTHROUGH_VERSION_KEY, version);
     } catch (error) {
       console.error('Failed to save walkthrough version:', error);
+    }
+  }
+
+  getAppVersion(): string | null {
+    try {
+      const version = localStorage.getItem(this.APP_VERSION_KEY);
+      return version || null;
+    } catch {
+      return null;
+    }
+  }
+
+  setAppVersion(version: string): void {
+    try {
+      localStorage.setItem(this.APP_VERSION_KEY, version);
+    } catch (error) {
+      console.error('Failed to save app version:', error);
     }
   }
 }

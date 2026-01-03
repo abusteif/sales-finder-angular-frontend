@@ -183,6 +183,16 @@ export class ComparePageComponent implements OnInit, OnDestroy {
     return item.newPrice === this.getLowestPrice();
   }
 
+  getAllTimeLowestPrice(item: ItemDetails): number | null {
+    if (!item.priceHistory || item.priceHistory.length === 0) {
+      return null;
+    }
+    const prices = item.priceHistory
+      .map((history) => history.discountedPrice)
+      .filter((price) => price !== null && price !== undefined && price > 0);
+    return prices.length > 0 ? Math.min(...prices) : null;
+  }
+
   navigateToItem(itemId: string): void {
     this.router.navigate(['/item', itemId]);
   }

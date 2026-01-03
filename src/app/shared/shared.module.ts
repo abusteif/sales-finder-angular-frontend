@@ -21,6 +21,8 @@ import { SliderComponent } from '../features/top-section/slider/slider.component
 import { StatusDialogComponent } from './status-dialog/status-dialog.component';
 import { PriceChangeIconCheckboxComponent } from './price-change-icon-checkbox/price-change-icon-checkbox.component';
 import { EllipsisMenuComponent } from './ellipsis-menu/ellipsis-menu.component';
+import { FeatureAnnouncementComponent } from './feature-announcement/feature-announcement.component';
+import { CompareFeatureAnnouncementComponent } from './compare-feature-announcement/compare-feature-announcement.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { EllipsisMenuComponent } from './ellipsis-menu/ellipsis-menu.component';
     SliderComponent,
     StatusDialogComponent,
     PriceChangeIconCheckboxComponent,
-    EllipsisMenuComponent
+    EllipsisMenuComponent,
+    FeatureAnnouncementComponent,
+    CompareFeatureAnnouncementComponent
   ],
   imports: [
     CommonModule, 
@@ -64,6 +68,8 @@ import { EllipsisMenuComponent } from './ellipsis-menu/ellipsis-menu.component';
     StatusDialogComponent,
     PriceChangeIconCheckboxComponent,
     EllipsisMenuComponent,
+    FeatureAnnouncementComponent,
+    CompareFeatureAnnouncementComponent,
     MatTooltipModule
   ]
 })

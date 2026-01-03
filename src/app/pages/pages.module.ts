@@ -49,7 +49,7 @@ import { WalkthroughModule } from '../features/walkthrough/walkthrough.module';
     ComparePageComponent,
     NotFoundPageComponent,
     LandingPageComponent,
-    WalkthroughPageComponent
+    WalkthroughPageComponent,
   ],
   imports: [
     CommonModule,
@@ -61,7 +61,7 @@ import { WalkthroughModule } from '../features/walkthrough/walkthrough.module';
     SharedModule,
     AlertsModule,
     IndividualItemDetailsModule,
-    WalkthroughModule
+    WalkthroughModule,
   ],
   exports: [
     HomePageComponent,

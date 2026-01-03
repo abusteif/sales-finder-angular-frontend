@@ -89,6 +89,16 @@
             </td>
           </tr>
 
+          <!-- All-Time Lowest Price Row -->
+          <tr>
+            <td class="property-name sticky-col">Lowest Ever</td>
+            <td *ngFor="let item of getItemsArray()" class="item-cell">
+              <span class="all-time-lowest">
+                {{ getAllTimeLowestPrice(item) !== null ? '$' + getAllTimeLowestPrice(item)!.toFixed(2) : 'N/A' }}
+              </span>
+            </td>
+          </tr>
+
           <!-- Days Since Tracking Row -->
           <tr>
             <td class="property-name sticky-col">Tracked For</td>

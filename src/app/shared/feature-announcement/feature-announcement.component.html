@@ -1,0 +1,15 @@
+<app-base-modal
+  [showModal]="showModal"
+  [title]="title"
+  [applyButtonText]="buttonText"
+  [cancelButtonText]="''"
+  (onCloseModal)="closeModal()"
+  (onApply)="onGotIt()"
+>
+  <div class="feature-announcement-content">
+    <div class="feature-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</app-base-modal>
+

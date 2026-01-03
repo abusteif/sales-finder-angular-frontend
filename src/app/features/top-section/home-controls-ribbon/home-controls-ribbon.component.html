@@ -18,13 +18,20 @@
           <i class="fas fa-sort sort-icon"></i>
           <span class="button-text">Sort</span>
         </button>
-        <button class="control-button" [class.select-active]="isItemSelectionMode" (click)="selectItemsClickHandler()">
+        <button
+          class="control-button"
+          [class.select-active]="isItemSelectionMode"
+          [class.select-button-flash]="isSelectButtonFlashing"
+          (click)="selectItemsClickHandler()"
+        >
           <i class="fas fa-check-square select-icon"></i>
-          <span class="button-text">{{ selectedItemsCount > 0 ? 'Unselect' : 'Select' }}</span>
+          <span class="button-text">{{
+            selectedItemsCount > 0 ? "Unselect" : "Select"
+          }}</span>
         </button>
-        <button 
+        <button
           *ngIf="selectedItemsCount >= 2"
-          class="control-button compare-button-flash" 
+          class="control-button compare-button-flash"
           (click)="compareClickHandler()"
         >
           <i class="fas fa-columns compare-icon"></i>
@@ -44,7 +51,10 @@
       </div>
       <div class="mobile-second-row">
         <div class="search-container">
-          <form (ngSubmit)="onSearchSubmit($event)" [class.has-search-value]="searchValue">
+          <form
+            (ngSubmit)="onSearchSubmit($event)"
+            [class.has-search-value]="searchValue"
+          >
             <input
               #searchInput
               type="search"
@@ -53,12 +63,15 @@
               enterkeyhint="search"
               [value]="searchValue"
             />
-            <i 
-              *ngIf="searchValue" 
-              class="fas fa-times clear-icon" 
+            <i
+              *ngIf="searchValue"
+              class="fas fa-times clear-icon"
               (click)="clearSearch()"
             ></i>
-            <i class="fas fa-search search-icon" [class.search-icon-with-clear]="searchValue"></i>
+            <i
+              class="fas fa-search search-icon"
+              [class.search-icon-with-clear]="searchValue"
+            ></i>
           </form>
         </div>
 
