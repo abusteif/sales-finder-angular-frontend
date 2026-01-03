@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, signal } from '@angular/core';
 import { StorageService } from '../../core/services/storage.service';
+import { AnalyticsService } from '../../core/services/analytics.service';
 import { GENERIC_SETTINGS } from '../../core/constants/generic-settings';
 
 export const dialogClosedSignal = signal<boolean>(false);
@@ -19,7 +20,10 @@ export class FeatureAnnouncementComponent implements OnInit {
   showModal: boolean = false;
   readonly appName = GENERIC_SETTINGS.app_name;
 
-  constructor(private storageService: StorageService) {}
+  constructor(
+    private storageService: StorageService,
+    private analyticsService: AnalyticsService
+  ) {}
 
   ngOnInit() {
     if (!this.skipVersionCheck) {
@@ -70,6 +74,12 @@ export class FeatureAnnouncementComponent implements OnInit {
   }
 
   onGotIt(): void {
+    // Track feature announcement dismissal in GA4
+    this.analyticsService.trackEvent('feature_announcement_accepted', {
+      version_key: this.versionKey,
+      title: this.title,
+    });
+    
     this.closeModal();
     dialogClosedSignal.set(true);
   }
