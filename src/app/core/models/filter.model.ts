@@ -11,4 +11,5 @@ export interface Filter {
     includedUpdateTypes: UpdateType[];
     featuredItemsOnly: boolean;
     excludeFluctuatingItems: boolean;
+    lowestPriceEver: boolean;
 }

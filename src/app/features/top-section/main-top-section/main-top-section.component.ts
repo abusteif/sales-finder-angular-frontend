@@ -39,6 +39,7 @@ export class MainTopSectionComponent {
   public includedDiscountTypes: UpdateType[] = [...DEFAULT_INCLUDED_UPDATE_TYPES];
   public isFeaturedItemsOnly: boolean = false;
   public excludeFluctuatingItems: boolean = false;
+  public isLowestPriceEver: boolean = false;
   public isSelectItemsClicked: boolean = false;
   public isItemSelectionMode: boolean = false;
   public selectedItemsCount: number = 0;
@@ -70,6 +71,7 @@ export class MainTopSectionComponent {
       this.isFilterActive = this.checkIfFilterActive()
       this.isFeaturedItemsOnly = this.filter.featuredItemsOnly();
       this.excludeFluctuatingItems = this.filter.excludeFluctuatingItems();
+      this.isLowestPriceEver = this.filter.lowestPriceEver();
       const defaultSortOption = this.sortService.processSortOption(DEFAULT_SORT_VALUE?.value || '');
       this.isSortActive = this.filter.sortBy() !== defaultSortOption.sortBy ||
         this.filter.sortOrder() !== defaultSortOption.sortOrder;
@@ -155,6 +157,7 @@ export class MainTopSectionComponent {
     this.filter.updateIncludedUpdateType(this.includedDiscountTypes);
     this.filter.setFeaturedItemsOnly(this.isFeaturedItemsOnly);
     this.filter.setExcludeFluctuatingItems(this.excludeFluctuatingItems);
+    this.filter.setLowestPriceEver(this.isLowestPriceEver);
     this.getItemsAndResetPage();
     this.closeFilterModal();
   }
@@ -199,6 +202,9 @@ export class MainTopSectionComponent {
   onExcludeFluctuatingItemsChange(excludeFluctuatingItems: boolean) {
     this.excludeFluctuatingItems = excludeFluctuatingItems;
   }
+  onLowestPriceEverChange(lowestPriceEver: boolean) {
+    this.isLowestPriceEver = lowestPriceEver;
+  }
 
   updateIncludedDiscountTypes(type: UpdateType, value: boolean) {
     if (value) {
@@ -229,6 +235,7 @@ export class MainTopSectionComponent {
       JSON.stringify(this.includedDiscountTypes.sort()) !== JSON.stringify(DEFAULT_INCLUDED_UPDATE_TYPES.sort()) ||
       this.isFeaturedItemsOnly !== DEFAULT_FILTER_VALUES.featuredItemsOnly ||
       this.excludeFluctuatingItems !== DEFAULT_FILTER_VALUES.excludeFluctuatingItems ||
+      this.isLowestPriceEver !== DEFAULT_FILTER_VALUES.lowestPriceEver ||
       this.dateRange !== DEFAULT_FILTER_VALUES.selectedDateRange;
   }
 
@@ -262,6 +269,7 @@ export class MainTopSectionComponent {
     this.includedDiscountTypes = [...DEFAULT_INCLUDED_UPDATE_TYPES];
     this.isFeaturedItemsOnly = DEFAULT_FILTER_VALUES.featuredItemsOnly;
     this.excludeFluctuatingItems = DEFAULT_FILTER_VALUES.excludeFluctuatingItems;
+    this.isLowestPriceEver = DEFAULT_FILTER_VALUES.lowestPriceEver;
   }
 
   onDisplaySettingsClick() {

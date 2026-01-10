@@ -30,7 +30,8 @@ export class FilterStore extends signalStore(
         dateRange: DEFAULT_FILTER_VALUES.selectedDateRange,
         includedUpdateTypes: [...DEFAULT_INCLUDED_UPDATE_TYPES],
         featuredItemsOnly: false,
-        excludeFluctuatingItems: false
+        excludeFluctuatingItems: false,
+        lowestPriceEver: false
     }),
     withMethods((filter) => {
         const storageService = inject(StorageService);
@@ -83,6 +84,10 @@ export class FilterStore extends signalStore(
             setExcludeFluctuatingItems: (excludeFluctuatingItems: boolean) => {
                 patchState(filter, { excludeFluctuatingItems });
                 storageService.setFilterPreferences({ excludeFluctuatingItems } as Filter);
+            },
+            setLowestPriceEver: (lowestPriceEver: boolean) => {
+                patchState(filter, { lowestPriceEver });
+                storageService.setFilterPreferences({ lowestPriceEver } as Filter);
             },
             loadFilterPreferences: () => {
                 const filterPreferences = storageService.getUserPreferences()?.filter;

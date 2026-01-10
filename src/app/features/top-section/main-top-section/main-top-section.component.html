@@ -33,6 +33,7 @@
   [includedDiscountTypes]="includedDiscountTypes"
   [isFeaturedItemsOnly]="isFeaturedItemsOnly"
   [excludeFluctuatingItems]="excludeFluctuatingItems"
+  [isLowestPriceEver]="isLowestPriceEver"
   [isResetFiltersButtonDisabled]="false"
   (onSubmitFilter)="onSubmitFilter()"
   (onCloseFilterModal)="closeFilterModal()"
@@ -47,6 +48,7 @@
   (onIncludeReturnedItemsChange)="onIncludeReturnedItemsChange($event)"
   (onFeaturedItemsChange)="onFeaturedItemsChange($event, false)"
   (onExcludeFluctuatingItemsChange)="onExcludeFluctuatingItemsChange($event)"
+  (onLowestPriceEverChange)="onLowestPriceEverChange($event)"
   (onResetFilters)="onResetFilters()"
 >
 </app-filter-search-modal>

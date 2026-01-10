@@ -34,6 +34,7 @@ export class FilterSearchModalComponent {
   @Output() onIncludeReturnedItemsChange = new EventEmitter<boolean>();
   @Output() onFeaturedItemsChange = new EventEmitter<boolean>();
   @Output() onExcludeFluctuatingItemsChange = new EventEmitter<boolean>();
+  @Output() onLowestPriceEverChange = new EventEmitter<boolean>();
 
   @Input() selectedStores: string[] = [];
   @Input() selectedCategories: string[] = [];
@@ -47,6 +48,7 @@ export class FilterSearchModalComponent {
   }
   @Input() isFeaturedItemsOnly: boolean = false;
   @Input() excludeFluctuatingItems: boolean = false;
+  @Input() isLowestPriceEver: boolean = false;
 
   maxPrice: number = DEFAULT_FILTER_VALUES.selectedPriceRange[1];
   maxDiscount: number = DEFAULT_FILTER_VALUES.selectedDiscountRange[1];
@@ -193,6 +195,11 @@ export class FilterSearchModalComponent {
   handleExcludeFluctuatingItemsChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.onExcludeFluctuatingItemsChange.emit(checkbox.checked);
+  }
+
+  handleLowestPriceEverChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.onLowestPriceEverChange.emit(checkbox.checked);
   }
 
   isCheckboxChecked(name: UpdateType) {

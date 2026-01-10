@@ -24,6 +24,7 @@ interface ItemConditions {
   includedUpdateTypes?: UpdateType[];
   featuredItemsOnly?: boolean;
   excludeFluctuatingItems?: boolean;
+  lowestPriceEver?: boolean;
 }
 
 interface ItemsState {
@@ -129,6 +130,12 @@ export class ItemsStore extends signalStore(
           conditions = {
             ...conditions,
             excludeFluctuatingItems: filter.excludeFluctuatingItems()
+          }
+        }
+        if(filter.lowestPriceEver()) {
+          conditions = {
+            ...conditions,
+            lowestPriceEver: filter.lowestPriceEver()
           }
         }
         patchState(items, { loading: true, error: null, items: [] });

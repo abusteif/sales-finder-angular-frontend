@@ -163,6 +163,23 @@
             <span class="checkbox-text">Featured Items Only</span>
           </label>
         </div>
+        <div class="category-checkbox">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              (change)="handleLowestPriceEverChange($event)"
+              [checked]="isLowestPriceEver"
+            />
+            <span
+              class="lowest-price-icon"
+              matTooltip="Show only items at their lowest price ever"
+              matTooltipPosition="above"
+              [matTooltipShowDelay]="500"
+              >💰</span
+            >
+            <span class="checkbox-text">Lowest Price Ever</span>
+          </label>
+        </div>
       </div>
     </div>
   </form>
